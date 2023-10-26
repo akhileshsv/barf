@@ -44,9 +44,9 @@ BARF is a collection of programs for structural analysis and design written in G
 ## Prerequisites
 
 -   Go
-    follow instructions at <https://go.dev/doc/install>
+    - follow instructions at <https://go.dev/doc/install>
 -   Gnuplot
-    follow instructions at <https://sourceforge.net/projects/gnuplot/files/gnuplot/>
+    - follow instructions at <https://sourceforge.net/projects/gnuplot/files/gnuplot/>
 
 
 <a id="org09e35ec"></a>
