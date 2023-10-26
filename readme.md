@@ -330,14 +330,14 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 
 <a id="org502a830"></a>
 
-# Tests
+### Tests
 
-## mosh (rcc design)  
-### IN-PROGRESS v0 tests
+#### mosh (rcc design)  
+##### IN-PROGRESS v0 tests
 
 <a id="org42b27c3"></a>
 
-## IN-PROGRESS slab
+###### IN-PROGRESS slab
 
 1.  [X] SlbSdrat - slab span depth ratio tests (in deflection<sub>test</sub>)
 2.  [ ] TestSlb2DIs - slab 1 way tests (subramanian) (in slabdesignis<sub>test</sub>)
@@ -361,7 +361,7 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 
 <a id="orge4856b5"></a>
 
-## IN-PROGRESS beam
+###### IN-PROGRESS beam
 
 1.  [X] BmSecAzIs - (is code) shah beam section analysis (styp 1, 6, 7, 14)
 2.  [X] BmDIs - (is code) shah beam design
@@ -378,7 +378,7 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 
 <a id="org30b9835"></a>
 
-## IN-PROGRESS column
+###### IN-PROGRESS column
 
 1.  [X] ColDzBasic - basic (styp == 1/0) column design tests (in coldesignis<sub>test</sub>)
 2.  [X] ColSizeIs - column sizing funcs
@@ -399,7 +399,7 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 
 <a id="org93ec1e4"></a>
 
-## IN-PROGRESS footing
+###### IN-PROGRESS footing
 
 1.  [X] FtngPadAz - pad footing analysis tests (hulse 6.1) (in footingdesign<sub>test</sub>)
 2.  [ ] FtngBxOz - ozmen footing analysis tests
@@ -408,7 +408,7 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 
 <a id="org9a6a2fd"></a>
 
-## IN-PROGRESS cbeam
+###### IN-PROGRESS cbeam
 
 isn't this just beam? all the stuff in cbeam<sub>test</sub>
 
@@ -419,7 +419,7 @@ isn't this just beam? all the stuff in cbeam<sub>test</sub>
 
 <a id="org776bf36"></a>
 
-## IN-PROGRESS subframe
+###### IN-PROGRESS subframe
 
 1.  [ ] TestFltSlb - flat slab design tests (subframe<sub>test</sub>)
 2.  [X] SubFrmDz - subframe design tests
