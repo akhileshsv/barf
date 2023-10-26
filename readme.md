@@ -53,13 +53,13 @@ BARF is a collection of programs for structural analysis and design written in G
 
 ## Usage
 
-Clone this repo  
+Clone this repo    
 ```git clone https://github.com/akhileshsv/barf```
 
-Goto folder
+Goto folder    
 ```cd barf```
 
-Run tui menu
+Run tui menu    
 ```go run main.go -tui```
 
 -   Flags
