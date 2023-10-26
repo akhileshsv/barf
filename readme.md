@@ -1,4 +1,17 @@
+```
+                  ___          ___         ___   
+     _____       /  /\        /  /\       /  /\  
+    /  /::\     /  /::\      /  /::\     /  /:/_ 
+   /  /:/\:\   /  /:/\:\    /  /:/\:\   /  /:/ /\
+  /  /:/~/::\ /  /:/~/::\  /  /:/~/:/  /  /:/ /:/
+ /__/:/ /:/\:/__/:/ /:/\:\/__/:/ /:/__/__/:/ /:/ 
+ \  \:\/:/~/:|  \:\/:/__\/\  \:\/:::::|  \:\/:/  
+  \  \::/ /:/ \  \::/      \  \::/~~~~ \  \::/   
+   \  \:\/:/   \  \:\       \  \:\      \  \:\   
+    \  \::/     \  \:\       \  \:\      \  \:\  
+     \__\/       \__\/        \__\/       \__\/  
 
+```
 # Table of Contents
 
 1.  [Overview](#orgabfeceb)
@@ -40,13 +53,13 @@ BARF is a collection of programs for structural analysis and design written in G
 ## Usage
 
 Clone this repo  
-\`\`\`git clone <https://github.com/akhileshsv/barf>\`\`\`
+```git clone <https://github.com/akhileshsv/barf>```
 
 Goto folder
-\`\`\`cd barf/\`\`\`
+```cd barf```
 
 Run tui menu
-\`\`\`go run main.go -tui\`\`\`
+```go run main.go -tui```
 
 -   Flags
     -   inf (string) - input json file path
