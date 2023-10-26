@@ -62,13 +62,17 @@ Goto folder
 Run tui menu    
 ```go run main.go -tui```  
 
-![](https://github.com/akhileshsv/barf/blob/main/install.gif)    
+![]
+(https://github.com/akhileshsv/barf/blob/main/install.gif)    
 
-![](https://github.com/akhileshsv/barf/blob/main/mosh.gif)     
+![]
+(https://github.com/akhileshsv/barf/blob/main/mosh.gif)     
 
-![](https://github.com/akhileshsv/barf/blob/main/bash.gif)     
+![]
+(https://github.com/akhileshsv/barf/blob/main/bash.gif)     
 
-![](https://github.com/akhileshsv/barf/blob/main/tmbr.gif)     
+![]
+(https://github.com/akhileshsv/barf/blob/main/tmbr.gif)     
 
 
 -   Flags
