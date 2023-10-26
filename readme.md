@@ -70,22 +70,22 @@ Run tui menu (uses https://github.com/AlecAivazis/survey) with -
 Note - using "read json txt" as an input option copies the base struct to clipboard and opens a new editor window to edit struct fields.
 Hit "?" to see an explanation of individual struct fields (as seen in the gifs below); save the edited file before exiting the editor window.
 
-### direct stiffness method/analysis
+#### direct stiffness method/analysis
 ![truss](https://github.com/akhileshsv/barf/assets/63144799/7d98a053-f24d-4a58-a374-65f53fc3fc7c)
 
 ![frm2d](https://github.com/akhileshsv/barf/assets/63144799/3404957a-37eb-4ea9-b17a-fbc503bcad9d)
 
-### elastic-plastic analysis of beams/ 2d frames
+#### elastic-plastic analysis of beams/ 2d frames
 
 ![frm2dep](https://github.com/akhileshsv/barf/assets/63144799/78e1225c-f6ec-4adb-9b3d-5b6fc8280772)
 
-### rcc member design
+#### rcc member design
 ![mosh](https://github.com/akhileshsv/barf/assets/63144799/645c1844-9397-46cb-958e-4c996bd44b07)
 
-### steel column/beam design
+#### steel column/beam design
 ![bash](https://github.com/akhileshsv/barf/assets/63144799/1228407f-817f-48a2-a883-131c47ad9b90)
 
-### wood column/beam design
+#### wood column/beam design
 ![tmbr](https://github.com/akhileshsv/barf/assets/63144799/fbef713f-8336-484d-bc86-f8f404d65f6d)
 
 -   Flags
