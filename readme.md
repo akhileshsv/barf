@@ -332,7 +332,17 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 
 ### Tests
 
-#### kass (analysis)
+#### kass (analysis)  
+
+Navigate to the folder barf/kass and run the following command with the test name and the -v flag as below:  
+
+```
+
+cd barf/kass
+go test -run "test name" -v
+go test -run KFacMos -v
+
+```
 
 ###### IN-PROGRESS calc np tests
 
@@ -359,52 +369,37 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 -   [X] NlCalcTrs2d - chapter 10 - special topics (non linear truss analysis) (kassimali)
 -   [X] boltss - bolt group analysis (harrison)
 -   [X] weldss - weld group analysis (harrison)
--   [ ] CalcEp - elastic - plastic analysis (harrison)
+-   [X] CalcEp - elastic - plastic analysis (harrison)
     close the deflection bit (read)
--   [ ] Calcable - cable analysis (harrison)
-    nothing has been written wtf
 -   [ ] EffLen - iterative column effective length calcs (harrison)
     finish ze test
 
 
 <a id="org60bf48a"></a>
 
-###### IN-PROGRESS plot tests
-
--   [ ] general 2d line plots w/forces
-    figure out forcescale
--   [ ] bending moment/deflection with line plots
-    again, a matter of frcscale (moment)
-    deflection scale too
-
-
-<a id="org0249327"></a>
-
 ###### IN-PROGRESS section tests
 
--   [ ] SecProp calc - mosley general section properties calculation
--   [ ] SecGen - 22 sections so far
--   [ ] Sec3d - HUH? HUH?
+-   [X] SecProp calc - mosley general section properties calculation
+-   [X] SecGen - 22 sections so far
 
 
 <a id="orga235c3e"></a>
 
-###### IN-PROGRESS gen tests
-
--   [ ] GenFrm3dRcc
-    it is break
--   [ ] frmgen2d
--   [ ] truss gen funcs
-    it is break
--   [ ] portal gen funcs
--   [ ] load gen funcs
-
-
-<a id="orgd423d7a"></a>
-
-
 
 #### mosh (rcc design)  
+
+Navigate to the folder barf/mosh and run the following command with the test name and the -v flag as below:  
+
+```
+
+
+cd barf/mosh
+go test -run "test name" -v
+go test -run Slb1DBs -v
+
+```
+
+
 ##### IN-PROGRESS v0 tests
 
 <a id="org42b27c3"></a>
