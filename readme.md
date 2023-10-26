@@ -466,7 +466,7 @@ Hit "?" to see an explanation of individual struct fields (as seen in the gifs b
 12. [ ] ColAzGen - col gen. analysis funcs
 13. [ ] ColStl - is this needs
 14. [ ] ColBarGen - column rebar gen test (in colrebar<sub>test</sub>)
-15. [ ] ColOpt - NOTHING has been written damn
+15. [ ] ColOpt - NOTHING has been written 
 
 
 <a id="org93ec1e4"></a>
@@ -486,7 +486,6 @@ isn't this just beam? all the stuff in cbeam<sub>test</sub>
 
 1.  [ ] CBmOpt - cbeam opt test (govindraj ex 1 n 2)
 2.  [ ] CBmDz - cbeam design funcs
-    holy shit there's a ton of examples this will take a year
 
 
 <a id="org776bf36"></a>
