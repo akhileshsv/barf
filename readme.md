@@ -62,6 +62,12 @@ Goto folder
 Run tui menu    
 ```go run main.go -tui```
 
+![](https://github.com/akhileshsv/mosh.gif)
+
+![](https://github.com/akhileshsv/bash.gif)
+
+![](https://github.com/akhileshsv/tmbr.gif)
+
 -   Flags
     -   inf (string) - input json file path
     -   term (string) - gnuplot terminal string (supported - "dumb","mono","qt","svg")
