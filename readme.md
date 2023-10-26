@@ -53,14 +53,22 @@ BARF is a collection of programs for structural analysis and design written in G
 
 ## Usage
 
-Clone this repo    
-```git clone https://github.com/akhileshsv/barf```
+Clone and build this repo -   
 
-Goto folder    
-```cd barf```
+```
+git clone https://github.com/akhileshsv/barf  
+cd barf  
+go build -o barf.exe
 
-Run tui menu    
-```go run main.go -tui```  
+```  
+Run tui menu (made possible with https://github.com/AlecAivazis/survey) with -  
+
+```
+./barf.exe -tui
+
+```
+Note - using "read json txt" as an input option copies the base struct to clipboard and opens a new editor window to edit struct fields.
+Hit "?" to see an explanation of individual struct fields (as seen in the gifs below); save the edited file before exiting the editor window.
 
 ![mosh](https://github.com/akhileshsv/barf/assets/63144799/645c1844-9397-46cb-958e-4c996bd44b07)
 
