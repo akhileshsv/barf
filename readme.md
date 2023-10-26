@@ -11,6 +11,7 @@
     \  \::/     \  \:\       \  \:\      \  \:\  
      \__\/       \__\/        \__\/       \__\/  
 
+                        v0 - (no life til leather)
 ```
 # Table of Contents
 
@@ -43,9 +44,9 @@ BARF is a collection of programs for structural analysis and design written in G
 ## Prerequisites
 
 -   Go
-    Follow instructions at <https://go.dev/doc/install>
+    follow instructions at <https://go.dev/doc/install>
 -   Gnuplot
-    Follow instructions at <https://sourceforge.net/projects/gnuplot/files/gnuplot/>
+    follow instructions at <https://sourceforge.net/projects/gnuplot/files/gnuplot/>
 
 
 <a id="org09e35ec"></a>
@@ -53,7 +54,7 @@ BARF is a collection of programs for structural analysis and design written in G
 ## Usage
 
 Clone this repo  
-```git clone <https://github.com/akhileshsv/barf>```
+```git clone https://github.com/akhileshsv/barf```
 
 Goto folder
 ```cd barf```
