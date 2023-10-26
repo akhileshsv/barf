@@ -11,7 +11,7 @@
     \  \::/     \  \:\       \  \:\      \  \:\  
      \__\/       \__\/        \__\/       \__\/  
 
-                        v0 - (no life til leather)
+                        v0 - (super rough demo)
 ```
 # Table of Contents
 
