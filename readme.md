@@ -62,6 +62,14 @@ Goto folder
 Run tui menu    
 ```go run main.go -tui```  
 
+![install](https://github.com/akhileshsv/barf/assets/63144799/e954b7e3-252c-434f-a56b-7d2492f3f2f8)
+
+![mosh](https://github.com/akhileshsv/barf/assets/63144799/645c1844-9397-46cb-958e-4c996bd44b07)
+
+![bash](https://github.com/akhileshsv/barf/assets/63144799/1228407f-817f-48a2-a883-131c47ad9b90)
+
+![tmbr](https://github.com/akhileshsv/barf/assets/63144799/fbef713f-8336-484d-bc86-f8f404d65f6d)
+
 -   Flags
     -   inf (string) - input json file path
     -   term (string) - gnuplot terminal string (supported - "dumb","mono","qt","svg")
