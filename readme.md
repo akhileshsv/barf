@@ -62,7 +62,7 @@ Goto folder
 Run tui menu    
 ```go run main.go -tui```  
 
-![install](https://github.com/akhileshsv/barf/assets/63144799/e954b7e3-252c-434f-a56b-7d2492f3f2f8)
+![install](https://github.com/akhileshsv/barf/assets/63144799/bffb6397-9ece-4afe-8399-e718c19fa262)
 
 ![mosh](https://github.com/akhileshsv/barf/assets/63144799/645c1844-9397-46cb-958e-4c996bd44b07)
 
