@@ -1,0 +1,73 @@
+* tests
+
+| file              | func        | notes                            | test |   date | moar notes |
+|-------------------+-------------+----------------------------------+------+--------+------------|
+| slabdesignis test | slbssshah   | 1-way slab single span (shah)    | ok   |        |            |
+|                   | slb2wshah   | 2-way slab design tests(shah)    | ok   |        |            |
+|                   | slb draw    | slab draw test (1,2, cs)         |      |        |            |
+|                   | slb2wdz     | 2-way slab design tests(sub)     |      |        |            |
+| slabcs test       | cslbdis     | 1-way cs slab using coeff (is)   |      | 4-5-23 |            |
+|                   | slb1csdused | 1-way cs slab depth (general)    |      |        |            |
+| slabdesign test   | slb2bmcoef  | 2-way slab ult b.m coeff (hulse) | ok   |        |            |
+|                   | slbyld      | rect slab yield line analysis    |      |        |            |
+|                   |             |                                  |      |        |            |
+
+** check
+ - [ ] one way cslab with subramanian ex
+ - [ ] one way cslab with hulse ex
+ - [ ] 2 way slab bs code examples
+ - [ ] 2 way slab yield line examples (all end conditions for rectangular slabs)
+ - [ ] 2 way slab subramanian examples
+ - [ ] 2 way slab mosley examples
+ - [ ] 2 way slab allen examples
+
+* to write
+- [-] slab rebar detail
+  - [X] slab dia spacing
+  - [ ] slab dist/support steel
+- [-] slab draw
+  - [X] side view
+  - [ ] plan view
+
+* plan
+
+| code | type       | input | notes |
+|------+------------+-------+-------|
+| bs   | 1 way (ss) | json  |       |
+| bs   | 2 way      |       |       |
+| is   | 1 way (ss) |       |       |
+| is   | 2 way      |       |       |
+| bs   | 1 way (cs) |       |       |
+| is   | 1 way (cs) |       |       |
+
+* how
+
+- [X] read input (geom/loading) (json)
+- [-] analyze/calc ultimate moments
+  - [X] 1 way slab
+  - [ ] 2 way slab
+  - [ ] ribbed slab (t section)
+  - [ ] flat slab
+- [ ] get rebar options
+- [ ] calc steel
+- [ ] detail/draw
+
+* chart
+
+     +----------------------+	      +-----------------------+	      +--------------------------+
+     |one way/clvr          |  	      |2 way - rect    	      |	      |                          |
+     |is code (slabss)      |	      |is coef  yl formula
+     |bs code (slabss)      |	      |bs coef         	      |	      |                          |
+     +----------------------+	      +-----------------------+	      +--------------------------+
+
+     +----------------------+	      +-----------------------+	      +---------------------------+
+     |one way cs            |	      |2-way - other shapes?  |	      |                           |
+     |is code coef(slabcs)  |	      |                       |	      |                           |
+     |bs code coef(slabcs)  |	      |                       |	      |                           |
+     +----------------------+	      +-----------------------+	      +---------------------------+
+     |is code env (cs)
+     |                      |
+     |                      |
+     |bs code env (cs)      |
+     |                      |
+     +----------------------+

@@ -1,0 +1,7 @@
+,Unnamed: 0_level_0,Designation,Weight per Mete (w),Sectional Area (a),Depth of Section (h),Width of flange (b),Thickness of Flange (tf),Thickness of Web (tw),Centre of Gravity Cyy,Ixx cm4,Iyy cm4,Raddi of Gyration rxx,Raddi of Gyration ryy,Modulli of Section Zxx,Modulli of Section Zyy  ,Connection Details,Unnamed: 15,Unnamed: 16,Unnamed: 17,Unnamed: 18,Unnamed: 19,Maximum size of Flange Rivet,Designation.1
+,0,Unnamed: 1_level_1,kg,   cm2, mm,mm, mm, mm, cm,Unnamed: 9_level_1,Unnamed: 10_level_1, cm,cm, cm3,cm3,h1,h2 ,b1/2,C,g,g1,mm,Unnamed: 22_level_1
+2,3,ISJC 100,5.8,7.41,100.0,45.0,5.1,3.0,1.4,123.8,14.9,4.09,1.42,24.8,4.8,77,11.5,21,4.5,25,50,12.0,ISJC 100
+3,4,ISJC 125,7.9,10.07,125.0,50.0,6.6,3.0,1.64,270.0,25.7,5.18,1.6,43.2,7.6,98.9,13.1,23.5,4.5,28,50,16.0,ISJC 125
+4,5,ISJC 150,9.9,12.65,150.0,55.0,6.9,3.6,1.66,471.1,37.9,6.1,1.73,62.8,9.9,121.2,14.4,25.7,5.1,30,50,20.0,ISJC 150
+6,7,ISJC 175,11.2,14.24,175.0,60.0,6.9,3.6,1.75,719.9,50.5,7.11,1.88,82.3,11.9,146.1,14.5,28.2,5.1,35,50,20.0,ISJC 175
+7,8,ISJC 200,13.9,17.77,200.0,70.0,7.1,4.1,1.97,1161.2,84.2,8.08,2.18,116.1,16.7,168.5,15.8,33,5.6,40,50,22.0,ISJC 200

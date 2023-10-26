@@ -1,0 +1,19 @@
+tmbr
+
+1.sheathing - get span for 12mm/19mm/25mm ply
+2.joists/stringers - get section for span and sheathing load
+3.truss 2d
+4.frame 2d
+5.frame 3d
+
+
+linx
+   
+truss build overview
+https://www.youtube.com/watch?v=Hfy6xL1V2zo&t=374s
+
+scissor truss build
+https://www.youtube.com/watch?v=1ih4Oj5oSl4
+
+round timber truss lodge pics
+https://cdplodge.com/trusses-purlins-part-2/

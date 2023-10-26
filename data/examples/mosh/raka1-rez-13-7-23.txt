@@ -1,0 +1,1129 @@
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1397.2 kn murx 27.1 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 1660 mm2 percentage (steel)- 2.043
+lateral ties - dia 8 mm pitch 192 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        3 |  16 |        830.00 |       822.33 |      7.67 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        3 |  16 |        830.00 |       822.33 |      7.67 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               192 |        0.870 |    22 |        19.140 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     59.676 |          4.600 |        911 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 1660 mm2 ast 822 mm2 asc 822 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 2094.9 kn murx 103.3 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 400] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 3927 mm2 percentage (steel)- 3.927
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        4 |  25 |        0 |   0 |       1963.50 |      1875.66 |     87.84 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        4 |  25 |        0 |   0 |       1963.50 |      1875.66 |     87.84 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        1.028 |    17 |        17.476 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.400 |    130.203 |          5.200 |       1499 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 3927 mm2 ast 1876 mm2 asc 1876 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1334.2 kn murx 57.7 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 2226 mm2 percentage (steel)- 2.740
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        3 |  16 |        2 |  18 |       1113.00 |      1047.00 |     66.00 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        3 |  16 |        2 |  18 |       1113.00 |      1047.00 |     66.00 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     75.732 |          4.600 |       1025 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 2226 mm2 ast 1047 mm2 asc 1047 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1171.4 kn murx 24.8 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 1131 mm2 percentage (steel)- 1.392
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        5 |  12 |        0 |   0 |        565.49 |       536.06 |     29.42 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        5 |  12 |        0 |   0 |        565.49 |       536.06 |     29.42 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     41.348 |          4.600 |        781 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 1131 mm2 ast 536 mm2 asc 536 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1748.1 kn murx 91.2 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 400] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 2768 mm2 percentage (steel)- 2.768
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  16 |        2 |  25 |       1384.00 |      1377.38 |      6.62 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  16 |        2 |  25 |       1384.00 |      1377.38 |      6.62 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        1.028 |    17 |        17.476 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.400 |     93.811 |          5.200 |       1241 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 2768 mm2 ast 1377 mm2 asc 1377 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1102.4 kn murx 56.5 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 1521 mm2 percentage (steel)- 1.871
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  22 |        0 |   0 |        760.27 |       755.03 |      5.23 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  22 |        0 |   0 |        760.27 |       755.03 |      5.23 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     53.581 |          4.600 |        868 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 1521 mm2 ast 755 mm2 asc 755 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 943.4 kn murx 26.9 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 679 mm2 percentage (steel)- 0.835
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        3 |  12 |        0 |   0 |        339.29 |       274.45 |     64.84 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        3 |  12 |        0 |   0 |        339.29 |       274.45 |     64.84 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     27.143 |          4.600 |        680 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 679 mm2 ast 274 mm2 asc 274 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1405.2 kn murx 80.6 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 400] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 1824 mm2 percentage (steel)- 1.824
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  16 |        2 |  18 |        912.00 |       908.81 |      3.19 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  16 |        2 |  18 |        912.00 |       908.81 |      3.19 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        1.028 |    17 |        17.476 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.400 |     64.169 |          5.200 |       1030 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 1824 mm2 ast 909 mm2 asc 909 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 868.9 kn murx 51.4 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 905 mm2 percentage (steel)- 1.114
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        4 |  12 |        0 |   0 |        452.39 |       437.59 |     14.80 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        4 |  12 |        0 |   0 |        452.39 |       437.59 |     14.80 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     34.246 |          4.600 |        730 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 905 mm2 ast 438 mm2 asc 438 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 711.9 kn murx 34.3 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 452 mm2 percentage (steel)- 0.557
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        0 |   0 |        226.19 |       109.36 |    116.83 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        0 |   0 |        226.19 |       109.36 |    116.83 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     20.041 |          4.600 |        630 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 452 mm2 ast 109 mm2 asc 109 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 1060.2 kn murx 70.5 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 400] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 905 mm2 percentage (steel)- 0.905
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        4 |  12 |        0 |   0 |        452.39 |       452.42 |     -0.03 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        4 |  12 |        0 |   0 |        452.39 |       452.42 |     -0.03 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        1.028 |    17 |        17.476 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.400 |     35.306 |          5.200 |        825 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 905 mm2 ast 452 mm2 asc 452 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 641.0 kn murx 45.7 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 452 mm2 percentage (steel)- 0.557
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        0 |   0 |        226.19 |       175.22 |     50.98 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        0 |   0 |        226.19 |       175.22 |     50.98 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     20.041 |          4.600 |        630 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 452 mm2 ast 175 mm2 asc 175 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 476.8 kn murx 33.0 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 1258 mm2 percentage (steel)- 1.548
+lateral ties - dia 8 mm pitch 192 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        2 |  16 |        629.00 |         0.00 |    629.00 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        2 |  16 |        629.00 |         0.00 |    629.00 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               192 |        0.870 |    22 |        19.140 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     47.054 |          4.600 |        821 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 1258 mm2 ast 0 mm2 asc 0 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 712.4 kn murx 53.0 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 400] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 452 mm2 percentage (steel)- 0.452
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        0 |   0 |        226.19 |         4.81 |    221.38 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        0 |   0 |        226.19 |         4.81 |    221.38 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        1.028 |    17 |        17.476 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.400 |     21.101 |          5.200 |        725 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 452 mm2 ast 5 mm2 asc 5 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 419.5 kn murx 37.7 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 452 mm2 percentage (steel)- 0.557
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        0 |   0 |        226.19 |        10.14 |    216.06 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        0 |   0 |        226.19 |        10.14 |    216.06 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     20.041 |          4.600 |        630 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 452 mm2 ast 10 mm2 asc 10 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 237.4 kn murx 76.0 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 1018 mm2 percentage (steel)- 1.253
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  18 |        0 |   0 |        508.94 |       498.21 |     10.73 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  18 |        0 |   0 |        508.94 |       498.21 |     10.73 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     37.797 |          4.600 |        756 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 1018 mm2 ast 498 mm2 asc 498 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 364.5 kn murx 64.5 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 400] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 452 mm2 percentage (steel)- 0.452
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        0 |   0 |        226.19 |       118.32 |    107.88 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        0 |   0 |        226.19 |       118.32 |    107.88 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        1.028 |    17 |        17.476 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.400 |     21.101 |          5.200 |        725 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 452 mm2 ast 118 mm2 asc 118 mm2
+
+rcc col  
+date-2023-07-13
+
+grade of concrete M25.0
+steel - main Fe 500, links Fe 500
+cover - top 50.0 mm bottom 50.0 mm x 50.0 y 50.0
+length - c-c 4.00 m eff.length (x) 0.0 eff.length (y) 0.0
+slender? false
+design loads - pur 202.5 kn murx 41.5 kn.m mury 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+reinforcement type - symmetrical, 2 per layer 
+no. of layers - 0
+area of steel - 452 mm2 percentage (steel)- 0.557
+lateral ties - dia 8 mm pitch 250 mm
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+|   LOCATION   | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+| top layer    |        2 |  12 |        0 |   0 |        226.19 |       163.63 |     62.57 |
+|              |          |     |          |     |               |              |           |
+| bottom layer |        2 |  12 |        0 |   0 |        226.19 |       163.63 |     62.57 |
+|              |          |     |          |     |               |              |           |
++--------------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+-------------------+--------------+-------+---------------+
+| DIA(MM) | PITCH/SPACING(MM) | PERIMETER(M) | NTIES | NET LENGTH(M) |
++---------+-------------------+--------------+-------+---------------+
+|       8 |               250 |        0.870 |    17 |        14.790 |
++---------+-------------------+--------------+-------+---------------+
+column ties
++-------------+------------+----------------+------------+
+| VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS?) |
++-------------+------------+----------------+------------+
+|       0.325 |     20.041 |          4.600 |        630 |
+|             |            |                |            |
++-------------+------------+----------------+------------+
+quantity take off
+total steel - 452 mm2 ast 164 mm2 asc 164 mm2
+
+rcc beam bm_19_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 6.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 71.9 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       16 |   4 |        0 |   0 |        804.25 |       765.46 |     38.78 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     150 |          2.10 | 0.00 | 0.60 | 4.50 | 6.00 |  15 |
+| min     |       8 |     206 |          3.00 | 0.60 | 2.10 | 3.00 | 4.50 |  16 |
+| nominal |       8 |     460 |          0.90 | 2.10 | 3.00 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.488 |       0.487 |     61.040 |          5.400 |      1083 |          180.55 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_20_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 4.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 34.8 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   3 |        0 |   0 |        339.29 |       319.58 |     19.71 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     206 |          1.20 | 0.00 | 0.20 | 3.00 | 4.00 |   7 |
+| min     |       8 |     206 |          2.00 | 0.20 | 1.00 | 1.80 | 3.00 |  11 |
+| nominal |       8 |     460 |          0.80 | 1.00 | 1.80 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.325 |       0.325 |     25.478 |          3.600 |       614 |          153.54 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_21_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 6.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 68.7 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   2 |       18 |   2 |        736.00 |       720.70 |     15.30 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     150 |          2.10 | 0.00 | 0.60 | 4.50 | 6.00 |  15 |
+| min     |       8 |     206 |          3.00 | 0.60 | 2.10 | 3.00 | 4.50 |  16 |
+| nominal |       8 |     460 |          0.90 | 2.10 | 3.00 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.488 |       0.487 |     62.191 |          5.400 |      1091 |          181.91 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_22_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 4.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 36.0 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   3 |        0 |   0 |        339.29 |       332.02 |      7.27 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     206 |          1.20 | 0.00 | 0.20 | 3.00 | 4.00 |   7 |
+| min     |       8 |     206 |          2.20 | 0.20 | 1.00 | 1.60 | 3.00 |  12 |
+| nominal |       8 |     460 |          0.60 | 1.00 | 1.60 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.325 |       0.325 |     25.837 |          3.600 |       617 |          154.18 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_23_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 6.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 68.0 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   2 |       18 |   2 |        736.00 |       709.65 |     26.35 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     160 |          2.40 | 0.00 | 0.90 | 4.50 | 6.00 |  17 |
+| min     |       8 |     206 |          2.70 | 0.90 | 2.10 | 3.00 | 4.50 |  15 |
+| nominal |       8 |     460 |          0.90 | 2.10 | 3.00 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.488 |       0.487 |     64.606 |          5.400 |      1109 |          184.77 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_24_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 4.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 32.7 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   3 |        0 |   0 |        339.29 |       298.39 |     40.90 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     206 |          1.20 | 0.00 | 0.20 | 3.00 | 4.00 |   7 |
+| min     |       8 |     206 |          2.00 | 0.20 | 1.00 | 1.80 | 3.00 |  11 |
+| nominal |       8 |     460 |          0.80 | 1.00 | 1.80 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.325 |       0.325 |     25.503 |          3.600 |       614 |          153.59 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_25_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 6.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 67.1 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   2 |       18 |   2 |        736.00 |       697.82 |     38.18 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     170 |          2.40 | 0.00 | 0.90 | 4.50 | 6.00 |  16 |
+| min     |       8 |     206 |          2.40 | 0.90 | 2.10 | 3.30 | 4.50 |  13 |
+| nominal |       8 |     460 |          1.20 | 2.10 | 3.30 | 0.00 | 0.00 |   4 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.488 |       0.487 |     70.217 |          5.400 |      1148 |          191.41 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_26_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 4.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 29.7 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   3 |        0 |   0 |        339.29 |       268.50 |     70.79 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     206 |          1.00 | 0.00 | 0.20 | 3.20 | 4.00 |   6 |
+| min     |       8 |     206 |          2.20 | 0.20 | 1.20 | 2.00 | 3.20 |  12 |
+| nominal |       8 |     460 |          0.80 | 1.20 | 2.00 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.325 |       0.325 |     25.478 |          3.600 |       614 |          153.54 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_27_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 6.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 63.8 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   6 |        0 |   0 |        678.58 |       653.70 |     24.88 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     180 |          2.40 | 0.00 | 0.90 | 4.50 | 6.00 |  15 |
+| min     |       8 |     206 |          2.70 | 0.90 | 2.40 | 3.30 | 4.50 |  15 |
+| nominal |       8 |     460 |          0.90 | 2.40 | 3.30 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.488 |       0.487 |     79.693 |          5.400 |      1216 |          202.62 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_28_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 4.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 28.5 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   3 |        0 |   0 |        339.29 |       257.23 |     82.06 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     206 |          0.80 | 0.00 | 0.20 | 3.40 | 4.00 |   5 |
+| min     |       8 |     206 |          2.40 | 0.20 | 1.40 | 2.20 | 3.40 |  13 |
+| nominal |       8 |     460 |          0.80 | 1.40 | 2.20 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.325 |       0.325 |     25.478 |          3.600 |       614 |          153.54 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_29_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 6.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 73.8 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       16 |   4 |        0 |   0 |        804.25 |       794.85 |      9.39 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     180 |          2.10 | 0.00 | 0.90 | 4.80 | 6.00 |  13 |
+| min     |       8 |     206 |          3.00 | 0.90 | 2.40 | 3.30 | 4.80 |  16 |
+| nominal |       8 |     460 |          0.90 | 2.40 | 3.30 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.488 |       0.487 |     69.471 |          5.400 |      1143 |          190.53 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
+
+rcc beam bm_30_mid 
+date-2023-07-13
+
+grade of concrete - M 25.0
+steel - main Fe 500 links Fe 500
+lspan - 4.000 m cover - top 50.0 mm bottom 50.0 mm
+design loads - mur 26.7 kn.m, vur 0.0 kn
+section - rectangle
+dimensions - [250 325] mm
+
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| LOCATION | DIA1(MM) | NOS | DIA2(MM) | NOS | AST PROV(MM2) | AST REQ(MM2) | DIFF(MM2) |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+| bottom   |       12 |   3 |        0 |   0 |        339.29 |       239.22 |    100.07 |
+|          |          |     |          |     |               |              |           |
+| top      |       12 |   2 |        0 |   0 |       226.19  |      225.00  |      1.19 |
+|          |          |     |          |     |               |              |           |
++----------+----------+-----+----------+-----+---------------+--------------+-----------+
+section reinforcement
++---------+---------+---------+---------------+------+------+------+------+-----+
+|   TYP   | DIA(MM) | SPACING | NET LENGTH(M) | FROM |  TO  | FROM |  TO  | NO  |
++---------+---------+---------+---------------+------+------+------+------+-----+
+| main    |       8 |     206 |          0.80 | 0.00 | 0.60 | 3.80 | 4.00 |   5 |
+| min     |       8 |     206 |          2.40 | 0.60 | 1.80 | 2.60 | 3.80 |  13 |
+| nominal |       8 |     460 |          0.80 | 1.80 | 2.60 | 0.00 | 0.00 |   3 |
++---------+---------+---------+---------------+------+------+------+------+-----+
+shear reinforcement
++-------------+-------------+------------+----------------+-----------+-----------------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) | UNIT COST(RS/M) |
++-------------+-------------+------------+----------------+-----------+-----------------+
+|       0.325 |       0.325 |     31.832 |          3.600 |       659 |          164.82 |
+|             |             |            |                |           |                 |
++-------------+-------------+------------+----------------+-----------+-----------------+
+quantity take off
++-------------+-------------+------------+----------------+-----------+
+| VOL TOT(M3) | VOL RCC(M3) | WT STL(KG) | FORM AREA (M2) | COST (RS) |
++-------------+-------------+------------+----------------+-----------+
+|       4.875 |       4.875 |   1389.258 |        140.400 |     21028 |
+|             |             |            |                |           |
++-------------+-------------+------------+----------------+-----------+
+frame -> quantity take off
+

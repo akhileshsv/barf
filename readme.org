@@ -1,0 +1,74 @@
+			      
+BARF is a collection of programs for structural analysis and design written in Go.
+
+** Overview
+
+- Direct stiffness analysis (/kass) :: Direct stiffness analysis of (2d/3d) bar member frameworks. 
+- RCC design (/mosh) :: Design of rcc slabs, beams, columns and footings as per is456 and bs8110.
+- Steel design (/bash) :: Design of steel beam and column members as per bs449.
+- Timber design (/tmbr) :: Design of timber beam and column members as per is883.
+  
+** Getting started
+
+*** Prerequisites
+
+- Go
+  Follow instructions at https://go.dev/doc/install
+- Gnuplot
+  Follow instructions at https://sourceforge.net/projects/gnuplot/files/gnuplot/
+
+*** Usage
+
+Clone this repo  
+```git clone https://github.com/akhileshsv/barf```
+
+Goto folder
+```cd barf/```
+
+Run tui menu
+```go run main.go -tui```
+
+- Flags
+  - inf (string) - input json file path  
+  - term (string) - gnuplot terminal string (supported - "dumb","mono","qt","svg")
+  - calc (bool) - stiffness analysis flag (kass.Model json input)
+  - rcc (string) - rcc design flag
+  - stl (string) - steel design flag
+  - wood (string) - wood design flag
+  - cmdz (string) - flag sub-commands
+  - tui (bool) - start text menu
+    
+| flag | info         | type   | vals          | cmdz        | info                                    |
+|------+--------------+--------+---------------+-------------+-----------------------------------------|
+| calc | analysis     | bool   |               |             | basic model direct stiffness analysis   |
+| calc |              |        |               | ep          | elastic plastic beam/frame analysis     |
+| calc |              |        |               | np          | non uniform beam/frame analysis         |
+| calc |              |        |               | blt, bolt   | bolt group analysis                     |
+| calc |              |        |               | wld, weld   | weld group analysis                     |
+| rcc  | rcc design   | string | slb,slab      |             | rcc slab design                         |
+| rcc  |              |        | cb, cbeam     |             | rcc continuous beam analysis and design |
+| rcc  |              |        | bm, beam      | az, analyze | rcc beam section analysis               |
+| rcc  |              |        | bm, beam      | dz, design  | rcc beam section design                 |
+| rcc  |              |        | col, column   | az, analyze | rcc column section analysis             |
+| rcc  |              |        | col, column   | dz, design  | rcc column section design               |
+| rcc  |              |        | ftng, footing | az, analyze | rcc footing analysis                    |
+| rcc  |              |        | ftng, footing | dz, design  | rcc footing design                      |
+| rcc  |              |        | sf, subfrm    | az, analyze | rcc subframe analysis                   |
+| stl  | steel design | string | col, column   | az, analyze | steel column check                      |
+| stl  |              |        | col, column   | dz, design  | steel column design                     |
+| stl  |              |        | bm, beam      | az, analyze | steel beam check                        |
+| stl  |              |        | bm, beam      | dz, design  | steel beam design                       |
+| wood | wood design  | string | col, column   | dz, design  | solid timber column design              |
+| wood |              |        | bm, beam      | dz, design  | solid timber beam design                |
+  
+
+** References
+ 1. Aslam Kassimali - Matrix Analysis of Structures , Second Edition - CL Engineering (2011)
+ 2. H. B. Harrison - Structural Analysis and Design, Some Microcomputer Applications-Elsevier Ltd, Pergamon (1990)
+ 3. W. H. Mosley, W. J. Spencer - Microcomputer Applications in Structural Engineering-Macmillan Education UK (1984)
+ 4. R. Hulse, W. H. Mosley - Reinforced Concrete Design by Computer-Macmillan Education UK (1986)
+ 5. Dr. V.L Shah - Computer Aided Design in Reinforced Concrete - Structures Publications (1998)
+ 6. Subramanian, Narayanan - Design of Reinforced Concrete Structures-Oxford University Press (2013)
+ 7. A. Allen - Reinforced Concrete Design to BS 8110 Simply Explained-CRC Press (1988)
+ 8. Abel O. Olorunnisola - Design of Structural Elements with Tropical Hardwoods - Springer (2017)
+ 9. Arnulfo Luevanos Rojas - Design of isolated rectangular footings of rectangular form using a new model (2013)

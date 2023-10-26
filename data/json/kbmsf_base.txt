@@ -1,0 +1,13 @@
+{"Id":"2.2Hulse",-> title
+"Cmdz":["1db","mks","1"], -> frmtyp, units, design 
+"Ncjt":2, -> number of degrees of freedom per node (2 for beam)
+ "Coords": [[0],[6],[10],[16]],-> coordinates ([x1], [x2]..[xn] for beam)
+"Supports":[[1,-1,0],[2,-1, 0],[3,-1,0],[4,-1,0]],-> list of nodal supports ([node index, y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+ "Em":[[25e9]],-> list of elastic modulus/material properties 
+ "Cp":[[1200e-9]],-> list of sectional properties (moment of inertia iz - [iz1,iz2,...izn] for beam)
+ "Mprp": [[1,2,1,1,0], [2,3,1,1,0], [3,4,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+ "Jloads": [],  -> nodal loads ([node idx, y-force, z-moment])
+"Msloads":[[1,3,51,0,0,0],[2,3,25,0,0,0],[3,3,51,0,0,0]] -> member loads ([member index, load type, wa, wb, la, lb]- check list of load types) }
+
+
+

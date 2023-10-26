@@ -1,0 +1,14 @@
+* SubFrm
+** funcs
+- [ ]get x frame and y frame
+  what aboot folders?
+- [ ]calc sf
+- [ ]bm dz
+  - [ ] gen bm - already done in subfrm?
+- [ ]col dz
+  - [ ] gen cols
+  in cold.go
+  GetCol(cenv *kass.ColEnv, kostin []float64,fck, fy, efcvr float64, frmtyp, code int) (c RccCol)
+  - [ ] dz cols
+  in dz
+- [ ]if web/svg - save files to folder

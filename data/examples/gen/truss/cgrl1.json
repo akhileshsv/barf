@@ -1,0 +1,21 @@
+{"Title": "Cgrl1",
+ "Typ":       2,
+ "Cfg":       2,
+ "Bmat":      1,
+ "Span":      10000.0,
+ "Spacing":   4500.0,
+ "Slope":     5,
+ "Purlinspc": 2000,
+ "Height":    8000,
+ "DL":        0.0,
+ "LL":        0.75,
+ "Clctyp":    1,
+ "Vb":        50,
+ "Frmtyp":    2,
+ "Cmdz":      []string{"bent","addld","env","dl,ll,wl","iscode","opt","pso"},
+ "Roofmat":     1,
+ "Term":      "dumb",
+}
+
+
+

@@ -1,0 +1,16 @@
+{"Title":"Hulse3.2.2",-> title
+ "Fck":25.0,-> grade of concrete
+ "Fy":460.0,-> grade of steel
+ "Styp":1,-> section type (see SectionMap in kass/sections)
+ "Code":2, -> 1 - is code, 2 - bs code
+ "Tyb":1.0, -> 0.0 - rectangular beam, 0.5 - L flanged beam, 1.0 - T flanged beam
+ "Bf":600.0, -> breadth of flange (mm)
+ "Df":150.0,-> depth of flanged (mm)
+ "Bw":250.0,-> breadth of web (mm)
+ "Dused":580.0,-> total depth of beam (mm)
+ "Cvrt":50.0,-> clear cover to tension steel(mm)
+ "Cvrc":50.0, -> clear cover to compression steel (mm)
+ "Lspan":5.0,-> length of span (meters)
+ "Mu":160.0, -> ultimate moment (kn/m)
+ "Verbose":true -> print report
+ }

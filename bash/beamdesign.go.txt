@@ -1,0 +1,28 @@
+package barf
+
+import (
+	"fmt"
+	"runtime"
+	"os"
+	"encoding/csv"
+	"path/filepath"
+	"github.com/go-gota/gota/dataframe"
+	"github.com/go-gota/gota/series"
+)
+
+func getStlDf(sectype string) dataframe.DataFrame{
+	_, b, _, _:= runtime.Caller(0)
+	basepath := filepath.Dir(b)
+	tabledir := filepath.Join(basepath,"../data/steel")
+	f, _ := os.Open(filepath.Join(tabledir,"isteel/sefistl.csv"))
+	csvReader := csv.NewReader(f)
+	records, err := csvReader.ReadAll()
+	if err != nil {fmt.Println("ERRORE,errore->unable to open csv file")}
+	df := dataframe.LoadRecords(records)
+	fil := df.Filter(
+		dataframe.F{Colname:"Shape",
+			Comparator: series.Eq,
+			Comparando:sectype},
+	)
+	return fil
+}

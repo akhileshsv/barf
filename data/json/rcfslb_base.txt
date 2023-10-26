@@ -1,0 +1,31 @@
+{"Title":"Allen14.1",-> title
+ "Lspans":[6.0,6.0,6.0,6.0,6.0], -> list of span x-values
+ "Lbays":[5,7,5],-> list of span y-values
+ "H":[4.0,4.0],->list of height z-values(floor heights)
+ "Fltslb":true, -> true if flat slab
+ "Hc":1240.0, -> column head diameter in mm
+ "DL":2.5,-> dead load 
+ "LL":5.0,-> live load 
+ "Lx":6.0, -> bay length in x direction
+ "Ly":6.0,-> bay length in y direction
+ "Sections":[[300,300],[6000,250]],-> section dimensions
+ "Csec":[1],-> column section indices (cdx1,cdx2,...cdxnspans+1/cdx if same)
+ "Bsec":[2], -> beam section indices (bdx1,bdx2,...bdxnspans/bdx if same)
+ "Fcks":[40.0],-> list of (rcc) grades
+ "Fys":[460.0], -> list of (steel) grades
+ "Clvrs":[[0,0,0],[0,0,0]], -> left/right cantilever ([length,dead load, live load]) 
+ "PSFs":[1.4,1.0,1.6,0.0], -> partial factors of safety for dead and live load  
+ "DM":0.2,-> moment redistribution factor (for an rcc frame)
+ "Code":2,-> 1 - is code, 2 - bs code
+ "Selfwt":1,-> calc self weight of sub frame (1 - beams/flat slab, 2 - beams + columns)
+ "Verbose":true, -> print reports
+ "Ldcalc":0, -> 1 - single load case of max dl+ll across spans
+ "Endrel":false,-> end supports release (fixed/simply supported if true)
+ "Term":"svg",-> gnuplot terminal
+ "Foldr":"out"} -> folder to save svg in 
+
+
+
+
+
+

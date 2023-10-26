@@ -1,0 +1,28 @@
+{"Title":"Shah8.7",
+ "Lspans":[6.2,8.4],
+ "Lbays":[3.05,3.05],
+ "H":[4.0,4.0],
+ "DL":2.5,
+ "LL":5.0,
+ "Lx":3.05,
+ "Ly":3.05,
+ "Sections":[[230,500]],
+ "Csec":[1],
+ "Bsec":[1],
+ "Fcks":[20.0],
+ "Fys":[415.0],
+ "Fyds":[250.0],
+ "Clvrs":[[0,0,0],[0,0,0]],
+ "PSFs":[1.5,1.0,1.5,0.0],
+ "DM":0.2,
+ "Code":2,
+ "Selfwt":2,
+ "Verbose":true,
+ "Ldcalc":0,
+ "Slbload":1,
+ "Endrel":false,
+ "Term":"svg",
+ "Foldr":"out"}
+
+
+

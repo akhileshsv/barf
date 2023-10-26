@@ -1,0 +1,11 @@
+{"Title":"Abel9.1",
+ "Styp":1,
+ "Lspan":1500.0,
+ "Prp":{"Em":6700.0,
+	"Fc":4.5,
+	"Mc":0.5,
+	"Pg":0.5},
+ "Pu" : 3000.0,
+ "Selfwt" : true,
+ "Verbose":true,
+ "Code" : 1}

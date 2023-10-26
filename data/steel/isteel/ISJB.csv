@@ -1,0 +1,6 @@
+,Unnamed: 0_level_0,Designation,Weight per Meter (w),Sectional Area (a),Depth of Section (h),Width of flange (b),Thickness of Flange (tf),Thickness of Web (tw),Moment of Inertia,Unnamed: 8,Raddi of Gyration,Unnamed: 10,Modulli of Section,Unnamed: 12
+,0,Unnamed: 1_level_1,kg,   cm2, mm,mm, mm, mm,Unnamed: 8_level_1,Unnamed: 9_level_1,Unnamed: 10_level_1,Unnamed: 11_level_1,Unnamed: 12_level_1,Unnamed: 13_level_1
+3,4,ISJB 150,7.1,9.01,150.0,50.0,4.6,3,322.1,9.2,5.98,1.01,42.9,3.7
+4,5,ISJB 175,8.1,10.28,175.0,50.0,4.8,3.2,479.3,9.7,6.83,0.97,54.8,3.9
+5,6,ISJB 200,9.9,12.64,200.0,60.0,5.0,3.4,780.7,17.3,7.86,1.17,78.1,5.8
+6,7,ISJB 225,12.8,16.28,225.0,80.0,5.0,3.7,1308.5,40.5,8.97,1.58,116.3,10.1

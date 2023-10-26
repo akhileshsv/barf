@@ -1,0 +1,24 @@
+{"Title":"Mosley8.9",-> title
+ "Fck":25.0,-> grade of concrete
+ "Fy":500.0,-> grade of (main) steel
+ "Diamain":10.0,->main rebar diameter
+ "Diadist":8.0,->dist rebar diameter
+ "Lx":6000.0,-> length of slab in x direction (short span)
+ "Ly":6000.0,-> length of slab in y direction (long span)
+ "LL":2.5,->live load in kn/m2
+ "DL":6.0,-> dead load in kn/m2
+ "Bsup":250.0,-> breadth of support in mm
+ "Type":4,->slab type (4 - 2 way waffle slab)
+ "Endc":1,-> end condition (1-9 in restrained 2-way slab, 10 for ss 2 way waffle slab)
+ "Nomcvr":30.0,-> nominal cover to rebar in mm
+ "Efcvr":40.0,-> effective cover to rebar in mm
+ "Ibent":0.0,-> percentage of bars bent up at the support
+ "Bf":400.0,-> breadth of flange in mm
+ "Bw":125.0,-> breadth of web in mm
+ "Df":60.0,-> depth of flange in mm
+ "Dw":200.0,-> depth of web in mm
+ "Ldcalc":1, -> if 0, add slab self weight to dead load
+ "Verbose":true} -> print report
+
+
+

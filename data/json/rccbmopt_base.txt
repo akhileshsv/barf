@@ -1,0 +1,18 @@
+{"Title":"Govr2",-> title
+ "Nspans":3,-> number of spans
+ "Fck":25.0,-> grade of concrete
+ "Fy":415.0, -> grade of steel
+ "Fyv":415.0, -> grade of (stirrup/link) steel
+ "Code":1, -> 1 - is code, 2- bs code
+ "DL":18, -> dead load (applied as udl over all spans)
+ "LL":20,-> live load (applied as udl over all spans)
+ "Selfwt":true,-> calculate self weight of beam and add to dead load
+ "Bfcalc":true, -> breadth of flange calculation
+ "Lspans":[7.0,5.0,4.0], -> length of spans 
+ "Nomcvr":30.0, -> nominal cover to rebar
+ "Lsxs":[280,560,280,280],-> width of supports (one if all spans are uniform, [[lsx1],[lsx2],...[lsxnspans]] else)
+ "Dslb":120.0,-> depth of slab
+ "Verbose":false,-> print reports
+ "Opt":1, -> 1 - pso, 2 - g.a
+ "Dconst":true, -> constant depth for all spans
+ "Term":""} -> gnuplot terminal

@@ -1,0 +1,290 @@
+package barf
+
+import (
+	"fmt"
+	"time"
+	//"bytes"
+	"math"
+	"math/rand"
+	//"errors"
+	kass "barf/kass"
+	//"encoding/json"
+)
+
+type Rat struct {
+	vec     []int
+	mod     kass.Model
+	pmax    float64
+	dmax    float64
+	dens    float64
+	fitness float64
+	weight  float64
+	cons    int
+}
+
+func MakeR(mod *kass.Model, dmax, pmax, dens float64) *Rat {
+	start := time.Now()
+	nbars := len(mod.Cp)
+	nsecs := len(mod.Dims)
+	vec := make([]int, nbars)
+	for i := range vec {
+		vec[i] = rand.Intn(nsecs - 1)
+	}
+	modr := kass.Model{
+		Cmdz:     mod.Cmdz,
+		Ncjt:     mod.Ncjt,
+		Coords:   mod.Coords,
+		Supports: mod.Supports,
+		Em:       mod.Em,
+		Cp:       make([][]float64, nbars),
+		Jloads:   mod.Jloads,
+		Mprp:     mod.Mprp,
+		Dims:     mod.Dims,
+	}
+
+	for i := range modr.Cp {
+		modr.Cp[i] = append(modr.Cp[i], modr.Dims[vec[i]][0])
+		//modr.Cp[i] = make([]float64,1)
+		//modr.Cp[i][0] = modr.Dims[vec[i]][0]
+	}
+	r := Rat{
+		vec:  vec,
+		mod:  modr,
+		pmax: pmax,
+		dmax: dmax,
+		dens: dens,
+	}
+	r.FitR()
+	duration := time.Since(start)
+	fmt.Println("make->",duration)
+	return &r
+}
+
+func (r *Rat) FitR() {
+	var wt, C float64
+	var con int
+	frmrez, err := kass.CalcTrs(&r.mod, r.mod.Ncjt)
+	if err != nil {
+		r.fitness = 1e12
+		return
+	}
+	js, _ := frmrez[0].(map[int]*kass.Node)
+	ms, _ := frmrez[1].(map[int]*kass.Mem)
+	for _, node := range js {
+		for _, d := range node.Displ {
+			if math.Abs(d)/r.dmax-1.0 > 0.0 {
+				//fmt.Println("displ const vio->",d," vs ",r.dmax)
+				C += math.Abs(d)
+				con += 1
+				//C += 1.0
+			}
+		}
+	}
+	for _, mem := range ms {
+		wt += mem.Geoms[0] * mem.Geoms[2] * r.dens
+		pmem := mem.Qf[0] / mem.Geoms[2]
+		if math.Abs(pmem)/r.pmax-1.0 > 0.0 {
+			//fmt.Println("stress const vio->",pmem," vs ",r.pmax)
+			C += math.Abs(pmem)
+			con += 1
+			//C += 1.0
+		}
+	}
+	r.weight = wt
+	r.fitness = wt * (1.0 + 10.0*C)
+	r.cons = con
+	//r.fitness = 1.0/(wt*(10.0*C + 1.0))
+}
+
+func CrsR(x *Rat, y *Rat) *Rat {
+	//1 point crossover
+	vecr := make([]int, len(x.vec))
+	ca := rand.Intn(len(x.mod.Cp)-3) + 1
+	//cb := rand.Intn(len(x.mod.Cp)-1-ca) + ca
+	modr := kass.Model{
+		Cmdz:     x.mod.Cmdz,
+		Ncjt:     x.mod.Ncjt,
+		Coords:   x.mod.Coords,
+		Supports: x.mod.Supports,
+		Em:       x.mod.Em,
+		Cp:       make([][]float64, len(x.mod.Cp)),
+		Jloads:   x.mod.Jloads,
+		Mprp:     x.mod.Mprp,
+		Dims:     x.mod.Dims,
+	}
+	
+	for i := range modr.Cp{
+		modr.Cp[i] = make([]float64, 1)
+		if i < ca {
+			vecr[i] = x.vec[i]
+			modr.Cp[i][0] = x.mod.Cp[i][0]
+		} else {
+			vecr[i] = y.vec[i]
+			modr.Cp[i][0] = y.mod.Cp[i][0]
+		}
+	}
+	r := Rat{
+		vec:  vecr,
+		mod:  modr,
+		pmax: x.pmax,
+		dmax: x.dmax,
+		dens: x.dens,
+	}
+	return &r
+}
+
+func (r *Rat) MutR() {
+	//flip int
+	mutpt := rand.Intn(len(r.mod.Cp)-1)
+	mutdx := rand.Intn(len(r.mod.Dims)-1)
+	r.mod.Cp[mutpt][0] = r.mod.Dims[mutdx][0]
+	r.vec[mutpt] = mutdx
+}
+
+func GenPop(mod *kass.Model, dmax, pmax, dens float64, popsize int) (popr []*Rat) {
+	for i := 0; i < popsize; i++ {
+		r := MakeR(mod, dmax, pmax, dens)
+		popr = append(popr, r)
+	}
+	return
+}
+
+func EPop(popr []*Rat) (matr []*Rat, fpop, wmin float64, midx int) {
+	start := time.Now()
+	var fmax, fmin, favg float64
+	for i, r := range popr {
+		if fmax < r.fitness {
+			fmax = r.fitness
+		}
+		if i == 0 {
+			fmin = r.fitness
+		} else if fmin > r.fitness {
+			fmin = r.fitness
+		}
+	}
+	for _, r := range popr {
+		r.fitness = fmax + fmin - r.fitness
+		favg += r.fitness
+	}
+	favg = favg / float64(len(popr))
+	for i, r := range popr {
+		if fpop < r.fitness{
+			fpop = r.fitness
+			wmin = r.weight
+			midx = i
+		}
+		rcount := int(math.Ceil(r.fitness / favg))
+		if rcount == 0 {
+			continue
+		}
+		for i := 0; i < rcount; i++ {
+			matr = append(matr, r)
+		}
+	}
+	duration := time.Since(start)
+	fmt.Println("epop time->",duration)
+	return
+}
+
+func RePop(matr []*Rat, pmut float64) (popr []*Rat) {
+	start := time.Now()
+	for len(popr) < len(matr) {
+		x := rand.Intn(len(matr))
+		y := rand.Intn(len(matr))
+		if x == y {
+			continue
+		}
+		r := CrsR(matr[x], matr[y])
+		mutz := rand.Float64()
+		if mutz < pmut {
+			r.MutR()
+		}
+		r.FitR()
+		popr = append(popr, r)
+	}
+	duration := time.Since(start)
+	fmt.Println("repop->",duration)
+	return
+}
+
+func TrussOptRaka(mod *kass.Model, dmax, pmax, dens float64) {
+	//pltchn := make(chan string, 1)
+	//go kass.PlotTrs2d(mod, "dumb", pltchn)
+	//pltstr := <-pltchn
+	//fmt.Println(pltstr)
+	rand.Seed(time.Now().UnixNano())
+	ngens := 50
+	pmut := 0.002
+	popsize := 40
+	var fprev float64
+	var midx int
+	fprev = 1.0
+	popr := GenPop(mod, dmax, pmax, dens, popsize)
+	for i := 0; i < ngens; i++ {
+		start := time.Now()
+		matr, fmax, wmin, mdx := EPop(popr)
+		//ncons := popr[mdx].cons
+		popr = RePop(matr, pmut)
+		fprev = fmax
+		fmt.Println("generation->", i, "max fitness->", fprev, "weight->", wmin)
+		duration := time.Since(start)
+		fmt.Println("gen->",i+1, duration)
+		midx = mdx
+	}
+	for i, mprp := range popr[midx].mod.Mprp {
+		fmt.Println(mprp)
+		fmt.Println("member->", i+1, "area->", popr[midx].mod.Cp[mprp[3]-1])
+	}
+}
+
+/*
+	var basemod kass.Model
+	data, err := json.Marshal(&mod)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	if err := json.Unmarshal(data, &basemod); err != nil{
+		fmt.Println(err)
+		return
+	}
+*/
+/*
+	for i, r := range popr{
+		//r.fitness = fmax + fmin - r.fitness
+		favg += r.fitness
+		if fpop < r.fitness{
+			fpop = r.fitness
+			wmin = r.weight
+			midx = i
+		}
+	}
+*/
+
+/*
+	if i == 0{
+		fmin = r.fitness
+	} else if fmin > r.fitness {
+		fmin = r.fitness
+	}
+*/
+/*
+
+			switch {
+                case i >= ca:
+				modr.Cp[i][0] = x.mod.Cp[i][0]
+                case i <= cb:
+				modr.Cp[i][0] = x.mod.Cp[i][0]
+                default:
+				modr.Cp[i][0] = y.mod.Cp[i][0]
+			}
+*/
+
+/*
+	//shuffle mutation
+	idx := rand.Intn(len(r.mod.Cp) - 4) + 3
+	for i := len(r.mod.Cp) - 1; i > idx; i-- {
+		j := rand.Intn(i + 1)
+		r.mod.Cp[i][0], r.mod.Cp[j][0] = r.mod.Cp[j][0], r.mod.Cp[i][0]
+	}
+*/

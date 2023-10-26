@@ -1,0 +1,20 @@
+{"Title":"Mosley6.1.2",-> title
+ "H1" : 2.4,-> height of (this) column in meters
+ "H2" : 2.4,-> height of column above in meters
+ "Lx" : 2.4,-> unbraced length of column about xx axis in meters
+ "Ly" : 4.8,-> unbraced length of column about yy axis in meters
+ "Tx" : 1.0,-> fixity factor about xx axis
+ "Ty" : 0.9,-> fixity factor about yy axis
+ "Code": 2,-> 2 - bs449 code
+ "Verbose":true, -> print reports
+ "Spam":true,-> print all log messages
+ "Mx" : 120.0,-> moment about xx axis in kn-m
+ "My" : 45.0,-> moment about yy axis in kn-m
+ "Vx" : 0.0,
+ "Vy" : 0.0,
+ "Pu" : 500.0,-> total axial load in kn
+ "Pfac" : 1.25,-> stress ratio factor
+ "Grd" : 43, -> grade of steel (43, 50, 55)
+ "Styp" : 7,-> 7 - UB, 8 - UC
+ "Nsecs" : 3}-> number of sections
+	

@@ -1,0 +1,21 @@
+proptypes
+
+	timber
+	
+
+sectypes
+	
+	solid
+	
+	0.circle
+	1.rectangular
+
+	box
+	
+	tapered solid
+	
+	tapered hollow
+
+	
+	
+	

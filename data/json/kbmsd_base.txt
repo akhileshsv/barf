@@ -1,0 +1,12 @@
+{"Id":"7.3Kass", -> title
+ "Cmdz":["1db","mks","0"],  -> frmtyp, units, design 
+ "Ncjt":2,  -> number of degrees of freedom per node (2 for beam)
+ "Coords": [[0],[8],[16],[24]],-> coordinates ([x1], [x2]..[xn] for beam)
+ "Supports":[[1,-1,-1],[2,-1, 0],[3,-1,0],[4,-1,0]], -> list of nodal supports ([node index, y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+ "Em":[[70e6]],-> list of elastic modulus/material properties 
+ "Cp":[[102e-6]],-> list of sectional properties (moment of inertia iz - [iz1,iz2,...izn] for beam)
+ "Mprp": [[1,2,1,1,0], [2,3,1,1,0],[3,4,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+ "Jloads": [], -> nodal loads ([node idx, y-force, z-moment])
+ "Jsd":[3,4], -> list of nodes undergoing support displacements [j1, j2...jn]
+ "Sdj":[[-0.045,0],[-0.015,0]], -> list of joint support displacements [disp. y, rot. z]
+ "Msloads":[[1,3,15,0,0,0],[2,3,15,0,0,0],[3,3,15,0,0,0]]-> member loads ([member index, load type, wa, wb, la, lb]- check list of load types) }
