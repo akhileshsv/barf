@@ -67,8 +67,8 @@ Run tui menu (uses https://github.com/AlecAivazis/survey) with -
 ./barf.exe -tui
 
 ```
-Note - using "read json txt" as an input option copies the base struct to clipboard and opens a new editor window to edit struct fields.
-Hit "?" to see an explanation of individual struct fields (as seen in the gifs below); save the edited file before exiting the editor window.
+Note - using "read json txt" as an input option copies the base struct to clipboard and opens a new editor window to edit struct fields.  
+Hit "?" to see an explanation of individual struct fields (as seen in the gifs below); paste the struct into the editor (ctrl + v) and save the edited file before exiting the editor window.
 
 #### direct stiffness method/analysis
 ![truss](https://github.com/akhileshsv/barf/assets/63144799/7d98a053-f24d-4a58-a374-65f53fc3fc7c)
