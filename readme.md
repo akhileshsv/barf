@@ -459,9 +459,8 @@ go test -run Slb1DBs -v
 10. [ ] ColBx - col. biaxial bending test
 11. [ ] ColWeirdBs - weird column tests (start with styp 0)
 12. [ ] ColAzGen - col gen. analysis funcs
-13. [ ] ColStl - is this needs
-14. [ ] ColBarGen - column rebar gen test (in colrebar<sub>test</sub>)
-15. [ ] ColOpt - NOTHING has been written 
+
+
 
 
 <a id="org93ec1e4"></a>
@@ -476,8 +475,6 @@ go test -run Slb1DBs -v
 <a id="org9a6a2fd"></a>
 
 ###### IN-PROGRESS cbeam
-
-isn't this just beam? all the stuff in cbeam<sub>test</sub>
 
 1.  [ ] CBmOpt - cbeam opt test (govindraj ex 1 n 2)
 2.  [ ] CBmDz - cbeam design funcs
