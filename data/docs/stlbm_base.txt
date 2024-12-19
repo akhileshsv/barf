@@ -1,0 +1,15 @@
+{"Title":"Mosley6.2.4", -> title
+ "Ldcases":[[1,3,100,0,0,0,1],[1,3,160,0,2,1,2]], -> list of loads (member, ltyp, wa (kn), wb (kn), la(m), lb(m), dl/ll (1/2))
+ "Lspan":6.0, -> span length in meters 
+ "Lx":6.0, -> unsupported length of compression flange in meters
+ "Tx":1.0, -> end fixity factor 
+ "Lbr":200.0, -> length of bearing (plate) in mm
+ "Tbr":20.0, -> thickness of bearing (plate) in mm
+ "Styp":7, -> steel section type (7-UB,8-UC)
+ "Nsecs":3, -> number of sections 
+ "Brchk":true, -> if true, check for bearing stress
+ "Yeolde":true, -> design as per (old) bs.449
+ "Code":2, -> 2 - bs449 code (1-is code not yet written :())
+ "Endc":1, -> 1 - s.s beam
+ "Dtyp":1, -> design type (1 - > s.s beam with load cases)
+ "Grd":43} -> grade of steel (43, 50, 55)

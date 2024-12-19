@@ -1,0 +1,32 @@
+* test funcs
+- [ ] BmAzGen (is)
+  BmFrcIs fails; rewrite. esc calc is fucked
+- [X] BmAzGen (bs)
+- [X] BmStlBs (bs rebar)
+  only for rect/flanged sections :(
+- [X] BmDIs (is rebar)
+- [X] BmSecAz (is)
+- [X] SecAzBs (bs)
+- [X] BmAsvRat (bs)
+  hulse asv/sv ratio 
+- [ ] BmShrDz (bs)
+- [ ] BmShrDz (is)
+- [X] BmTorBs
+  hulse basic torsion design test
+- [X] BmTorDz (bs)
+  1) divide into component rectangles
+  2) calc from BmTorBs
+  3) profit?
+- [ ] BmTorDz (is)
+  
+* plan
+
+- [X] get beam span moments/shears at 3 sections (l, m, r)
+- [X] get beam steel for each section
+- [ ] get shear reinforcement details for span
+- [X] detail steel
+- [ ] draw    
+
+
+* flow chart
+

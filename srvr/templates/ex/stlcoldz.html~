@@ -1,0 +1,113 @@
+
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">
+    <div id="stlcol-form">
+    <a href="/docs/steel/column" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Steel column data:</h3></center>
+      <form action="/steel/column" method="post" autocomplete="on">
+	<br>
+	<label><input type="radio" class="nes-radio" name="Dsgn" value="true" checked hx-post="/ex/steel/col" hx-target="#stlcol-form"/><span>design</span></label>
+	<label><input type="radio" class="nes-radio" name="Dsgn" value="false" hx-post="/ex/steel/col" hx-target="#stlcol-form"/><span>check section</span></label>
+	<br>
+	<br>
+	<label><input type="radio" class="nes-radio" name="Frame" value="true"/><span>frame member</span></label>
+	<label><input type="radio" class="nes-radio" name="Frame" value="false"/><span>strut</span></label>
+	<br>
+
+	<div class="nes-select">
+	  <label for="Sname">section name</label>
+	  <select name="Sname" id="Sname">
+	    <option value="i">isjb/islb/ismb</option>
+	    <option value="c">ismc</option>
+	    <option value="ub">ub</option>
+	    <option value="uc">uc</option>
+	    <option value="flat">flat</option>
+	    <option value="bar">bar</option>
+	    <option value="l">eq.ang</option>
+	    <option value="ln">uneq.ang</option>
+	    <option value="l2-ss">2xeq.ang(ss)</option>
+	    <option value="l2-os">2xeq.ang(os)</option>
+	    <option value="ln2-ss">2xueq.ang(ss)</option>
+	    <option value="ln2-os">2xueq.ang(os)</option>
+	    <option value="built-i">built-i</option>
+	    <option value="plate-i">plate-i</option>
+	  </select>
+	  </div>
+	<div class="nes-select">
+	  <label for="Code">code of practice</label>
+	  <select name="Code" id="Code">
+	    <option value=1 selected="selected">is.800</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+
+	<label for="Title">title</label>
+	<input type="text" name="Title" class="nes-input" placeholder="mosley-ex-6.1" value="mosley-ex-6.1" onfocus = "this.value=''"/>
+
+
+	<label for="Grd">grade of steel</label>
+	<input type="text" name="Grd" class="nes-input" placeholder="43.0" value="43.0" onfocus = "this.value=''"/>
+	
+	<label for="H1">column height(m)</label>
+	<input type="text" name="H1" class="nes-input" placeholder="3.5" value="3.5" onfocus = "this.value=''"/>
+
+	<label for="H2">column height above(m)</label>
+	<input type="text" name="H2" class="nes-input" placeholder="4.0" value="4.0" onfocus = "this.value=''"/>
+	
+	<label for="Lx">xx axis u.b length(m)</label>
+	<input type="text" name="Lx" class="nes-input" placeholder="3.5" value="3.5" onfocus = "this.value=''"/>
+
+
+	<label for="Ly">yy axis u.b length(m)</label>
+	<input type="text" name="Ly" class="nes-input" placeholder="3.5" value="3.5" onfocus = "this.value=''"/>
+
+	
+	<label for="Tx">xx axis fixity factor</label>
+	<input type="text" name="Tx" class="nes-input" placeholder="1.0" value="1.0" onfocus = "this.value=''"/>
+
+
+	<label for="Ty">yy axis fixity factor</label>
+	<input type="text" name="Ty" class="nes-input" placeholder="1.0" value="1.0" onfocus = "this.value=''"/>
+
+	
+	<label for="Mx">xx axis moment(kn-m)</label>
+	<input type="text" name="Mx" class="nes-input" placeholder="0.0" value="0.0" onfocus = "this.value=''"/>
+
+
+	<label for="My">yy axis moment(kn-m)</label>
+	<input type="text" name="My" class="nes-input" placeholder="0.0" value="0.0" onfocus = "this.value=''"/>
+
+	<label for="Vx">xx axis shear(kn)</label>
+	<input type="text" name="Tx" class="nes-input" placeholder="1.0" value="1.0" onfocus = "this.value=''"/>
+
+
+	<label for="Vy">yy axis shear(kn)</label>
+	<input type="text" name="Ty" class="nes-input" placeholder="40.0" value="40.0" onfocus = "this.value=''"/>
+
+
+	<label for="Pu">axial load(kn)</label>
+	<input type="text" name="Pu" class="nes-input" placeholder="1000.0" value="1000.0" onfocus = "this.value=''"/>
+
+	<label for="Pfac">axial load factor</label>
+	<input type="text" name="Pfac" class="nes-input" placeholder="1.0" value="1.0" onfocus = "this.value=''"/>
+
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

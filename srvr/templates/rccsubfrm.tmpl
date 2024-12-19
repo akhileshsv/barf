@@ -1,0 +1,140 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">      
+    <div id="rccsf-form">
+      <a href="/docs/rcc/subframe" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Rcc subframe optimization data:</h3></center>
+      <form action="/rcc/subframe" method="post">
+	
+	<label><input type="radio" class="nes-radio" name="Fop" value="0" hx-post="/ex/rcc/sf" hx-target="#rccsf-form"/><span>design</span></label>
+	<label>
+	  <input type="radio" class="nes-radio" name="Fop" value ="1" checked hx-post="/ex/rcc/sf" hx-target="#rccsf-form"/>
+	  <span>optimize</span>
+	</label>
+	<br>
+	<span>add self weight?</span>
+	<label><input type="radio" class="nes-radio" name="Selfwt" value="0"/><span>no</span></label>
+	<label><input type="radio" class="nes-radio" name="Selfwt" value="1" checked/><span>beams</span></label>
+	<label><input type="radio" class="nes-radio" name="Selfwt" value="2"/><span>beams+cols</span></label>
+	<br>
+	<span>calculate breadth of flange?</span>
+	<label><input type="radio" class="nes-radio" name="Bfcalc" value="true" checked/><span>yes</span></label>
+	<label>
+	  <input type="radio" class="nes-radio" name="Bfcalc" value="false"/>
+	  <span>no</span>
+	</label>
+	<br>
+	
+	<span>design slab?</span>
+	<label><input type="radio" class="nes-radio" name="Slbdz" value="true"/><span>yes</span></label>
+	<label>
+	  <input type="radio" class="nes-radio" name="Slbdz" value="false" checked/>
+	  <span>no</span>
+	</label>
+	<br>
+
+	<div class="nes-select">
+	  <label for="Slbload"  selected="selected">apply slab load?</label>
+	  <select name="Slbload" id="Slbload">
+	    <option value="0">no</option>
+	    <option value="1" selected="selected">1-way slab</option>
+	    <option value="2">2-way slab</option>
+	  </select>
+	</div>      
+	
+	<div class="nes-select">
+	  <label for="Opt">opt type</label>
+	  <select name="Opt" id="Opt">
+	    <option value="1">basic ga</option>
+	    <option value="11">adapt. ga</option>
+	    <option value="12">(4x)basic ga</option>
+	    <option value="11">(4x)adapt. ga x 4</option>
+	    <option value="2" selected="selected">pso</option>
+	    <option value="21">improv pso</option>
+	    <option value="22">(4x)pso</option>
+	    <option value="23">(4x)improv pso</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Ngrp">number of section groups</label>
+	  <select name="Ngrp" id="Ngrp">
+	    <option value="0"  selected="selected">0-single</option>
+	    <option value="1">1-col,beam</option>
+	    <option value="2">2-edge cols/beams,mid cols/beams</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Code">code of practice</label>
+	  <select name="Code" id="Code">
+	    <option value="1" selected="selected">is.456</option>
+	    <option value="2">bs.8110</option>
+	  </select>
+	</div>
+	
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svg mono</option>
+	  </select>
+	</div>      
+
+	
+	<label for="Title">title</label>
+	<input type="text" name="Title" class="nes-input" value="shah-8.7" placeholder="shah-8.7" onfocus = "this.value=''"/>
+
+	<label for="Fcks">grade(s) of concrete</label>
+	<input type="text" name="Fcks" class="nes-input" value="20.0" placeholder="20.0" onfocus = "this.value=''"/>
+	
+	<label for="Fys">grade(s) of steel</label>
+	<input type="text" name="Fys" class="nes-input" value="415.0" placeholder="415.0" onfocus = "this.value=''"/>
+
+	<label for="Lspans">beam span lengths(m)</label>
+	<input type="text" name="Lspans" class="nes-input" value="6.2,8.4" placeholder="6.2,8.4" onfocus = "this.value=''"/>
+
+	
+	<label for="Hs">floor heights(m)</label>
+	<input type="text" name="Hs" class="nes-input" value="3.35,3.35"  placeholder="3.35,3.35" onfocus = "this.value=''"/>
+	
+	<label for="Lbays">length of bays(m)</label>
+	<input type="text" name="Lbays" class="nes-input" value="3.05"  placeholder="3.05" onfocus = "this.value=''"/>
+	
+	
+	<label for="DL">beam/slab dead load (kn/m)</label>
+	<input type="text" name="DL" required class="nes-input" value="3.75" placeholder="3.75" onfocus = "this.value=''"/>
+
+	<label for="LL">beam/slab live load(kn/m)</label>
+	<input type="text" name="LL" required class="nes-input" value="4.0"  placeholder="4.0" onfocus = "this.value=''"/>
+
+	<label for="Bloads">beam load cases</label>
+	<input type="text" name="Bloads" class="nes-input" value="[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]" placeholder="[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]" onfocus = "this.value=''"/>
+
+	
+	<label for="Width">column/beam width(mm)</label>
+	<input type="text" name="Width" class="nes-input" value="230.0" placeholder="230.0" onfocus = "this.value=''"/>
+	
+	<label for="Dslb">slab(flange) depth(mm)</label>
+	<input type="text" name="Dslb" class="nes-input" value="110.0" placeholder="110.0" onfocus = "this.value=''"/>
+	
+	<label for="Pufac">column axial load multiplier</label>
+	<input type="text" name="Pufac" class="nes-input" value="1.0" placeholder="1.0" onfocus = "this.value=''"/>
+	<label for="DM">moment redistribution</label>
+	<input type="text" name="DM" class="nes-input" value="0.2" placeholder="0.2" onfocus = "this.value=''"/>
+	
+	<label for="Kostin">component costs</label>
+	<input type="text" name="Kostin" class="nes-input" placeholder="7500.0,120,1500(cost rcc/m3,stl/kg,form/m2)" value="7500.0,120,1500" onfocus = "this.value=''"/>
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+
+  </div>
+</body>
+{{template "footer" .}}

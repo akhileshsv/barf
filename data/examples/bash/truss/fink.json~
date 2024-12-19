@@ -1,0 +1,23 @@
+{"Id":"duggal-fink",
+ "Typ":       2,
+ "Cfg":       1,
+ "Mtyp":      2,
+ "Group":     3,
+ "Styp":      1,
+ "Span":      16000.0,
+ "Spacing":   8000.0,
+ "Rise":      4000.0,
+ "Width":     5000.0,
+ "Length":    48000.0,
+ "Purlinspc": 2235.0,
+ "DL":        171.0,
+ "LL":        0.0,
+ "Vb":        41.83,
+ "Frmtyp":    2,
+ "Term":      "qt",
+ "Spam":      true,
+ "Spose":     true,
+ "Code": 1}
+
+
+

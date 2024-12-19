@@ -1,0 +1,15 @@
+{"Id":"2.6Hulse",-> title
+"Cmdz":["1db","mks","0"], -> frmtyp, units, design 
+"Ncjt":2,  -> number of degrees of freedom per node (1 for 1d beam)
+"Coords": [[0],[8],[14]],-> node coordinates ([x1], [x2]...[xn] for 1d beam)
+"Supports":[[1,-1,0],[2,-1,0],[3,-1,0]],
+ "Em":[[25e9,0.2]],-> list of elastic modulus/material properties ([em1, em2..emn])
+ "Cp":[[]],
+ "Mprp": [[1,2,1,1,0,1], [2,3,1,2,0,2]], -> member property list ([jb, je, em, cp, mrel, haunch typ (Ts)])
+"Jloads": [], -> nodal loads ([node idx, y-force, z-moment])
+"Msloads":[[1,3,25,0,0,0],[2,3,25,0,0,0]],  -> member loads ([member index, load type, wa, wb, la, lb]- check list of load types)
+ "Ts":[[3,0,3],[3,0,3]], -> member haunch types (left sec, mid sec, right sec)(0-none, 1- prismatic, 2-straight, 3 - parabolic)
+ "Ls":[[3.0,2.0,3.0],[2.0,2.5,1.5]],-> member lengths (left sec, mid sec, right sec)
+ "Ds":[[1.6,0.8,1.6],[1.6,0.6,1.0]],-> list of member depths (left sec, mid sec, right sec)
+ "Bs":[[1.0,1.0,1.0],[1.0,1.0,1.0]],-> list of member widths (left sec, mid sec, right sec)
+ "Dims":[[1.0,0.8],[1.0,0.6]]}]-> base member dimensions (at mid sec)}

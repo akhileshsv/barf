@@ -1,0 +1,22 @@
+{"Title":"Shah(chap 7)7.3",-> title
+ "Code":1, -> 1 - is code, 2 - bs code
+ "Fck":20.0,-> grade of concrete
+ "Fy":415.0,-> grade of steel
+ "Diamain":8.0,->main rebar diameter
+ "Diadist":8.0,->dist rebar diameter
+ "LL":1.5,->live load in kn/m2
+ "DL":1.75,-> dead load in kn/m2
+ "Bsup":0.0,-> breadth of support in mm
+ "Type":1,->slab type (1 - 1 way slab)
+ "Endc":2,-> end condition (2 for continuous 1 way slab)
+ "Lx":4000.0,->length of slab in x direction in mm
+ "Ly":10000.0,->length of slab in y direction in mm
+ "Lspan":4000.0,->span length in mm
+ "Nomcvr":15.0,-> nominal cover to rebar in mm
+ "Efcvr":20.0, -> effective cover to rebar in mm
+ "Nspans":4,-> number of spans of slab
+ "DM":0.3,-> moment redistribution factor
+ "Verbose":true}-> print report
+
+
+

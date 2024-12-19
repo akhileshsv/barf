@@ -1,0 +1,22 @@
+{"Id":"fink-kamad",
+ "Typ":       2,
+ "Cfg":       1,
+ "Mtyp":      3,
+ "Group":     3,
+ "Styp":      1,
+ "Span":      4000.0,
+ "Spacing":   2500.0,
+ "Ovrhng":    600.0,
+ "Tang":      30.0,
+ "Width":     5000.0,
+ "Purlinspc": 1500,
+ "DL":        700.0,
+ "Vb":        28.0,
+ "Frmtyp":    2,
+ "Term":      "svg",
+ "Spam":      true,
+ "Spose":     true,
+ "Code": 1}
+
+
+

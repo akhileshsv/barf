@@ -1,0 +1,11 @@
+{"Id":"4.3Kima",
+ "Units":"nmm",
+ "Frmstr":"2df",
+ "Nlcalc":true,
+"Ncjt":3, 
+ "Coords": [[0,0],[0,300]],
+ "Supports":[[1,-1,-1,-1]],
+ "Em":[[207e3]],"Cp":[[100,833.33]],
+ "Mprp": [[1,2,1,1,0]],
+ "Jloads": [[2,-200,0,500]], 
+ "Msloads":[]}

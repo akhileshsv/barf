@@ -1,0 +1,25 @@
+{"Id":"duggal15.1-fink",
+ "Typ":       2,
+ "Cfg":       6,
+ "Mtyp":      2,
+ "Styp":      3,
+ "Kpost":     true,
+ "Name":      "angle",
+ "Span":      16000.0,
+ "Spacing":   8000.0,
+ "Rise":      4000.0,
+ "Width":     16000.0,
+ "Height":    11000.0,
+ "Purlinspc": 2235.0,
+ "Purlinwt":  318.0,
+ "DL":        183.0,
+ "LL":        0.0,
+ "Vb":        41.83,
+ "Frmtyp":    2,
+ "Term":      "qt",
+ "Spam":      true,
+ "Spose":     true,
+ "Code": 1}
+
+
+

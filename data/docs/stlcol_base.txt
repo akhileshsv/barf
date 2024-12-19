@@ -1,0 +1,20 @@
+{"Title":"Mosley6.1", -> title
+ "H1" : 3.5, -> height of (this) column in meters
+ "H2" : 4.0, -> height of column above in meters
+ "Lx" : 3.5, -> unbraced length of column about xx axis in meters
+ "Ly" : 3.5, -> unbraced length of column about yy axis in meters
+ "Tx" : 1.0, -> fixity factor about xx axis
+ "Ty" : 1.0, -> fixity factor about yy axis
+ "Code": 2, -> 2 - bs449 code
+ "Verbose":true, -> print reports
+ "Spam":true, -> print all log messages
+ "Mx" : 0.0, -> moment about xx axis in kn-m
+ "My" : 0.0, -> moment about yy axis in kn-m
+ "Vx" : 120.0, -> (diff of) beam shears at flange (xx) in kn
+ "Vy" : 40.0, -> (diff of) beam shears at web (yy) in kn
+ "Pn" : 1000.0, -> total axial load in kn
+ "Pfac" : 1.0, -> stress ratio factor
+ "Grd" : 43, -> grade of steel (43, 50, 55)
+ "Styp" : 8, -> 7 - UB, 8 - UC
+ "Nsecs" : 3} -> number of sections
+	

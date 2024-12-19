@@ -1,0 +1,90 @@
+
+<div id="rcccol-form">
+  <a href="/docs/rcc/col" class="nes-btn is-success" style="float:right">?</a>
+  <center><h3 class="nes-text is-primary">Rcc column analysis data:</h3></center>
+  <form action="/rcc/column" method="post" autocomplete="on">
+    <label><input type="radio" class="nes-radio" name="Dsgn" value="true" hx-post="/ex/rcc/col" hx-target="#rcccol-form"/><span>design</span></label>
+    <label><input type="radio" class="nes-radio" name="Dsgn" value="false" hx-post="/ex/rcc/col" hx-target="#rcccol-form" checked/><span>analyze</span></label>
+    
+    <div class="nes-select">
+      <label for="Code">code of practice</label>
+      <select name="Code" id="Code">
+	<option value="1">is.456</option>
+	<option value="2" selected="selected">bs.8110</option>
+      </select>
+    </div>
+    
+    <div class="nes-select">
+      <label for="Styp">column section</label>
+      <select name="Styp" id="Styp" hx-post="/ex/rcc/col/styp" hx-target="#rcccol-dims">
+	<option value="0">circle</option>
+	<option value="1" selected="selected">rectangle</option>
+	<option value="2">eq.triangle</option>
+	<option value="3">rt.triangle</option>
+	<option value="4">box</option>
+	<option value="6">T</option>
+	<option value="7">L</option>
+	<option value="8">L-left</option>
+	<option value="9">L-right</option>
+	<option value="10">L-eq</option>
+	<option value="11">plus</option>
+	<option value="12">ieq</option>
+	<option value="13">C</option>
+	<option value="14">T-pocket</option>
+	<option value="15">pentagon</option>
+	<option value="16">house</option>
+	<option value="17">hexagon</option>
+	<option value="18">octagon</option>
+	<option value="21">diamond</option>
+	<option value="-1">custom</option>
+      </select>
+    </div>
+    
+    <div class="nes-select">
+      <label for="Term">gnuplot terminal</label>
+      <select name="Term" id="Term">
+	<option value="svg" selected="selected">svg</option>
+	<option value="dxf">dxf</option>
+	<option value="svgmono">svgmono</option>
+      </select>
+    </div>    
+    <label for="Title">title</label>
+    <input type="text" name="Title" class="nes-input" value="hulse-ex-5.5" placeholder="hulse-ex-5.5"/>
+
+    <label for="Fck">grade of concrete</label>
+    <input type="text" name="Fck" class="nes-input" value="40.0" placeholder="40.0"/>
+    
+    <label for="Fy">grade of steel</label>
+    <input type="text" name="Fy" class="nes-input" value="460.0" placeholder="460.0"/>
+
+    
+    <label for="H">col.depth/diameter(mm)</label>
+    <input type="text" name="H" required class="nes-input" value="450.0" placeholder="450.0"/>
+
+    <label for="B">col.breadth(mm)</label>
+    <input type="text" name="B" required class="nes-input" value="350" placeholder="350.0"/>
+
+    <div id="rcccol-dims">
+    <label for="Dims">col dims(mm)</label>
+    <input type="text" name="Dims" required class="nes-input" value="350,450" placeholder="350,450(b,h)"/>
+    </div>
+    
+    <label for="Dias">rebar dias(mm)</label>
+    <input type="text" name="Dias" class="nes-input" value="32,32,25,25" placeholder="32,32,25,25"/>
+
+    <label for="Dbars">rebar depths(mm)</label>
+    <input type="text" name="Dbars" class="nes-input" value="60,60,390,390" placeholder="60,60,390,390"/>
+
+    <label for="Pu">design axial load(kn)</label>
+
+    <input type="text" name="Pu" class="nes-input" value="1760.0" placeholder="1760.0"/>
+    
+    
+    <label for="Json" class="nes-text is-warning">json input</label>
+    <textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+    <div style="text-align: center">
+      <input type="submit" class="nes-btn is-primary" value="calc"/>
+    </div>
+  </form>
+</div>

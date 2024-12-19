@@ -1,0 +1,161 @@
+#+title- mosh notes
+#+author-lmao
+
+* general notes
+all structs have a report
+all draw funcs have a term (mono, dumb, etc)
+basic mono func to add to report
+
+** interface methods?
+type rck interface {
+    draw() string
+    report() string
+    etc
+}
+
+* FUNDA
+
+** bs code slab dused
+initial span - depth ratio:
+
+| clvr | ss | cs |
+|------+----+----|
+|    7 | 20 | 26 |
+
+if lspan > 10.0 {sdrat = sdrat * lspan/10.0}
+
+** yield line
+
+| year | auth    | remarks                         |
+|------+---------+---------------------------------|
+| 1993 | islam   | is source and da best           |
+| 1988 | dickens | also kewl, needs a lot of input |
+|      |         |                                 |
+
+*** nelder- mead algorithm
+
+https://codesachin.wordpress.com/2016/01/16/nelder-mead-optimization/
+
+- [X] vector helper funcs
+- [X] sort
+- [X] reflect
+- [X] extend
+- [X] contract
+- [X] shrink
+- [X] check
+
+* mosh funcs
+
+** helpers
+*** TODO kass
+
+- [ ]section helpers
+  - [ ] section rotate
+  - [ ] section scale
+  - [ ] section offset
+
+
+** slab
+*** TODO v0
+- [-] yield line analysis
+  - [X] nelder mead algo
+    - [X] vector scaling
+    - [X] optimization
+  - [ ] islam algo
+  - [ ] simplified method using formulae
+- [-] bs code
+  - [ ] one way slab
+  - [-] two way slab
+    - [X] ss slab coef
+    - [X] restrained slab coef
+    - [ ] ss slab calc
+    - [ ] rest slab calc
+  - [ ] shear
+    - [ ] shear
+    - [ ] punching shear
+
+  - [ ] flat slab
+- [-] is code
+  - [-] one way slab
+    - [X] cs depth
+    - [ ] cs steel
+    - [X] ss steel design
+    - [ ] draw
+  - [-] two way slab
+    - [X] steel design (coeff)
+    - [ ] draw
+- [ ] ribbed slab
+- [ ] waffle slab
+- [ ] yield line method
+  - [ ] rectangular slabs
+
+** beam
+*** TODO v0
+- [X] analysis
+  - [X] bs code
+  - [X] is code
+
+- [-] design
+  - [-] bs code
+    - [X] steel
+    - [ ] shear
+  - [-] is code
+    - [ ] shear
+    - [X] steel
+
+- [ ] detail
+
+- [ ] draw
+
+** column
+*** notes
+check for slenderness ratio in terms of radius of gyration
+r = sqrt(i/a)
+effective length is based on least lateral dimension
+
+**** column rebar gen
+ - generate dbars
+ - gen nbars/ level (based on rtyp)
+   max bars based on sectyp?
+ -
+*** TODO v0
+ - [X] ColAzGen
+   general column analysis (non- rect)
+   (hasn't this been done before :-|)
+
+ - [X] ColStl
+ - [X] ColRbr
+
+
+** footing
+*** v0
+ - [X] shah
+ - [ ] mosley
+ - [ ] rojas
+
+
+* flow
+	      	      +-----------------------------------+------------------------------------+
+	       	      |   subframe           	          | gen - check for flanged beams
+	      	      |get bm, shear env - bm	      	  | np sec types?
+	      	      |get mtmax, mbmax, pumax - col   	  |                                    |
+	      	      |(calc bm, shear, axial forces) 	  |                                    |
+	      	      +-----------------------------------+------------------------------------+
+
+  +---------------+    	     +---------------------+  	  +--------------------+
+  | beam          |    	     |column               |  	  |footing             |
+  | 3 sections    |    	     |1 col sec/flr        |  	  |                    |
+  | steel         |    	     |eff ht               |   	  |                    |
+  | shear - middle|    	     |add axial load
+  | barr[1]       |    	     |
+  | span depth rat|    	     |                     |	  |                    |
+  | draw span     |	     |                     |	  |                    |
+  +---------------+	     +---------------------+	  +--------------------+
+  | clvr          |
+  | 1 section     |
+  | steel (support)
+  | shear         |
+  | (max at support)
+  | span depth    |
+  | draw span     |
+  +---------------+

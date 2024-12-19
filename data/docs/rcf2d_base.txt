@@ -1,0 +1,26 @@
+{"Title":"Allen3.2",-> title
+ "Mtyp":1, -> material type (1 - rcc, 2 - steel, 3 - wood)
+ "X":[0,10,20,30], -> list of span x-values (width/beam spans)  
+ "Y":[0,4.4,8.0,11.6], ->list of height y-values(floor heights)
+ "DL":25.0,-> dead load
+ "LL":10.0, -> live load 
+ "WL":[32.8,28.8,14.4],-> floor wind load (starts from floor 1)
+ "Sections":[[300,300],[400,400],[300,600]],-> section dimensions
+ "Csec":[1,2,2,1],-> column section indices (cdx1,cdx2,...cdxnspans+1/cdx if same)
+ "Bsec":[3],-> beam section indices (bdx1,bdx2,...bdxnspans/bdx if same)
+ "Fcks":[25.0], -> list of (rcc) grades
+ "Fys":[500.0], -> list of (steel) grades
+ "Code":2, -> 1 - is code, 2 - bs code
+ "Clvrs":[[0,0,0],[0,0,0]],-> left/right cantilever ([length,dead load, live load]) 
+ "PSFs":[1.4,1.0,1.6,0.0], -> partial factors of safety for dead and live load  
+ "Selfwt":0,-> calc self weight of frame (1 - beams, 2 - beams + columns)
+ "DM":0.0, -> moment redistribution factor (for an rcc frame)
+ "Ldcalc":0,-> 1 - single load case of max dl+ll across spans
+ "Dslb":150.0,-> depth of slab (used for breadth of flange calcs/add dead load if slbload > 0)
+ "Term":"svg",-> terminal
+ "Verbose":true,-> print reports
+ "Kostin":[1000.0,7500.0,120.0]} -> cost vector for take off (cost of rcc/m3, cost of steel/kg, cost of formwork/m2)
+
+
+
+

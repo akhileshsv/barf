@@ -1,0 +1,82 @@
+This program analyzes and desigs the following types of rcc slabs:
+	one-way slab - end conditions : 0 - cantilever,
+		       1 - simply supported, 2 - continuous
+	two-way slab - end conditions from 1 to 10
+		       (see is 456 two way slab code coefficients for B.M)
+	ribbed slab - WILL NOT WORK (for now)
+	waffle slab - WILL NOT WORK (for now)
+
+Run the input form placeholder text not in "()" to view the report
+and svg detail drawing if this is slightly confusing.
+
+
+net load w = fac(dl+ll)kn/m2			
+
+						breadth of support
+						     ----
+ +------------------------------------------------------+
+ |            	                                        |
+ |  +------------------------------------------------+  |
+ |  |                                                |  |
+ |  |                                                |  |
+ |  |                                                |  |
+ |  |                                                |  |
+ |  |                                                |  |
+ |  |                                                |  |  lspan (short) mm
+ |  |                                                |  |  lx (mm)
+ |  |                                                |  |
+ |  |                                                |  |
+ |  |                                                |  |
+ |  |                                	             |  |
+ |  |                  ly (long span) 	       	       	       	   -
+ |  |                                                |  |
+ |  +------------------------------------------------+  |
+ |                                                      |
+ +------------------------------------------------------+
+
+
+sample fields (from the TUI menu):
+
+one-way slab
+
+"Title":"Shah(chap 7)7.3",-> title
+ "Code":1, -> 1 - is code, 2 - bs code
+ "Fck":20.0,-> grade of concrete
+ "Fy":415.0,-> grade of steel
+ "Diamain":8.0,->main rebar diameter
+ "Diadist":8.0,->dist rebar diameter
+ "LL":1.5,->live load in kn/m2
+ "DL":1.75,-> dead load in kn/m2
+ "Bsup":0.0,-> breadth of support in mm
+ "Type":1,->slab type (1 - 1 way slab)
+ "Endc":2,-> end condition (2 for continuous 1 way slab)
+ "Lx":4000.0,->length of slab in x direction in mm
+ "Ly":10000.0,->length of slab in y direction in mm
+ "Lspan":4000.0,->span length in mm
+ "Nomcvr":15.0,-> nominal cover to rebar in mm
+ "Efcvr":20.0, -> effective cover to rebar in mm
+ "Nspans":4,-> number of spans of slab
+ "DM":0.3,-> moment redistribution factor
+ "Verbose":true}-> print report
+
+two-way slab:
+
+{"Title":"Shah6.3.7",-> title
+ "Code":1,-> 1 - is code, 2 - bs code
+ "Fck":15.0,-> grade of concrete
+"Fy":415.0,-> grade of (main) steel
+"Fyd":250.0,-> grade of (dist) steel
+"Diamain":8.0,->main rebar diameter
+"Diadist":6.0,->dist rebar diameter
+"LL":1.5,->live load in kn/m2
+"DL":1.75,-> dead load in kn/m2
+"Bsup":0.0,-> breadth of support in mm
+"Type":2,->slab type (2 - 2 way slab)
+"Endc":4,-> end condition (1-9 in restrained 2-way slab, 10 for ss 2 way slab)
+"Lspan":0.0,
+"Lx":4500.0,-> length of slab in x direction (short span)
+"Ly":5000.0,-> length of slab in y direction (long span)
+"Nomcvr":16.0,-> nominal cover to rebar in mm
+"Efcvr":20.0,-> effective cover to rebar in mm
+"Ibent":0.0,-> percentage of bars bent up at the support
+"Verbose":true}->print report

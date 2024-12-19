@@ -1,0 +1,81 @@
+
+    <div id="tmbrbeam-form">
+    <a href="/docs/timber/beam" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Timber beam data:</h3></center>
+      <form action="/timber/beam" method="post" autocomplete="on">
+	<span>add self weight?</span>
+	<label><input type="radio" class="nes-radio" name="Selfwt" value="true" checked /><span>yes</span></label>
+	<label><input type="radio" class="nes-radio" name="Selfwt" value="false"/><span>no</span></label>
+	<br>
+	<span>use is883 groups?</span>
+	<label><input type="radio" class="nes-radio" id="Rdprp" name="Rdprp" hx-get="/ex/timber/beam" hx-target="#tmbrbeam-form" value="true"/><span>yes</span></label>
+	<label><input type="radio" class="nes-radio" id="Rdprp" name="Rdprp" hx-get="/ex/timber/beam" hx-target="#tmbrbeam-form" value="false" checked/><span>no</span></label>
+	<br>
+	
+	<div class="nes-select">
+	  <label for="Styp">section type</label>
+	  <select name="Styp" id="Styp">
+	    <option value=0>circle</option>
+	    <option value=1 selected="selected">rectangle</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Code">code of practice</label>
+	  <select name="Code" id="Code">
+	    <option value=1 selected="selected">is.883</option>
+	    <option value=2>fao</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	
+	<label for="Title">title</label>
+	<input type="text" name="Title" class="nes-input" placeholder="abel-ex-8.1" value="abel-ex-8.1" onfocus = "this.value=''"/>
+	
+	<label for="Lspan">span length(mm)</label>
+	<input type="text" name="Lspan" class="nes-input" placeholder="3500.0" value="3500.0" onfocus = "this.value=''"/>
+
+	<label for="Lbl">bearing length(mm)</label>
+	<input type="text" name="Lbl" class="nes-input" placeholder="25.0" value="25.0" onfocus = "this.value=''"/>
+
+	<label for="DL">dead load(n/mm)</label>
+	<input type="text" name="DL" class="nes-input" placeholder="1.0" value="1.0" onfocus = "this.value=''"/>
+
+	
+	<label for="LL">live load(n/mm)</label>
+	<input type="text" name="LL" class="nes-input" placeholder="0.5" value="0.5" onfocus = "this.value=''"/>
+
+	<label for="Prp-Pg">specific gravity</label>
+	<input type="text" name="Prp-Pg" class="nes-input" placeholder="0.5" value="0.5" onfocus = "this.value=''"/>
+
+	<label for="Prp-Em">elastic modulus(n/mm2)</label>
+	<input type="text" name="Prp-Em" class="nes-input" placeholder="9500.0" value="9500.0" onfocus = "this.value=''"/>
+
+	<label for="Prp-Fcb">max bending stress(n/mm2)</label>
+	<input type="text" name="Prp-Fcb" class="nes-input" placeholder="11.2" value="11.2" onfocus = "this.value=''"/> 
+
+	<label for="Prp-Fc">max comp. stress along grain(n/mm2)</label>
+	<input type="text" name="Prp-Fc" class="nes-input" placeholder="2.8" value="2.8" onfocus = "this.value=''"/>
+
+	
+	<label for="Prp-Ft">max tensile stress along grain(n/mm2)</label>
+	<input type="text" name="Prp-Ft" class="nes-input" placeholder="11.2" value="11.2" onfocus = "this.value=''"/> 
+	
+	
+	<label for="Prp-Fv">max shear stress along grain(n/mm2)</label>
+	<input type="text" name="Prp-Fv" class="nes-input" placeholder="1.4" value="1.4" onfocus = "this.value=''"/>
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>

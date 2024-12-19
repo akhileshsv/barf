@@ -1,0 +1,28 @@
+{"Title":"Allen14.1",
+ "Lspans":[6.0,6.0,6.0,6.0,6.0],
+ "Lbays":[5,7,5],
+ "Hs":[4.0,4.0],
+ "Fltslb":true,
+ "Hc":1240.0,
+ "DL":2.5,
+ "LL":5.0,
+ "Lx":6.0,
+ "Ly":6.0,
+ "Sections":[[300,300],[6000,250]],
+ "Csec":[1],
+ "Bsec":[2],
+ "Fcks":[40.0],
+ "Fys":[460.0],
+ "Clvrs":[[0,0,0],[0,0,0]],
+ "PSFs":[1.4,1.0,1.6,0.0],
+ "DM":0.2,
+ "Code":2,
+ "Selfwt":1,
+ "Verbose":true,
+ "Ldcalc":0,
+ "Endrel":false,
+ "Term":"svg",
+ "Foldr":"out"}
+
+
+

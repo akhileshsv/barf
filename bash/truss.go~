@@ -1,0 +1,13 @@
+package barf
+
+import (
+	"fmt"
+)
+
+func TrussDz(t *kass.Trs2d) (err error){
+	err = t.Calc()
+	if err != nil{
+		log.Println(err)
+	}
+	return
+}

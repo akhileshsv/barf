@@ -1,0 +1,12 @@
+{"Id":"7.5Kass", -> title
+"Cmdz":["2dt","kips","0"],  -> frmtyp, units, design 
+"Ncjt":2, -> number of degrees of freedom per node (2 for truss)
+"Coords": [[0,0],[144,0],[288,0],[144,192]],-> coordinates ([x1,y1], [x2,y2]..[xn,yn] for 2d truss)
+"Supports":[[1,-1,-1],[2,-1,-1],[3,-1,-1]],-> list of nodal supports ([node index, x displ. restrained (-1 if), y displ. restrained (-1 if)]) 
+"Em":[[29000]],-> list of elastic modulus/material properties 
+"Cp":[[8],[6]],-> list of sectional properties (area - [ar1,ar2,...arn] for truss)
+"Mprp": [[1,4,1,1], [2,4,1,2],[3,4,1,1]], -> member property list ([jb, je, em, cp])
+ "Jloads": [[4,150,-300]], -> nodal loads ([node idx, x-force, y-force])
+ "Msloads":[[1,8,-30,-30,6.5e-6,0.0],[3,9,-0.125,0,0,0]],}-> member loads ([member index, load type, wa, wb, la, lb]
+ for temperature changes - [member index, load type(8), ta, tb, alpha (coefficient of thermal expansion), depth of member]
+"Jsd":[], "Sdj":[]}

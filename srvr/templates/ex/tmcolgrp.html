@@ -1,0 +1,65 @@
+
+<div id="tmbrcol-form">
+  <a href="/docs/timber/column" class="nes-btn is-success" style="float:right">?</a>
+  <center><h3 class="nes-text is-primary">Timber column data:</h3></center>
+  <form action="/timber/beam" method="post" autocomplete="on">
+    <span>add self weight?</span>
+    <label><input type="radio" class="nes-radio" name="Selfwt" value="true" checked /><span>yes</span></label>
+    <label><input type="radio" class="nes-radio" name="Selfwt" value="false"/><span>no</span></label>
+    <br>
+    <span>use is883 groups?</span>
+    <label><input type="radio" class="nes-radio" id="Rdprp" name="Rdprp" hx-post="/ex/timber/col" hx-target="#tmbrcol-form" value="true" checked/><span>yes</span></label>
+    <label><input type="radio" class="nes-radio" id="Rdprp" name="Rdprp" hx-post="/ex/timber/col" hx-target="#tmbrcol-form" value="false"/><span>no</span></label>
+    <br>
+    
+    <div class="nes-select">
+      <label for="Grp">timber group</label>
+      <select name="Grp" id="Grp">
+	<option value="1">a</option>
+	<option value="2" selected="selected">b</option>
+	<option value="3">c</option>
+      </select>
+    </div>
+    <div class="nes-select">
+      <label for="Styp">section type</label>
+      <select name="Styp" id="Styp">
+	<option value=0>circle</option>
+	<option value=1 selected="selected">rectangle</option>
+      </select>
+    </div>
+    <div class="nes-select">
+      <label for="Code">code of practice</label>
+      <select name="Code" id="Code">
+	<option value=1 selected="selected">is.883</option>
+	<option value=2>fao</option>
+      </select>
+    </div>
+    <div class="nes-select">
+      <label for="Term">gnuplot terminal</label>
+      <select name="Term" id="Term">
+	<option value="svg" selected="selected">svg</option>
+	<option value="dxf">dxf</option>
+	<option value="svgmono">svgmono</option>
+      </select>
+    </div>
+    
+    <label for="Title">title</label>
+    <input type="text" name="Title" class="nes-input" placeholder="sp.33-ex-2" value="sp.33-ex-2" onfocus = "this.value=''"/>
+    
+    <label for="Lspan">span length(mm)</label>
+    <input type="text" name="Lspan" class="nes-input" placeholder="3000.0" value="3000.0" onfocus = "this.value=''"/>
+
+    <label for="Pu">axial load(n)</label>
+    <input type="text" name="Pu" class="nes-input" placeholder="60000.0" value="3000.0" onfocus = "this.value=''"/>
+    
+    <label for="Mu">bending moment (n-mm)</label>
+    <input type="text" name="LL" class="nes-input" placeholder="0.0" value="0.0" onfocus = "this.value=''"/>
+
+    <label for="Json" class="nes-text is-warning">json input</label>
+    <textarea name="Json" id="Json" class="nes-textarea"></textarea>
+    
+    <div style="text-align: center">
+      <input type="submit" class="nes-btn is-primary" value="calc"/>
+    </div>
+  </form>
+</div>

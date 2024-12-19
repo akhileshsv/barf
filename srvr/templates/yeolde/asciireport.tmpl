@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="utf-8">
+     <title>BARF</title>
+     <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet"/>
+   </meta>
+   </head>
+<body>
+  <div class="nes-container is-rounded is-dark" width="fit-content">
+    <h1>BARF</h1>
+    <p>{{.Id}}</p>
+  </div>
+  <div class="nes-container with-title is-centered">
+    <pre>
+    <code>
+      {{.Report}}
+    </code>
+    </pre>
+    <html>
+      <body>
+	{{range .Txtplots}}
+	{{.}}
+	{{end}}
+      </body>
+    </html>
+  </div>  
+</body>
+</html>

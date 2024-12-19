@@ -1,0 +1,10 @@
+{"Title":"maity30.2",
+ "Sname":"plate-i",
+ "Pu":3300e3,
+ "Lspan":4000.0,
+ "Tx":0.8,
+ "Ty":0.8,
+ "Sdx":25,
+ "Params":[300,16],
+ "Term":"svg",
+ "Store":true}

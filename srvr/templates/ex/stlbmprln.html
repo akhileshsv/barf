@@ -1,0 +1,61 @@
+    <div id="stlbeam-form">
+    <a href="/docs/steel/beam" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Steel purlin (simplified) data:</h3></center>
+      <form action="/steel/beam" method="post" autocomplete="on">
+	<div class="nes-select">
+	  <label for="Dtyp">design type</label>
+	  <select name="Dtyp" id="Dtyp" hx-post="/ex/steel/beam" hx-target="#stlbeam-form">
+	    <option value=0>check section</option>
+	    <option value=1>s.s beam</option>
+	    <option value=2>beam w/end moments</option>
+	    <option value=3 selected="selected">purlin</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Sname">section name</label>
+	  <select name="Sname" id="Sname">
+	    <option value="i">isjb/islb/ismb</option>
+	    <option value="c">ismc</option>
+	    <option value="l">eq.ang</option>
+	    <option value="ln">uneq.ang</option> 
+	  </select>
+	</div>
+	  <div class="nes-select">
+	  <label for="Code">code of practice</label>
+	  <select name="Code" id="Code">
+	    <option value=1 selected="selected">is.800</option>
+	    <option value=2>bs.449</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	
+	<label for="Title">title</label>
+	<input type="text" name="Title" class="nes-input" placeholder="mosley-ex-6.2" value="mosley-ex-6.2" onfocus = "this.value=''"/>
+	
+	<label for="Lspan">span length(mm)</label>
+	<input type="text" name="Lspan" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+
+	<label for="Theta">truss angle(deg)</label>
+	<input type="text" name="Theta" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+	<label for="DL">dead load(n/m2)</label>
+	<input type="text" name="DL" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+	<label for="LL">live load(n/m2)</label>
+	<input type="text" name="LL" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+	<label for="WL">wind load(n/m2)</label>
+	<input type="text" name="WL" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+	
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>

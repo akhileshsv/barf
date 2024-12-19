@@ -1,0 +1,22 @@
+{"Id":"cfs swiss",
+ "Typ":       2,
+ "Styp":      1,
+ "Cfg":       1,
+ "Mtyp":      4, 
+ "Group":     3,
+ "Span":      5200.0,
+ "Spacing":   1960.0,
+ "Slope":     2.6,
+ "Purlinspc": 2000,
+ "DL":        300,
+ "LL":        0,
+ "Clctyp":    0,
+ "Ldcalc":    1,
+ "Vb":        50,
+ "Frmtyp":    2,
+ "Term":      "qt",
+ "Bcslope":   13.0,
+ "Code": 1}
+
+
+

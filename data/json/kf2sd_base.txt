@@ -1,0 +1,12 @@
+{"Id":"7.4Kass",-> title
+"Cmdz":["2df","kips","0"],  -> frmtyp, units, design 
+"Ncjt":3, -> number of degrees of freedom per node (3 for 2d frame)
+"Coords": [[0,0],[120,240],[360,240]],-> node coordinates ([x1,y1], [x2,y2]...[xn,yn] for 2d frame)
+"Supports":[[1,-1,-1,-1],[3,-1,-1,-1]],-> list of nodal supports ([node index,x displ. restrained (-1 if), y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+"Em":[[29000]],-> list of elastic modulus/material properties ([em1, em2..emn])
+"Cp":[[11.8,310]],-> list of sectional properties (area a, moment of inertia iz - [[a1,iz1],[a2,iz2],...[an,izn]] for frame)
+"Mprp": [[1,2,1,1,0], [2,3,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+ "Jloads": [[2,0,0,-1500]],-> nodal loads ([node idx, x-force, y-force, z-moment]
+ "Jsd":[1],-> list of (index of) nodes undergoing support displacements
+ "Sdj":[[0,-1,0]] -> list of nodal support displacements ([displ. x, displ. y, rot z])
+"Msloads":[[1,1,40.249,0,134.16,0],[1,5,80.498,0,134.16,0],[2,3,0.125,0,0,0]]-> member loads ([member index, load type, wa, wb, la, lb]- check list of load types)}

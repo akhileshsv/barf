@@ -1,0 +1,12 @@
+{"Title":"Hulse6.1", -> title
+ "Colx":0.4, -> column x-dimension in meters
+ "Coly":0.4, -> column y-dimension in meters
+ "Sbc":200.0, -> safe bearing capacity of soil (kn/m2)
+ "Based":0.6, -> overall base depth in meters
+ "Effd":0.520, -> effective depth of base in meters (based - efcvr)
+ "Pus":[1000,600,0], -> axial loads (dead, live, wind)
+ "Mxs":[100,60,0], -> bending moment in x (dead, live, wind)
+ "Lx":0.0, -> (required) dimension of base in x-direction
+ "Typ":0, -> 0 - square, 1 - rectangular
+ "Code":2, -> 1 - is code, 2 - bs code
+ "Verbose":true} -> print reports

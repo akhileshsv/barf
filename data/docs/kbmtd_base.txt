@@ -1,0 +1,15 @@
+{"Id":"7.6Kass", -> title
+ "Cmdz":["1db","mks","0"],  -> frmtyp, units, design 
+ "Ncjt":2, -> number of degrees of freedom per node (2 for beam)
+ "Coords": [[0],[8],[16],[24]],-> coordinates ([x1], [x2]..[xn] for beam)
+ "Supports":[[1,-1,-1],[2,-1, 0],[3,-1,0],[4,-1,0]], -> list of nodal supports ([node index, y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+ "Em":[[70e6]],-> list of elastic modulus/material properties 
+ "Cp":[[102e-6]], -> list of sectional properties (moment of inertia iz - [iz1,iz2,...izn] for beam)
+ "Mprp": [[1,2,1,1,0], [2,3,1,1,0],[3,4,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+ "Jloads": [],-> nodal loads ([node idx, y-force, z-moment])
+ "Jsd":[],"Sdj":[],
+ "Msloads":[[1,8,10,70,2.36e-5,0.6],[2,8,10,70,2.36e-5,0.6],[3,8,10,70,2.36e-5,0.6]]}-> member loads ([member index, load type, wa, wb, la, lb]
+for temperature changes - [member index, load type(8), ta, tb, alpha (coefficient of thermal expansion), depth of member]
+)
+
+NOTE - SAVE STRUCT ON EXIT

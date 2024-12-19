@@ -1,0 +1,20 @@
+{"Title":"1Rojas", -> title
+ "Colx":0.4,-> column x-dimension in meters
+ "Coly":0.4, -> column y-dimension in meters
+ "Df":1.5, -> depth of foundation (bottom) from 0.0 level
+ "Fck":20.0, -> grade of concrete
+ "Fy":415.0, -> grade of steel
+ "Sbc":220.0,-> safe bearing capacity of soil (kn/m2)
+ "Pgck":24.0, -> unit weight of concrete in kn/m3
+ "Pgsoil":15.0, -> unit weight of soil in kn/m2
+ "Nomcvr":0.06, -> nominal cover to rebar in meters
+ "Dmin":0.25, -> min. depth of base (for sloped footing)
+ "Pus":[700,500], -> axial loads (dead, live, wind); here (dead, live)
+ "Mxs":[140,140],-> moment in x (dead, live, wind); here (dead, live)
+ "Mys":[120,80],-> moment in y (dead, live, wind); here (dead, live)
+ "Psfs":[1.2,1.6], -> partial factors of safety (dead, live, wind); here (dead, live)
+ "Typ":0, -> 0 - square, 1 - rectangular
+ "Sloped":true, -> if true, sloped footing
+ "Dlfac":true, -> if true, add 10% of total axial load as footing dead load 
+ "Term":"qt", -> gnuplot terminal
+ "Verbose":true} -> print reports

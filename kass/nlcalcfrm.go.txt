@@ -1,0 +1,208 @@
+package barf
+
+import (
+	"log"
+	"math"
+	"gonum.org/v1/gonum/mat"
+)
+
+//NlCalcFrm2d performs non linear analysis of 2d frames
+//(it does not)
+func NlCalcFrm2d(mod *Model,tol float64) {
+	//non linear frame analysis (p-delta)
+	if tol == 0.0 {tol = 0.001}
+	frmrez, err := CalcFrm2d(mod, mod.Ncjt)
+	if err != nil{
+		log.Println(err)
+	}
+	log.Println(frmrez[6])
+	log.Println("hear goeth nothingwa")
+	js, _ := frmrez[0].(map[int]*Node)
+	ms, _ := frmrez[1].(map[int]*Mem)
+	//dglb, _ := frmrez[2].([]float64)
+	ndof, _ := frmrez[5].(int)
+	p, _ := frmrez[7].([]float64)
+	d0, _ := frmrez[8].([]float64)
+	//log.Println("pvec->",p)
+	//log.Println(d0)
+	//var pltchn chan string
+	//go PlotTrs2d(mod, "dumb", pltchn)
+	var iter, kiter int
+	dn := make([]float64, len(d0))
+	copy(dn,d0)
+	//pltstr := <- pltchn
+	//log.Println(pltstr)
+	for iter != -1{	
+		kiter++
+		var dsum, difsum float64
+		if kiter > 100{
+			log.Println("ERRORE,errore->maximum iteration limit reached")
+			break
+		}
+		fchn, schn, yochn := make(chan []rez1d, len(ms)), make(chan []rez2d, len(ms)), make(chan int, len(ms))
+		for i, mem := range ms{
+			jb, je := js[mem.Mprp[0]], js[mem.Mprp[1]]
+			go NlKmem2dT(i, ndof, mem, jb, je, dn, fchn, schn, yochn)
+		}		
+		//yochn is the signal channel (1=='yo')
+		for i:=0; i< len(ms); i++{
+			<- yochn
+		}
+		close(fchn); close(schn)
+		umat := UassF2d(p, fchn)
+		stmat := StassF2d(ndof, schn)
+		//fc := mat.Formatted(umat, mat.Prefix("    "), mat.Squeeze())
+		//log.Println("umat\n",fc)
+		//fc = mat.Formatted(stmat, mat.Prefix("    "), mat.Squeeze())
+		//log.Println("stmat\n", fc)
+		var dmat mat.Dense
+		err := dmat.Solve(stmat, umat)
+		if err != nil{
+			log.Println("ERRORE, errore-> matrix solution error")
+			break
+		}
+		//log.Println("dmat->\n",mat.Formatted(&dmat))
+		for i := 0; i < ndof; i++{
+			di := dmat.At(i,0)
+			dsum += math.Pow(dn[i],2)
+			difsum += math.Pow(di,2)
+			dn[i] = dn[i] + di
+		}
+		//log.Println("dnew->",dn)
+		if math.Sqrt(difsum/dsum) > tol{
+			log.Println(kiter, "rms rat->",math.Sqrt(difsum/dsum))
+			continue
+		} 
+		log.Println("iteration converged", difsum, dsum)
+		log.Println("dvec->",dn)
+		iter = -1
+	}
+}
+
+
+//Sf2dKima calcs majid stability funcs o1-o7
+func Sf2dKima(pu, em, iz, lspan, ar float64)(o1, o2, o3, o4, o5, o6, o7 float64){
+	pelr := math.Pow(math.Pi, 2) * em * iz / math.Pow(lspan, 2)
+	pr := pu/pelr
+	al := 0.5 * math.Pi * math.Sqrt(pr)
+	a1 := 1.57973627
+	a2 := 0.15858587
+	a3 := 0.02748899
+	a4 := 0.00547540
+	a5 := 0.00115281
+	a6 := 0.00024908
+	a7 := 0.00005452
+	o1 = (64.0 - 60.0 * pr + 5.0 * pr * pr)/((16.0 - pr)*(4.0 - pr))
+	o1 -= (a1 + a2 + a3 + a4 + a5 + a6 + a7)
+	o2 = math.Pow(al, 2)/(1.0 - o1)/3.0
+	o3 = (3.0 * o2 + o1)/4.0
+	o4 = (3.0 * o2 - o1)/4.0
+	o5 = o1 * o2
+	o6 = o3/o2/(2.0 * o3 - o4)
+	o7 = o4 * o6/o3
+	return
+}
+
+//Sf2dKass calcs kassimali stability/bowing funcs c1, c2
+func SfuncsF2d(p, em, iz, lspan, ar float64)(){
+	return
+}
+
+func UassF2d(p []float64, fchn chan []rez1d) (umat *mat.Dense){
+	f1 := make([]float64, len(p))
+	copy(f1,p)
+	for rez := range fchn{
+		for _, r := range rez{
+			f1[r.i] -= r.val
+		}
+	}
+	umat = mat.NewDense(len(p), 1, f1)
+	return
+}
+
+func StassF2d(ndof int, schn chan []rez2d) (stmat *mat.Dense){
+	stmat = mat.NewDense(ndof, ndof, nil)
+	for rez := range schn{
+		for _, r := range rez{
+			val := stmat.At(r.i-1,r.j-1) + r.val
+			stmat.Set(r.i-1,r.j-1,val) 
+		}
+	}
+	return
+}
+
+
+
+func NlKmemF2d(i, ndof int, mem *Mem, jb, je *Node, dn []float64, fchn chan []rez1d, schn chan []rez2d, yochn chan int){
+	//check out izzudin's thesis and kassimali/oran 76
+	ncjt := 3
+	l0, e, a := mem.Geoms[0], mem.Geoms[1], mem.Geoms[2]
+	xb, yb, xe, ye := jb.Coords[0], jb.Coords[1], je.Coords[0], je.Coords[1]
+	nscs := []int{jb.Nscs[0],jb.Nscs[1],je.Nscs[0],je.Nscs[1]}
+	vs := make([]float64,6)
+	for i, sc := range nscs{
+		if sc <= ndof{
+			vs[i] = dn[sc-1]
+		}
+	}
+	v1, v2, v3, v4, v5, v6 := vs[0], vs[1], vs[2], vs[3], vs[4], vs[5]
+	log.Println(i, "v1 init->",v1, v2, v3, v4, v5, v6)
+	//log.Println(i, "v1 js->", jb.Displ[0], jb.Displ[1],je.Displ[0],je.Displ[1])
+	l1 := math.Sqrt(math.Pow((xe + v3)-(xb + v1),2) + math.Pow((ye + v4)-(yb + v2),2))
+	cx := (xe + v3 - xb - v1)/l1
+	cy := (ye + v4 - yb - v2)/l1
+	//u := l0 - l1
+	q := e * a * (v4 - v1)/l0
+	fvec := []float64{cx * q, cy * q, -cx * q, -cy * q}
+	gmat := mat.NewDense(2*ncjt, 2*ncjt, []float64{
+		-math.Pow(cy,2), cx * cy, math.Pow(cy,2), - cx * cy,
+		 cx * cy, -math.Pow(cx,2), - cx * cy, math.Pow(cx,2),
+		 math.Pow(cy,2), -cx * cy, -math.Pow(cy,2), cx * cy,
+		-cx * cy, math.Pow(cx,2),  cx * cy, -math.Pow(cx, 2),
+	})
+	gmat.Scale(q/l1,gmat)
+	tmat := mat.NewDense(1,4,[]float64{cx, cy, -cx, -cy})
+	ktmat := mat.NewDense(2*ncjt, 2*ncjt, nil)
+	ktmat.Product(tmat.T(),tmat)
+	ktmat.Scale(e*a/l0, ktmat)
+	ktmat.Add(ktmat, gmat)
+	//log.Println("kmem deetz->")
+	//log.Println(i,"\n",mat.Formatted(ktmat))
+	//log.Println(i,fvec)
+	var na, nb int
+	var srez []rez2d
+	for i := 0; i < 2*ncjt; i++ {
+		if i < ncjt {
+			na = jb.Nscs[i]
+		} else {
+			na = je.Nscs[i-ncjt]
+		}
+		if na <= ndof {
+			for j := 0; j < 2*ncjt; j++ {
+				if j < ncjt {
+					nb = jb.Nscs[j]
+				} else {
+					nb = je.Nscs[j-ncjt]
+				}
+				if nb <= ndof {
+					val := ktmat.At(i, j)
+					if val != 0.0 {
+						srez = append(srez, rez2d{na,nb,val})
+					}
+				}
+			}
+
+		}
+	}
+	var frez []rez1d
+	for i, sc := range nscs{
+		if sc <= ndof{
+			if fvec[i] != 0.0{
+				frez = append(frez, rez1d{sc -1, fvec[i]})
+			}
+		}
+	}
+	schn <- srez
+	fchn <- frez
+	yochn <- 1
+}

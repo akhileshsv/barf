@@ -1,0 +1,80 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">
+    <div id="stlportal-form">
+    <a href="/docs/steel/portal" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Steel portal frame data:</h3></center>
+      <form action="/steel/portal" method="post" autocomplete="on">
+	<label><input type="radio" class="nes-radio" name="Fop" value="0" hx-post="/ex/stl/portal" hx-target="#stlportal-form"/><span>design</span></label>
+	<label>
+	  <input type="radio" class="nes-radio" name="Fop" value ="1" checked hx-post="/ex/stl/portal" hx-target="#stlportal-form"/>
+	  <span>optimize</span>
+	</label>
+	<br>
+
+	<span>foundation type</span>
+	<label><input type="radio" class="nes-radio" name="Fixbase" value="true"/><span>fixed base</span></label>
+	<label><input type="radio" class="nes-radio" name="Fixbase" value="false" checked/><span>pinned base</span></label>
+	<br>
+
+	<div class="nes-select">
+	  <label for="Dtyp">design type</label>
+	  <select name="Dtyp" id="Dtyp" hx-post="/ex/steelbeam" hx-target="#stlbeam-form">
+	    <option value=0>beam w/end moments</option>
+	    <option value=1 selected="selected">s.s beam</option>
+	    <option value=2>cs beam</option>
+	  </select>
+	</div>
+	
+	  <label for="Styp">section type</label>
+	  <select name="Styp" id="Styp">
+	    <option value=6>UB</option>
+	    <option value=7>UC</option>
+	    <option value=4>I</option>
+	  </select>
+	<div class="nes-select">
+	  <label for="Code">code of practice</label>
+	  <select name="Code" id="Code">
+	    <option value=2 selected="selected">bs.449</option>
+	    <option value=1>is.800</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+
+	<label for="Title">title</label>
+	<input type="text" name="Title" class="nes-input" placeholder="mosley-ex-6.2" value="mosley-ex-6.2" onfocus = "this.value=''"/>
+	
+	<label for="Lspan">span length(m)</label>
+	<input type="text" name="Lspan" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+
+	<label for="Ly">c.f unbraced length(m)</label>
+	<input type="text" name="Ly" class="nes-input" placeholder="6000.0" value="6000.0" onfocus = "this.value=''"/>
+	
+	<label for="Endc">end condition</label>
+	<input type="text" name="Endc" class="nes-input" placeholder="1(ss)" value="1" onfocus = "this.value=''"/>
+	<label for="Grd">grade of steel</label>
+	<input type="text" name="Grd" class="nes-input" placeholder="43.0" value="43.0" onfocus = "this.value=''"/>
+	<label for="Lbr">length of bearing(mm)</label>
+	<input type="text" name="Lbr" class="nes-input" placeholder="200.0" value="200.0" onfocus = "this.value=''"/>
+	<label for="Tbr">thickness of bearing plate(mm)</label>
+	<input type="text" name="Tbt" class="nes-input" placeholder="20.0" value="20.0" onfocus = "this.value=''"/>
+	<label for="Ldcases">load cases</label>
+	<input type="text" name="Ldcases" class="nes-input" placeholder="[1,3,100,0,0,0,1],[1,3,160,0,0,0,1]"  value="[1,3,100,0,0,0,1],[1,3,160,0,0,0,1]" onfocus = "this.value=''"/>
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

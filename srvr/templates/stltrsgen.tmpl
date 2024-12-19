@@ -1,0 +1,93 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">
+    <div id = "stltrs-form">
+      <a href="/docs/steel/trussgen" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Truss(2d) gen data:</h3></center>
+      <form action="/steel/trussgen" method="post">
+	
+	<label><input type="radio" class="nes-radio" name="Fop" value = "0"  checked hx-post="/ex/steel/trussgen" hx-target="#stltrs-form"/><span>design</span></label>
+	<label>
+	  <input type="radio" class="nes-radio" name="Fop" value = "1" hx-post="/ex/steel/trussgen" hx-target="#stltrs-form"/>
+	  <span>optimize</span>
+	</label>
+	<br>
+	
+	<div class="nes-select">
+	  <label for="Typ">truss type</label>
+	  <select name="Typ" id="Typ" hx-post="/ex/steel/trussgen" hx-target="#stltrsgen-form">
+	    <option value="1">l</option>
+	    <option value="2" selected="selected">a</option>
+	    <option value="3">trap. l</option>
+	    <option value="4">trap. a</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Cfg">truss config</label>
+	  <select name="Cfg" id="Cfg">
+	    <option value="1">howe</option>
+	    <option value="2">howe fan</option>
+	    <option value="3">pratt</option>
+	    <option value="4">pratt fan</option>
+	    <option value="5">fink</option>
+	    <option value="6">fink fan</option>
+	  </select>
+	</div>
+	
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	<label for="Id">model title</label>
+	<input type="text" name="Id" class="nes-input" placeholder="duggal15.1-fink" value="duggal15.1-fink" onfocus = "this.value=''"/>    
+	
+	
+	<label for="Span">truss span(mm)</label>
+	<input type="text" name="Span" class="nes-input" placeholder="16000.0" value="16000.0" onfocus = "this.value=''"/>
+	
+
+	<label for="Spacing">truss spacing(mm)</label>
+	<input type="text" name="Spacing" class="nes-input" placeholder="8000.0" value="8000.0" onfocus = "this.value=''"/>
+	
+
+	<label for="Rise">truss rise(mm)</label>
+	<input type="text" name="Rise" class="nes-input" placeholder="4000.0" value="4000.0" onfocus = "this.value=''"/>
+
+	
+	<label for="Purlinspc">purlin spacing(mm)</label>
+	<input type="text" name="Purlinspc" class="nes-input" placeholder="2235.0" value="2235.0" onfocus = "this.value=''"/>
+	
+	<label for="Purlinwt">purlin weight(N)</label>
+	<input type="text" name="Purlinwt" class="nes-input" placeholder="318.0" value="318.0" onfocus = "this.value=''"/>
+
+	<label for="DL">dead load(N/m2)</label>
+	<input type="text" name="DL" class="nes-input" placeholder="183.0" value="183.0" onfocus = "this.value=''"/>
+
+
+	<label for="DL">dead load(N/m2)</label>
+	<input type="text" name="DL" class="nes-input" placeholder="183.0" value="183.0" onfocus = "this.value=''"/>
+
+	
+	<label for="LL">live load(N/m2)</label>
+	<input type="text" name="LL" class="nes-input" placeholder="750.0" value="750.0" onfocus = "this.value=''"/>
+
+	
+	<label for="Vb">wind speed(m/s)</label>
+	<input type="text" name="Vb" class="nes-input" placeholder="41.83" value="41.83" onfocus = "this.value=''"/>
+	
+	
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+	
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

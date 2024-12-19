@@ -1,0 +1,73 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">rcc beam section<p>
+      <span class="nes-text is-primary">This program analyzes/designs an rcc beam section as per is456/bs8110.</span>
+    <p>The design program will calculate the area of compression/tension steel required for a rectangular/flanged section to resist an ultimate moment (Mu)</p>
+    <p>The analysis program will return the ultimate moment of resistance of a section with either the number and depth of steel bars or the area of compression and tension steel specified.</p>
+      <p>Both design and analysis calculations are performed using the (is/bs code) rectangular stress block.</p>
+      <p>Custom sections are supported (use styp=-1). See example 4 for more details</p>
+      
+  </div>
+  <div class="nes-container with-title">
+    <p class="title">sample fields</p>
+    <p>section analysis</p>
+    <pre>
+      "Title":"Hulse3.1", -> title
+      "Fck":30.0, -> grade of concrete
+      "Fy":460.0, -> grade of steel
+      "Styp":1, -> section type (see list of defined section types)
+      "Code":2, -> 1 - is code, 2 - bs code
+      "Tyb":0.0, -> 0.0 - rectangular beam, 0.5 - L flanged beam, 1.0 - T flanged beam
+      "Bf":0.0, -> breadth of flange (mm)
+      "Df":0.0, -> depth of flanged (mm)
+      "Bw":280.0, -> breadth of web (mm)
+      "Dused":560.0, -> total depth of beam (mm)
+      "Dias":[20,20,32,32,32], -> list of bar diameters (mm)
+      "Dbars":[50,50,510,510,510], -> list of bar depths (from top compression face) (mm)
+      "Cvrt":50.0, -> clear cover to tension steel(mm)
+      "Cvrc":50.0, -> clear cover to compression steel (mm)
+      "Asc":628.0, -> area of compression steel (mm2)
+      "Ast":2410.0, -> area of tension steel (mm2)
+    </pre>
+    <p>section design</p>
+    <pre>
+      "Title":"Hulse3.2.2",-> title
+      "Fck":25.0,-> grade of concrete
+      "Fy":460.0,-> grade of steel
+      "Styp":1,-> section type (see SectionMap in kass/sections)
+      "Code":2, -> 1 - is code, 2 - bs code
+      "Tyb":1.0, -> 0.0 - rectangular beam, 0.5 - L flanged beam, 1.0 - T flanged beam
+      "Bf":600.0, -> breadth of flange (mm)
+      "Df":150.0,-> depth of flanged (mm)
+      "Bw":250.0,-> breadth of web (mm)
+      "Dused":580.0,-> total depth of beam (mm)
+      "Cvrt":50.0,-> clear cover to tension steel(mm)
+      "Cvrc":50.0, -> clear cover to compression steel (mm)
+      "Lspan":5.0,-> length of span (meters)
+      "Mu":160.0, -> ultimate moment (kn/m)
+    </pre>
+  </div>
+  <div class="nes-container with-title">
+    <p class="title">references<p>
+      <div class="lists">
+	<ul class="nes-list is-disc">
+	  <li>Dr. V.L Shah - Computer Aided Design in Reinforced Concrete - Structures Publications (1998).</li>
+	  <li>R. Hulse, W. H. Mosley - Reinforced Concrete Design by Computer - Macmillan Education UK (1986).</li>
+	  <li>Subramanian, Narayanan - Design of Reinforced Concrete Structures - Oxford University Press (2013).</li>
+	  <li>W. H. Mosley, W. J. Spencer - Microcomputer Applications in Structural Engineering - Macmillan Education UK (1984)</li>
+	</ul>
+      </div>
+  </div>
+  <div class="nes-container with-title">
+    <p class="title">examples<p>
+    <p>Copy and paste the following json structs in the "json input" field and hit "calc".</p>
+    <p>This is code example 1 (shah chapter) etcetera, etcetera, alea iacta est</p>
+    <label for="textarea_field">rojas 2003 ex.1</label>
+    <textarea id="textarea_field" class="nes-textarea"></textarea>
+    <br>
+  </div>
+  
+</body>
+
+{{template "footer" .}}

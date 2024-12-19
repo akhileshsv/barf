@@ -1,0 +1,28 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">2d frame (2df) elastic analysis model<p>
+      <span class="nes-text is-primary">This program analyzes a 2d frame model using the matrix stiffness method.</span>   
+    <p>See chapter 6, Kassimali for a detailed breakdown of the steps involved.</p>   
+    <p>Calculates support displacement and temperature effects as in Chapter 7, Kassimali.</p>   
+
+    <div class="nes-container with-title">
+	<p class="title">sample fields</p>
+	
+	
+	<pre>
+	  "Id":"6.8Kass",  -> title
+	  "Ncjt":3,  -> number of degrees of freedom per node (3 for 2d frame)
+	  "Coords": [[0,0],[0,240],[240,336],[480, 240],[480,0]], -> node coordinates ([x1,y1], [x2,y2]...[xn,yn] for 2d frame)
+	  "Supports":[[1,-1,-1,-1],[5,-1,-1,0]],-> list of nodal supports ([node index,x displ. restrained (-1 if), y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+	  "Em":[[29000],[10000]],-> list of elastic modulus/material properties ([em1, em2..emn])
+	  "Cp":[[29.8,2420],[30.6,3100]],-> list of sectional properties (area a, moment of inertia iz - [[a1,iz1],[a2,iz2],...[an,izn]] for frame)
+	  "Mprp": [[1,2,1,1,0], [2,3,2,2,0],[4,3,2,2,0],[5,4,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+	  "Jloads": [[2,75,0,0]], -> nodal loads ([node idx, x-force, y-force, z-moment])
+	  "Msloads":[[2,3,0.25,0,0,0],[3,1,-45,0,129.24,0],[3,5,20,0,129.24,0]] -> member loads ([member index, load type, wa, wb, la, lb]- check list of load types) 
+  
+	</pre>
+
+      </div>
+</body>
+{{template "footer" .}}

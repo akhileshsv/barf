@@ -1,0 +1,70 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">rcc footing<p>
+      <span class="nes-text is-primary">This program analyzes and designs/optimizes an rcc continuous beam.</span>
+    <p></p>
+    <div class="nes-container with-title">
+      <p class="title">sample fields</p>	
+      <pre>"Title":"Govr2",-> title
+	"Nspans":3,-> number of spans
+	"Fck":25.0,-> grade of concrete
+	"Fy":415.0, -> grade of steel
+	"Fyv":415.0, -> grade of (stirrup/link) steel
+	"Code":1, -> 1 - is code, 2- bs code
+	"DL":18, -> dead load (applied as udl over all spans)
+	"LL":20,-> live load (applied as udl over all spans)
+	"Selfwt":true,-> calculate self weight of beam and add to dead load
+	"Bfcalc":true, -> breadth of flange calculation
+	"Lspans":[7.0,5.0,4.0], -> length of spans 
+	"Nomcvr":30.0, -> nominal cover to rebar
+	"Lsxs":[280,560,280,280],-> width of supports (one if all spans are uniform, [[lsx1],[lsx2],...[lsxnspans]] else)
+	"Dslb":120.0,-> depth of slab
+	"Verbose":false,-> print reports
+	"Opt":1, -> 1 - pso, 2 - g.a
+	"Dconst":true, -> constant depth for all spans
+	"Term":"svg" -> gnuplot terminal
+      </pre>
+    </div>
+    <div class="nes-container with-title">
+      <p class="title">references<p>
+	<div class="lists">
+	  <ul class="nes-list is-disc">
+	    <li>R. Hulse, W. H. Mosley - Reinforced Concrete Design by Computer (Chapter 6)-Macmillan Education UK (1986).</li>
+	    <li>W. H. Mosley, W. J. Spencer - Microcomputer Applications in Structural Engineering - Macmillan Education UK (1984).</li>
+	    <li>Dr. V.L Shah - Computer Aided Design in Reinforced Concrete - Structures Publications (1998).</li>
+	    <li>V. Govindraj, J.V. Ramaswamy - Optimum Detailed Design of Reinforced Concrete Continuous Beams using Genetic Algorithms (2005)</li>
+	    <li>Carlos Coello, F.S. Hernandez, F.A. Farrera - Optimal Design of Reinforced Concrete Beams using Genetic Algorithms (1997)</li>
+	    <li>Subramanian, Narayanan - Design of Reinforced Concrete Structures (Chapter 15)-Oxford University Press (2013).</li>
+	  </ul>
+	</div>
+    </div>
+    <div class="nes-container with-title">
+      <p class="title">examples<p>
+      <p>Copy and paste the following json structs in the "json input" field and hit "calc".</p>
+      <label for="textarea_field">govindraj ex.3</label>
+      <p>This example of optimizing a continuous concrete beam with varying depth is from Govindraj(2005).</p>
+      <textarea id="textarea_field" class="nes-textarea">{"Title":"Govr3",
+	"Nspans":3,
+	"Fck":20.0,
+	"Fy":415.0,
+	"Code":1,
+	"DL":25,
+	"LL":10,
+	"Selfwt":true,
+	"Bfcalc":true,
+	"Lspans":[10.0,8.0,7.0],
+	"Nomcvr":30.0,
+	"Lsxs":[300],
+	"Dslb":150.0,
+	"Styp":6,
+	"Verbose":false,
+	"Opt":2,
+	"Kostin":[2500.0,32.0,100.0],
+	"Term":"dumb"}
+      </textarea>
+      <br>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

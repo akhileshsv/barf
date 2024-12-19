@@ -1,0 +1,55 @@
+if (ARG2 eq 'dumb') set term dumb ansi enhanced size 79,79
+if (ARG2 eq 'caca') set term caca driver utf8 color inverted
+if (ARG2 eq 'mono') set term dumb mono size 79,79
+if (ARG2 eq 'qt') set term qt persist font "Courier,5"
+if (ARG2 eq 'wxt') set term wxt persist
+if (ARG2 eq 'svg') set term svg font "Courier,5"
+set tics textcolor rgb "magenta"
+set noborder
+set autoscale
+set key outside right bottom
+set xlabel 'mm' tc rgb "green"
+set ylabel 'mm' tc rgb "green"
+set ytics autofreq nomirror scale 0.25 tc lt 1
+set xtics autofreq nomirror scale 0.25 rotate tc lt 1
+set title ARG3
+set offsets graph 0.1,0.1,0.1,0.1
+set multiplot layout 3,1 rowsfirst
+if (ARG2 eq 'svg') || (ARG2 eq 'dxf') set output ARG4
+if (ARG2 eq 'dumb') || (ARG2 eq 'mono'){
+set size ratio 0.75
+set title "sections"
+plot ARG1 index 0 using 1:2:3:4:5 w vectors noheads lc var title "concrete",\
+     ARG1 index 1 using 1:2:3:4:5 w vectors nohead lc var title "main bar",\
+     ARG1 index 2 using 1:2:3 w labels notitle,\
+     ARG1 index 3 using 1:2:3:4 w vectors heads title "dims (m)",\
+     ARG1 index 4 using 1:2:3 w circles title "dist bar"
+set title "plan bottom"
+plot ARG1 index 5 using 1:2:3:4:5 w vectors noheads lc var title "concrete",\
+     ARG1 index 6 using 1:2:3:4:5 w vectors noheads lc var title "rebar",\
+     ARG1 index 7 using 1:2:3 w labels notitle,\
+     ARG1 index 8 using 1:2:3:4 w vectors heads title "dims (m)"
+set title "plan top"
+plot ARG1 index 9 using 1:2:3:4:5 w vectors noheads lc var title "concrete",\
+     ARG1 index 10 using 1:2:3:4:5 w vectors noheads lc var title "rebar",\
+     ARG1 index 11 using 1:2:3 w labels notitle,\
+     ARG1 index 12 using 1:2:3:4 w vectors heads title "dims (m)"
+} else {
+set title "section-x"
+plot ARG1 index 0 using 1:2:3:4:5 w vectors noheads lc var title "concrete",\
+     ARG1 index 1 using 1:2:3:4:5 w vectors nohead lc var title "main bar",\
+     ARG1 index 2 using 1:2:3 w labels notitle,\
+     ARG1 index 3 using 1:2:3:4 w vectors heads title "dims (m)",\
+     ARG1 index 4 using 1:2:3 w circles title "dist bar"
+set title "plan bottom"
+plot ARG1 index 5 using 1:2:3:4:5 w vectors noheads lc var title "concrete",\
+     ARG1 index 6 using 1:2:3:4:5 w vectors noheads lc var title "rebar",\
+     ARG1 index 7 using 1:2:3 w labels notitle,\
+     ARG1 index 8 using 1:2:3:4 w vectors heads title "dims (m)"
+set title "plan top"
+plot ARG1 index 9 using 1:2:3:4:5 w vectors noheads lc var title "concrete",\
+     ARG1 index 10 using 1:2:3:4:5 w vectors noheads lc var title "rebar",\
+     ARG1 index 11 using 1:2:3 w labels notitle,\
+     ARG1 index 12 using 1:2:3:4 w vectors heads title "dims (m)"
+}
+

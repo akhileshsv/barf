@@ -1,0 +1,15 @@
+{"Title":"Hulse5.1", -> title
+ "Fck":40.0,-> grade of concrete
+ "Fy":460.0,-> grade of steel
+ "Code":2, -> 1 - is code, 2 - bs code
+ "Styp":1,->section type (see SectionMap in kass/sections)
+ "B":350.0, -> width of column (minor axis of bending)
+ "H":450.0, -> depth of column (major axis of bending)
+ "Cvrt":60.0, -> clear cover to tension steel(mm)
+ "Cvrc":60.0,-> clear cover to compression steel (mm)
+ "Dias":[32,32,25,25], -> list of bar diameters (mm)
+ "Dbars":[60,60,390,390], -> list of bar depths (from top compression face) (mm)
+ "Asc":982.0,-> area of compression steel (mm2)
+ "Ast":1610.0,-> area of tension steel (mm2)
+ "Pu":1760.0, -> ultimate axial load (kN)
+ "Verbose":true} -> print reports

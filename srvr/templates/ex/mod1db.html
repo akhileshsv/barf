@@ -1,0 +1,61 @@
+<div id = "mod-form">
+  <a href="/docs/calcmod/1db" class="nes-btn is-success" style="float:right">?</a>
+  <center><h3 class="nes-text is-primary">Basic bar element model data:</h3></center>
+      <form action="/analyze/basic" method="post">
+	<div class="nes-select">
+	  <label for="Frmstr">frame type</label>
+	  <select name="Frmstr" id="Frmstr" hx-post="/ex/models/basic" hx-target="#mod-form">
+	    <option value="1db" selected="selected">beam(1d)</option>
+	    <option value="2dt">truss(2d)</option>
+	    <option value="3dt">truss(3d)</option>
+	    <option value="2df">frame(2d)</option>
+	    <option value="3df">frame(3d)</option>
+	    <option value="3dg">grill(3d)</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Units">units(b.m)</label>
+	  <select name="Units" id="Units">
+	    <option value="knm">kN-meter</option>
+	    <option value="nmm">N-mm</option>
+	    <option value="kpin" selected="selected"> kP-in</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	<label for="Id">model title</label>
+	<input type="text" name="Id" class="nes-input" placeholder="kassimali-ex-5.8" value="kassimali-ex-5.8" onfocus = "this.value=''"/>    
+	<label for="Coords">nodal coordinates</label>
+	<input type="text" name="Coords" class="nes-input" placeholder="[0],[120],[360],[480]" value="[0],[120],[360],[480]" onfocus = "this.value=''"/>
+	<label for="Supports">supports</label>
+	<input type="text" name="Supports" class="nes-input" placeholder="[1,-1,0],[2,-1, 0],[3,-1,0],[4,-1,-1]" value="[1,-1,0],[2,-1, 0],[3,-1,0],[4,-1,-1]" onfocus = "this.value=''"/>
+	<label for="Mprp">member properties</label>
+	<input type="text" name="Mprp" class="nes-input" placeholder="[1,2,1,1,0], [2,3,1,1,0],[3,4,1,2,0]" value="[1,2,1,1,0], [2,3,1,1,0],[3,4,1,2,0]" onfocus = "this.value=''"/>
+	<label for="Em">elastic modulus</label>
+	<input type="text" name="Em" class="nes-input" placeholder="[29000]" value="[29000]" onfocus = "this.value=''"/>
+	<label for="Cp">cross sections</label>
+	<input type="text" name="Cp" class="nes-input" placeholder="[350],[500]" value="[350],[500]" onfocus = "this.value=''"/>
+	<label for="Jloads">nodal loads</label>
+	<input type="text" name="Jloads" class="nes-input" placeholder="[1,0,-480]" value="[1,0,-480]" onfocus = "this.value=''"/>
+	<label for="Msloads">member loads</label>
+	<input type="text" name="Msloads" class="nes-input" placeholder="[2,3,0.1667,0,0,120],[2,1,25,0,180,0],[3,4,0.25,0,0,0]" value="[2,3,0.1667,0,0,120],[2,1,25,0,180,0],[3,4,0.25,0,0,0]" onfocus = "this.value=''"/>
+	<label for="Jsd">displaced nodes</label>
+	<input type="text" name="Jsd" class="nes-input" placeholder="" value="" onfocus = "this.value=''"/>
+	<label for="Sdj">nodal displacements</label>
+	<input type="text" name="Sdj" class="nes-input" placeholder="" value="" onfocus = "this.value=''"/>
+
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>

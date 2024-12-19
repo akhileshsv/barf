@@ -1,0 +1,70 @@
+<div id = "mod-form">
+  <a href="/docs/calcmod/3df" class="nes-btn is-success" style="float:right">?</a>  
+<center><h3 class="nes-text is-primary">Basic bar element model data:</h3></center>
+      <form action="/analyze/basic" method="post">
+	<span>z-axis vertical(up)?</span>
+	<label><input type="radio" class="nes-radio" name="Zup" value="true"/><span>yes</span></label>
+	<label>
+	  <input type="radio" class="nes-radio" name="Zup" value="false" checked/>
+	  <span>no</span>
+	</label>
+	<br>
+
+	<div class="nes-select">
+	  <label for="Frmstr">frame type</label>
+	  <select name="Frmstr" id="Frmstr" hx-post="/ex/models/basic" hx-target="#mod-form">
+	    <option value="1db">beam(1d)</option>
+	    <option value="2dt">truss(2d)</option>
+	    <option value="3dt">truss(3d)</option>
+	    <option value="2df">frame(2d)</option>
+	    <option value="3df" selected="selected">frame(3d)</option>
+	    <option value="3dg">grill(3d)</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Units">units(b.m)</label>
+	  <select name="Units" id="Units">
+	    <option value="knm">kN-meter</option>
+	    <option value="nmm">N-mm</option>
+	    <option value="kpin" selected="selected"> kP-in</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	<label for="Id">model title</label>
+	<input type="text" name="Id" class="nes-input" placeholder="kassimali-ex-8.4" value="kassimali-ex-8.4" onfocus = "this.value=''"/>    
+	<label for="Coords">nodal coordinates</label>
+	<input type="text" name="Coords" class="nes-input" placeholder="[0,0,0],[-240,0,0],[0,-240,0],[0,0,-240]" value="[0,0,0],[-240,0,0],[0,-240,0],[0,0,-240]" onfocus = "this.value=''"/>
+	<label for="Supports">supports</label>
+	<input type="text" name="Supports" class="nes-input" placeholder="[2,-1,-1,-1,-1,-1,-1],[3,-1,-1,-1,-1,-1,-1],[4,-1,-1,-1,-1,-1,-1]" value="[2,-1,-1,-1,-1,-1,-1],[3,-1,-1,-1,-1,-1,-1],[4,-1,-1,-1,-1,-1,-1]" onfocus = "this.value=''"/>
+	<label for="Mprp">member properties</label>
+	<input type="text" name="Mprp" class="nes-input" placeholder="[2,1,1,1,0], [3,1,1,1,0],[4,1,1,1,0]" value="[2,1,1,1,0], [3,1,1,1,0],[4,1,1,1,0]" onfocus = "this.value=''"/>
+	<label for="Em">elastic modulus</label>
+	<input type="text" name="Em" class="nes-input" placeholder="[29000,11500]" value="[29000,11500]" onfocus = "this.value=''"/>
+	<label for="Cp">cross sections</label>
+	<input type="text" name="Cp" class="nes-input" placeholder="[32.9,716,236,15.1]" value="[32.9,716,236,15.1]" onfocus = "this.value=''"/>
+	<label for="Jloads">nodal loads</label>
+	<input type="text" name="Jloads" class="nes-input" placeholder="[1,0,0,0,-1800,0,1800]" value="[1,0,0,0,-1800,0,1800]" onfocus = "this.value=''"/>
+	<label for="Msloads">member loads</label>
+	<input type="text" name="Msloads" class="nes-input" placeholder="[1,3,0.25,0,0,0,0,0]" value="[1,3,0.25,0,0,0,0,0]" onfocus = "this.value=''"/>
+	<label for="Wng">member angle of roll</label>
+	<input type="text" name="Wng" class="nes-input" placeholder="[0,0],[1,90],[2,30]" value="[0,0],[1,90],[2,30]" onfocus = "this.value=''"/>
+	<label for="Jsd">displaced nodes</label>
+	<input type="text" name="Jsd" class="nes-input" placeholder="" value="" onfocus = "this.value=''"/>
+	<label for="Sdj">nodal displacements</label>
+	<input type="text" name="Sdj" class="nes-input" placeholder="" value="" onfocus = "this.value=''"/>
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>

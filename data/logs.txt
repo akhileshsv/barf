@@ -1,0 +1,1164 @@
+2024/06/07 10:26:53 Starting server at port 8080
+2024/06/07 10:46:03 Starting server at port 8080
+2024/06/07 15:48:59 Starting server at port 8080
+2024/06/07 16:01:15 Starting server at port 8080
+2024/06/07 16:12:37 Starting server at port 8080
+2024/06/07 16:21:33 Starting server at port 8080
+2024/06/08 00:26:33 Starting server at port 8080
+2024/06/08 00:27:29 {"Fop":1,"Bfcalc":true,"Fck":25.0,"Lsxs":[280,560,280,280],"DM":0.0,"Code":1,"Styp":6,"Term":"svgmono","DL":18.0,"Lspans":[7.0,5.0,4.0],"Kostin":[1.0,0.42,0.015],"Opt":1,"Title":"govr-ex2","Fy":415.0,"LL":20.0,"Nomcvr":0.0,"Efcvr":30.0,"Selfwt":true,"Dslb":120.0,"Width":300}
+2024/06/08 12:02:10 Starting server at port 8080
+2024/06/08 12:14:40 Starting server at port 8080
+2024/06/08 12:15:45 key, val-> Dsgn [false]
+2024/06/08 12:15:46 key, val-> Dsgn [true]
+2024/06/08 12:15:47 key, val-> Dsgn [false]
+2024/06/08 12:15:48 key, val-> Dsgn [true]
+2024/06/08 12:16:16 {"Fck":25.0,"Efcvr":30.0,"Kostin":[1.0,0.42,0.015],"Selfwt":true,"Opt":11,"Lsxs":[280,560,280,280],"DM":0.0,"Bfcalc":true,"Title":"govr-ex2","Width":300,"Fop":1,"Styp":6,"Term":"svgmono","Fy":415.0,"DL":18.0,"LL":20.0,"Lspans":[7.0,5.0,4.0],"Nomcvr":0.0,"Code":1,"Dslb":120.0}
+2024/06/08 12:16:18 exit status 1
+2024/06/08 12:17:49 Starting server at port 8080
+2024/06/08 12:18:00 {"Fck":25.0,"Fy":460.0,"Dslb":0.0,"Sections":[[300,600]],"Fop":1,"Bfcalc":true,"Kostin":[7500.0,120,1500],"Selfwt":true,"Nomcvr":0.0,"Lspans":[6.0,4.0,6.0],"Styp":6,"LL":10.0,"Title":"hulse2.3","DL":25.0,"Efcvr":30.0,"Lsxs":[300],"DM":0.0,"Code":1,"Term":"svgmono"}
+2024/06/08 12:18:00 ERRORE,errore-> depth of slab required for flange calc
+2024/06/08 12:18:14 {"Title":"govr-ex2","Fck":25.0,"Width":300,"DM":0.0,"Term":"svgmono","Fy":415.0,"Efcvr":30.0,"Dslb":120.0,"Fop":1,"Selfwt":true,"Bfcalc":true,"DL":18.0,"LL":20.0,"Nomcvr":0.0,"Opt":1,"Code":1,"Styp":6,"Lspans":[7.0,5.0,4.0],"Lsxs":[280,560,280,280],"Kostin":[1.0,0.42,0.015]}
+2024/06/08 12:18:15 exit status 1
+2024/06/08 12:22:11 Starting server at port 8080
+2024/06/08 12:22:30 exit status 1
+2024/06/08 13:43:13 Starting server at port 8080
+2024/06/08 13:43:52 HYAAAR
+2024/06/08 13:43:52 jsonstr-
+ wot wot
+2024/06/08 13:45:22 Starting server at port 8080
+2024/06/08 13:47:19 Starting server at port 8080
+2024/06/08 13:48:02 HYAAAR
+2024/06/08 13:48:02 jsonstr-
+ {"Title":"Govr1",  "Nspans":1,  "Fck":25.0,  "Fy":415.0,  "Fyv":415.0,  "Code":1,  "DL":16,  "LL":15,  "Sections":[[20,20]],  "Selfwt":true,  "Bfcalc":true,  "Width":240.0,  "Lspans":[4.0],  "Efcvr":70.0,  "Lsxs":[280],  "Opt":1,  "D1":12.0,  "D2":16.0,  "Dslb":120.0,  "Verbose":true,  "Dconst":true,  "Kostin":[1.0,0.42,0.01515],  "Term":""}
+2024/06/08 13:48:03 open c:\Users\Admin\junk\barf\data\out\Govr1->g.a opt history.svg: The filename, directory name, or volume label syntax is incorrect.
+2024/06/08 13:48:03 open c:\Users\Admin\junk\barf\data\out\Govr1->g.a opt history.svg: The filename, directory name, or volume label syntax is incorrect.
+2024/06/08 13:51:55 Starting server at port 8080
+2024/06/08 13:55:04 Starting server at port 8080
+2024/06/08 13:57:19 Starting server at port 8080
+2024/06/08 13:58:43 open c:\Users\Admin\junk\barf\data\out\Govr1->g.a opt history.svg: The filename, directory name, or volume label syntax is incorrect.
+2024/06/08 13:58:43 open c:\Users\Admin\junk\barf\data\out\Govr1->g.a opt history.svg: The filename, directory name, or volume label syntax is incorrect.
+2024/06/08 14:00:51 Starting server at port 8080
+2024/06/08 14:03:10 Starting server at port 8080
+2024/06/08 14:04:53 Starting server at port 8080
+2024/06/08 14:06:14 Starting server at port 8080
+2024/06/08 16:46:19 Starting server at port 8080
+2024/06/08 16:51:32 open %!s(<nil>)[0;39m                                                                                                   
+[0;39m                                                                                                   
+[0;39m                                               [0;39msub frame                                           
+[0;39m    [1;35m 8 [0;39m+-+ ++ + + ++ + + ++ + + ++ + + ++ + + ++ + + + ++ + + ++ + + ++ + + ++ + + ++ + + ++ + +   
+[0;39m       [0;39m+        +        +       +        +        +        +        +       +        +        +   
+[0;39m       [0;39m++                                                                                          
+[0;39m       [0;39m++         9                        10                11                        12          
+[0;39m                [22;33mC                         C                 C                         C            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 7 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 6 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m             [0;39m(300x350)                 (300x350)         (300x350)                 (300x350)       
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++     (5)                       (6)               (7)                       (8)            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 5 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|          [0;39m35.000000      [1;36m|      [0;39m35.000000  [1;36m|          [0;39m35.000000      [1;36m|            
+[0;39m       [0;39m++       [1;36m|          [0;39m16.000000      [1;36m|      [0;39m16.000000  [1;36m|          [0;39m16.000000      [1;36m|            
+[0;39m                [1;35m-------------------------------------------->-------------------------> [0;39m8          
+[0;39m    [1;35m 4 [0;39m+-+      [1;36m-------------------------------------------->------------------------->            
+[0;39m                [1;36m|          [0;39m(9)            [1;36m|     [0;39m(10)        [1;36m|         [0;39m(11)            [1;36m|            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 3 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m             [0;39m(300x350)                 (300x350)         (300x350)                 (300x350)       
+[0;39m    [1;35m 2 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m              [0;39m(1)                       (2)               (3)                       (4)            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 1 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m| [0;39m1                       [1;36m| [0;39m2               [1;36m| [0;39m3                       [1;36m| [0;39m4          
+[0;39m    [1;35m 0 [0;39m+-+      [22;33mC                         C                 C                         C            
+[0;39m                                                                                                   
+[0;39m       [0;39m++                                                                                          
+[0;39m       [0;39m++                                                                                          
+[0;39m                                                                                 [0;39mnodes    G        
+[0;39m       [0;39m++                                                                      members [1;36m-------     
+[0;39m       [0;39m++                                                                     supports    [22;33m9        
+[0;39m       [0;39m+        +        +       +        +        +        +        +       +    load+        +   
+[0;39m    [1;35m-1 [0;39m+-+ ++ + + ++ + + ++ + + ++ + + ++ + + ++ + + + ++ + + ++ + + ++ + + ++ + + ++ + + ++ + +   
+[0;39m      [22;35m-2        0        2       4        6        8        10       12      14       16       18  
+[0;39m                                                [0;39mmeters                                             
+[0;39m                                                                                                   
+[0;39;49m: The filename, directory name, or volume label syntax is incorrect.
+2024/06/08 16:51:32 open %!s(<nil>)[0;39m                                                                                                   
+[0;39m                                                                                                   
+[0;39m                                               [0;39msub frame                                           
+[0;39m    [1;35m 8 [0;39m+-+ ++ + + ++ + + ++ + + ++ + + ++ + + ++ + + + ++ + + ++ + + ++ + + ++ + + ++ + + ++ + +   
+[0;39m       [0;39m+        +        +       +        +        +        +        +       +        +        +   
+[0;39m       [0;39m++                                                                                          
+[0;39m       [0;39m++         9                        10                11                        12          
+[0;39m                [22;33mC                         C                 C                         C            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 7 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 6 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m             [0;39m(300x350)                 (300x350)         (300x350)                 (300x350)       
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++     (5)                       (6)               (7)                       (8)            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 5 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|          [0;39m35.000000      [1;36m|      [0;39m35.000000  [1;36m|          [0;39m35.000000      [1;36m|            
+[0;39m       [0;39m++       [1;36m|          [0;39m16.000000      [1;36m|      [0;39m16.000000  [1;36m|          [0;39m16.000000      [1;36m|            
+[0;39m                [1;35m-------------------------------------------->-------------------------> [0;39m8          
+[0;39m    [1;35m 4 [0;39m+-+      [1;36m-------------------------------------------->------------------------->            
+[0;39m                [1;36m|          [0;39m(9)            [1;36m|     [0;39m(10)        [1;36m|         [0;39m(11)            [1;36m|            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 3 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m             [0;39m(300x350)                 (300x350)         (300x350)                 (300x350)       
+[0;39m    [1;35m 2 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m              [0;39m(1)                       (2)               (3)                       (4)            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m    [1;35m 1 [0;39m+-+      [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m       [0;39m++       [1;36m|                         |                 |                         |            
+[0;39m                [1;36m| [0;39m1                       [1;36m| [0;39m2               [1;36m| [0;39m3                       [1;36m| [0;39m4          
+[0;39m    [1;35m 0 [0;39m+-+      [22;33mC                         C                 C                         C            
+[0;39m                                                                                                   
+[0;39m       [0;39m++                                                                                          
+[0;39m       [0;39m++                                                                                          
+[0;39m                                                                                 [0;39mnodes    G        
+[0;39m       [0;39m++                                                                      members [1;36m-------     
+[0;39m       [0;39m++                                                                     supports    [22;33m9        
+[0;39m       [0;39m+        +        +       +        +        +        +        +       +    load+        +   
+[0;39m    [1;35m-1 [0;39m+-+ ++ + + ++ + + ++ + + ++ + + ++ + + ++ + + + ++ + + ++ + + ++ + + ++ + + ++ + + ++ + +   
+[0;39m      [22;35m-2        0        2       4        6        8        10       12      14       16       18  
+[0;39m                                                [0;39mmeters                                             
+[0;39m                                                                                                   
+[0;39;49m: The filename, directory name, or volume label syntax is incorrect.
+2024/06/09 17:26:00 Starting server at port 8080
+2024/06/09 18:46:07 Starting server at port 8080
+2024/06/09 19:13:57 Starting server at port 8080
+2024/06/09 19:38:40 Starting server at port 8080
+2024/06/09 19:45:21 Starting server at port 8080
+2024/06/09 19:47:27 Starting server at port 8080
+2024/06/10 08:35:11 Starting server at port 8080
+2024/06/10 08:39:11 Starting server at port 8080
+2024/06/10 08:40:26 Starting server at port 8080
+2024/06/10 08:41:15 Starting server at port 8080
+2024/06/10 08:44:32 Starting server at port 8080
+2024/06/10 08:52:20 Starting server at port 8080
+2024/06/10 08:54:19 Starting server at port 8080
+2024/06/10 08:56:55 Starting server at port 8080
+2024/06/10 08:58:36 Starting server at port 8080
+2024/06/10 09:29:05 Starting server at port 8080
+2024/06/10 10:12:22 Starting server at port 8080
+2024/06/10 10:18:10 Starting server at port 8080
+2024/06/10 11:23:06 Starting server at port 8080
+2024/06/10 11:54:40 Starting server at port 8080
+2024/06/10 12:21:14 Starting server at port 8080
+2024/06/10 12:24:02 Starting server at port 8080
+2024/06/10 12:31:23 Starting server at port 8080
+2024/06/10 20:11:27 Starting server at port 8080
+2024/06/10 20:13:40 Starting server at port 8080
+2024/06/10 22:21:53 Starting server at port 8080
+2024/06/10 22:28:35 Starting server at port 8080
+2024/06/10 22:28:52 processing key-> Bloads  val-> [[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]] len-> 1
+2024/06/10 22:28:52 processing key-> Fop  val-> [1] len-> 1
+2024/06/10 22:28:52 processing key-> Term  val-> [svg] len-> 1
+2024/06/10 22:28:52 processing key-> Fcks  val-> [20.0] len-> 1
+2024/06/10 22:28:52 processing key-> DL  val-> [3.75] len-> 1
+2024/06/10 22:28:52 processing key-> LL  val-> [4.0] len-> 1
+2024/06/10 22:28:52 processing key-> Slbload  val-> [1] len-> 1
+2024/06/10 22:28:52 processing key-> Code  val-> [1] len-> 1
+2024/06/10 22:28:52 processing key-> Title  val-> [shah-8.7] len-> 1
+2024/06/10 22:28:52 processing key-> Lspans  val-> [6.2,8.4] len-> 1
+2024/06/10 22:28:52 processing key-> Hs  val-> [3.35,3.35] len-> 1
+2024/06/10 22:28:52 processing key-> Lbays  val-> [3.05] len-> 1
+2024/06/10 22:28:52 processing key-> Dslb  val-> [110.0] len-> 1
+2024/06/10 22:28:52 processing key-> DM  val-> [0.2] len-> 1
+2024/06/10 22:28:52 processing key-> Bfcalc  val-> [true] len-> 1
+2024/06/10 22:28:52 processing key-> Slbdz  val-> [false] len-> 1
+2024/06/10 22:28:52 processing key-> Opt  val-> [1] len-> 1
+2024/06/10 22:28:52 processing key-> Ngrp  val-> [0] len-> 1
+2024/06/10 22:28:52 processing key-> Kostin  val-> [7500.0,120,1500] len-> 1
+2024/06/10 22:28:52 processing key-> Selfwt  val-> [1] len-> 1
+2024/06/10 22:28:52 processing key-> Fys  val-> [415.0] len-> 1
+2024/06/10 22:28:52 processing key-> Pufac  val-> [1.0] len-> 1
+2024/06/10 22:30:27 Starting server at port 8080
+2024/06/10 22:30:47 processing key-> Selfwt  val-> [1] len-> 1
+2024/06/10 22:30:47 processing key-> Slbdz  val-> [false] len-> 1
+2024/06/10 22:30:47 processing key-> Code  val-> [1] len-> 1
+2024/06/10 22:30:47 processing key-> Fop  val-> [1] len-> 1
+2024/06/10 22:30:47 processing key-> Opt  val-> [1] len-> 1
+2024/06/10 22:30:47 processing key-> Lspans  val-> [6.2,8.4] len-> 1
+2024/06/10 22:30:47 processing key-> Lbays  val-> [3.05] len-> 1
+2024/06/10 22:30:47 processing key-> Bloads  val-> [[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]] len-> 1
+2024/06/10 22:30:47 processing key-> Dslb  val-> [110.0] len-> 1
+2024/06/10 22:30:47 processing key-> Pufac  val-> [1.0] len-> 1
+2024/06/10 22:30:47 processing key-> Kostin  val-> [7500.0,120,1500] len-> 1
+2024/06/10 22:30:47 processing key-> Bfcalc  val-> [true] len-> 1
+2024/06/10 22:30:47 processing key-> Title  val-> [shah-8.7] len-> 1
+2024/06/10 22:30:47 processing key-> Fys  val-> [415.0] len-> 1
+2024/06/10 22:30:47 processing key-> Hs  val-> [3.35,3.35] len-> 1
+2024/06/10 22:30:47 processing key-> DL  val-> [3.75] len-> 1
+2024/06/10 22:30:47 processing key-> LL  val-> [4.0] len-> 1
+2024/06/10 22:30:47 processing key-> Slbload  val-> [1] len-> 1
+2024/06/10 22:30:47 processing key-> Ngrp  val-> [0] len-> 1
+2024/06/10 22:30:47 processing key-> Term  val-> [svg] len-> 1
+2024/06/10 22:30:47 processing key-> Fcks  val-> [20.0] len-> 1
+2024/06/10 22:30:47 processing key-> DM  val-> [0.2] len-> 1
+2024/06/10 23:07:12 Starting server at port 8080
+2024/06/10 23:07:30 processing key-> Pufac  val-> [1.0] len-> 1
+2024/06/10 23:07:30 processing key-> DM  val-> [0.2] len-> 1
+2024/06/10 23:07:30 processing key-> Slbdz  val-> [false] len-> 1
+2024/06/10 23:07:30 processing key-> Ngrp  val-> [0] len-> 1
+2024/06/10 23:07:30 processing key-> Title  val-> [shah-8.7] len-> 1
+2024/06/10 23:07:30 processing key-> Fys  val-> [415.0] len-> 1
+2024/06/10 23:07:30 processing key-> Hs  val-> [3.35,3.35] len-> 1
+2024/06/10 23:07:30 processing key-> Bloads  val-> [[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]] len-> 1
+2024/06/10 23:07:30 processing key-> LL  val-> [4.0] len-> 1
+2024/06/10 23:07:30 processing key-> Dslb  val-> [110.0] len-> 1
+2024/06/10 23:07:30 processing key-> Fop  val-> [1] len-> 1
+2024/06/10 23:07:30 processing key-> Selfwt  val-> [1] len-> 1
+2024/06/10 23:07:30 processing key-> Slbload  val-> [1] len-> 1
+2024/06/10 23:07:30 processing key-> Code  val-> [1] len-> 1
+2024/06/10 23:07:30 processing key-> Term  val-> [svg] len-> 1
+2024/06/10 23:07:30 processing key-> DL  val-> [3.75] len-> 1
+2024/06/10 23:07:30 processing key-> Bfcalc  val-> [true] len-> 1
+2024/06/10 23:07:30 processing key-> Opt  val-> [2] len-> 1
+2024/06/10 23:07:30 processing key-> Lbays  val-> [3.05] len-> 1
+2024/06/10 23:07:30 processing key-> Kostin  val-> [7500.0,120,1500] len-> 1
+2024/06/10 23:07:30 processing key-> Fcks  val-> [20.0] len-> 1
+2024/06/10 23:07:30 processing key-> Lspans  val-> [6.2,8.4] len-> 1
+2024/06/10 23:07:30 processing key-> Json  val-> [] len-> 1
+2024/06/10 23:08:02 Starting server at port 8080
+2024/06/10 23:08:23 processing key-> Bfcalc  val-> [true] len-> 1
+2024/06/10 23:08:23 processing key-> Opt  val-> [1] len-> 1
+2024/06/10 23:08:23 processing key-> Code  val-> [1] len-> 1
+2024/06/10 23:08:23 processing key-> Lspans  val-> [6.2,8.4] len-> 1
+2024/06/10 23:08:23 processing key-> Hs  val-> [3.35,3.35] len-> 1
+2024/06/10 23:08:23 processing key-> Lbays  val-> [3.05] len-> 1
+2024/06/10 23:08:23 processing key-> Bloads  val-> [[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]] len-> 1
+2024/06/10 23:08:23 processing key-> Fop  val-> [1] len-> 1
+2024/06/10 23:08:23 processing key-> Selfwt  val-> [1] len-> 1
+2024/06/10 23:08:23 processing key-> Term  val-> [svg] len-> 1
+2024/06/10 23:08:23 processing key-> Fys  val-> [415.0] len-> 1
+2024/06/10 23:08:23 processing key-> DL  val-> [3.75] len-> 1
+2024/06/10 23:08:23 processing key-> Pufac  val-> [1.0] len-> 1
+2024/06/10 23:08:23 processing key-> Slbload  val-> [1] len-> 1
+2024/06/10 23:08:23 processing key-> Dslb  val-> [110.0] len-> 1
+2024/06/10 23:08:23 processing key-> DM  val-> [0.2] len-> 1
+2024/06/10 23:08:23 processing key-> Kostin  val-> [7500.0,120,1500] len-> 1
+2024/06/10 23:08:23 processing key-> Slbdz  val-> [false] len-> 1
+2024/06/10 23:08:23 processing key-> Ngrp  val-> [0] len-> 1
+2024/06/10 23:08:23 processing key-> Title  val-> [shah-8.7] len-> 1
+2024/06/10 23:08:23 processing key-> Fcks  val-> [20.0] len-> 1
+2024/06/10 23:08:23 processing key-> LL  val-> [4.0] len-> 1
+2024/06/10 23:08:23 processing key-> Json  val-> [] len-> 1
+2024/06/10 23:08:38 processing key-> Code  val-> [1] len-> 1
+2024/06/10 23:08:38 processing key-> Fys  val-> [415.0] len-> 1
+2024/06/10 23:08:38 processing key-> DL  val-> [3.75] len-> 1
+2024/06/10 23:08:38 processing key-> LL  val-> [4.0] len-> 1
+2024/06/10 23:08:38 processing key-> Selfwt  val-> [1] len-> 1
+2024/06/10 23:08:38 processing key-> Slbdz  val-> [false] len-> 1
+2024/06/10 23:08:38 processing key-> Ngrp  val-> [0] len-> 1
+2024/06/10 23:08:38 processing key-> Pufac  val-> [1.0] len-> 1
+2024/06/10 23:08:38 processing key-> Opt  val-> [11] len-> 1
+2024/06/10 23:08:38 processing key-> Lspans  val-> [6.2,8.4] len-> 1
+2024/06/10 23:08:38 processing key-> Bloads  val-> [[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]] len-> 1
+2024/06/10 23:08:38 processing key-> Lbays  val-> [3.05] len-> 1
+2024/06/10 23:08:38 processing key-> Json  val-> [] len-> 1
+2024/06/10 23:08:38 processing key-> Fop  val-> [1] len-> 1
+2024/06/10 23:08:38 processing key-> Bfcalc  val-> [true] len-> 1
+2024/06/10 23:08:38 processing key-> Slbload  val-> [1] len-> 1
+2024/06/10 23:08:38 processing key-> Hs  val-> [3.35,3.35] len-> 1
+2024/06/10 23:08:38 processing key-> Dslb  val-> [110.0] len-> 1
+2024/06/10 23:08:38 processing key-> DM  val-> [0.2] len-> 1
+2024/06/10 23:08:38 processing key-> Kostin  val-> [7500.0,120,1500] len-> 1
+2024/06/10 23:08:38 processing key-> Term  val-> [svg] len-> 1
+2024/06/10 23:08:38 processing key-> Title  val-> [shah-8.7] len-> 1
+2024/06/10 23:08:38 processing key-> Fcks  val-> [20.0] len-> 1
+2024/06/11 11:01:03 Starting server at port 8080
+2024/06/11 11:01:25 processing key-> Fop  val-> [1] len-> 1
+2024/06/11 11:01:25 processing key-> Selfwt  val-> [1] len-> 1
+2024/06/11 11:01:25 processing key-> Term  val-> [svg] len-> 1
+2024/06/11 11:01:25 processing key-> Fcks  val-> [20.0] len-> 1
+2024/06/11 11:01:25 processing key-> Lspans  val-> [6.2,8.4] len-> 1
+2024/06/11 11:01:25 processing key-> DL  val-> [3.75] len-> 1
+2024/06/11 11:01:25 processing key-> Bloads  val-> [[2,1,35,0,2.2,0,1],[2,1,13,0,2.2,0,2]] len-> 1
+2024/06/11 11:01:25 processing key-> DM  val-> [0.2] len-> 1
+2024/06/11 11:01:25 processing key-> Kostin  val-> [7500.0,120,1500] len-> 1
+2024/06/11 11:01:25 processing key-> Bfcalc  val-> [true] len-> 1
+2024/06/11 11:01:25 processing key-> Slbload  val-> [1] len-> 1
+2024/06/11 11:01:25 processing key-> Fys  val-> [415.0] len-> 1
+2024/06/11 11:01:25 processing key-> Lbays  val-> [3.05] len-> 1
+2024/06/11 11:01:25 processing key-> Dslb  val-> [110.0] len-> 1
+2024/06/11 11:01:25 processing key-> Pufac  val-> [1.0] len-> 1
+2024/06/11 11:01:25 processing key-> Json  val-> [] len-> 1
+2024/06/11 11:01:25 processing key-> Title  val-> [shah-8.7] len-> 1
+2024/06/11 11:01:25 processing key-> LL  val-> [4.0] len-> 1
+2024/06/11 11:01:25 processing key-> Slbdz  val-> [false] len-> 1
+2024/06/11 11:01:25 processing key-> Opt  val-> [2] len-> 1
+2024/06/11 11:01:25 processing key-> Ngrp  val-> [0] len-> 1
+2024/06/11 11:01:25 processing key-> Code  val-> [1] len-> 1
+2024/06/11 11:01:25 processing key-> Hs  val-> [3.35,3.35] len-> 1
+2024/06/11 11:08:53 Starting server at port 8080
+2024/06/11 11:24:10 Starting server at port 8080
+2024/06/13 19:58:08 Starting server at port 8080
+2024/06/13 19:58:35 open %!s(<nil>)
+Warning: slow font initializationqt_processTermEvent received a GE_fontprops event. This should not have happened
+: The filename, directory name, or volume label syntax is incorrect.
+2024/06/13 19:58:35 open %!s(<nil>)
+Warning: slow font initializationqt_processTermEvent received a GE_fontprops event. This should not have happened
+: The filename, directory name, or volume label syntax is incorrect.
+2024/06/17 09:55:33 Starting server at port 8080
+2024/06/17 10:16:09 ERRORE, errore-> dev len check failed
+2024/06/17 10:16:09 ERRORE, errore-> dev len check failed
+2024/06/17 10:16:09 ERRORE, errore-> dev len check failed
+2024/06/17 10:16:09 ERRORE, errore-> dev len check failed
+2024/06/17 10:16:09 check for bearing
+2024/06/17 10:16:09 2742.75 633 true
+2024/06/17 20:01:34 Starting server at port 8080
+2024/06/19 08:04:32 Starting server at port 8080
+2024/06/19 11:52:03 Starting server at port 8080
+2024/06/19 11:53:34 Starting server at port 8080
+2024/06/19 11:54:37 Starting server at port 8080
+2024/06/19 11:55:23 Starting server at port 8080
+2024/06/19 11:57:20 Starting server at port 8080
+2024/06/19 11:58:41 Starting server at port 8080
+2024/06/19 12:01:40 Starting server at port 8080
+2024/06/19 12:09:17 Starting server at port 8080
+2024/06/19 12:21:07 Starting server at port 8080
+2024/06/19 12:21:59 Starting server at port 8080
+2024/06/19 13:05:20 Starting server at port 8080
+2024/06/19 13:07:47 Starting server at port 8080
+2024/06/19 13:08:42 open %!s(<nil>): The filename, directory name, or volume label syntax is incorrect.
+2024/06/19 13:08:42 open %!s(<nil>): The filename, directory name, or volume label syntax is incorrect.
+2024/06/19 21:04:23 Starting server at port 8080
+2024/06/19 21:10:50 Starting server at port 8080
+2024/06/20 11:33:05 Starting server at port 8080
+2024/06/20 11:35:00 Starting server at port 8080
+2024/06/20 11:39:54 Starting server at port 8080
+2024/06/20 11:40:56 Starting server at port 8080
+2024/06/20 11:43:58 Starting server at port 8080
+2024/06/20 13:02:21 Starting server at port 8080
+2024/06/20 13:20:00 Starting server at port 8080
+2024/06/20 13:25:33 Starting server at port 8080
+2024/06/20 13:36:44 Starting server at port 8080
+2024/06/20 14:10:17 Starting server at port 8080
+2024/06/20 14:15:48 Starting server at port 8080
+2024/06/20 14:18:09 Starting server at port 8080
+2024/06/20 16:41:15 Starting server at port 8080
+2024/06/20 16:53:44 Starting server at port 8080
+2024/06/21 08:42:33 Starting server at port 8080
+2024/06/21 08:43:09 http: panic serving [::1]:50399: runtime error: index out of range [2] with length 0
+goroutine 143 [running]:
+net/http.(*conn).serve.func1()
+	c:/Program Files/Go/src/net/http/server.go:1850 +0xbf
+panic({0x160aa00, 0xc00042a0d8})
+	c:/Program Files/Go/src/runtime/panic.go:890 +0x262
+barf/mosh.(*RccBm).Table(0xc00042fb80, 0x0)
+	c:/Users/Admin/junk/barf/mosh/beam.go:279 +0x2b9c
+barf/srvr.calcrbeam({0x175f0e0?, 0xc0004400e0}, 0xc0001e6600)
+	c:/Users/Admin/junk/barf/srvr/mosh.go:269 +0x2cf
+net/http.HandlerFunc.ServeHTTP(0xc0004400e0?, {0x175f0e0?, 0xc0004400e0?}, 0x164b7c8?)
+	c:/Program Files/Go/src/net/http/server.go:2109 +0x2f
+net/http.(*ServeMux).ServeHTTP(0x0?, {0x175f0e0, 0xc0004400e0}, 0xc0001e6600)
+	c:/Program Files/Go/src/net/http/server.go:2487 +0x149
+net/http.serverHandler.ServeHTTP({0x175e120?}, {0x175f0e0, 0xc0004400e0}, 0xc0001e6600)
+	c:/Program Files/Go/src/net/http/server.go:2947 +0x30c
+net/http.(*conn).serve(0xc000001720, {0x175f660, 0xc000179fb0})
+	c:/Program Files/Go/src/net/http/server.go:1991 +0x607
+created by net/http.(*Server).Serve
+	c:/Program Files/Go/src/net/http/server.go:3102 +0x4db
+2024/06/21 08:43:09 http: panic serving [::1]:50404: runtime error: index out of range [2] with length 0
+goroutine 179 [running]:
+net/http.(*conn).serve.func1()
+	c:/Program Files/Go/src/net/http/server.go:1850 +0xbf
+panic({0x160aa00, 0xc0002ba750})
+	c:/Program Files/Go/src/runtime/panic.go:890 +0x262
+barf/mosh.(*RccBm).Table(0xc00034c100, 0x0)
+	c:/Users/Admin/junk/barf/mosh/beam.go:279 +0x2b9c
+barf/srvr.calcrbeam({0x175f0e0?, 0xc00035e2a0}, 0xc000164900)
+	c:/Users/Admin/junk/barf/srvr/mosh.go:269 +0x2cf
+net/http.HandlerFunc.ServeHTTP(0xc00035e2a0?, {0x175f0e0?, 0xc00035e2a0?}, 0xc00035cf30?)
+	c:/Program Files/Go/src/net/http/server.go:2109 +0x2f
+net/http.(*ServeMux).ServeHTTP(0x0?, {0x175f0e0, 0xc00035e2a0}, 0xc000164900)
+	c:/Program Files/Go/src/net/http/server.go:2487 +0x149
+net/http.serverHandler.ServeHTTP({0x175e120?}, {0x175f0e0, 0xc00035e2a0}, 0xc000164900)
+	c:/Program Files/Go/src/net/http/server.go:2947 +0x30c
+net/http.(*conn).serve(0xc000442140, {0x175f660, 0xc000179fb0})
+	c:/Program Files/Go/src/net/http/server.go:1991 +0x607
+created by net/http.(*Server).Serve
+	c:/Program Files/Go/src/net/http/server.go:3102 +0x4db
+2024/06/21 09:39:18 Starting server at port 8080
+2024/06/21 09:42:54 Starting server at port 8080
+2024/06/21 09:47:10 Starting server at port 8080
+2024/06/21 09:48:47 Starting server at port 8080
+2024/06/21 11:15:09 Starting server at port 8080
+2024/06/21 11:15:19 map[Rdprp:[false]]
+2024/06/21 11:15:19 [false]
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:15:27  false 
+2024/06/21 11:18:51 Starting server at port 8080
+2024/06/21 11:18:58 Starting server at port 8080
+2024/06/21 11:19:07 jsonstr->
+ {"DL":1.0,"LL":0.5,"Selfwt":true,"Rdprp":false,"Grp":2,"Code":1,"Lbl":25.0,"Styp":1,"Term":"svg","Title":"abel-ex-8.1","Lspan":3500.0}
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  true 
+2024/06/21 11:19:07  true 
+2024/06/21 11:19:07  false 
+2024/06/21 11:19:07  true 
+2024/06/22 09:07:37 Starting server at port 8080
+2024/06/22 09:08:39 Starting server at port 8080
+2024/06/22 10:22:22 Starting server at port 8080
+2024/06/22 10:23:46 Starting server at port 8080
+2024/06/22 12:07:02 Starting server at port 8080
+2024/06/22 12:10:28 Starting server at port 8080
+2024/06/22 12:11:42 Starting server at port 8080
+2024/06/22 12:13:00 Starting server at port 8080
+2024/06/22 12:28:53 Starting server at port 8080
+2024/06/22 12:42:48 Starting server at port 8080
+2024/06/22 12:46:34 Starting server at port 8080
+2024/06/22 12:54:29 Starting server at port 8080
+2024/06/22 13:25:15 Starting server at port 8080
+2024/06/22 13:25:45 ERRORE,errore-> depth of slab required for flange calc
+2024/06/22 13:28:08 open web\hulse2.3-detail.svg: The system cannot find the path specified.
+2024/06/22 13:28:08 open web\hulse2.3-detail.svg: The system cannot find the path specified.
+2024/06/22 14:12:58 Starting server at port 8080
+2024/06/22 14:14:20 Starting server at port 8080
+2024/06/22 14:14:34 ERRORE,errore-> depth of slab required for flange calc
+2024/06/22 14:30:24 Starting server at port 8080
+2024/06/22 14:30:51 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/22 14:30:51 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/22 14:38:39 Starting server at port 8080
+2024/06/22 14:38:55 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/22 14:38:55 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/22 18:32:07 Starting server at port 8080
+2024/06/23 08:35:27 Starting server at port 8080
+2024/06/23 09:57:18 Starting server at port 8080
+2024/06/23 10:50:57 Starting server at port 8080
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:51:11 l1 0.000000, l2 800.000000, l3 3200.000000, l4 4000.000000
+2024/06/23 10:52:39 Starting server at port 8080
+2024/06/23 14:22:30 Starting server at port 8080
+2024/06/23 14:22:48 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/23 14:22:48 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/23 14:36:33 Starting server at port 8080
+2024/06/23 14:36:44 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/23 14:36:44 open web\shah5.6.1-detail.svg: The system cannot find the path specified.
+2024/06/23 14:41:00 Starting server at port 8080
+2024/06/23 15:01:50 Starting server at port 8080
+2024/06/23 15:28:13 Starting server at port 8080
+2024/06/24 07:54:34 Starting server at port 8080
+2024/06/24 07:57:55 exit status 1
+2024/06/24 08:04:13 Starting server at port 8080
+2024/06/24 08:17:28 Starting server at port 8080
+2024/06/24 08:20:22 Starting server at port 8080
+2024/06/25 19:15:51 Starting server at port 8080
+2024/06/25 19:33:56 Starting server at port 8080
+2024/06/25 19:57:11 Starting server at port 8080
+2024/06/25 20:44:02 Starting server at port 8080
+2024/06/25 20:46:02 Starting server at port 8080
+2024/07/03 22:40:31 Starting server at port 8080
+2024/07/03 22:40:52 map[Rdprp:[false]]
+2024/07/03 22:40:52 [false]
+2024/07/03 22:40:59 map[Rdprp:[true]]
+2024/07/03 22:40:59 [true]
+2024/07/03 22:41:00 map[Rdprp:[false]]
+2024/07/03 22:41:00 [false]
+2024/07/03 22:41:01 map[Rdprp:[true]]
+2024/07/03 22:41:01 [true]
+2024/07/03 22:41:01 map[Rdprp:[false]]
+2024/07/03 22:41:01 [false]
+2024/07/03 22:41:06 map[Rdprp:[true]]
+2024/07/03 22:41:06 [true]
+2024/07/17 18:25:29 Starting server at port 8080
+2024/07/17 18:27:06  wul, mul, vul, dmax-> 1.50735 2.3081296875e+06 2637.8624999999997 2254.0328979492188 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:06 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:06  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/17 18:27:07 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/17 18:27:07  false 
+2024/07/19 13:08:06 Starting server at port 8080
+2024/07/19 13:08:57 map[Rdprp:[false]]
+2024/07/19 13:08:57 [false]
+2024/07/19 13:08:58 map[Rdprp:[true]]
+2024/07/19 13:08:58 [true]
+2024/07/19 13:08:59 map[Rdprp:[false]]
+2024/07/19 13:08:59 [false]
+2024/07/19 13:09:03 map[Rdprp:[true]]
+2024/07/19 13:09:03 [true]
+2024/07/19 13:09:04 map[Rdprp:[false]]
+2024/07/19 13:09:04 [false]
+2024/07/19 13:09:07 map[Rdprp:[true]]
+2024/07/19 13:09:07 [true]
+2024/07/19 13:09:09 map[Rdprp:[false]]
+2024/07/19 13:09:09 [false]
+2024/07/21 10:59:02 Starting server at port 8080
+2024/07/21 10:59:37  wul, mul, vul, dmax-> 1.50735 2.3081296875e+06 2637.8624999999997 2254.0328979492188 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 10:59:37 fv vs fvq -> fv  3.9567937499999997  fvq  3.9567937499999997  fv - fvq  0
+2024/07/21 10:59:37  false 
+2024/07/21 11:13:23 Starting server at port 8080
+2024/07/21 12:00:45 Starting server at port 8080
+2024/07/21 12:02:01 Starting server at port 8080
+2024/07/21 12:13:57 Starting server at port 8080
+2024/07/21 12:16:10 Starting server at port 8080
+2024/07/21 12:18:12 Starting server at port 8080
+2024/07/21 12:26:39 Starting server at port 8080
+2024/07/21 12:29:07 Starting server at port 8080
+2024/07/21 12:32:17 Starting server at port 8080
+2024/07/21 12:32:54 Starting server at port 8080
+2024/07/21 12:33:01 Starting server at port 8080
+2024/07/21 12:43:29 Starting server at port 8080
+2024/07/21 13:03:30 Starting server at port 8080
+2024/07/21 13:48:57 Starting server at port 8080
+2024/07/21 13:51:16 Starting server at port 8080
+2024/07/21 13:52:28 Starting server at port 8080
+2024/07/21 13:55:17 Starting server at port 8080
+2024/07/21 13:57:02 Starting server at port 8080
+2024/07/21 13:58:42 Starting server at port 8080
+2024/07/21 14:00:32 Starting server at port 8080
+2024/07/21 14:03:59 Starting server at port 8080
+2024/07/21 14:06:40 Starting server at port 8080
+2024/07/21 14:08:43 Starting server at port 8080
+2024/07/21 17:26:49 Starting server at port 8080
+2024/07/21 17:32:13 Starting server at port 8080
+2024/07/21 17:36:28 Starting server at port 8080
+2024/07/21 17:40:02 Starting server at port 8080
+2024/07/21 17:43:11 Starting server at port 8080
+2024/07/21 17:47:52 Starting server at port 8080
+2024/07/21 18:24:48 Starting server at port 8080
+2024/07/21 18:26:04 Starting server at port 8080
+2024/07/21 18:26:37 Starting server at port 8080
+2024/07/21 18:31:18 Starting server at port 8080
+2024/07/21 18:32:14 Starting server at port 8080
+2024/07/21 18:33:58 Starting server at port 8080
+2024/07/22 08:41:09 Starting server at port 8080
+2024/07/22 09:06:06 Starting server at port 8080
+2024/07/22 09:09:17 Starting server at port 8080
+2024/07/22 11:39:30 Starting server at port 8080
+2024/07/22 11:53:27 Starting server at port 8080
+2024/07/22 11:58:42 Starting server at port 8080
+2024/07/22 11:59:50 Starting server at port 8080
+2024/07/22 12:00:37 Starting server at port 8080
+2024/07/22 12:01:22 Starting server at port 8080
+2024/07/22 12:05:15 Starting server at port 8080
+2024/07/22 12:10:57 Starting server at port 8080
+2024/07/22 12:12:19 Starting server at port 8080
+2024/07/22 12:13:31 Starting server at port 8080
+2024/07/22 12:14:52 Starting server at port 8080
+2024/07/22 12:17:21 Starting server at port 8080
+2024/07/22 12:18:05 Starting server at port 8080
+2024/07/22 12:20:35 Starting server at port 8080
+2024/07/22 12:22:36 Starting server at port 8080
+2024/07/22 12:23:22 Starting server at port 8080
+2024/07/22 12:24:45 Starting server at port 8080
+2024/07/22 12:25:45 Starting server at port 8080
+2024/07/22 12:26:43 Starting server at port 8080
+2024/07/22 12:28:13 Starting server at port 8080
+2024/07/22 12:38:32 Starting server at port 8080
+2024/07/22 12:41:00 Starting server at port 8080
+2024/07/22 12:41:52 Starting server at port 8080
+2024/07/22 12:42:37 Starting server at port 8080
+2024/07/22 12:46:19 Starting server at port 8080
+2024/07/22 12:50:27 Starting server at port 8080
+2024/07/22 12:51:03 Starting server at port 8080
+2024/07/22 12:51:54 Starting server at port 8080
+2024/07/22 12:52:46 Starting server at port 8080
+2024/07/22 12:54:16 Starting server at port 8080
+2024/07/22 12:56:06 Starting server at port 8080
+2024/07/22 12:56:50 Starting server at port 8080
+2024/07/22 12:59:19 Starting server at port 8080
+2024/07/22 13:00:50 Starting server at port 8080
+2024/07/22 13:01:56 Starting server at port 8080
+2024/07/22 13:04:26 Starting server at port 8080
+2024/07/22 13:06:01 Starting server at port 8080
+2024/07/22 13:07:44 Starting server at port 8080
+2024/07/22 13:08:57 Starting server at port 8080
+2024/07/22 13:10:07 Starting server at port 8080
+2024/07/22 13:11:09 Starting server at port 8080
+2024/07/22 13:12:05 Starting server at port 8080
+2024/07/22 13:13:31 Starting server at port 8080
+2024/07/22 13:16:21 Starting server at port 8080
+2024/07/22 14:10:22 Starting server at port 8080
+2024/07/22 14:48:29 Starting server at port 8080
+2024/07/22 14:52:17 Starting server at port 8080
+2024/07/22 14:53:49 Starting server at port 8080
+2024/07/22 14:55:53 Starting server at port 8080
+2024/07/22 14:59:19 Starting server at port 8080
+2024/07/22 15:06:18 Starting server at port 8080
+2024/07/22 15:07:26 Starting server at port 8080
+2024/07/22 15:09:44 Starting server at port 8080
+2024/07/22 15:12:28 Starting server at port 8080
+2024/07/22 15:13:16 Starting server at port 8080
+2024/07/22 15:15:16 Starting server at port 8080
+2024/07/22 15:15:50 Starting server at port 8080
+2024/07/22 15:15:56 Starting server at port 8080
+2024/07/22 15:17:18 Starting server at port 8080
+2024/07/22 15:18:36 Starting server at port 8080
+2024/07/22 15:19:29 Starting server at port 8080
+2024/07/22 15:21:29 Starting server at port 8080
+2024/07/30 06:59:17 Starting server at port 8080
+2024/08/09 15:00:04 Starting server at port 8080
+2024/08/30 22:12:50 Starting server at port 8080
+2024/11/06 12:16:25 Starting server at port 8080
+2024/11/06 12:20:05 Starting server at port 8080
+2024/11/12 17:10:27 Starting server at port 8080
+2024/11/12 18:05:41 Starting server at port 8080
+2024/11/25 09:48:22 Starting server at port 8080
+2024/11/25 11:26:10 Starting server at port 8080
+2024/11/25 11:30:43 Starting server at port 8080
+2024/11/25 12:11:02 Starting server at port 8080
+2024/11/25 12:14:42 Starting server at port 8080
+2024/11/25 12:27:06 Starting server at port 8080
+2024/11/25 13:01:06 Starting server at port 8080
+2024/11/25 13:12:04 Starting server at port 8080
+2024/11/25 13:12:35 jsonstr->
+ {"Typ":1,"Purlinspc":2235.0,"Purlinwt":318.0,"Vb":41.83,"Rise":4000.0,"Fop":0,"Cfg":1,"Term":svg,"Id":duggal15.1-fink,"Spacing":8000.0,"Span":16000.0,"DL":183.0,"LL":750.0}
+2024/11/25 13:17:17 Starting server at port 8080
+2024/11/25 14:46:47 jsonstr->
+ {"Fop":0,"Vb":41.83,"Span":16000.0,"Rise":4000.0,"Purlinspc":2235.0,"LL":750.0,"Typ":2,"Cfg":1,"Term":"svg","Id":"duggal15.1-fink","Spacing":8000.0,"Purlinwt":318.0,"DL":183.0}
+2024/11/25 14:46:47  h/w rat NaN 
+2024/11/25 21:34:42 Starting server at port 8080
+2024/11/25 21:35:39 Starting server at port 8080
+2024/11/26 09:48:32 Starting server at port 8080
+2024/11/26 09:49:35 Starting server at port 8080
+2024/11/26 09:50:36 Starting server at port 8080
+2024/11/26 10:43:59 Starting server at port 8080
+2024/11/26 10:50:39 Starting server at port 8080
+2024/11/26 10:53:08 Starting server at port 8080
+2024/11/26 10:56:20 Starting server at port 8080
+2024/11/26 10:57:18 Starting server at port 8080
+2024/11/26 11:25:47 Starting server at port 8080
+2024/11/26 11:28:06 Starting server at port 8080
+2024/11/28 09:25:42 Starting server at port 8080
+2024/11/28 09:37:50 Starting server at port 8080
+2024/11/28 09:39:23 Starting server at port 8080
+2024/11/28 09:40:33 Starting server at port 8080
+2024/11/29 18:19:34 Starting server at port 8080
+2024/11/30 13:00:38 Starting server at port 8080
+2024/12/11 15:17:31 Starting server at port 8080
+2024/12/11 15:21:08 Starting server at port 8080
+2024/12/13 02:51:47 Starting server at port 8080
+2024/12/16 15:25:56 Starting server at port 8080
+2024/12/16 15:28:32 Starting server at port 8080
+2024/12/17 17:31:09 Starting server at port 8080
+2024/12/17 17:32:12 http: panic serving [::1]:62923: runtime error: index out of range [1] with length 0
+goroutine 5 [running]:
+net/http.(*conn).serve.func1()
+	c:/Program Files/Go/src/net/http/server.go:1868 +0xb9
+panic({0xf4fb00?, 0xc0000b0de0?})
+	c:/Program Files/Go/src/runtime/panic.go:920 +0x270
+barf/mosh.CBeamDM(0x3, {0xc00040e500, 0x2, 0x0?}, 0x4024000000000000?, 0x4038000000000000?, 0xc00040e250?, 0xc00040e1e0?)
+	c:/Users/akhil/junk/projex/barf/mosh/cbeamrd.go:38 +0x27e5
+barf/mosh.Mrd(0xc0003b6380)
+	c:/Users/akhil/junk/projex/barf/mosh/frame2d.go:246 +0x85
+barf/mosh.Frm2dDz(0xc0003b6380)
+	c:/Users/akhil/junk/projex/barf/mosh/frame2d.go:146 +0x65
+barf/mosh.f2dfit({0xc0000b0570, 0x3, 0x3}, {0xc0003aa610, 0x1, 0x1})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:299 +0xf9
+barf/mosh.f2dobj(0xc000074000, {0xc0003aa610, 0x1, 0x1})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:284 +0x94
+barf/opt.(*Bat).Init(0xc000074000, {0xc00009a080, 0x3, 0xc000327438?}, {0xc0003aa610, 0x1, 0x1}, 0xfd14c8)
+	c:/Users/akhil/junk/projex/barf/opt/ga.go:27 +0xe8
+barf/opt.Bpopgen(0x0, 0x1e, {0xc00009a080?, 0x3, 0x4}, {0xc0003aa610?, 0x1, 0x1}, 0xfd14c8)
+	c:/Users/akhil/junk/projex/barf/opt/ga.go:70 +0x274
+barf/opt.Gabloop(0x1, 0x3?, 0x0?, 0x10a8f0?, 0x1e, 0x108188?, 0xc0003eedc8?, 0x815199?, 0x1466720?, 0xffffffffffffffff, ...)
+	c:/Users/akhil/junk/projex/barf/opt/ga.go:331 +0x132
+barf/mosh.frm2dga({0x0, 0x0, 0x0, 0x1, {0xc00009a060, 0x3, 0x4}, {0xc0000bc000, 0x7, 0x8}, ...})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:62 +0xbcc
+barf/mosh.Frm2dOpt({0x0, 0x0, 0x0, 0x1, {0xc00009a060, 0x3, 0x4}, {0xc0000bc000, 0x7, 0x8}, ...})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:270 +0xb2
+barf/srvr.calcrfrm2d({0x10a3b20?, 0xc0002fe380}, 0xc000136800)
+	c:/Users/akhil/junk/projex/barf/srvr/mosh.go:589 +0x476
+net/http.HandlerFunc.ServeHTTP(0x10?, {0x10a3b20?, 0xc0002fe380?}, 0xc00017996c?)
+	c:/Program Files/Go/src/net/http/server.go:2136 +0x29
+net/http.(*ServeMux).ServeHTTP(0x800e65?, {0x10a3b20, 0xc0002fe380}, 0xc000136800)
+	c:/Program Files/Go/src/net/http/server.go:2514 +0x142
+net/http.serverHandler.ServeHTTP({0x10a2980?}, {0x10a3b20?, 0xc0002fe380?}, 0x6?)
+	c:/Program Files/Go/src/net/http/server.go:2938 +0x8e
+net/http.(*conn).serve(0xc000340120, {0x10a4350, 0xc0002c1800})
+	c:/Program Files/Go/src/net/http/server.go:2009 +0x5f4
+created by net/http.(*Server).Serve in goroutine 1
+	c:/Program Files/Go/src/net/http/server.go:3086 +0x5cb
+2024/12/17 17:32:12 http: panic serving [::1]:62925: runtime error: index out of range [1] with length 0
+goroutine 628 [running]:
+net/http.(*conn).serve.func1()
+	c:/Program Files/Go/src/net/http/server.go:1868 +0xb9
+panic({0xf4fb00?, 0xc0006feb40?})
+	c:/Program Files/Go/src/runtime/panic.go:920 +0x270
+barf/mosh.CBeamDM(0x3, {0xc000501ab0, 0x2, 0x0?}, 0x4024000000000000?, 0x4038000000000000?, 0xc000501800?, 0xc000501790?)
+	c:/Users/akhil/junk/projex/barf/mosh/cbeamrd.go:38 +0x27e5
+barf/mosh.Mrd(0xc0006cc880)
+	c:/Users/akhil/junk/projex/barf/mosh/frame2d.go:246 +0x85
+barf/mosh.Frm2dDz(0xc0006cc880)
+	c:/Users/akhil/junk/projex/barf/mosh/frame2d.go:146 +0x65
+barf/mosh.f2dfit({0xc00031a0c0, 0x3, 0x3}, {0xc0003aad60, 0x1, 0x1})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:299 +0xf9
+barf/mosh.f2dobj(0xc000074600, {0xc0003aad60, 0x1, 0x1})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:284 +0x94
+barf/opt.(*Bat).Init(0xc000074600, {0xc00009ab20, 0x3, 0xc000327438?}, {0xc0003aad60, 0x1, 0x1}, 0xfd14c8)
+	c:/Users/akhil/junk/projex/barf/opt/ga.go:27 +0xe8
+barf/opt.Bpopgen(0x0, 0x1e, {0xc00009ab20?, 0x3, 0x4}, {0xc0003aad60?, 0x1, 0x1}, 0xfd14c8)
+	c:/Users/akhil/junk/projex/barf/opt/ga.go:70 +0x274
+barf/opt.Gabloop(0x1, 0x0?, 0x0?, 0x0?, 0x1e, 0x0?, 0x0?, 0x0?, 0x0?, 0xffffffffffffffff, ...)
+	c:/Users/akhil/junk/projex/barf/opt/ga.go:331 +0x132
+barf/mosh.frm2dga({0x0, 0x0, 0x0, 0x1, {0xc00009ab00, 0x3, 0x4}, {0xc0006540c0, 0x7, 0x8}, ...})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:62 +0xbcc
+barf/mosh.Frm2dOpt({0x0, 0x0, 0x0, 0x1, {0xc00009ab00, 0x3, 0x4}, {0xc0006540c0, 0x7, 0x8}, ...})
+	c:/Users/akhil/junk/projex/barf/mosh/frame2dopt.go:270 +0xb2
+barf/srvr.calcrfrm2d({0x10a3b20?, 0xc0002fe000}, 0xc000136200)
+	c:/Users/akhil/junk/projex/barf/srvr/mosh.go:589 +0x476
+net/http.HandlerFunc.ServeHTTP(0x10?, {0x10a3b20?, 0xc0002fe000?}, 0xc00058ab6c?)
+	c:/Program Files/Go/src/net/http/server.go:2136 +0x29
+net/http.(*ServeMux).ServeHTTP(0x800e65?, {0x10a3b20, 0xc0002fe000}, 0xc000136200)
+	c:/Program Files/Go/src/net/http/server.go:2514 +0x142
+net/http.serverHandler.ServeHTTP({0x10a2980?}, {0x10a3b20?, 0xc0002fe000?}, 0x6?)
+	c:/Program Files/Go/src/net/http/server.go:2938 +0x8e
+net/http.(*conn).serve(0xc0001e61b0, {0x10a4350, 0xc0002c1800})
+	c:/Program Files/Go/src/net/http/server.go:2009 +0x5f4
+created by net/http.(*Server).Serve in goroutine 1
+	c:/Program Files/Go/src/net/http/server.go:3086 +0x5cb
+2024/12/17 17:34:01 Starting server at port 8080
+2024/12/17 23:29:48 Starting server at port 8080
+2024/12/18 00:52:00 Starting server at port 8080
+2024/12/18 00:53:42 Starting server at port 8080
+2024/12/18 00:55:45 Starting server at port 8080
+2024/12/18 01:00:29 Starting server at port 8080
+2024/12/19 15:40:52 opt frame
+2024/12/19 15:40:52 report-> optimized minimum cost (ga) for 2d frame -> 0 rupees
+2024/12/19 15:46:30 dz frame
+2024/12/20 01:30:17 [31m unexpected end of JSON input [0m

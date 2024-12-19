@@ -1,0 +1,23 @@
+package barf
+
+import (
+	"testing"
+	kass"barf/kass"
+)
+
+func TestTrussDz(t *testing.T){
+	var examples = []string{"abel12.8","is2366","scissor","fink"}
+	dirname,_ := os.Getwd()
+	datadir := filepath.Join(dirname,"../data/examples/tmbr/truss")
+	//exmap := make(map[int]float64)
+	for i, ex := range examples{
+		if i != 0{continue}
+		fname := filepath.Join(datadir,ex+".json")
+		t.Log("example->",i+1,"file->",fname,"opt - PSO\n")
+		trs, err := kass.ReadTrs2d(fname)
+		if err != nil{
+			t.Fatal(err)
+		}
+		TrussDz(&trs)
+	}
+}

@@ -1,0 +1,10 @@
+package barf
+
+import (
+	"fmt"
+	kass"barf/kass"
+)
+
+func (t *Trs2d) TrussOpt(){
+	
+}

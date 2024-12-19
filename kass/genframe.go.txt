@@ -1,0 +1,360 @@
+package barf
+
+import (
+	"fmt"
+	"log"
+	"errors"
+	//draw"barf/draw"
+	//kass"barf/kass"
+	//geom"barf/geom"
+)
+
+func (f *Frm3d) InitRcc(){
+	//first grades
+	if f.Cvec == nil{f.Cvec = make([]int,6)}
+	if f.Bvec == nil{f.Bvec = make([]int,6)}
+	if f.Fvec == nil{f.Fvec = make([]int,6)}
+	if f.Ftngvec == nil{f.Ftngvec = make([]int,6)}
+	if f.Slbvec == nil{f.Slbvec = make([]int,6)}
+	if f.Cval == nil{f.Cval = make([]float64,6)}
+	if f.Bval == nil{f.Bval = make([]float64,6)}
+	if f.Fval == nil{f.Fval = make([]float64,6)}
+	if f.Ftngval == nil{f.Ftngval = make([]float64,6)}
+	if f.Slbval == nil{f.Slbval = make([]float64,6)}
+	if f.Bscode == 0{f.Bscode = 1}	
+	if f.Grades == nil{
+		//fck fy fyd ftng, col, bm, slab
+		f.Grades = []float64{25.0,415.0,415.0}
+	}
+	if f.Fval[0] == 0.0{
+		//nominal cover
+		f.Fval[0] = 20.0
+	}
+	if f.Csec == nil {f.Csec = []int{1}}
+	if f.Bsec == nil {f.Bsec = []int{1,1}}
+}
+
+func CalcRcFrm(f *F3d, term string){
+	//create projex folder
+	
+	foldr := GenFolder(f.Foldr)
+	log.Println("project folder created at-",foldr)
+
+	//set defaults
+
+	/*
+	var lx, ly, lz float64
+	lx = f.X[len(f.X)-1]
+	ly = f.Y[len(f.Y)-1]
+	lz = f.Z[len(f.Z)-1]
+	//get frame nodes, mems, geometry
+	cds, cdmap, nodeadj, supports, cols, beamxs, beamys, snodes, sendc, smems, mems, memwng := frame3dgeom(lx, ly, lz, f.X, f.Y, f.Z)
+
+	if f.Fck == nil{
+		f.Fck = []float64{25.0,25.0,25.0,25.0}
+	}
+	if f.Fy == nil{
+		f.Fy = []float64{550,550,550,550}
+	}
+	if len(f.Fck) == 1{
+		f.Fck = []float64{f.Fck[0],f.Fck[0],f.Fck[0],f.Fck[0]}
+	}
+	if len(f.Fy) == 1{
+		f.Fy = []float64{f.Fy[0],f.Fy[0],f.Fy[0],f.Fy[0]}
+	}
+	if f.Fydist == 0.0{f.Fydist = f.Fy[3]}
+	if f.Nomcvr == 0.0{f.Nomcvr = 30.0}
+	cds, cdmap, nodeadj, supports, cols, beamxs, beamys, snodes, sendc, smems, mems, memwng := frame3dgeom(lx, ly, lz, f.X, f.Y, f.Z)
+	//get max depth of slab
+	//scat, dsmax, serr, aok := slabdepth(f.Slbtyp, f.Slbc, snodes, sendc, f.X, f.Y, f.SlbDL, f.SlbLL, cdmap, f.Fck[3], f.Fy[3], f.Fydist, f.Nomcvr, f.BMrd[0], f.Clvr, f.Bdim)
+	//log.Println(serr)
+	//if aok == 0 {log.Println("A-OK->",aok)} else {log.Println("NOT A OK :(",aok)}
+	//func slabdepth(slbc, styp int, snodes, sendc [][]int, xs, ys, dl, ll []float64, cdmap map[int][]float64, fck, fy, fyd, nomcvr float64) (scat []int, dmax float64) {
+	//scat, dsmax := slabgeom(f.Slbc, f.Slbtyp, snodes, sendc, f.X, f.Y, f.SlbDL, f.SlbLL, cdmap, f.Fck[3], f.Fy[3], f.Fydist, f.Nomcvr)
+	//get tributary areas and loads on beams/columns
+	//mloads, mverts, mareas := slabmemloadis(f.Slbtyp, f.Slbc, mems, cdmap, snodes, smems, f.SlbDL, f.SlbLL, dsmax)
+	//add wind loads
+	//add seismic load as per is code
+	//add cantilevers
+	//add stairs
+	
+	//draw frame geom (3d), frame plan (2d)
+	//draw frame layout/formwork
+	//txtplot, err := draw.FrmForm(cds, supports,mems, cols, beamxs, beamys, f.Ncols, f.Nbms, term, foldr)
+	//now use flanged when building modelz
+	//add self weight loads
+	//frmselfwt(f, mems, mloads, cols, beamxs, beamys)
+	
+	//add self weight loads
+	//barz, err := frmselfwt(f, mems, mloads, cols, beamxs, beamys, f.Ncols, f.Nbms)
+	//analyze 3d model
+	//go rcc3dsimp()
+	//build 2d x frame
+
+	//build 2d y frame
+	//	msdict := map[int]string{1:kass.ColorPurple,2:kass.ColorWhite,3:kass.ColorYellow}
+	//msnames := map[int]string{1:"col",2:"beam x", 3:"beamy"}
+	/*
+	for mem, m := range mems{
+		fmt.Println(msdict[m[0][2]])
+		fmt.Println(msdict[m[0][2]])
+		fmt.Println("MEM-",mem)
+		fmt.Println("TYPE-",msnames[m[0][2]],m[0][2])
+		fmt.Println("MTYPE",m[1][4])
+		fmt.Println("xdx, ydx, flrdx",m[1])
+		fmt.Println(kass.ColorReset)
+	}
+		txtplot, err := draw.FrmGeom(cds, supports,mems, snodes, scat, f.Ncols, f.Nbms, term, foldr) 
+	if err != nil{
+		log.Println(err)
+		log.Println(txtplot)
+		
+	}
+	//draw frame loads
+	
+	txtplot, err = draw.FrmLoads(cds, supports, mems, mloads, mverts, mareas, term, foldr)
+	if err != nil{
+		log.Println(err)
+		log.Println(txtplot)
+		
+	}
+	if 1 == 0{log.Println(nodeadj, cols, beamxs, beamys, memwng)}
+	if f.Flanged{
+		switch f.Slbc{
+			case 1:
+			//slab c in x (y frame flanged)
+			f.Bsec[1] = 6
+			case 2:
+			//slab c in y (x frame flanged)
+			f.Bsec[0] = 6
+		}
+	}
+
+	   
+
+	fmt.Println(kass.ColorReset)
+	//FrmSubFrm()
+	//FrmSelfWt(f, mems , mloads, cols, beamxs, beamys)
+	//fmt.Println(mems["14-15"][1])
+	//fmt.Println(mems["18-19"][1])
+
+	*/
+	
+}
+
+func frame3dgeom(f * F3d) (err error) {
+	/*
+	   generate a 3d frame
+	  cols , beamxs, beamys
+	  are jb, je, memdx -
+	  cols = interior top b tl tr bl br
+	  mcs =       1    2  3  4  5  6  7
+	  beamxs =  interior left bot right bot  
+	//mems[0] = mprp [jb, je, em, cp, memrel] (1 - col, 2 - beamx, 3 - beamy)
+	//mems[1] = [xdx, ydx, flrdx]
+	//slabcs [lc rc tc bc]
+	*/
+	//xs := f.X; ys := f.Y; zs := f.Z
+	xspans := len(f.X)-1
+	yspans := len(f.Y)-1
+	zspans := len(f.Z)-1
+	if xspans == 0 || yspans == 0 || zspans == 0{
+		return errors.New("empty frame span")
+	}
+	for _, z := range f.Z {
+		for _, y := range f.Y {
+			for _, x := range f.X {
+				f.Coords = append(f.Coords, []float64{x, y, z})
+			}
+		}
+	}
+	colstep := (xspans + 1) * (yspans + 1)
+	xstep := xspans + 1
+	ystep := yspans+1
+	//fmt.Println("xstep\tystep\tcolstep\t")
+	//fmt.Println(xstep, ystep, colstep)
+	f.Cdmap = make(map[int][]float64)
+	for idx, vertex := range f.Coords {
+		f.Cdmap[idx+1] = vertex
+	}
+	f.Supports = make(map[int][]int)
+	f.Members = make(map[string][][]int)
+	f.Nodeadj = make(map[int][]int)
+	var memidx string
+	for i := 1; i <= len(f.Coords); i++ {
+		xdx, ydx, flrdx, locdx := getxydx(i, colstep, xstep, ystep)
+		if i+colstep <= len(f.Coords) {
+			//add columns	
+			mtyp, locx, lex := getmemtype(i, colstep, xstep, ystep, xdx, ydx, locdx, flrdx, 1)
+			//log.Println(mtyp, locx)
+			f.Cols = append(f.Cols, []int{i, i+colstep, 1, mtyp, locx, lex})
+			f.Nodeadj[i] = append(f.Nodeadj[i], i+colstep)
+			f.Nodeadj[i+colstep] = append(f.Nodeadj[i+colstep], i)
+			memidx = getmemidx(i, i+colstep)
+			f.Members[memidx] = append(f.Members[memidx], []int{i, i + colstep, 1, 1, 0})
+			f.Members[memidx] = append(f.Members[memidx], []int{xdx,ydx,flrdx,locdx, mtyp, locx, lex})
+			f.Memwng = append(f.Memwng, []float64{1,90})
+		}
+		if i <= colstep {
+			f.Supports[i] = []int{-1, -1, -1, -1, -1, -1}
+		} else {
+			f.Supports[i] = []int{0, 0, 0, 0, 0, 0}
+		}	
+		if i > colstep {
+			if i+1 <= len(f.Coords) && f.Cdmap[i][1] == f.Cdmap[i+1][1] {
+				//add beam x
+				mtyp, locx, lex := getmemtype(i, colstep, xstep, ystep, xdx, ydx, locdx, flrdx, 2)
+				//log.Println("btyp-",mtyp)
+				f.Beamxs = append(f.Beamxs, []int{i, i + 1, 2, mtyp, locx, lex})
+				f.Nodeadj[i] = append(f.Nodeadj[i], i+1)
+				f.Nodeadj[i+1] = append(f.Nodeadj[i+1], i)
+				memidx = getmemidx(i, i+1)
+				f.Members[memidx] = append(f.Members[memidx], []int{i, i + 1, 2, 2, 0})
+				f.Members[memidx] = append(f.Members[memidx], []int{xdx,ydx,flrdx,locdx, mtyp, locx, lex})
+				f.Memwng = append(f.Memwng, []float64{0,0})
+			}
+			if i+xstep <= len(f.Coords) && f.Cdmap[i][2] == f.Cdmap[i+xstep][2]{
+				//add beam y
+				mtyp, locx, lex := getmemtype(i, colstep, xstep, ystep, xdx, ydx, locdx, flrdx, 3)
+				//log.Println("beamy-",mtyp)
+				f.Beamys = append(f.Beamys, []int{i, i + xstep, 3, mtyp, locx, lex})
+				f.Nodeadj[i] = append(f.Nodeadj[i], i+xstep)
+				f.Nodeadj[i+xstep] = append(f.Nodeadj[i+xstep], i)
+				memidx = getmemidx(i, i+xstep)
+				f.Members[memidx] = append(f.Members[memidx], []int{i, i + xstep, 3, 3, 0})
+				f.Members[memidx] = append(f.Members[memidx], []int{xdx,ydx,flrdx,locdx,mtyp, locx, lex})
+				f.Memwng = append(f.Memwng, []float64{0,0})
+			}
+		}
+		if i+xstep+1 <= len(f.Coords) && f.Cdmap[i][2] == f.Cdmap[i+xstep+1][2]{
+			if i % xstep != 0 && i/colstep > 0{
+				cl, cr, ct, cb := 1,1,1,1
+				ljb := i
+				lje := i + xstep
+				x1, y1, flrdx,  _ := getxydx(ljb, colstep, xstep, ystep)
+				if x1 == 1{cb = 0}
+				if y1 == 1{cl = 0}
+				lidx := getmemidx(ljb, lje)
+				rjb := i + 1
+				rje := i + xstep + 1
+				x2, y2, flrdx, _ := getxydx(rje, colstep, xstep, ystep)
+				if x2 == ystep{ct = 0}
+				if y2 == xstep{cr = 0}
+				ridx := getmemidx(rjb, rje)
+				tjb := i + xstep
+				tje := i + xstep + 1
+				tidx := getmemidx(tjb, tje)
+				bjb := i
+				bje := i + 1
+				bidx := getmemidx(bjb, bje)
+				//f.Slbnodes - ljb, rjb, rje, lje
+				f.Slbnodes = append(f.Slbnodes, []int{i, i + 1, i + xstep + 1, i + xstep, flrdx, x1, y1})
+				f.Slbmems = append(f.Slbmems, []string{lidx, ridx, tidx, bidx})
+				f.Slbendc = append(f.Slbendc, []int{cl, cr, ct, cb})
+			} 
+		}
+	}
+	//if len(f.Stairs) > 0{
+		//sdir 
+	//	sdir := f.Stairs[0]; scol := f.Stairs[1]
+	//}
+	//f.Coords [][]float64, cdmap map[int][]float64, nodeadj map[int][]int, f.Supports map[int][]int, cols, f.Beamxs, f.Beamys, f.Slbnodes, sendc [][]int, smems [][]string, mems map[string][][]int, f.Memwng [][]float64
+	return 
+}
+
+
+
+/*
+
+   	//if 1 == 0{fmt.Println(dused, f.Coords, nodeadj,f.Memwng, mverts, mloads, mareas)}
+	//fmt.Println("dused, loads->",dused, dlmax, llmax, flrmax)
+	//decompose into subframes
+	//xstep := len(f.X); ystep := len(f.Y); colstep := xstep * ystep
+	//fmt.Println("-xfraymes-")
+	//xf, yf, zxf, zyf := FrmSubFrm(f, mems, f.Coords)
+	//plotchn := make(chan string, 1)
+	//go draw.PyFrmDat(fname, foldr, plotchn)
+	//outstr := <- plotchn
+	//fmt.Println(outstr)
+	
+	//if 1 == 1{
+	//	go draw.PyFrm3d(cdmap ,f.Supports , cols, f.Beamxs, f.Beamys, f.Slbnodes , foldr , plotchn)
+	//	outstr := <- plotchn
+	//	fmt.Println(outstr)
+	//}
+	
+	//fmt.Println("plot saved at", pfname)
+	//subfrm(fd, 0, -1, 1)
+	//subfrm(fd, 1, 1, -1,true)
+	//gensubfrm(f, fd, 1, 1, -1)
+
+func rectsectioncalc(b,d float64) ([]float64){
+	area := b*d; iz := b*math.Pow(d,3)/12.0
+	return []float64{area,iz}
+}
+
+	fd := &Frmdat{
+		Members:mems,
+		Nodecords:cdmap,
+		Supports:supports,
+		Cols:cols,
+		Beamxs:beamxs,
+		Beamys:beamys,
+		Slabnodes:snodes,
+		Mloads:mloads,
+		Mverts:mverts,
+		Xf:xf,
+		Yf:yf,
+		Zxf:zxf,
+		Zyf:zyf,
+		Foldr:foldr,
+		Cdim:f.Cdim,
+		Bdim:f.Bdim,
+		Csec:f.Csec,
+		Bsec:f.Bsec,
+		X:f.X,Y:f.Y,Z:f.Z,
+		Nodeadj:nodeadj,
+	}
+	fname := fd.tojson()
+	fmt.Println(fname)
+   
+func getcoltype(i, colstep, xstep, ystep, xdx, ydx, locdx, flrdx int) (ctype int){
+	var cb, cl, ct, cr, strt, locx int
+	if xdx == 1{cb = 1}
+	if ydx == 1{cl = 1}
+	if xdx == ystep{ct = 1}
+	if ydx == xstep{cr = 1}
+	
+	switch {
+	case cb + cl == 2:
+		//bot left corner
+		locx = 1
+	case cb + cr == 2:
+		//bot right corner col
+		locx = 2
+	case cb + cl == 2:
+		//top left corner
+		locx = 3
+	case cb + cr == 2:
+		//top right corner
+		locx = 4
+	case cl == 1:
+		//left edge col
+		locx = 5
+	case cr == 1:
+		//right edge col
+		locx = 6
+	case ct == 1:
+		//top edge col
+		locx = 7
+	case cb == 1:
+		//bottom edge col
+		locx = 8
+	}
+	strt = 1
+	//end = 9
+	ctype = locx + strt
+	return 
+}
+
+*/

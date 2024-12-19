@@ -1,0 +1,12 @@
+{"Id":"7.7Kass",-> title
+ "Cmdz":["2df","kips","0"], -> frmtyp, units, design 
+ "Ncjt":3, -> number of degrees of freedom per node (3 for 2d frame)
+ "Coords": [[0,0],[0,240],[240,240],[240,0]], -> node coordinates ([x1,y1], [x2,y2]...[xn,yn] for 2d frame)
+ "Supports":[[1,-1,-1,-1],[2,0,0,-1],[4,-1, -1,-1]],-> list of nodal supports ([node indexx displ. restrained (-1 if), y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+ "Em":[[29000]],-> list of elastic modulus/material properties ([em1, em2..emn])
+ "Cp":[[14.7,800]],-> list of sectional properties (area a, moment of inertia iz - [[a1,iz1],[a2,iz2],...[an,izn]] for frame)
+ "Mprp": [[1,2,1,1,2], [2,3,1,1,1],[4,3,1,1,1]],  -> member property list ([jb, je, em, cp, mrel])
+ "Jloads": [],-> nodal loads ([node idx, x-force, y-force, z-moment])
+ "Jsd":[],"Sdj":[],
+ "Msloads":[[2,8,75,75,6.5e-6,0],[1,9,-0.25,0,0,0]]}-> member loads ([member index, load type, wa, wb, la, lb]- check list of load types)
+for temperature changes - [member index, load type(8), ta, tb, alpha (coefficient of thermal expansion), depth of member]

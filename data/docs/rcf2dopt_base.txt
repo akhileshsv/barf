@@ -1,0 +1,24 @@
+{"Title":"Raka1",-> title
+ "Opt":1,->1 - pso, 2 - g.a
+ "Mtyp":1, -> material type (1 - rcc, 2 - steel, 3 - wood)
+ "X":[0,6,12,18],-> list of span x-values (width/beam spans)  
+ "Y":[0,4,8,12,16], ->list of height y-values(floor heights)
+ "DL":35.0, -> dead load 
+ "LL":0.0, -> live load 
+ "WL":[25.0],-> floor wind load (starts from floor 1)
+ "Fcks":[25.0],-> list of (rcc) grades
+ "Fys":[500.0],-> list of (steel) grades
+ "Code":2, -> 1 - is code, 2 - bs code
+ "PSFs":[1.0,1.0,1.0],-> partial factors of safety for dead and live load  
+ "WLFs":[1.2,1.2,1.2],-> partial factors of safety for wind load cases (wl, dl, ll)
+ "DM":0.0,-> moment redistribution factor 
+ "Selfwt":2, -> calc self weight of frame (1 - beams, 2 - beams + columns)
+ "Fixbase":true, -> fixed footing (if false, pinned)
+ "Ldcalc":1,-> 1 - single load case of max dl+ll across spans
+ "Nloads":3,-> number of (here dead, live, wind) load cases 
+ "Width":250.0,-> width of frame members
+ "Dconst":true,->keep frame member widths the same
+ "Term":""}-> terminal
+
+
+

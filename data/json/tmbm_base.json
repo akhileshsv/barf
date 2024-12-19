@@ -1,0 +1,18 @@
+{"Title":"Abel8.1",
+ "Styp":1,
+ "Lspan":3500.0,	
+ "Prp":{
+     "Em":9500,
+     "Fv":1.4,
+     "Fcp":2.8,
+     "Fcb":11.2,
+     "Ft":11.2,
+     "Pg":0.5},
+ "Endc":1,
+ "DL":0.0,
+ "LL":0.5, 
+ "Lbl":25.0,
+ "Rbl":25.0,
+ "Nsecs":3,
+ "Selfwt":true,
+ "Verbose":true}

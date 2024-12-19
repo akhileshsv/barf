@@ -1,0 +1,63 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">
+    <div id = "mod-form">
+      <a href="/docs/calcmod/2df" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Basic bar element model data:</h3></center>
+      <form action="/analyze/basic" method="post">
+	<div class="nes-select">
+	  <label for="Frmstr">frame type</label>
+	  <select name="Frmstr" id="Frmstr" hx-post="/ex/models/basic" hx-target="#mod-form">
+	    <option value="1db">beam(1d)</option>
+	    <option value="2dt">truss(2d)</option>
+	    <option value="3dt">truss(3d)</option>
+	    <option value="2df" selected="selected">frame(2d)</option>
+	    <option value="3df">frame(3d)</option>
+	    <option value="3dg">grill(3d)</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Units">units(b.m)</label>
+	  <select name="Units" id="Units">
+	    <option value="knm">kN-meter</option>
+	    <option value="nmm">N-mm</option>
+	    <option value="kpin" selected="selected"> kP-in</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	<label for="Id">model title</label>
+	<input type="text" name="Id" class="nes-input" placeholder="kassimali-ex-6.8" value="kassimali-ex-6.8" onfocus = "this.value=''"/>    
+	<label for="Coords">nodal coordinates</label>
+	<input type="text" name="Coords" class="nes-input" placeholder="[0,0],[0,240],[240,336],[480, 240],[480,0]" value="[0,0],[0,240],[240,336],[480, 240],[480,0]" onfocus = "this.value=''"/>
+	<label for="Supports">supports</label>
+	<input type="text" name="Supports" class="nes-input" placeholder="[1,-1,-1,-1],[5,-1,-1,0]" value="[1,-1,-1,-1],[5,-1,-1,0]" onfocus = "this.value=''"/>
+	<label for="Mprp">member properties</label>
+	<input type="text" name="Mprp" class="nes-input" placeholder="[1,2,1,1,0], [2,3,2,2,0],[4,3,2,2,0],[5,4,1,1,0]" value="[1,2,1,1,0], [2,3,2,2,0],[4,3,2,2,0],[5,4,1,1,0]" onfocus = "this.value=''"/>
+	<label for="Em">elastic modulus</label>
+	<input type="text" name="Em" class="nes-input" placeholder="[29000],[10000]" value="[29000],[10000]" onfocus = "this.value=''"/>
+	<label for="Cp">cross sections</label>
+	<input type="text" name="Cp" class="nes-input" placeholder="[29.8,2420],[30.6,3100]" value="[29.8,2420],[30.6,3100]" onfocus = "this.value=''"/>
+	<label for="Jloads">nodal loads</label>
+	<input type="text" name="Jloads" class="nes-input" placeholder="[2,75,0,0]" value="[2,75,0,0]" onfocus = "this.value=''"/>
+	<label for="Msloads">member loads</label>
+	<input type="text" name="Msloads" class="nes-input" placeholder="[2,3,0.25,0,0,0],[3,1,-45,0,129.24,0],[3,5,20,0,129.24,0]" value="[2,3,0.25,0,0,0],[3,1,-45,0,129.24,0],[3,5,20,0,129.24,0]" onfocus = "this.value=''"/>
+	<label for="Jsd">displaced nodes</label>
+	<input type="text" name="Jsd" class="nes-input" placeholder="3,4" value="" onfocus = "this.value=''"/>
+	<label for="Sdj">nodal displacements</label>
+	<input type="text" name="Sdj" class="nes-input" placeholder="[0,-1,0],[0,-1,0]" value="" onfocus = "this.value=''"/>
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

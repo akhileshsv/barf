@@ -1,0 +1,28 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">
+    <ul class="nes-list is-circle" style="font-size: 1.0em">
+      <li><span>BARF is a collection of structural design office tools for rcc, steel and timber frames/members.</span></li>
+      <li><span>Has routines for matrix analysis of <a href="/analyze/basic">prismatic</a>/<a href="/analyze/np">non-prismatic </a>bar element frames and <a href="/analyze/ep">elastic plastic analysis </a>of 2d frames.</span></li>
+      <li><span>Includes a <a href="/rcc">number of rcc member design functions</a> with svg/dxf drawing output.</span></li>
+      <li><span>Performs member size design optimization of <a href="/steel/trussopt">steel trusses</a>, <a href ="/rcc/beam/cbeam">continuous beams</a>, <a href="/rcc/subframe">rcc sub-frames</a> and <a href="/rcc/frame2d"> rcc 2d frames</a> using particle swarm optimization and genetic algorithms.</span></li> 
+      <li><span>Designers/users - <a href="/about">read the docs</a>,
+	  <a href="https://github.com/akhileshsv/barf">clone the github repo</a>.
+</span></l1>
+    <li><span class="nes-text is-warning">Have a structural engineering and design job? <a href="#contact-us">Contact us</a>.</span></l1>
+</ul>
+<br>
+<center>
+       <h2 class="nes-text is-primary">Select module:</h2>
+       <div class="lists">
+	 <ul class="nes-list is-disc">
+	   <li><a href="/rcc" class="nes-btn is-primary">rcc design</a></li>
+	   <li><a href="/steel" class="nes-btn is-primary">steel design</a></li>
+	   <li><a href="/timber" class="nes-btn is-primary">timber design</a></li>
+	   <li><a href="/analyze" class="nes-btn is-primary">matrix analysis</a></li>
+	 </ul>
+       </div>
+     </center>
+</div>
+</body>
+{{template "footer" .}}

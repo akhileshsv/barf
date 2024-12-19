@@ -1,0 +1,39 @@
+,Unnamed: 0,Dimensions & Section Properties of Structural Shapes,Unnamed: 2,Unnamed: 3
+0,,No,Sheet,Description
+1,,UK Basic Shapes,,
+2,,1,UB,Universal beams to BS 4 : Part 1: 1993
+3,,2,UC,Universal Columns to BS 4: Part 1: 1993
+4,,3,UBP,Universal Bearing Piles to BS 4: Part 1: 1993
+5,,4,RSJ,Joists with Taper Flanges to BS 4: Part 1: 1993
+6,,5,RSC,Channels to BS 4: Part 1: 1993
+7,,6,Tees UB,Structural Tees Cut from Universal Beams to BS 4: Part 1: 1993
+8,,7,Tees UC,Structural Tees Cut from Universal Columns to BS 4: Part 1: 1993
+9,,8,CastUB,Castellated Beams cut from Universal Beams
+10,,9,CastUC,Castellated Beams cut from Universal Columns
+11,,10,E Angles,Hot Rolled Equal Angles in accordance with BS4848: Part 4
+12,,11,UE Angles,Hot Rolled Unequal Angles in accordance with BS4848: Part 4
+13,,12,CHS HF,Hot Finished Circular Hollow Sections to EN 10210-2: 1997
+14,,13,SHS HF,Hot Finished Square Hollow Sections to EN 10210-2: 1997
+15,,14,RHS HF,Hot Finished Rectangular Hollow Sections to EN 10210-2: 1997
+16,,15,SHS Jumbo,JUMBO SHS in accordance with JIS G3136
+17,,16,CHS CF,Cold Formed Circular Hollow Sections to EN 10219-2: 1997
+18,,17,SHS CF,Cold Formed Square Hollow Sections to EN 10219-2: 1997
+19,,18,RHS CF,Cold Formed Rectangular Hollow Sections to EN 10219-2: 1997
+20,,19,PFC,Parallel Flange Channels
+21,,20,BF,Bulb Flats
+22,,UK Fabricated Shapes,,
+23,,21,ASB,Asymmetric Slimflor Beams
+24,,22,SFB,Slimflor Fabricated Beams
+25,,Overseas Shapes,,
+26,,23,ASTM,American W Shapes to ASTM A6/A36
+27,,24,IPE,European Narrow flange beams to Euronorm 89
+28,,25,HE,European Wide Flange Beams in Accordance with Euronorm 53-62
+29,,26,CHS HFOE,Hot Finished Circular Hollow Sections to EN 10210-2: 1997
+30,,27,SHS HF OE,Hot Finished Square Hollow Sections to EN 10210-2: 1997
+31,,28,RHS HF OE,Hot Finished Rectangular Hollow Sections to EN 10210-2: 1997
+32,,29,SHS Jumbo OE,JUMBO SHS in accordance with JIS G3136
+33,,30,CHS CF OE,Cold Formed Circular Hollow Sections to EN 10219-2: 1997
+34,,31,SHS CF OE,Cold Formed Square Hollow Sections to EN 10219-2: 1997
+35,,32,RHS CF OE,Cold Formed Rectangular Hollow Sections to EN 10219-2: 1997
+36,,Revision History,,
+37,,,Version,Version 000825

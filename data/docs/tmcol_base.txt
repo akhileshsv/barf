@@ -1,0 +1,11 @@
+{"Title":"Abel9.1", -> title
+"Styp":1, -> section type (0-circle, 1-rect)
+ "Lspan":1500.0, -> span length/height of column (c-c of restraints)
+ "Prp":{"Em":6700.0, -> elastic modulus
+	"Fc":4.5, -> max. compressive stress parallel to grain
+	"Mc":0.5, -> moisture content
+	"Pg":0.5}, -> specific gravity of wood
+ "Pu" : 3000.0, -> ultimate axial load
+ "Selfwt" : true, -> add self weight to axial load
+ "Verbose":true, -> print report
+ "Code" : 1} -> 1 - madison approach, 2 - revised madison approach

@@ -1,0 +1,13 @@
+{"Title":"5.2.6Hulse",-> title
+ "Fck":40.0,-> grade of concrete
+ "Fy":460.0,-> grade of steel
+ "Cvrt":37.5,-> clear cover to tension steel(mm)
+ "Cvrc":37.5,-> clear cover to compression steel (mm)
+ "B":400.0,-> width of column (minor axis of bending)
+ "H":500.0,-> depth of column (major axis of bending)
+ "Pu":3000.0,-> ultimate axial load (kN)
+ "Mux":450.0, -> ultimate moment about local x-axis (major) of column
+ "Muy":0.0, -> ultimate moment about local y-axis (minor) of column
+ "Code":2,-> 1 - is code, 2 - bs code
+ "Styp":1,->section type (see SectionMap in kass/sections)
+ "Rtyp":0} -> reinforcement placement type (0 - symmetrical, 1- unsymmetrical, 2 - link section)
