@@ -486,7 +486,7 @@ func PlotTrs2d(mod *Model, term string, pltchn chan string) {
 	data += d1; ldata += l1; mdata += m1
 	d1, l1, m1 = MsLoad2Dat(mod)
 	data += d1; ldata += l1; mdata += m1
-	if mod.Units != "" && mod.Drawsec{
+	if mod.Units != "" {//&& mod.Drawsec
 		d1, l1, _ = View2dDat(mod)
 		data += d1
 		ldata += l1

@@ -1,0 +1,9 @@
+{"Title":"marson10a", -> title
+ "Width":6000, -> total floor width (x)
+ "Height":7000, -> total floor height (y)
+ "Units":"mm", -> input units, output is always in mm
+ "Areas":[9e6,8e6,8e6,7e6,6e6,4e6], -> list of room areas
+ "Labels":["living","kitchen","bed_m","bed","utility","bath"], -> list of room labels
+ "Verbose":true, -> print all messages
+ "Round":true, -> round all values to the nearest mm
+ "Term":"dumb"} -> gnuplot terminal

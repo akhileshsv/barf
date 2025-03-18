@@ -12,6 +12,7 @@ unset colorbox
 #plot ARG1 index 0 using 1:2:3:4 w lines lc var,\
 #     ARG1 index 3 using 1:2:3 with labels tc rgb "dark-cyan"
 plot ARG1 index 1 using 1:2:3:4 w lines lc var,\
-     ARG1 index 2 using 1:2:3 with labels tc rgb "aquamarine"
+     ARG1 index 2 using 1:2:3 with labels dashtype "."
+
 if (ARG2 eq 'wxt') pause mouse close
 exit

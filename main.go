@@ -13,7 +13,7 @@ import (
 	tmbr "barf/tmbr"
 	menu "barf/menu"
 	srvr "barf/srvr"
-	//flay "barf/flay"
+	flay "barf/flay"
 )
 
 var (
@@ -35,6 +35,9 @@ var (
 	stl = flag.String("stl", "", "steel design string")
 	//so does timber lol nothing has been done here
 	wood = flag.String("wood","","wood/timber design string")
+	//facility layout stuff?
+	lay = flag.String("lay","","facility layout string")
+	
 	//additional string param thing
 	cmdz = flag.String("cmdz","","commands/params string")
 	chnf = flag.String("chnf","","chain file path")
@@ -78,7 +81,7 @@ func main() {
 		tmbr.Nocolor()
 		srvr.Srvr()
 		//os.Exit(0)
-	case *calc || *rcc != "" || *stl != "" || *wood != "":
+	case *calc || *rcc != "" || *stl != "" || *wood != "" || *lay != "":
 		switch{
 			case *inf == "":
 			log.Println("no input file specified")
@@ -97,6 +100,8 @@ func main() {
 				bash.CalcInp(*stl,*cmdz,*inf,*term,*pipe)
 				case *wood != "":
 				tmbr.CalcInp(*wood,*cmdz,*inf,*term,*pipe)
+				case *lay != "":
+				flay.CalcInp(*lay,*cmdz,*inf,*term,*pipe)
 			}
 		}
 	default:

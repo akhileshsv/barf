@@ -221,6 +221,7 @@ func (t *Trs2d) Init() (err error){
 		Noprnt:t.Noprnt,Web:t.Web,
 		Units:t.Units,Spose:t.Spose,
 		Mtyp: t.Mtyp,Ngrps:t.Ngs,
+		Drawsec:true,
 	}
 	return
 }

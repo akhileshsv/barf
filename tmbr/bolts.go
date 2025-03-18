@@ -82,8 +82,7 @@ func nbltsimp(ltyp, ptyp int, pu, lb, dia, fc, ang float64)(nblt, pblt float64, 
 	}
 	pblt = bltfbr(ltyp, lb, dia, kg, kpg, fc, ang)
 	nblt = math.Ceil(pu/pblt)
-	//fmt.Println("nblts -> ", nblt)
-	
+	fmt.Println(ColorGreen,"nblts -> ", nblt, ColorReset)
 	return
 }
 
@@ -91,7 +90,7 @@ func nbltsimp(ltyp, ptyp int, pu, lb, dia, fc, ang float64)(nblt, pblt float64, 
 //given lb, dia, kg, kpg, ang
 func bltfbr(ltyp int, lb, dia, kg, kpg, fc, ang float64)(pblt float64){
 	var fblt float64
-	//fmt.Println("in-",ltyp, kg, kpg)
+	fmt.Println("in-",ltyp, kg, kpg)
 	switch ltyp{
 		case 1:
 		fblt = kg * fc
@@ -101,8 +100,8 @@ func bltfbr(ltyp int, lb, dia, kg, kpg, fc, ang float64)(pblt float64){
 		fblt = WdFcAng(kg*fc, kpg*fc, ang, false) 
 	}
 	pblt = fblt * lb * dia
-	//fmt.Println("fblt->", fblt)
-	//fmt.Println("pblt->", pblt, " N")
+	fmt.Println("fblt->", fblt)
+	fmt.Println("pblt->", pblt, " N")
 	return
 }
 
@@ -142,7 +141,7 @@ func bltfac(ltyp, ptyp int, lb, dia float64)(kg, kpg float64, err error){
 			}
 		} 
 	}
-	//fmt.Println("found ldrat - ", ldrat, " k1 - ", k1, " k2 ",k2)
+	fmt.Println("found ldrat - ", ldrat, " k1 - ", k1, " k2 ",k2)
 	if ldrat > 12.0{
 		k1 = 0.0
 		k2 = 28.0 - 2.0 * (ldrat - 12.0)/0.5

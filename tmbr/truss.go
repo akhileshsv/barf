@@ -132,7 +132,7 @@ func TrussDz(t *kass.Trs2d) (err error){
 	fmt.Println("sorted nodes")
 	
 	//err = NodeDz(t)
-	//log.Println("now dezyneing->")
+	log.Println("now dezyneing->")
 	colchn := make(chan []interface{}, len(t.Mod.Ms))
 	
 	for i := 1; i <= len(t.Mod.Ms); i++{

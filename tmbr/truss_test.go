@@ -8,19 +8,40 @@ import (
 	kass"barf/kass"
 )
 
-func TestTrsGen(t *testing.T){
-	var examples = []string{"abel12.8","is2366","scissor","fink"}
+//first test is2366 example
+func TestIs2366(t *testing.T){
+	var examples = []string{"is2366"}
 	dirname,_ := os.Getwd()
 	datadir := filepath.Join(dirname,"../data/examples/tmbr/truss")
 	//exmap := make(map[int]float64)
 	for i, ex := range examples{
-		if i != 1{continue}
 		fname := filepath.Join(datadir,ex+".json")
 		t.Log("example->",i+1,"file->",fname,"opt - PSO\n")
 		trs, err := kass.ReadTrs2d(fname)
 		if err != nil{
 			t.Fatal(err)
 		}
+		trs.Opt = 0
+		trs.Term = "qt"
+		TrussDz(&trs)
+	}
+	 
+}
+
+func TestTrsGen(t *testing.T){
+	var examples = []string{"abel12.8","is2366","scissor","fink"}
+	dirname,_ := os.Getwd()
+	datadir := filepath.Join(dirname,"../data/examples/tmbr/truss")
+	//exmap := make(map[int]float64)
+	for i, ex := range examples{
+		if i != 0{continue}
+		fname := filepath.Join(datadir,ex+".json")
+		t.Log("example->",i+1,"file->",fname,"opt - PSO\n")
+		trs, err := kass.ReadTrs2d(fname)
+		if err != nil{
+			t.Fatal(err)
+		}
+		trs.Opt = 0
 		TrussDz(&trs)
 	}
 }
@@ -185,3 +206,4 @@ func TestTrussDzIFink(t *testing.T){
 	TrussDz(trs)
 
 }
+

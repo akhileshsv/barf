@@ -47,12 +47,12 @@ func TestGraph(t *testing.T){
 	nrms := 3
 	dimvecx := []float64{3.0,3.0,3.0}
 	dimvecy := []float64{4.0,4.0}
-	rmap, _ := LoutGen(nrms,nx,ny,grid,dx,dy,dimvecx, dimvecy)
+	rmap, _, _, _, _ := LoutGen(nrms,nx,ny,grid,dx,dy,dimvecx, dimvecy)
 	outstr := PltLout(rmap)
 	fmt.Println(outstr)
 }
 
-func TestRSwap(t *testing.T){
+func TestRSwap1(t *testing.T){
 	grid := [][]int{
 		{1,1,1,4,4},
 		{1,1,2,4,4},
@@ -79,8 +79,8 @@ func TestRSwap(t *testing.T){
 	src := Tupil{3,2}
 	gridedit := make([][]int, len(grid))
 	copy(gridedit, grid)
-	gridedit, scs, lcs, ncomps := celldiv(nsmol, rsmol, rlarge, gridedit, src, smolcs, largecs)
-	fmt.Println(ColorCyan,ncomps)
+	gridedit, scs, lcs := celldiv(nsmol, rsmol, rlarge, gridedit, src, smolcs, largecs)
+	//fmt.Println(ColorCyan,ncomps)
 	fmt.Println(ColorRed,gridedit,ColorReset)
 	fmt.Println(ColorGreen,scs)
 	fmt.Println(ColorCyan,lcs,ColorReset)

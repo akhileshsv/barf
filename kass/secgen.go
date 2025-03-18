@@ -130,7 +130,6 @@ func (s *SectIn) CalcQ(){
 	return
 }
 
-
 // //UpdateZxys updates the plastic section modulus about xx and yy
 // func (s *SectIn) UpdateZxys(){
 // 	//first sort coords to find xmax, ymax

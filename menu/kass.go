@@ -10,14 +10,17 @@ import (
 //kjsondxs stores json indices of kassmenu items in basefiles
 //"0 beam","1 2d truss","2 2d frame","3 3d truss","4 grid","5 3d frame","6 connections",
 
-var kjsondxs = []int{0,8,13,20,22,23,25}
+var kjsondxs = []int{0,8,13,20,22,23,25,27}
+
+//inSects is a list of input sections
+var inSects = make(map[int]kass.SectIn)
 
 //kassread returns the json file either via menu text input (prints basefile for edits)
 //or reads in .json from the input path provided
-//basefiles := []string[]string{"0 bm1d","1 bmsd","2 bmtd","3 npbm","4 ssbm","5 bmsf","6 bmenv","7 bmep","8 t2d","9 t2sd","10 t2td","11 t2nl","12 t2gen","13f2d","14 f2rel","15 f2sd","16 f2td","17 f2np","18 f2ep","19 f2gen","20 t3d","21 t3sd","22 g3d","23 f3d","24 f3gen","25 blt","26 wld"}
+//basefiles := []string[]string{"0 bm1d","1 bmsd","2 bmtd","3 npbm","4 ssbm","5 bmsf","6 bmenv","7 bmep","8 t2d","9 t2sd","10 t2td","11 t2nl","12 t2gen","13f2d","14 f2rel","15 f2sd","16 f2td","17 f2np","18 f2ep","19 f2gen","20 t3d","21 t3sd","22 g3d","23 f3d","24 f3gen","25 blt","26 wld","27 sec"}
 func kassread(choice, input int)(bytestr []byte, err error){
 	var basefile string
-	basefiles := []string{"bm1d","bmsd","bmtd","npbm","ssbm","bmsf","bmenv","bmep","t2d","t2sd","t2td","t2nl","t2gen","f2d","f2rel","f2sd","f2td","f2np","f2ep","f2gen","t3d","t3sd","g3d","f3d","f3gen","blt","wld"}
+	basefiles := []string{"bm1d","bmsd","bmtd","npbm","ssbm","bmsf","bmenv","bmep","t2d","t2sd","t2td","t2nl","t2gen","f2d","f2rel","f2sd","f2td","f2np","f2ep","f2gen","t3d","t3sd","g3d","f3d","f3gen","blt","wld","sec"}
 	switch input{
 		case 0:
 		basefile = fmt.Sprintf("k%s_base.json",basefiles[choice])
@@ -35,7 +38,7 @@ func kassmenu(term string){
 	for running{
 		choice := printmenu(icon_kass, kass_menus)
 		switch choice{
-			case 7:
+			case 8:
 			running = false
 			break
 			case 0:
@@ -52,10 +55,13 @@ func kassmenu(term string){
 			kf3dmenu(choice,term)
 			case 6:
 			kconmenu(choice, term)
+			case 7:
+			ksecmenu(choice, term)
 		}
 	}
 	return
 }
+
 
 //kbmmenu is the cli menu for beam analysis and calc funcs in /kass
 func kbmmenu(choice int, term string){
@@ -386,7 +392,45 @@ func kconmenu(choice int, term string){
 		}
 	}
 }
-	
+
+
+//ksecnmenu is the cli menu for section prop calcs in /kass
+func ksecmenu(choice int, term string){
+	running := true
+	cdx := kjsondxs[7]
+	for running{
+		choice := printmenu(icon_sect,[]string{"section calcs","exit"})
+		switch choice{
+			case 1:
+			running = false
+			break
+			default:
+			input := printmenu("choose input type", input_menus)
+			bytestr, err := kassread(choice + cdx, input)
+			if err != nil{
+				log.Println(ColorRed, err, ColorReset)
+				continue
+			}
+			var s kass.SectIn
+			err = json.Unmarshal(bytestr, &s)
+			if err != nil{
+				log.Println(ColorRed, err, ColorReset)
+				continue
+			}
+			s.Styp = -1
+			s.SecInit()
+			s.UpdateProp()
+			sstr, _ := json.MarshalIndent(s, "", "\t")
+			fmt.Println(ColorYellow,string(sstr),ColorReset)
+			s.Draw("dumb")
+			fmt.Println(s.Txtplot)
+			sdx := len(inSects) + 1
+			inSects[sdx] = s
+			fmt.Println(ColorCyan,"section saved at index ->",ColorReset,sdx)
+		}
+	}
+}
+
 
 /*
    

@@ -20,10 +20,10 @@ func skriptpath(skript string) (string){
 }
 
 //svgpath returns the abs path to save .svg files
-func svgpath(fname string) (string){
+func svgpath(fname, term string) (string){
 	_, b, _, _:= runtime.Caller(0)
 	basepath := filepath.Dir(b)
-	fname = fname + ".svg"
+	fname = fmt.Sprintf("%s.%s",fname,term)
 	return filepath.Join(basepath, "../data/out",fname)
 }
 
@@ -71,9 +71,11 @@ func Draw(data, skript, term, folder, fname, title, xl, yl, zl string) (txtplot 
 		err = e1
 		return
 	}
+	
+	if fname == ""{fname = "outfile"}
 	//if term == "dxf"{term = "svg"}
 	pltskript := skriptpath(skript)
-	fpath := svgpath(fname)
+	fpath := svgpath(fname, term)
 	//log.Println("data filename",f.Name())
 	//log.Println("plot name",p)
 	//log.Println("plot params->pltskript,f.Name(),term,title,fn\n",pltskript,f.Name(),term,title,fpath)

@@ -72,6 +72,7 @@ type CBm struct {
 	Vec          []float64 `json:",omitempty"` //pso opt vec/zome
 	Nlayers      int `json:",omitempty"`
 	Kost         float64 `json:",omitempty"`
+	Sec          kass.SectIn `json:",omitempty"`
 }
 
 //CBeamEnvRcc calculates shear and bending moment envelopes for a continuous beam

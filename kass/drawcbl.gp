@@ -12,8 +12,9 @@ if (ARG2 eq 'dxf') set term dxf; set output ARG4
 #load 'blues.pal'
 #set tics textcolor rgb "magenta"
 #set size ratio -1
+
 set noborder
-# set autoscale
+set autoscale
 #unset key
 set xlabel 'm' tc rgb "green"
 set ylabel 'm' tc rgb "green"
@@ -22,14 +23,13 @@ set xtics autofreq nomirror scale 0.25 rotate tc lt 1
 set title ARG3 tc rgb "magenta" 
 set key outside bottom textcolor rgb "blue"
 unset colorbox
-
 #set size ratio -1
 set offsets graph 0.1,0.1,0.1,0.1
-plot ARG1 index 0 using 1:2:3 w labels tc rgb "dark-cyan" point lc rgb "purple" pt 7 offset char 2,2 title "nodes",\
-     ARG1 index 1 using 1:2:($3-$1):($4-$2):6 w vectors nohead lc var lw 1.0 title "mems",\
+plot ARG1 index 0 using 1:2 point lc rgb "purple" pt 7 title "nodes",\
+     ARG1 index 1 using 1:2:($3-$1):($4-$2):6 w vectors nohead lc var lw 1 title "mems",\
      ARG1 index 2 using 1:2 w points pt 9 ps 2 title "sups",\
-     ARG1 index 3 using 1:2:3:4:5 w vectors lc var lw 0.5 title "load",\
-     ARG1 index 4 using 1:2:3:4:5 w vectors nohead lc var lw 0.5 dt 8 notitle,\
+     ARG1 index 3 using 1:2:3:4:5 w vectors lc var title "load",\
+     ARG1 index 4 using 1:2:3:4:5 w vectors nohead lc var lw 1 dt 8 notitle,\
      ARG1 index 5 using 1:2:3:4 w labels tc var offset 1,1 notitle,\
      ARG1 index 6 using 1:2:3 w circles title "moment" 
 #ENABLE THIS FOR INTERACTIVE PLOTS

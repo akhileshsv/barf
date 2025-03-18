@@ -1,8 +1,10 @@
 package barf
 
 import (
+	"os"
 	"fmt"
 	"testing"
+	"path/filepath"
 	"gonum.org/v1/gonum/mat"
 )
 
@@ -38,7 +40,7 @@ func TestCsv(t *testing.T) {
 		0, 0, 0, 0, 0, 0, 0, 0,
 	})
 	
-	rmap, _ := LoutGen(nrooms,nx,ny, grid, dx, dy,[]float64{},[]float64{})
+	rmap, _, _, _, _ := LoutGen(nrooms,nx,ny, grid, dx, dy,[]float64{},[]float64{})
 
 	outstr := PltLout(rmap)
 	rezstring += "\nNEW PLOT\n"
@@ -63,15 +65,15 @@ func TestCsv(t *testing.T) {
 		rezstring += fmt.Sprintf("combo - swap %v and %v cause %v total cost %v\n",combos[idx][0],combos[idx][1],swpz[combos[idx][2]],cost)
 		rezstring += ColorPurple
 		rezstring += fmt.Sprintf("%v\n",gridz[idx])
-		rmap, _ = LoutGen(nrooms,nx,ny, gridz[idx], dx, dy,[]float64{},[]float64{})
-		//outstr := PltLout(rmap)
-		//rezstring += outstr
+		rmap, _, _, _,_ = LoutGen(nrooms,nx,ny, gridz[idx], dx, dy,[]float64{},[]float64{})
+		outstr := PltLout(rmap)
+		rezstring += outstr
 	}
 	fmt.Println(rezstring)
 	
 }
 
-func TestCraft(t *testing.T) {
+func TestIARE(t *testing.T) {
 	var rezstring string
 	posvec := [][]int{
 		{1,5,4},
@@ -97,7 +99,7 @@ func TestCraft(t *testing.T) {
 	grid := GridGen(nrooms, posvec, dimvecx, dimvecy, 0.0, 0.0)
 	//fmt.Println(grid.Vec)
 	rezstring += fmt.Sprintf("grid x %v grid y %v \n GRID \n %v", grid.Dx, grid.Dy, grid.Vec)
-	rmap, _ := LoutGen(grid.Nr,grid.Nx,grid.Ny, grid.Vec, grid.Dx, grid.Dy,[]float64{},[]float64{})
+	rmap, _, _, _,_ := LoutGen(grid.Nr,grid.Nx,grid.Ny, grid.Vec, grid.Dx, grid.Dy,[]float64{},[]float64{})
 	outstr := PltLout(rmap)
 	//rezstring += "\nNEW PLOT\n"
 	rezstring += outstr
@@ -126,4 +128,27 @@ func TestCraft(t *testing.T) {
 		rezstring += outstr
 	}
 	fmt.Println(rezstring)	
+}
+
+func TestCraft(t *testing.T){
+	var examples = []string{"craft1","craft2"}
+	//var rezstring string
+	dirname,_ := os.Getwd()
+	datadir := filepath.Join(dirname,"../data/examples/flay")
+	t.Log(ColorPurple,"testing CRAFT algo\n",ColorReset)
+	for i, ex := range examples{
+		fname := filepath.Join(datadir,ex+".json")
+		t.Log(ColorCyan,"example->",i+1,"file->",fname,"\n",ColorReset)
+		c, err := ReadCrft(fname)
+		if err != nil{
+			t.Log(err)
+			t.Fatal("CRAFT algo test failed")
+		}
+		c.Verbose = true
+		err = c.Craft()
+		if err != nil{
+			t.Log(err)
+			t.Fatal("CRAFT algo test failed")
+		}
+	}
 }

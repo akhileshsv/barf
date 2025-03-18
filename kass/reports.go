@@ -8,6 +8,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
+
 //Trs2dSrvTable returns a table of 2d truss superposed service load results
 func Trs2dSrvTable(mod *Model) (string){
 	rezstr := new(strings.Builder)

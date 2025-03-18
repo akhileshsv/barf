@@ -29,7 +29,6 @@ func TestSquarifyBasic(t *testing.T){
 	t.Log("now with unit conversion->")
 }
 
-
 func TestFlrCon(t *testing.T){
 	f := Flr{Origin: Pt2d{X: 0, Y: 0}, End: Pt2d{X: 31, Y: 19},
 		Isroot:true,
@@ -49,17 +48,20 @@ func TestFlrLay(t *testing.T){
 		"living","kitchen","bed_m","bed","utility","bath",
 	}
 	f := Flr{
+		
+		Title:"masron10a",
 		Tomm:true,
-		Width:6000,
-		Height:7000,
+		Width:7000,
+		Height:6000,
 		Units:"mm",
 		Origin:Pt2d{0,0},
-		End:Pt2d{6000,7000},
+		End:Pt2d{7000,6000},
 		Areas:areas,
 		Labels:rooms,
 		Verbose:true,
 		Round:true,
-		Term:"dumb",	
+		Term:"dxf",
+		Cgrid:true,
 	}
 	_ = f.FlrLay()
 
@@ -72,19 +74,48 @@ func TestFlrLay(t *testing.T){
 		"living","bed","bed","office","kitchen","bath",
 	}
 	f = Flr{
+		
+		Title:"masron12a",
 		Tomm:true,
-		Width:7000,
-		Height:12000,
+		Width:12000,
+		Height:7000,
 		Cwidth:900,
 		Units:"mm",
 		Origin:Pt2d{0,0},
-		End:Pt2d{7000,12000},
+		End:Pt2d{12000,7000},
 		Areas:areas,
 		Labels:rooms,
 		Verbose:true,
 		Round:true,
-		Term:"dumb",	
+		Term:"svg",
+		Cgrid:true,
 	}
 	_ = f.FlrLay()
+}
+
+func TestFlrDraw(t *testing.T){
+	t.Log("starting sethu ex.")
+	areas := []float64{
+		120, 110, 40, 50, 125, 80,
+	}
+	rooms := []string{
+		"bed_m","bed","bath","utility","living","kitchen",
+	}
+	f := Flr{
+		Title:"sethu1",
+		Tomm:true,
+		Sort:true,
+		Width:30.0,
+		Height:40.0,
+		Units:"ft",
+		Areas:areas,
+		Labels:rooms,
+		Verbose:true,
+		Round:true,
+		Term:"qt",
+		Cgrid:true,
+	}
+	_ = f.FlrLay()
+	f.FlrJson()
 
 }

@@ -16,6 +16,7 @@ import (
 	"io/ioutil"
 )
 
+
 //ReadFrm2d reads a frm2d from a filename
 func ReadFrm2d(filename string) (Frm2d, error){
 	var f Frm2d
@@ -380,6 +381,36 @@ func CalcInp(fname, term, cmdz string, pipe bool) (err error){
 		err = WeldSs(&w)
 		fmt.Println(w.Report)
 		case "sec", "sect", "section", "secprp":
+		var s SectIn
+		jsonfile, e := ioutil.ReadFile(fname)
+		if e != nil {
+			err = e
+			return 
+		}
+		err = json.Unmarshal([]byte(jsonfile), &s)
+		if err != nil{return}
+		s.Styp = -1
+		s.SecInit()
+		s.UpdateProp()
+		sstr, _ := json.MarshalIndent(s, "", "\t")
+		if pipe{
+			fmt.Println(string(sstr))
+			return
+		}
+		fmt.Println(ColorYellow,string(sstr),ColorReset)
+		s.Draw("dumb")
+		fmt.Println(s.Txtplot)
+		case "cbl", "cable":
+		var c Cbl
+		jsonfile, e := ioutil.ReadFile(fname)
+		if e != nil {
+			err = e
+			return 
+		}
+		err = json.Unmarshal([]byte(jsonfile), &c)
+		if err != nil{return}
+		err = c.CalcCl()
+		if err != nil{return}
 		
 	}
 	return

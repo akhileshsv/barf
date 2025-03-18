@@ -1,0 +1,195 @@
+package barf
+
+import (
+	"fmt"
+	"math"
+	"strings"
+	"container/heap"
+	"github.com/ctessum/geom"
+)
+
+//using an external lib for polygon clipping, forgive me Moloch and bless ctessum
+
+//GridNbrs returns the neighbors of a cell (4 dir)
+func GridNbrs(grid [][]int, cell Tuple)(nbrs []Tuple){
+	imax := len(grid); jmax := len(grid[0])
+	allns := []Tuple{
+		{cell.I+1, cell.J},
+		{cell.I, cell.J+1},
+		{cell.I-1, cell.J},
+		{cell.I, cell.J-1},
+	}
+	for _, nbr := range allns{
+		if nbr.I >= 0 && nbr.I < imax && nbr.J >=0 && nbr.J < jmax{
+			nbrs = append(nbrs, nbr)
+		}
+	}
+	return
+}
+
+//GridPathVal returns a path to val from start
+func GridPathBasic(dx float64, grid [][]int, start Tuple, check int)(path []Tuple){
+	var pq Pque
+	cfrm := make(map[Tuple]Tuple)
+	csf := make(map[Tuple]float64)
+	cfrm[start] = Tuple{-1,-1}
+	csf[start] = 0.0
+	pq = append(pq, &Item{Tup:start, Pri:0.0})
+	heap.Init(&pq)
+	iter := 0
+	goal := Tuple{-1,-1}
+	//start djk/astar loop
+	for len(pq) > 0 && iter == 0{
+		current := heap.Pop(&pq).(*Item).Tup
+		//fmt.Println("at kurrent->",current)
+		stopcon := false
+		prev := cfrm[current]
+		if prev.I != -1{
+			//not start, now check cell conn with other rooms
+			nbrs := GridNbrs(grid, current)
+			for _, nbr := range nbrs{
+				rdx := grid[nbr.I][nbr.J]
+				if rdx == check{
+					fmt.Println("stopcon reached")
+					stopcon = true
+				}
+			}
+		}
+		if stopcon{
+			goal = current
+			iter = -1
+			break
+		}
+		nbrs := GridNbrs(grid, current)
+		pcur := gridpt(dx, current)
+		for _, next := range nbrs{
+			pnxt := gridpt(dx, next)
+			pdiff := pnxt.Sub(pcur)
+			costn := pdiff.Length()
+			newcost := csf[current] + costn
+			if _, ok := csf[next]; !ok || newcost < csf[next]{
+				csf[next] = newcost
+				priority := newcost		
+				heap.Push(&pq, &Item{Tup:next,Pri:priority})
+				cfrm[next] = current
+			}
+		}
+	}
+	//build path
+	p := []Tuple{}
+	current := goal
+	if _, ok := cfrm[goal]; !ok{
+		fmt.Println("PATH ERRORE IN GOALE")
+		return path 
+	}
+	p = append(p, current)
+	for{
+		current = cfrm[current]
+		stopcon := current.I == start.I && current.J == start.J
+		p = append(p, current)
+		if stopcon{
+			break
+		}
+	}
+	path = make([]Tuple, len(p))
+	for i, val := range p{
+		path[len(p)-1-i] = val
+	}
+	return
+
+}
+//gridpt returns the centroid of a cell
+func gridpt(dx float64, cell Tuple)(p Pt2d){
+	xc := dx * float64(cell.J) + dx/2.0
+	yc := dx * float64(cell.I) + dx/2.0
+	p = Pt2d{xc, yc}
+	return
+}
+
+//gridpthstic returns cell distance from a slice of uncon room centroids
+func gridpthstic(grid [][]int, upts []Pt2d, cell Tuple, dx float64)(dist float64){
+	for _, pt := range upts{
+		rb := int(math.Round(pt.Y/dx))
+		cb := int(math.Round(pt.X/dx))
+		dist += math.Abs(float64(cell.I - rb-1)) + math.Abs(float64(cell.J-cb-1))
+	}
+	return
+	
+}
+
+func Pt2Vec(pts []Pt2d)(vec [][]float64){
+	for _, pt := range pts{
+		vec = append(vec, []float64{pt.X, pt.Y})
+	}
+	return
+}
+
+func Vec2Pt(vec [][]float64)(pts []Pt2d){
+	for _, pt := range vec{
+		pts = append(pts, Pt2d{pt[0],pt[1]})
+	}
+	return
+}
+
+//GetPoly returns a geom.Polygon from a slice of outer and inner ring points
+func GetPoly(opts, ipts [][]float64)(poly geom.Polygon){
+	p := []geom.Point{}
+	for _, val := range opts{
+		p = append(p, geom.Point{val[0], val[1]})
+	}
+	if len(ipts) == 0{	
+		poly = geom.Polygon{p}
+	} else {
+		q := []geom.Point{}
+		for _, val := range ipts{
+			p = append(p, geom.Point{val[0], val[1]})
+		}
+		poly = geom.Polygon{p,q}
+	}
+	return
+}
+
+//RmSub returns the difference of (poly) r2 with r1
+func RmSub(rm1, rm2 []Pt2d)(rm3 []Pt2d){
+	r1 := Pt2Vec(rm1)
+	r2 := Pt2Vec(rm2)
+	p1 := GetPoly(r1, [][]float64{})
+	p2 := GetPoly(r2, [][]float64{})
+	p3 := p1.Difference(p2)
+	for _, poly := range p3.Polygons(){
+		for _, ring := range poly{
+			for _, pt := range ring{
+				rm3 = append(rm3, Pt2d{pt.X, pt.Y})
+			}
+		}		
+	}
+	rm3 = rm3[:len(rm3)-1]
+	return
+}
+
+//DirMatDesi returns a (desi) direction matrix given a list of rooms
+func DirMatDesi(facing string,labels []string)(dirmat [][]int){
+	nrooms := len(labels)
+	dirmat = make([][]int, nrooms)
+	for i := range dirmat{
+		dirmat[i] = make([]int, 5)
+	}
+	switch facing{
+		case "n":
+		case "s":
+		case "w":
+		case "e":
+		vec := []int{0,0,0,0,0}
+		for i, val := range labels{
+			rlbl := strings.Split(val,"-")[0]
+			switch rlbl{
+				case "kitchen":
+				vec = []int{0,1,1,0,1}
+				case "bath":
+				vec = []int{1,0,0,1,1}
+			}
+			copy(dirmat[i],vec)
+		}
+	}
+	return
+}

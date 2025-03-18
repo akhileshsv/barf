@@ -2,7 +2,7 @@ package barf
 
 var (
 	//main_menus = []string{icon_kass,icon_mosh,icon_bash,icon_tmbr,icon_exit}
-	main_menus = []string{"analysis","rcc design","steel design","timber design","exit"}
+	main_menus = []string{"analysis","rcc design","steel design","timber design","facility layout","exit"}
 	mosh_icons = []string{icon_subframe, icon_frame2d, icon_frame3d, icon_col, icon_beam, icon_slab, icon_ftng}
 	bash_icons = []string{icon_col, icon_beam, icon_bolt, icon_weld}
 	kass_icons = []string{icon_beam, icon_truss, icon_frame2d, icon_truss3d, icon_grid, icon_frame3d}
@@ -34,6 +34,7 @@ var (
 		"grid",
 		"3d frame",
 		"connections",
+		"section",
 		"exit",
 	}
 	mosh_menus = []string{
@@ -236,6 +237,30 @@ const (
 |__|__||_____||____||_____|
                            
              bolts n welds                      
+`
+	icon_sect = `                  
+.-----.-----.----.
+|__ --|  -__|  __|
+|_____|_____|____|
+
+section properties
+`
+	icon_craft = `
+                  ___ __   
+.----.----.---.-.'  _|  |_ 
+|  __|   _|  _  |   _|   _|
+|____|__| |___._|__| |____|
+                           
+           CRAFT algorithm
+`
+	icon_sqr = `
+                               __   ___        
+.-----.-----.--.--.---.-.----.|__|.'  _|.--.--.
+|__ --|  _  |  |  |  _  |   _||  ||   _||  |  |
+|_____|__   |_____|___._|__|  |__||__|  |___  |
+         |__|                           |_____|
+
+                  squarified treemap algorithm
 `
 	icon_warning = `
  __           __ __   __ 

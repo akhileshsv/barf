@@ -3,22 +3,15 @@ package barf
 import (
 	"fmt"
 	"math"
+	"sort"
 	"strings"
 	"container/heap"
-	// kass"barf/kass"
 )
 
 
-//Rmdat stores input data for squarify
-type Rmdat struct{
-	Rooms []string
-	Areas []float64
-	Dims  []float64
-	Units string
-}
 
 //Room is similar to a cell, which is in a room
-//why is this not a Flr?
+//why is this not a Flr? unused anyway
 type Room struct {
 	Id int
 	Label string
@@ -29,7 +22,6 @@ type Room struct {
 	Area float64
 	Centroid Pt2d
 }
-
 
 //Block stores a floor and dimensions
 //and has many other unused fields that were added on a whim
@@ -48,7 +40,7 @@ type Block struct {
 }
 
 //Flr is a floor struct, which could be a room?
-type Flr struct {
+type Flr struct{
 	Name       string
 	Title      string
 	Area       float64
@@ -66,35 +58,49 @@ type Flr struct {
 	Cwidth     float64 //corridor width
 	Gx         float64 //(square) grid cell size
 	Adj        []string//left right top bottom
+	Dirs       []string//(ext) dirs - l r t b
 	Edges      []Tupil
 	Nodes      []Pt2d
 	Polys      [][]Pt2d
+	Wpolys     [][]Pt2d
 	Nmap       map[Pt2d][][]int
 	Emap       map[Tupil][][]int
 	Lcmap      map[int]bool //living room connectivity map
 	Rmap       map[int][]int //room connectivity map
+	Walls      [][]int 
 	Iwalls     []Tupil
+	Wvec       [][]int
+	Pts        [][]float64
 	Nbrs       []int
+	Grid       [][]int
+	Colgrid    [][]float64
+	Cxs, Cys   []float64
+	Dirmat     [][]int //direction adjacency matrix
 	Coords     [][]float64
+	Togrid     bool //use grid rep of floor
+	Cgrid      bool //generate corridor grid
+	Sort       bool //if true, sort rooms and labels
 	Bloc       bool //if true, switch rooms to blocks
 	Isroot     bool
 	Round      bool //if true, round all vals to tol
 	Tomm       bool //convert all to mm
 	Verbose    bool
 	Sqrd       bool //squarified map/corridor generated
+	Elib       bool //use ctessum/geom poly intersection (ext lib)
 	Areas      []float64
 	Labels     []string
 	Tol        int //if > 0, round all vals to this
 	Opt        int //opt. rules
+	Ldx        int //living room index
 	Units      string
 	Term       string
 	Txtplot    string
 	Facing     string
+	Ftyp       string //"res"/etc
 	Tmp        []interface{}
 }
 
-
-//getdirvec returns the left, right, top, bottom dirs 
+//getdirvec returns left, right, top, bottom dirs  
 func getdirvec(face string)(dirs []string){
 	if face == ""{
 		face = "e"
@@ -127,6 +133,82 @@ func getdirvec(face string)(dirs []string){
 	return
 }
 
+//Init inits a floor
+func (f *Flr) Init(){
+	switch f.Units{
+		case "ft":
+		f.Width = f.Width * 304.8
+		f.Height = f.Height * 304.8
+		f.Cwidth = f.Cwidth * 304.8
+		f.Area = f.Width * f.Height
+		aconv := make([]float64, len(f.Areas))
+		copy(aconv, f.Areas)
+		for i, ar := range aconv{
+			f.Areas[i] = ar * 304.8 * 304.8
+		}
+		f.Units = "mm"
+	}
+	if f.Origin.X == f.End.X && f.Origin.Y == f.End.Y{	
+		f.Origin = Pt2d{0,0}
+		f.End = Pt2d{f.Width, f.Height}
+		
+	}
+	if f.Sort{
+		areas := Scalerooms(f, f.Areas, f.Round)
+		asrt, lsrt := sortrooms(f.Units, areas, f.Labels)
+		f.Areas = make([]float64, len(asrt))
+		f.Labels = make([]string, len(lsrt))
+		copy(f.Areas, asrt)
+		copy(f.Labels, lsrt)
+		
+	}
+	if f.Cwidth == 0.0{f.Cwidth = 900.0}
+	if f.Gx == 0.0{f.Gx = f.Cwidth}
+	f.Round = true
+	//default floor type is residential
+	if f.Ftyp == ""{f.Ftyp = "res"}
+}
+
+//sort rooms sorts labels and areas
+func sortrooms(units string, areas []float64, labels []string)(asrt []float64, lsrt []string){
+	amap := make(map[string]float64)
+	for i, lbl := range labels {
+		amap[lbl] = areas[i]
+	}
+	sort.Slice(labels, func(i, j int) bool {
+		return amap[labels[i]] > amap[labels[j]]
+	})
+	for _, lbl := range labels{
+		area := amap[lbl]
+		asrt = append(asrt, area)
+		lsrt = append(lsrt, lbl)
+	}
+	return
+}
+
+//Scalerooms scales a slice of room areas to match a floor's total area
+func Scalerooms(f *Flr, r []float64, round bool) []float64{
+	//first sort room slice
+	//sort.Sort(sort.Reverse(sort.Float64Slice(r)))
+	if f.Area == 0{
+		f.Area = f.Width * f.Height
+	}
+	var tot_area float64
+	for _, rm_area := range r{
+		tot_area += rm_area
+	}
+	scale := f.Area / tot_area
+	r_scale := []float64{}
+	for _, rm_area := range r{
+		if round {
+			r_scale = append(r_scale, math.Round((rm_area)*scale))
+		} else {
+			r_scale = append(r_scale, (rm_area)*scale)
+		}
+	}
+	return r_scale
+}
+
 //Clone returns a copy of a floor with basic fields filled in
 func (f *Flr) Clone()(fn Flr){
 	
@@ -149,32 +231,11 @@ func (f *Flr) Clone()(fn Flr){
 	return
 }
 
-
 //Flrarea calcs the floor area
 func (f *Flr) Flrarea(){
 	f.Width = f.End.X - f.Origin.X
 	f.Height = f.End.Y - f.Origin.Y
 	f.Area = (f.End.X - f.Origin.X) * (f.End.Y - f.Origin.Y)
-}
-
-//Scalerooms scales a slice of room areas to match a floor's total area
-func Scalerooms(f *Flr, r []float64, round bool) []float64{
-	//first sort room slice
-	//sort.Sort(sort.Reverse(sort.Float64Slice(r)))
-	var tot_area float64
-	for _, rm_area := range r{
-		tot_area += rm_area
-	}
-	scale := f.Area / tot_area
-	r_scale := []float64{}
-	for _, rm_area := range r{
-		if round {
-			r_scale = append(r_scale, math.Round((rm_area)*scale))
-		} else {
-			r_scale = append(r_scale, (rm_area)*scale)
-		}
-	}
-	return r_scale
 }
 
 //Addroom adds a new room to a floor
@@ -322,6 +383,18 @@ func RectPts(pb, pe Pt2d)(p1, p2, p3, p4 Pt2d){
 	return
 }
 
+
+//sigh. RectPtz returns the vertices of the rectangle defined by origin and end points pb and pe
+func RectPtz(pb, pe Pt)(p1, p2, p3, p4 Pt){
+	width := pe.X - pb.X
+	height := pe.Y - pb.Y
+	p1 = Pt{X:pb.X, Y:pb.Y}
+	p2 = Pt{X:pb.X+width, Y:pb.Y}
+	p3 = Pt{X:pb.X+width, Y:pb.Y+height}
+	p4 = Pt{X:pb.X,Y:pb.Y+height}
+	return
+}
+
 //ClassEd classifies an edge as l/r/t/b/interior -1 -2 -3 -4 1
 func (f *Flr) ClassEd(p1, p2 Pt2d)(ecls int){
 	onleft := (p1.X == p2.X) && p1.X == f.Origin.X
@@ -351,7 +424,7 @@ func (f *Flr) SqrRmap(){
 	f.Nmap = make(map[Pt2d][][]int)
 	f.Emap = make(map[Tupil][][]int)
 	for i, room := range f.Rooms{
-		// if f.Verbose{fmt.Println("room->",i+1, "label-",f.Labels[i],"points-",room.Origin, room.End)}
+		//if f.Verbose{fmt.Println("room->",i+1, "label-",f.Labels[i],"points-",room.Origin, room.End)}
 		
 		p1, p2, p3, p4 := RectPts(room.Origin, room.End)
 		for _, p := range []Pt2d{p1, p2, p3, p4}{
@@ -381,17 +454,18 @@ func (f *Flr) SqrRmap(){
 		}
 		
 		for _, e := range edges{
-			//each edge in map is - 
+			//each edge in map is - jb, je, ecls 
 			//exterior - left right top bottom - -1, -2, -3, -4
 			ecls := f.ClassEd(e[0],e[1])
 			jb := f.Nmap[e[0]][0][0]; je := f.Nmap[e[1]][0][0]
 			edx := Edgedx(jb, je)
 			if _, ok := f.Emap[edx]; !ok{
-				f.Emap[edx] = make([][]int,3)
+				f.Emap[edx] = make([][]int,4)
 				f.Emap[edx][0] = []int{jb, je, ecls}
 				f.Emap[edx][1] = []int{i}
 				f.Emap[edx][2] = []int{1}
 				f.Edges = append(f.Edges, edx)
+				f.Emap[edx][3] = []int{len(f.Edges)}
 				if ecls == 1{
 					f.Iwalls = append(f.Iwalls, edx)
 				}
@@ -419,35 +493,73 @@ func (f *Flr) SqrRmap(){
 			}
 		}
 	}
-	for i, r1 := range f.Rooms{
-		// fmt.Println("checking room-",f.Labels[i])
-		nbrs := f.Rmap[i]
-		for _, edx := range r1.Edges{
-			jb := f.Emap[edx][0][0]
-			je := f.Emap[edx][0][1]
-			a := f.Nodes[jb-1]
-			b := f.Nodes[je-1]
-			for j, r2 := range f.Rooms{
-				if j != i{	
-					//fmt.Println("checking against-",f.Labels[j])
-					if !IntInVec(nbrs, j){	
-						for _, edy := range r2.Edges{
-							j1 := f.Emap[edy][0][0]
-							j2 := f.Emap[edy][0][1]
-							c := f.Nodes[j1-1]
-							d := f.Nodes[j2-1]
-							if EdgeOverlap(a,b,c,d){
-								f.Rmap[i] = append(f.Rmap[i], j)
-								if !IntInVec(f.Emap[edy][1],i){
-									f.Emap[edy][1] = append(f.Emap[edy][1],i)
-								}
-								if !IntInVec(f.Emap[edx][1],j){
-									f.Emap[edx][1] = append(f.Emap[edx][1],j)
-								}								
+	
+	// for i, r1 := range f.Rooms{
+	// 	// fmt.Println("checking room-",f.Labels[i])
+	// 	nbrs := f.Rmap[i]
+	// 	for _, edx := range r1.Edges{
+	// 		jb := f.Emap[edx][0][0]
+	// 		je := f.Emap[edx][0][1]
+	// 		a := f.Nodes[jb-1]
+	// 		b := f.Nodes[je-1]
+	// 		for j, r2 := range f.Rooms{
+	// 			if j != i{	
+	// 				//fmt.Println("checking against-",f.Labels[j])
+	// 				if !IntInVec(nbrs, j){	
+	// 					for _, edy := range r2.Edges{
+	// 						j1 := f.Emap[edy][0][0]
+	// 						j2 := f.Emap[edy][0][1]
+	// 						c := f.Nodes[j1-1]
+	// 						d := f.Nodes[j2-1]
+	// 						if EdgeOverlap(a,b,c,d){
+	// 							f.Rmap[i] = append(f.Rmap[i], j)
+	// 							if !IntInVec(f.Emap[edy][1],i){
+	// 								f.Emap[edy][1] = append(f.Emap[edy][1],i)
+	// 							}
+	// 							if !IntInVec(f.Emap[edx][1],j){
+	// 								f.Emap[edx][1] = append(f.Emap[edx][1],j)
+	// 							}								
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+	//new trimmed down loope
+	
+	rintz := make(map[Tupil]bool)
+	for i, r1 := range f.Rooms[:len(f.Rooms)-1]{
+		for j, r2 := range f.Rooms[i+1:]{
+			j += i + 1
+			
+			rdx := Edgedx(i, j)
+			if _, ok := rintz[rdx]; !ok{
+				//process edges of both rooms
+				for _, edx := range r1.Edges{
+					jb := f.Emap[edx][0][0]
+					je := f.Emap[edx][0][1]
+					a := f.Nodes[jb-1]
+					b := f.Nodes[je-1]
+					for _, edy := range r2.Edges{
+						j1 := f.Emap[edy][0][0]
+						j2 := f.Emap[edy][0][1]
+						c := f.Nodes[j1-1]
+						d := f.Nodes[j2-1]
+						
+						if EdgeOverlap(a,b,c,d){
+							f.Rmap[i] = append(f.Rmap[i], j)
+							f.Rmap[j] = append(f.Rmap[j], i)
+							if !IntInVec(f.Emap[edy][1],i){
+								f.Emap[edy][1] = append(f.Emap[edy][1],i)
 							}
+							if !IntInVec(f.Emap[edx][1],j){
+								f.Emap[edx][1] = append(f.Emap[edx][1],j)
+							}								
 						}
-					}
+					} 
 				}
+				rintz[rdx] = true
 			}
 		}
 	}
@@ -461,12 +573,14 @@ func (f *Flr) SqrRmap(){
 		}
 		f.Rmap[i] = ns
 	}
+	
 	ldx := 0
 	f.Lcmap = make(map[int]bool)
 	//get a list of unkonnekted rooms
 	for i, room := range f.Labels{
 		if room == "living"{
 			ldx = i
+			f.Ldx = ldx
 		}
 		f.Lcmap[i] = false
 	}
@@ -475,6 +589,7 @@ func (f *Flr) SqrRmap(){
 		f.Lcmap[nbr] = true 
 	}
 	f.Lcmap[ldx] = true
+	
 }
 
 func nodehstic(p1 Pt2d, upts []Pt2d)(dist float64){
@@ -552,11 +667,11 @@ func (f *Flr) CorInt(cpts []Pt2d, e2s [][]Pt2d)(pts []Pt2d){
 	}
 	
 	if !intersects{
-		// fmt.Println(ColorYellow, f.Name, "does not intersekto",ColorReset)
+		fmt.Println(ColorYellow, f.Name, "does not intersekto",ColorReset)
 		pts = []Pt2d{p1, p2, p3, p4}
 		return
 	} else {
-		// fmt.Println(ColorRed, f.Name, "intersekto korpus korridore",ColorReset)
+		fmt.Println(ColorRed, f.Name, "intersekto korpus korridore",ColorReset)
 		//now build pts
 		for pt, val := range pmap{
 			if val{
@@ -576,7 +691,7 @@ func (f *Flr) CorInt(cpts []Pt2d, e2s [][]Pt2d)(pts []Pt2d){
 	}
 	pc := Centroid2d(pts)
 	SortCw(pts, pc)
-	// fmt.Println("room points-",pts)
+	//fmt.Println("room points-",pts)
 	return
 }
 
@@ -611,6 +726,7 @@ func (f *Flr) CorPolys(path []int, ldx int, neg bool)(){
 		}
 	}
 	SortCw(cpts, Centroid2d(cpts))
+	//fmt.Println("corridor points->",cpts)
 	// fn = f.Clone()
 	// fn.Sqrd = true
 	//get points of intersection of cpts with all room (rect) polygons
@@ -620,6 +736,7 @@ func (f *Flr) CorPolys(path []int, ldx int, neg bool)(){
 		//check if room intersects new corridor edges
 		if i == ldx{
 			p1, p2, p3, p4 := RectPts(rm.Origin, rm.End)
+			//fmt.Println("living room points->",p1,p2,p3,p4)
 			f.Polys = append(f.Polys, []Pt2d{p1, p2, p3, p4})				
 			rpoly = []Pt2d{p1, p2, p3, p4}
 		} else {	
@@ -629,12 +746,21 @@ func (f *Flr) CorPolys(path []int, ldx int, neg bool)(){
 				} 
 			}
 			if intersects{
+				//fmt.Println("room-",rm.Name,"intersekto corpus corridore->")
+				
+				//p1, p2, p3, p4 := RectPts(rm.Origin, rm.End)
+				
+				//fmt.Println(rm.Name,"points->",p1,p2,p3,p4)
 				//now kompute intersektions
 				pts := rm.CorInt(cpts, e2s)
 				rpoly = pts
 				f.Polys = append(f.Polys, pts)
 			} else {
+				
+				//fmt.Println("room-",rm.Name,"is not intersektomen->")
 				p1, p2, p3, p4 := RectPts(rm.Origin, rm.End)
+				//fmt.Println(rm.Name,"points->",p1,p2,p3,p4)
+				
 				f.Polys = append(f.Polys, []Pt2d{p1, p2, p3, p4})				
 				rpoly = []Pt2d{p1, p2, p3, p4}
 			}
@@ -650,8 +776,6 @@ func (f *Flr) CorPolys(path []int, ldx int, neg bool)(){
 	f.Rooms = append(f.Rooms, &crm)
 	return
 }
-
-
 
 //PolyRmap generates a room connectivity map from room polygons
 func (f *Flr) PolyRmap(){
@@ -808,19 +932,20 @@ func (f *Flr) PolyRmap(){
 	}	
 }
 
-//PolyGrid returns a grid rep. of a floor
+//PolyGrid returns a grid rep. of a floor (from squarify output)
+//all rooms are rects btw
 func (f *Flr) PolyGrid()(grid [][]int){
 	dx := f.Gx
 	if dx == 0.0{
 		switch f.Units{
 			case "mm":
-			dx = 300.0 
+			dx = 900.0 
 			case "in":
-			dx = 4.0
+			dx = 36.0
 			case "ft":
-			dx = 0.5
+			dx = 3.0
 			case "m":
-			dx = 0.1
+			dx = 1.0
 		}
 		f.Gx = dx
 	}
@@ -835,33 +960,33 @@ func (f *Flr) PolyGrid()(grid [][]int){
 	//set start point of ray at 2.0*f.End.X, 2.0*f.End.Y
 	p0 := Pt2d{2.0*f.End.X, 2.0*f.End.Y}
 	for idx, rm := range f.Rooms{		
-		rb := int(math.Round(rm.Bbo.Y/dy))
-		re := int(math.Round(rm.Bbe.Y/dy))
-		cb := int(math.Round(rm.Bbo.X/dx))
-		ce := int(math.Round(rm.Bbe.X/dx))
-		
-		fmt.Println("at room->",idx, "label->",rm.Name,"rb, re, cb, ce",rb, re, cb, ce)
-		
+		rb := int(math.Round(rm.Origin.Y/dy))
+		re := int(math.Round(rm.End.Y/dy))
+		cb := int(math.Round(rm.Origin.X/dx))
+		ce := int(math.Round(rm.End.X/dx))
+		p1, p2, p3, p4 := RectPts(rm.Origin, rm.End)
+		//fmt.Println("at room->",idx, "label->",rm.Name,"rb, re, cb, ce",rb, re, cb, ce)
+		poly := []Pt2d{p1, p2, p3, p4}
 		for i := rb; i < re; i++ {
 			for j := cb; j < ce; j++ {
 				if i <= nr && j <= nc{
 					xc := dx * float64(j) + dx/2.0
 					yc := dy * float64(i) + dy/2.0
 					pc := Pt2d{xc, yc}
-					if pc.InPoly(f.Polys[idx],p0){
+					if pc.InPoly(poly,p0){
 						grid[i][j] = idx + 1
 					}
 				}
 			}
 		}	   
 	}
-	txtplot := Plotgrid(grid, dx, dy)
-	fmt.Println(txtplot)
+	//txtplot := Plotgrid(grid, dx, dy)
+	//fmt.Println(txtplot)
 	return
 }
 
 //CorGen generates a corridor for in-room connectivity
-func (f *Flr) CorGen(){
+func (f *Flr) CorGen()(err error){
 	//list of unconnected rooms
 	uncon := []int{}
 	ucmap := make(map[int]bool)
@@ -876,7 +1001,10 @@ func (f *Flr) CorGen(){
 			yc := (f.Rooms[i].Origin.Y + f.Rooms[i].End.Y)/2.0
 			upts = append(upts, Pt2d{xc, yc})
 		}
-		if room == "living"{ldx = i}
+		if room == "living"{
+			ldx = i
+			f.Ldx = i
+		}
 	}
 	graph := make(map[int][]int)
 	//list of starting points (nodes connected to living room)
@@ -969,6 +1097,7 @@ func (f *Flr) CorGen(){
 		if stopcon{
 			goal = current
 			iter = -1
+			break
 		}
 		nbrs := graph[current]
 		for _, next := range nbrs{
@@ -977,9 +1106,9 @@ func (f *Flr) CorGen(){
 			newcost := csf[current] + costn
 			if _, ok := csf[next]; !ok || newcost < csf[next]{
 				csf[next] = newcost
-				
+				//CHANGE HEURISTIC HERE (make it a method)
 				priority := newcost + nodehstic(f.Nodes[next-1],upts)		
-				
+				//priority := newcost + f.NodeH(f.Nodes[next-1],upts,ucmap)
 				heap.Push(&pq, &Item{Tup:Tuple{I:next,J:0},Pri:priority})
 				cfrm[next] = current
 			}
@@ -994,7 +1123,6 @@ func (f *Flr) CorGen(){
 	p = append(p, current)
 	for{
 		current = cfrm[current]
-		
 		stopcon := current == start
 		p = append(p, current)
 		if stopcon{
@@ -1005,8 +1133,148 @@ func (f *Flr) CorGen(){
 	for i, val := range p{
 		path[len(p)-1-i] = val
 	}
-	f.CorPolys(path, ldx, false)
-	f.PolyRmap()
+	psimp := f.SimpCor(ldx, path, uncon)
+	switch f.Cgrid{
+		case false:
+		f.CorPolys2(psimp, ldx, false)
+		f.PolyRmap()
+		case true:
+		//GAAAAAAAAAH
+		//fmt.Println("APATHE->",psimp)
+		grid := f.Gridpath(psimp, ldx+1)
+		//txtplot := Plotgrid(grid, f.Gx, f.Gx)
+		//fmt.Println(txtplot)
+		rmap, _, _, _, _ := LoutGen(len(f.Labels)+1,len(grid[0]),len(grid), grid, f.Gx,f.Gx, []float64{},[]float64{})
+		//outstr := PltLout(rmap)
+		//fmt.Println(outstr)
+		//fmt.Println(grid)
+		//polys := f.GridPoly(grid)
+		polys, e := RmapPoly(rmap)
+		if e != nil{
+			fmt.Println(ColorRed, e, ColorReset)
+			err = e
+			return
+		}
+		f.Polys = polys
+		f.Labels = append(f.Labels, "corridor")
+		//txtplot, err := f.DrawPolys()
+		//if err != nil{
+		//	fmt.Println(ColorRed, err, ColorReset)
+		//	return
+		//}
+		//fmt.Println(txtplot)
+		f.Grid = grid
+		//now check intwalls, extwalls, room connections
+	}
+	return
+}
+
+//Gridpath marks a corridor grid based on a path
+func (f *Flr) Gridpath(path []int, ldx int)([][]int){
+	grid := f.PolyGrid()
+	cdx := len(f.Labels)+1
+	for i, i1 := range path[:len(path)-1]{
+		
+		i2 := path[i+1]
+		p1 := f.Nodes[i1-1]
+		p2 := f.Nodes[i2-1]
+		//now r1, r2, c1, c2 are start and end indices
+		rb := int(math.Round((p1.Y)/f.Gx))
+		cb := int(math.Round((p1.X)/f.Gx))
+		re := int(math.Round((p2.Y)/f.Gx))
+		ce := int(math.Round((p2.X)/f.Gx))
+		switch{
+			case p1.X == p2.X:
+			//move along y, ie, rb - re
+			for j := rb; j <= re; j++{
+				if j < len(grid){
+					grid[j][cb] = cdx
+				}
+				
+			}
+			case p1.Y == p2.Y:
+			//move along x, cb - ce
+			for k := cb; k <= ce; k++{
+				if k < len(grid[0]){
+					grid[rb][k] = cdx
+				}
+			}
+		}
+	}
+	
+	//check if starting corridor cell borders/is connected to living room
+	p1 := f.Nodes[path[0]-1]
+	i1 := int(math.Round((p1.Y)/f.Gx))
+	j1 := int(math.Round((p1.X)/f.Gx))
+	nbrs := GridNbrs(grid, Tuple{i1,j1})
+	nbrcon := false
+	//fmt.Println("start cell-",i1, j1, "grid-",grid[i1][j1],"ldx-",ldx)
+	
+	if grid[i1][j1] == ldx{
+		nbrcon = true
+	} else {
+		for _, nbr := range nbrs{
+			if grid[nbr.I][nbr.J] == ldx{
+				grid[i1][j1] = cdx
+				nbrcon = true
+			}
+		}
+	}
+	
+	
+	//fmt.Println("loop done, nbr con-",nbrcon)
+	if !nbrcon{
+		f.ConCor(ldx, cdx, grid,Tuple{i1,j1})
+	}
+	//fmt.Println(ColorRed,"HYAAAAR",ColorReset)
+	//txtplot := Plotgrid(grid, f.Gx, f.Gx)
+	//fmt.Println(txtplot)
+	return grid
+	
+}
+
+//sigh. ConCor connects the corridor to living room in a grid
+//run astar loop again 
+func (f *Flr) ConCor(ldx, cdx int, grid [][]int, start Tuple)([][]int){
+	path := GridPathBasic(f.Gx, grid, start, ldx)
+	for _, val := range path{
+		grid[val.I][val.J] = cdx
+	}
+	return grid
+}
+
+//SimpCor simplifies a floor's corridor/hall path
+func (f *Flr) SimpCor(ldx int, path, uncon []int)(psimp []int){
+	//first plot floor with nodes
+	//txtplot, _ := f.Draw()
+	//fmt.Println(txtplot)
+	//fmt.Println("PATHE->",path)
+	if len(path) < 3{
+		return 
+	}
+	cw := f.Cwidth
+	if cw == 0.0{cw = 750.0}
+	//mark start and end as okay
+	psimp = append(psimp, path[0])
+	for i, j1 := range path[:len(path)-2]{
+		j2 := path[i+1]
+		j3 := path[i+2]
+		if EdgeOverlap(f.Nodes[j1-1],f.Nodes[j2-1],f.Nodes[j2-1],f.Nodes[j3-1]){
+			if cls, _ := EdgeInt(f.Nodes[j1-1],f.Nodes[j2-1],f.Nodes[j2-1],f.Nodes[j3-1]); cls == "collinear"{
+				//fmt.Println(ColorRed,"errore here, removing center node",j2,ColorReset)	
+				//pok[j2] = false
+			} else {
+				
+				psimp = append(psimp, j2)
+			}
+		} else {
+			psimp = append(psimp, j2)
+		}
+	}
+	psimp = append(psimp, path[len(path)-1])
+	//fmt.Println("new PATHe-",psimp)
+	return
+
 }
 
 //SetTol rounds all room nodes to f.Tol
@@ -1016,6 +1284,721 @@ func (f *Flr) SetTol(){
 		room.End.SetTol(f.Tol)
 	}
 }
+
+//CorGrid generates a corridor given a floor grid
+func (f *Flr) CorGrid(grid [][]int)([][]int){
+	//list of unconnected rooms
+	uncon := []int{}
+	ucmap := make(map[int]bool)
+	upts := []Pt2d{}
+	ldx := -1
+	for i, room := range f.Labels{
+		if !f.Lcmap[i]{
+			// fmt.Println("LIVING IS NOT KONNECT->",room)
+			uncon = append(uncon, i+1)
+			ucmap[i+1] = false
+			xc := (f.Rooms[i].Origin.X + f.Rooms[i].End.X)/2.0
+			yc := (f.Rooms[i].Origin.Y + f.Rooms[i].End.Y)/2.0
+			upts = append(upts, Pt2d{xc, yc})
+		}
+		if room == "living"{
+			ldx = i+1
+		}
+	}
+	//the graph is the grid?
+	//graph := make(map[int][]int)
+	//check 4 extreme cells of living room
+	//start from the cell with lowest dist
+	p1, p2, p3, p4 := RectPts(f.Rooms[ldx].Origin,f.Rooms[ldx].End)
+	var spt Pt2d
+	var sdist float64
+	for _, pt := range []Pt2d{p1,p2,p3,p4}{
+		dist := nodehstic(pt, upts)
+		if sdist == 0{
+			spt = pt
+			sdist = dist
+		} else if sdist > dist{
+			sdist = dist
+			spt = pt
+		}
+	}
+	//find the cell connected to this node in grid
+	rb := int(math.Round(spt.Y/f.Gx))
+	cb := int(math.Round(spt.X/f.Gx))
+	stopcon := false
+	var start Tuple
+	for _, r := range []int{rb-1, rb, rb+1}{
+		if stopcon{break}
+		for _, c := range []int{cb-1, cb, cb+1}{
+			if stopcon{break}
+			if grid[r][c] == ldx{
+				stopcon = true
+				start = Tuple{r, c}
+			}
+		}
+	}
+	txtplot := Plotgrid(grid, f.Gx, f.Gx)
+	fmt.Println(txtplot)
+	fmt.Println(ColorCyan,"starting astar loop",ColorReset)
+	var pq Pque
+	cfrm := make(map[Tuple]Tuple)
+	csf := make(map[Tuple]float64)
+	cfrm[start] = Tuple{-1,-1}
+	csf[start] = 0.0
+	pq = append(pq, &Item{Tup:start, Pri:0.0})
+	heap.Init(&pq)
+	iter := 0
+	goal := Tuple{-1,-1}
+	//start djk/astar loop
+	for len(pq) > 0 && iter == 0{
+		current := heap.Pop(&pq).(*Item).Tup
+		//fmt.Println("at kurrent->",current)
+		stopcon := true
+		prev := cfrm[current]
+		if prev.I != -1{
+			//not start, now check cell conn with other rooms
+			nbrs := GridNbrs(grid, current)
+			for _, nbr := range nbrs{
+				rdx := grid[nbr.I][nbr.J]
+				if _, ok := ucmap[rdx]; ok{
+					//fmt.Println("cell-",nbr,"connected to-",rdx)
+					ucmap[rdx] = true
+				}
+			}
+		}
+		for _, val := range ucmap{
+			if !val{
+				stopcon = false
+			}
+		}
+		if stopcon{
+			goal = current
+			iter = -1
+			break
+		}
+		nbrs := GridNbrs(grid, current)
+		pcur := gridpt(f.Gx, current)
+		for _, next := range nbrs{
+			pnxt := gridpt(f.Gx, next)
+			pdiff := pnxt.Sub(pcur)
+			costn := pdiff.Length()
+			//costn = 0.0
+			newcost := csf[current] + costn + nodehstic(pnxt, upts)
+			
+			if _, ok := csf[next]; !ok || newcost < csf[next]{
+				csf[next] = newcost
+				priority := newcost //+ nodehstic(pnxt, upts)		
+				heap.Push(&pq, &Item{Tup:next,Pri:priority})
+				cfrm[next] = current
+			}
+		}
+	}
+	//build path
+	p := []Tuple{}
+	current := goal
+	if _, ok := cfrm[goal]; !ok{
+		fmt.Println(ColorRed,"ERRORE IN GOALE",ColorReset)
+		return grid 
+	}
+	p = append(p, current)
+	for{
+		current = cfrm[current]
+		stopcon := current.I == start.I && current.J == start.J
+		p = append(p, current)
+		if stopcon{
+			break
+		}
+	}
+	path := make([]Tuple, len(p))
+	for i, val := range p{
+		path[len(p)-1-i] = val
+	}
+	cdx := len(f.Labels) + 1
+	//fmt.Println("CDX-",cdx)
+	for _, val := range path{
+		grid[val.I][val.J] = cdx
+	}
+	txtplot = Plotgrid(grid, f.Gx, f.Gx)
+	fmt.Println(txtplot)
+	return grid
+}
+
+func isum(vec []int)(isum int){
+	for _, val := range vec{
+		isum += val
+	}
+	return
+}
+
+//KostDir returns a cost vs dirmat adjacency
+func (f *Flr) KostDir(grid [][]int)(cost float64, rmap map[int]*Rm, rcent []*Pt){
+	dirz := []string{"n","e","s","w","ext"}
+	dmap := make(map[int]string)
+	for i, dir := range f.Dirs{
+		switch i{
+			case 0:
+			dmap[-1] = dir
+			case 1:
+			dmap[-2] = dir
+			case 2:
+			dmap[-3] = dir
+			case 3:
+			dmap[-4] = dir
+		}
+	}
+	//fmt.Println(ColorYellow,"GRID IN-",grid,ColorReset)
+	rcent = make([]*Pt, len(f.Labels))
+	rmap, _, _, _,_ = LoutGen(len(f.Labels),len(grid[0]),len(grid), grid, f.Gx,f.Gx, []float64{},[]float64{})
+	for i, rm := range rmap{
+		//fmt.Println("room->",i,"label-",f.Labels[i-1])
+		rcent[i-1] = &Pt{X:rm.Centroid.X,Y:rm.Centroid.Y}
+		dvec := f.Dirmat[i-1]
+		//fmt.Println("dirvec->",dvec)
+		if isum(dvec) == 0{
+			//fmt.Println("skipping")
+			continue
+		}
+		eadj := make(map[string]int)
+		eadj = map[string]int{
+			"n":-1,"s":-1,"e":-1,"w":-1,"ext":-1,
+		}
+		for _, nbr := range rm.Nbrs{
+			if nbr < 0{
+				dir := dmap[nbr]
+				eadj[dir] = 1
+				if eadj["ext"] == -1{eadj["ext"] = 1}
+			}
+		}
+		for j, v := range dvec{
+			dir := dirz[j]
+			if v > 0 && eadj[dir] < 0{
+				//fmt.Println(ColorRed,"rm-",f.Labels[i-1],"isnot konnekt to dir->",dir,ColorReset)
+				cost += 1.0
+			}
+		}
+	}
+	return
+}
+
+//RmCombosEval evals floor room combos based on cost
+func (f *Flr) RmCombosEval(opt int, rcent []*Pt, rmap map[int]*Rm, combos map[string][]int, grid [][]int, dx, dy float64) (map[string]float64, string, map[string][][]int){
+	costs := make(map[string]float64, len(combos))
+	gridz := make(map[string][][]int, len(combos))
+	cmin := -1.0
+	var minidx string
+	for idx, combo := range combos {
+		//fmt.Println(idx, combo)
+		//for _, cent := range rcnew {fmt.Println(cent.X,cent.Y)}
+		switch opt{
+			case 1:
+			_, gnew := Rswap(combo, rmap, rcent, grid, dx, dy)
+			costs[idx],_,_ = f.KostDir(gnew)
+			gridz[idx] = gnew
+			if cmin == -1.0 {
+				cmin = costs[idx]
+				minidx = idx
+			} else {
+				if cmin > costs[idx] {
+					cmin = costs[idx]
+					minidx = idx
+				}
+			}	
+		}
+	}
+	return costs, minidx, gridz
+}
+
+
+//CraftDir swaps rooms by area/adj until a min cost is reached
+func (f *Flr) CraftDir()(grid [][]int){
+	
+	if f.Facing == ""{f.Facing = "e"}
+	if len(f.Dirmat) == 0{
+		f.Dirmat = DirMatDesi(f.Facing, f.Labels)
+	}
+	f.Dirs = getdirvec(f.Facing)
+	fmt.Println(ColorGreen, "main dirs->",f.Dirs, ColorReset)
+	
+	grid = f.PolyGrid()
+	txtplot := Plotgrid(grid, f.Gx, f.Gx)
+	fmt.Println(txtplot)
+
+	cost0, rmap, rcent := f.KostDir(grid)
+	fmt.Println("room init kost->",cost0)
+	var iter, kiter int
+	cmin := cost0
+	
+	for iter != -1{
+		kiter++
+		fmt.Println("iter #",kiter,"min. cost->",cmin)
+		combos := CraftCombos(rmap)
+		fmt.Println("COMBOLEN-",len(combos))
+		costs, mindx, gridz := f.RmCombosEval(f.Opt, rcent, rmap, combos, grid, f.Gx, f.Gx)
+		fmt.Println("mindx, mingrid->",mindx, gridz[mindx])
+		_, rmap, rcent = f.KostDir(gridz[mindx])
+		if costs[mindx] < cmin{
+			fmt.Println("smaller kost seen, copying gmin")
+			cmin = costs[mindx]
+			for i, val := range gridz[mindx]{
+				grid[i] = make([]int, len(val))
+				copy(grid[i],gridz[mindx][i])
+			}
+		}
+		if kiter > 2{
+			fmt.Println(ColorRed, "stopping iter",ColorReset)
+			iter = -1
+			break
+		}
+	}
+	fmt.Println("min cost grid->",cmin,"not rupeeses")
+	fmt.Println(grid)
+	return
+}
+
+//FlrGen generates the room connectivity graph and edges
+func (f *Flr) FlrGen()(err error){
+	//f.Flrprint(true)
+	if f.Round{
+		f.SetTol()
+	}
+	if f.Verbose{
+		GPlotFloors(f, true)
+	}
+	f.SqrRmap()
+	switch f.Opt{
+		case 1:
+		//craft dir algo
+		grid := f.CraftDir()
+		f.Labels = append(f.Labels, "corridor")
+		
+		rmap, _, _, _, _ := LoutGen(len(f.Labels),len(grid[0]),len(grid), grid, f.Gx,f.Gx, []float64{},[]float64{})
+		f.Polys, err = RmapPoly(rmap)
+		if err != nil{
+			fmt.Println(ColorRed, err, ColorReset)
+			return
+		}
+		
+		fmt.Println(grid)
+		f.Grid = grid
+		return
+	}
+	switch f.Togrid{
+		case false:
+		f.CorGen()
+		rmap, nmap, ptmap, wmap, pts := LoutGen(len(f.Labels),len(f.Grid[0]),len(f.Grid), f.Grid, f.Gx,f.Gx, []float64{},[]float64{})
+		f.WallGen(rmap, nmap, ptmap, wmap, pts)
+		//f.ColGrid(rmap, nmap, ptmap, wmap, pts)
+		//f.DrawPlan(rmap, nmap, ptmap, wmap, pts)
+		case true:
+		grid := f.PolyGrid()
+		f.CorGrid(grid)
+	}
+	//f.Craft()
+	return
+}
+
+//HOW. HOW?
+//ColGrid generates a column and beam grid for a floor
+func (f *Flr) ColGrid(rmap map[int]*Rm, nmap map[Pt][]*Wall, ptmap map[Pt][]int, wmap map[Tupil][]int, pts []Pt)(err error){
+	//check for unique x and y values -
+	//simplify
+	//intersect and plot
+	xmap := make(map[float64]bool)
+	ymap := make(map[float64]bool)
+	xs := []float64{}
+	ys := []float64{}
+	for pt, walls := range nmap{
+		vec := ptmap[pt]
+		x := pt.X; y := pt.Y
+		
+		if len(walls) > 2 && vec[0] > 0{
+			if _, ok := xmap[x]; !ok{
+				xmap[x] = false
+				xs = append(xs, x)
+			}
+			if _, ok := ymap[y]; !ok{
+				ymap[y] = false
+				ys = append(ys, y)
+			}
+		}
+	}
+	sort.Slice(xs, func(i, j int) bool{
+		return xs[i] < xs[j]
+	})
+	
+	sort.Slice(ys, func(i, j int) bool{
+		return ys[i] < ys[j]
+	})
+	f.Cxs = []float64{}
+	f.Cys = []float64{}
+	tol := 4000.0
+	for i, x := range xs{
+		switch i{
+			case 0:
+			f.Cxs = append(f.Cxs, x)
+			xmap[x] = true
+			case len(xs)-1:
+			f.Cxs = append(f.Cxs, x)
+			xmap[x] = true
+			default:
+			xp := xs[i-1]
+			if xmap[xp] == false{
+				xp = f.Cxs[len(f.Cxs)-1]
+				if x - xp > tol{
+					f.Cxs = append(f.Cxs, x)
+					xmap[x] = true
+				}
+			} else {
+				if x - xp > tol{
+					f.Cxs = append(f.Cxs, x)
+					xmap[x] = true
+				}
+			}			
+		}
+	}
+
+	
+	for i, y := range ys{
+		switch i{
+			case 0:
+			f.Cys = append(f.Cys, y)
+			ymap[y] = true
+			case len(ys)-1:
+			f.Cys = append(f.Cys, y)
+			ymap[y] = true
+			default:
+			yp := ys[i-1]
+			if ymap[yp] == false{
+				yp = f.Cys[len(f.Cys)-1]
+				if y - yp > tol{
+					f.Cys = append(f.Cys, y)
+					ymap[y] = true
+				}
+			} else {
+				if y - yp > tol{
+					f.Cys = append(f.Cys, y)
+					ymap[y] = true
+				}
+			}			
+		}
+	}
+	f.Colgrid = [][]float64{}
+	for _, x := range f.Cxs{
+		for _, y := range f.Cys{
+			f.Colgrid = append(f.Colgrid, []float64{x, y})
+		}
+	}
+	
+	fmt.Println("f.Cxs->",f.Cxs)
+	
+	fmt.Println("f.Cys->",f.Cys)
+	return
+	
+}
+
+//WallGen generates walls/door openings
+func (f *Flr) WallGen(rmap map[int]*Rm, nmap map[Pt][]*Wall, ptmap map[Pt][]int, wmap map[Tupil][]int, pts []Pt)(err error){
+	
+	//corridor index is last
+	cdx := len(f.Labels)
+	var kdx, ldx int
+	for i , lbl := range f.Labels{
+		if lbl == "kitchen"{kdx = i+1}
+		if lbl == "living"{ldx = i+1}
+	}
+	for idx := range rmap{
+		rm := rmap[idx]
+		if _, ok := rm.Walls[cdx]; ok {
+			cwall := rm.Walls[cdx][0]
+			cwall.Typ = -1
+			jb := ptmap[*cwall.Pb][0]; je := ptmap[*cwall.Pe][0]
+			edx := EdgeDx(jb, je)
+			wmap[edx][0] = 2
+		} else {
+			//check if conn. to living room
+			if _, ok := rm.Walls[ldx]; ok {
+				cwall := rm.Walls[ldx][0]
+				cwall.Typ = -1
+				jb := ptmap[*cwall.Pb][0]; je := ptmap[*cwall.Pe][0]
+				edx := EdgeDx(jb, je)
+				wmap[edx][0] = 2
+			}
+		}
+		if idx == kdx{
+			if _, ok := rm.Walls[ldx]; ok{
+				for i, wall := range rm.Walls[ldx]{
+					rm.Walls[ldx][i].Typ = 3
+					jb := ptmap[*wall.Pb][0]; je := ptmap[*wall.Pe][0]
+					edx := EdgeDx(jb, je)
+					wmap[edx][0] = 3
+				}
+				for i, wall := range rmap[ldx].Walls[kdx]{
+					rmap[ldx].Walls[kdx][i].Typ = 3
+					jb := ptmap[*wall.Pb][0]; je := ptmap[*wall.Pe][0]
+					edx := EdgeDx(jb, je)
+					wmap[edx][0] = 3
+				}
+			}
+		}
+	}
+
+	//mark walls on either side of each external node as non window (edx = 4)
+	for pt, vec := range ptmap{
+		switch vec[1]{
+			case 0:
+			case 1,2,3,4:
+			if _, ok := nmap[pt]; ok{
+				for _, wall := range nmap[pt]{
+					jb := ptmap[*wall.Pb][0]; je := ptmap[*wall.Pe][0]
+					edx := EdgeDx(jb, je)
+					if _, ok := wmap[edx]; ok{
+						wmap[edx][0] = 4
+					}
+				}
+			}
+			case 5:
+			if len(nmap[pt]) > 2{	
+				for _, wall := range nmap[pt]{
+					jb := ptmap[*wall.Pb][0]; je := ptmap[*wall.Pe][0]
+					edx := EdgeDx(jb, je)
+					if _, ok := wmap[edx]; ok{
+						if wmap[edx][0] == 0{wmap[edx][0] = 4}
+					}
+				}
+			}
+		}
+	}
+	//dump to struct
+	//pts
+	f.Pts = make([][]float64, len(pts))
+	for i, pt := range pts{
+		f.Pts[i] = []float64{pt.X,pt.Y}
+	}
+	//walls
+	for edx, vec := range wmap{
+		f.Walls = append(f.Walls, []int{edx.I, edx.J})
+		f.Wvec = append(f.Wvec, vec)
+	}
+	//fmt.Println("nodemap-",nmap)
+
+	//now join walls? traverse
+	
+	
+	
+	plotdx := 0
+	txtplot, _ := f.DrawWalls(rmap, nmap, ptmap, wmap, pts, plotdx)
+	if f.Term == "dumb"{fmt.Println(txtplot)}
+
+	return
+}
+
+//FlrLay. FlrLay lays out a (res) floor using the squarified treemap algo
+func (f *Flr) FlrLay()(err error){
+	f.Init()
+	//fmt.Println("f.Areas, f.Labels",f.Areas, f.Labels)
+	//fmt.Println("f.Origin, f.End, f.Area",f.Origin, f.End, f.Area)
+	switch f.Bloc{
+		case false:
+		f.Flrarea()
+		if f.Name == ""{f.Name = "base"}
+		f.Isroot = true
+		//r := []float64{6,6,4,3,2,2,1}
+		FlrPln(f, f.Areas, f.Labels)
+		if f.Round{
+			for _, room := range f.Rooms{
+				room.SetTol()
+			}
+		}
+		f.FlrGen()	
+		case true:
+		_ = f.ResBmap()
+		
+	}
+	return
+}
+
+//ResBmap returns the (residential/house) block 
+func (f *Flr) ResBmap()(fb Flr){
+	rms := map[string]string{
+		"out":"out",
+		"kitchen":"service",
+		"laundry":"service",
+		"pantry":"service",
+		"utility":"service",
+		"toilet":"private",
+		"bath":"private",
+		"bed":"private",
+		"living":"social",
+		"dining":"social",
+		"stairs":"social",
+		"corridor":"social",
+	}
+	blocks := []string{"social", "service","private"}
+	labels := make([][]string, len(blocks))
+	areas := make([][]float64, len(blocks))
+	var idx int
+	for i, room := range f.Labels{
+		area := f.Areas[i]
+		bn := strings.Split(room, "_")[0]
+		switch rms[bn]{
+			case "social":
+			idx = 0
+			case "service":
+			idx = 1
+			case "private":
+			idx = 2
+		}
+		labels[idx] = append(labels[idx], room)
+		areas[idx] = append(areas[idx], area)
+	}
+	fb = f.BlockPlan(blocks, labels, areas)
+	
+	if f.Round{
+		for i := range fb.Rooms{
+			fb.Rooms[i].SetTol()
+		}
+	}
+	if f.Verbose{
+		GPlotFloors(&fb, true)
+	}
+	fb.SqrRmap()
+	fb.CorGen()
+	return 
+}
+
+//BlockPlan plans a floor as a tree of blocks 
+func (f *Flr) BlockPlan(blocks []string, labels [][]string, areas [][]float64) (fb Flr){
+	var blockareas []float64
+	var sumarea float64
+	for i := range blocks {
+		for _, area := range areas[i] {
+			sumarea += area
+		}
+		blockareas = append(blockareas, sumarea)
+	}
+	f1 := Flr{Origin: f.Origin, End: Pt2d{X: f.Width, Y: f.Height}, Name :"bloc"}
+	f1.Flrarea()
+	blockareas = Scalerooms(&f1, blockareas, false)
+	FlrPln(&f1, blockareas, blocks)
+	var rmareas []float64
+	var roomsfinal []*Flr
+	for i, room := range f1.Rooms {
+		room.Flrarea()
+		rmareas = Scalerooms(room,areas[i], false)
+		FlrPln(room, rmareas, labels[i])
+		roomsfinal = append(roomsfinal, room)
+		
+	}
+	f1.Rooms = roomsfinal
+	fb = Flr{
+		Tomm:f.Tomm,
+		Width:f.Width,
+		Height:f.Height,
+		Units:f.Units,
+		Origin:f.Origin,
+		End:f.End,
+		Verbose:f.Verbose,
+		Round:f.Round,
+		Tol:f.Tol,
+		Term:f.Term,
+	}
+	for _, block := range f1.Rooms{
+		for i := range block.Rooms{
+			if f.Round{
+				block.Rooms[i].Tol = f.Tol
+				block.Rooms[i].SetTol()
+			}
+			room := block.Rooms[i]
+			fb.Rooms = append(fb.Rooms, room)
+			fb.Labels = append(fb.Labels,room.Name)
+			fb.Areas = append(fb.Areas,room.Area)
+			
+		}
+	}
+	return fb
+}
+
+
+//CorPolys2 builds either +ve or -ve offset corridor polygons using ctessum/geom clipping funcs
+func (f *Flr) CorPolys2(path []int, ldx int, neg bool)(){
+	cw := f.Cwidth
+	if cw == 0.0{
+		cw = 750.0
+	}
+	if neg{
+		cw = -cw
+	}
+	e2s := [][]Pt2d{}
+	cps := make(map[Pt2d]bool)
+	cpts := []Pt2d{}
+	f.Polys = [][]Pt2d{}
+	for i, jb := range path{
+		p1 := f.Nodes[jb-1]
+		if i != len(path)-1{
+			je := path[i+1]
+			p2 := f.Nodes[je-1]
+			//eds = append(eds, []Pt2d{p1, p2})
+			p3, p4 := EdgeOff2d(cw, p1, p2)
+			e2s = append(e2s, []Pt2d{p3, p4})
+			for _, pt := range []Pt2d{p1, p2, p3, p4}{
+				if _, ok := cps[pt]; !ok{
+					cps[pt] = true
+					cpts = append(cpts, pt)
+					//add p3/p4 to new corridor edges		
+				} 
+			}
+		}
+	}
+	SortCw(cpts, Centroid2d(cpts))
+	// fn = f.Clone()
+	// fn.Sqrd = true
+	//get points of intersection of cpts with all room (rect) polygons
+	for i, rm := range f.Rooms{
+		var rpoly []Pt2d
+		//var intersects bool
+		//get living room as is
+		p1, p2, p3, p4 := RectPts(rm.Origin, rm.End)
+		if i == ldx{
+			//fmt.Println("living room points->",p1,p2,p3,p4)
+			f.Polys = append(f.Polys, []Pt2d{p1, p2, p3, p4})				
+			rpoly = []Pt2d{p1, p2, p3, p4}
+		} else {
+			//get poly from points
+			r1 := []Pt2d{p1, p2, p3, p4}
+			rpoly = RmSub(r1, cpts)
+			f.Polys = append(f.Polys, rpoly)				
+		}
+		f.Rooms[i].Polys = append(f.Rooms[i].Polys,rpoly)
+	}
+	f.Labels = append(f. Labels,"corridor")
+	f.Polys = append(f.Polys, cpts)
+	crm := Flr{
+		Polys:[][]Pt2d{cpts},
+		Name:"corridor",
+	}
+	f.Rooms = append(f.Rooms, &crm)
+	return
+}
+
+/*
+// var di, dj int
+	// p1 := f.Nodes[path[0]-1]
+	//rl := int(math.Round(p1.Y/f.Gx))
+	//cl := int(math.Round(p1.X/f.Gx))
+	// stopcon := false
+	// for _, r := range []int{rl-1, rl, rl+1}{
+	// 	if stopcon{break}
+	// 	for _, c := range []int{cl-1, cl, cl+1}{
+	// 		if stopcon{break}
+	// 		if grid[r][c] == ldx{
+	// 			stopcon = true
+	// 			di = r - rl
+	// 			dj = c - cl
+	// 		}
+	// 	}
+	// }
+	
+
 
 //EvalRes evaluates a residential floor plan
 func (f *Flr) EvalRes(grid [][]int)(rmap map[int]*Rm, cost float64){
@@ -1174,141 +2157,14 @@ func (f *Flr) Craft(){
 	}
 	fmt.Println(rezstring)	
 }
+// //Rmdat stores input data for squarify
+// type Rmdat struct{
+	Rooms []string
+	Areas []float64
+	Dims  []float64
+	Units string
+// }
 
-//FlrGen generates the room connectivity graph and edges
-func (f *Flr) FlrGen()(err error){
-	//f.Flrprint(true)
-	if f.Round{
-		f.SetTol()
-	}
-	if f.Verbose{
-		GPlotFloors(f, true)
-	}
-	f.SqrRmap()
-	f.CorGen()
-	//f.Craft()
-	return
-}
 
-func (f *Flr) FlrLay()(err error){
-	switch f.Bloc{
-		case false:
-		f.Flrarea()
-		if f.Name == ""{f.Name = "base"}
-		f.Isroot = true
-		//r := []float64{6,6,4,3,2,2,1}
-		FlrPln(f, f.Areas, f.Labels)
-		if f.Round{
-			for _, room := range f.Rooms{
-				room.SetTol()
-			}
-		}
-		f.FlrGen()	
-		case true:
-		_ = f.ResBmap()
-		
-	}
-	return
-}
 
-//ResBmap returns the (residential/house) block 
-func (f *Flr) ResBmap()(fb Flr){
-	rms := map[string]string{
-		"out":"out",
-		"kitchen":"service",
-		"laundry":"service",
-		"pantry":"service",
-		"utility":"service",
-		"toilet":"private",
-		"bath":"private",
-		"bed":"private",
-		"living":"social",
-		"dining":"social",
-		"stairs":"social",
-		"corridor":"social",
-	}
-	blocks := []string{"social", "service","private"}
-	labels := make([][]string, len(blocks))
-	areas := make([][]float64, len(blocks))
-	var idx int
-	for i, room := range f.Labels{
-		area := f.Areas[i]
-		bn := strings.Split(room, "_")[0]
-		switch rms[bn]{
-			case "social":
-			idx = 0
-			case "service":
-			idx = 1
-			case "private":
-			idx = 2
-		}
-		labels[idx] = append(labels[idx], room)
-		areas[idx] = append(areas[idx], area)
-	}
-	fb = f.BlockPlan(blocks, labels, areas)
-	
-	if f.Round{
-		for i := range fb.Rooms{
-			fb.Rooms[i].SetTol()
-		}
-	}
-	if f.Verbose{
-		GPlotFloors(&fb, true)
-	}
-	fb.SqrRmap()
-	fb.CorGen()
-	return 
-}
-
-//BlockPlan plans a floor as a tree of blocks 
-func (f *Flr) BlockPlan(blocks []string, labels [][]string, areas [][]float64) (fb Flr){
-	var blockareas []float64
-	var sumarea float64
-	for i := range blocks {
-		for _, area := range areas[i] {
-			sumarea += area
-		}
-		blockareas = append(blockareas, sumarea)
-	}
-	f1 := Flr{Origin: f.Origin, End: Pt2d{X: f.Width, Y: f.Height}, Name :"bloc"}
-	f1.Flrarea()
-	blockareas = Scalerooms(&f1, blockareas, false)
-	FlrPln(&f1, blockareas, blocks)
-	var rmareas []float64
-	var roomsfinal []*Flr
-	for i, room := range f1.Rooms {
-		room.Flrarea()
-		rmareas = Scalerooms(room,areas[i], false)
-		FlrPln(room, rmareas, labels[i])
-		roomsfinal = append(roomsfinal, room)
-		
-	}
-	f1.Rooms = roomsfinal
-	fb = Flr{
-		Tomm:f.Tomm,
-		Width:f.Width,
-		Height:f.Height,
-		Units:f.Units,
-		Origin:f.Origin,
-		End:f.End,
-		Verbose:f.Verbose,
-		Round:f.Round,
-		Tol:f.Tol,
-		Term:f.Term,
-	}
-	for _, block := range f1.Rooms{
-		for i := range block.Rooms{
-			if f.Round{
-				block.Rooms[i].Tol = f.Tol
-				block.Rooms[i].SetTol()
-			}
-			room := block.Rooms[i]
-			fb.Rooms = append(fb.Rooms, room)
-			fb.Labels = append(fb.Labels,room.Name)
-			fb.Areas = append(fb.Areas,room.Area)
-			
-		}
-	}
-	return fb
-}
-
+*/

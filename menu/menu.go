@@ -154,9 +154,9 @@ func InitMenu(term, sub string){
 				bashmenu(term)
 				case 3:
 				tmbrmenu(term)
-				//case 4:
-				//flaymenu(term)
 				case 4:
+				flaymenu(term)
+				case 5:
 				running = false
 				break
 			}
@@ -172,8 +172,8 @@ func InitMenu(term, sub string){
 		bashmenu(term)
 		case "tmbr","wood":
 		tmbrmenu(term)
-		//case "flay","layout":
-		//flaymenu(term)
+		case "flay","layout":
+		flaymenu(term)
 		default:
 		log.Println("invalid sub menu string")
 	}

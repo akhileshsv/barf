@@ -5,9 +5,11 @@ import (
 	"bytes"
 	"os"
 	"os/exec"
-	"path/filepath"
+	"strings"
 	"runtime"	
+	"path/filepath"
 	draw "barf/draw"
+	polygol"github.com/engelsjk/polygol"
 )
 
 func EdgeDat(a, b Pt2d, idx int)(data string){
@@ -95,6 +97,155 @@ func (f *Flr) DrawCorg()(txtplot string, err error){
 	title := "floor plan"
 	txtplot, err = draw.Draw(data, skript, term, folder, fname, title, xl, yl, zl) 
 	return
+}
+
+//RoomItems draws room items
+func (f *Flr) RoomItems(idx int, rmap map[int]*Rm)(data string){
+	label := f.Labels[idx]
+	
+	switch strings.Split(label, "_")[0]{
+		case "living":
+		//draw center table
+		pc := Centroid2d(f.Polys[idx])
+		p1 := []float64{pc.X - 600.0, pc.Y}
+		p2 := []float64{pc.X + 600.0, pc.Y}
+		data = DrawRectView(4, 1200.0, p1, p2)
+		
+		case "bath":
+		fmt.Println(ColorYellow, "HERE",label,ColorReset)
+		//draw wc
+		//find first cell connected to exterior/window
+		//draw rect centered in cell
+		for dir, walls := range rmap[idx].Walls{
+			fmt.Println("dir-",dir, "len walls-", len(walls))
+		}
+		for i, cell := range rmap[idx].Cells{
+			fmt.Println("i, cell-",i, cell.Row,cell.Col,"dir-",rmap[idx].Edges[i])
+		
+			if rmap[idx].Edges[i] < 0{
+				fmt.Println(ColorRed, "FOUND CELL",cell,ColorReset)
+		
+				pb := Pt2d{cell.Pb.X + 100.0, cell.Pb.Y + 100.0}
+				pe := Pt2d{cell.Pe.X - 100.0, cell.Pe.Y - 100.0}
+				p1, p2, p3, p4 := RectPts(pb, pe)
+				pts := []Pt2d{p1, p2, p3, p4, p1}
+				for j, px := range pts{
+					if j != 4{
+						py := pts[j+1]
+						data += fmt.Sprintf("%f %f %f %f 4.0\n",px.X, px.Y, py.X-px.X, py.Y-px.Y)
+					}
+				}
+			}
+		}
+		case "bed":
+		//draw bed at center 
+		pc := Centroid2d(f.Polys[idx])
+		p1 := []float64{pc.X - 1200.0, pc.Y}
+		p2 := []float64{pc.X + 1200.0, pc.Y}
+		data = DrawRectView(4, 1800.0, p1, p2)
+		
+		case "utility":
+		case "office":
+		default:
+	}
+	return
+}
+
+//DrawWalls draws walls
+func (f *Flr) DrawWalls(rmap map[int]*Rm, nmap map[Pt][]*Wall, ptmap map[Pt][]int, wmap map[Tupil][]int, pts []Pt, plotdx int)(txtplot string, err error){
+	var ndata, data, ldata string
+	ndata += fmt.Sprintf("%f %f %v\n",0.,0.,0)
+	// for _, pt := range f.Colgrid{
+	// 	ndata += fmt.Sprintf("%f %f %v\n",pt[0],pt[1],4)
+	// }
+	
+	for i, poly := range f.Polys{
+		if f.Labels[i] == "corridor"{continue}
+		//data += f.RoomItems(i, rmap)
+		pc := Centroid2d(poly)
+		area := rmap[i+1].Area/(304.8*304.8)
+		lstr := fmt.Sprintf("%s-%.fsft",f.Labels[i],area)
+		ldata += fmt.Sprintf("%f %f %s\n",pc.X,pc.Y,lstr)
+	}
+	//fwack, join polys
+	wpolys := [][][][][]float64{}
+	winpolys := [][][][][]float64{}
+	for edx, vec := range wmap{
+		pb := Pt2d{pts[edx.I-1].X, pts[edx.I-1].Y}
+		pe := Pt2d{pts[edx.J-1].X, pts[edx.J-1].Y}
+		switch vec[0]{
+			case -1:
+			case 4:
+			//ext walls
+			//data += DrawRectView(5, 230.0, []float64{pb.X,pb.Y},[]float64{pe.X,pe.Y})
+			pts := WallPoly(pb.X, pb.Y, pe.X, pe.Y, 230.0)
+			npoly := [][][]float64{pts}
+			wpolys = append(wpolys, [][][][]float64{npoly})
+			case 0:
+			//ext window walls
+			//data += DrawRectView(1, 230.0, []float64{pb.X,pb.Y},[]float64{pe.X,pe.Y})
+			pts := WallPoly(pb.X, pb.Y, pe.X, pe.Y, 230.0)
+			npoly := [][][]float64{pts}
+			winpolys = append(winpolys, [][][][]float64{npoly})
+			case 1:
+			//int walls
+			//data += DrawRectView(vec[0]+1, 115.0, []float64{pb.X,pb.Y},[]float64{pe.X,pe.Y})
+			pts := WallPoly(pb.X, pb.Y, pe.X, pe.Y, 115.0)
+			npoly := [][][]float64{pts}
+			wpolys = append(wpolys, [][][][]float64{npoly})
+			case 2:
+			//door. draw nothin
+			//draw (45 deg rotated? nope, weird) 75 mm rect
+			//data += DrawRectView(vec[0]+1, 75.0, []float64{pb.X,pb.Y},[]float64{pe.X, pe.Y})
+			case 3:
+			//kitchen/living wall
+			data += EdgeDat(pb, pe, vec[0]+1)
+			default:
+			data += EdgeDat(pb, pe, vec[0]+1)
+		} 
+								
+	}
+	upoly := wpolys[0]
+	for _, poly := range wpolys[1:]{
+		upoly, _ = polygol.Union(upoly, poly)
+	}
+	for _, mpoly := range upoly{
+		for _, poly := range mpoly{
+			for i, p1 := range poly{
+				if i < len(poly)-1{
+					p2 := poly[i+1]
+					data += fmt.Sprintf("%f %f %f %f 1.0\n",p1[0], p1[1], p2[0]-p1[0], p2[1]-p1[1])
+				}
+			}
+		}
+	}
+	upoly = winpolys[0]
+	for _, poly := range winpolys[1:]{
+		upoly, _ = polygol.Union(upoly, poly)
+	}
+	
+	for _, mpoly := range upoly{
+		for _, poly := range mpoly{
+			for i, p1 := range poly{
+				if i < len(poly)-1{
+					p2 := poly[i+1]
+					data += fmt.Sprintf("%f %f %f %f 2.0\n",p1[0], p1[1], p2[0]-p1[0], p2[1]-p1[1])
+				}
+			}
+		}
+	}
+	ndata += "\n\n"
+	data = ndata + data
+	data += "\n\n"
+	data += ldata
+	skript := "basic2d.gp"
+	xl := f.Units; yl := f.Units; zl := f.Units
+	term := f.Term
+	folder := ""
+	fname := f.Title
+	title := f.Title + "-plan"
+	txtplot, err = draw.Draw(data, skript, term, folder, fname, title, xl, yl, zl) 
+	return	
 }
 
 //Draw plots a floor
@@ -232,8 +383,6 @@ func exec_command(program string, args ...string) string {
 	return outstr
 }
 
-
-
 //Plotgrid plots a grid of rooms using ...
 //gnuplot (' ')
 //each rect has uniform dims (dx, dy)
@@ -292,6 +441,7 @@ func Plotgrid(grid [][]int, dx, dy float64) (string){
 	return outstr
 }
 
+
 //PltLout plots a layout (lout) which is a map of rooms 
 func PltLout(rmap map[int]*Rm) (pltstr string){
 	//get plotscript filepath
@@ -346,7 +496,7 @@ func PltLout(rmap map[int]*Rm) (pltstr string){
 	if e1 != nil {
 		fmt.Println(e1)
 	}
-	cmd := exec.Command("gnuplot","-c",pltskript,f.Name(),"qt")
+	cmd := exec.Command("gnuplot","-c",pltskript,f.Name(),"dumb")
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr
@@ -360,3 +510,57 @@ func PltLout(rmap map[int]*Rm) (pltstr string){
 	}
 	return outstr
 }
+
+/*
+		//nodemap?
+	// for _, walls := range nmap{
+	// 	for _, wall := range walls{
+	// 		if wall.Typ != -1{
+	// 			pb := Pt2d{wall.Pb.X,wall.Pb.Y}	
+	// 			pe := Pt2d{wall.Pe.X,wall.Pe.Y}
+	// 			data += EdgeDat(pb, pe, wall.Typ+1)						
+	// 		}
+	// 	} 
+	// }
+	// //then wallz
+	// for idx, rm := range rmap{
+	// 	lbl := f.Labels[idx-1]
+	// 	for _, val := range rm.Walls{
+	// 		for _, wall := range val{
+	// 			switch lbl{
+	// 				case "corridor":
+	// 				if wall.Typ == 0{
+	// 					pb := Pt2d{wall.Pb.X,wall.Pb.Y}	
+	// 					pe := Pt2d{wall.Pe.X,wall.Pe.Y}
+	// 					data += EdgeDat(pb, pe, wall.Typ+1)				
+	// 				}
+	// 				default:	
+	// 				if wall.Typ != -1{
+	// 					pb := Pt2d{wall.Pb.X,wall.Pb.Y}	
+	// 					pe := Pt2d{wall.Pe.X,wall.Pe.Y}
+	// 					data += EdgeDat(pb, pe, wall.Typ+1)
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
+	//wmap
+
+	// //draw grid lines
+	// x0 := f.Origin.X - 250.0
+	// y0 := f.Origin.Y - 250.0
+	// x1 := f.End.X + 250.0
+	// y1 := f.End.Y + 250.0
+	// //
+	// for _, x := range f.Cxs{
+	// 	pb := Pt2d{x, y0}
+	// 	pe := Pt2d{x, y1}
+	// 	data += EdgeDat(pb, pe, 7)
+	// }
+	// for _, y := range f.Cys{
+	// 	pb := Pt2d{x0, y}
+	// 	pe := Pt2d{x1, y}
+	// 	data += EdgeDat(pb, pe, 7)
+	// }
+
+*/

@@ -144,28 +144,35 @@ func Dfsgrid(grid [][]int,i,j,check int, visited map[Tupil]bool, ncells int) (ma
 	//visited := make(map[Tupil]bool)
 	cells := []Tupil{}
 	var current Tupil
-	for len(stk) > 0 {
-		if ncells != -1 && len(cells) > ncells {
+	var iter int
+	for len(stk) > 0 && iter == 0{
+		if ncells != -1 && len(cells) == ncells {
+			iter = -1
 			break			
 		}		
 		current, stk = stk[len(stk)-1], stk[:len(stk)-1]
 		i = current.I; j = current.J
+		if grid[i][j] != check{continue}
 		visited[current] = true
-		cells = append(cells, current)
+		if ncells == -1 {
+			cells = append(cells,current)
+		} else if len(cells) < ncells {
+			cells= append(cells,current)
+		}
+		if len(cells) == ncells{
+			iter = -1
+			break
+		}
 		for _, t := range []Tupil{
 			{i-1,j},
 			{i+1,j},
-			{i,j-1},
 			{i,j+1},
+			{i,j-1},
 		} {
 			if (t.I >=0 && t.I < height) && (t.J >=0 && t.J< width) && (grid[t.I][t.J]==check){
 				if _, ok := visited[t]; !ok {
 					stk = append(stk, t)
-					if ncells == -1 {
-						cells = append(cells,t)
-					} else if len(cells) < ncells {
-						cells= append(cells,t)
-					}
+					
 				}
 			}
 		}
@@ -230,33 +237,36 @@ func Bfsprint(g Graph,src string) {
 }
 
 //celldiv flips rooms rsmol and rlarge and rewrites a grid
-func celldiv(nsmol,rsmol,rlarge int, grid[][]int, src Tupil, smolcs, largecs []*Cell) ([][]int,[]Tupil,[]Tupil,int) {
+func celldiv(nsmol,rsmol,rlarge int, grid[][]int, src Tupil, smolcs, largecs []*Cell) ([][]int,[]Tupil,[]Tupil) {
 	gridedit := make([][]int, len(grid))
+	lcs := []Tupil{}
 	for i, row := range grid{
 		gridedit[i] = make([]int, len(row))
-		for j, val := range row {
-			gridedit[i][j] = val
-		}
+		copy(gridedit[i], grid[i])
 	}
+	
+	
 	for _, cell := range smolcs{
 		gridedit[cell.Row][cell.Col] = rlarge
+		lcs = append(lcs, Tupil{cell.Row, cell.Col})
 	}
-	for _, cell := range largecs {
-		gridedit[cell.Row][cell.Col] = -1
+	for _, cell := range largecs{
+		gridedit[cell.Row][cell.Col] = 666
 	}
 	visited := make(map[Tupil]bool)
-	visited, scs := Dfsgrid(gridedit,src.I,src.J,-1,visited,nsmol)
+	//Dfsgrid(grid [][]int,i,j,check int, visited map[Tupil]bool, ncells int)
+	visited, scs := Dfsgrid(gridedit,src.I,src.J,666,visited,nsmol)
 	for _, t := range scs{
 		gridedit[t.I][t.J] = rsmol
 	}
-	for _, cell := range largecs {
-		if gridedit[cell.Row][cell.Col] == -1 {
+	for _, cell := range largecs{
+		if gridedit[cell.Row][cell.Col] == 666{
 			gridedit[cell.Row][cell.Col] = rlarge
+			lcs = append(lcs,Tupil{cell.Row, cell.Col})
 		}
 	}
-	_, lcs, ncomps := Nbcomponents(gridedit, rlarge)
 
-	return gridedit, scs, lcs, ncomps
+	return gridedit, scs, lcs
 }
 
 //Bfsgrid performs a breadth first search on a grid 
@@ -268,7 +278,7 @@ func Bfsgrid(grid [][]int,i,j,check int, visited map[Tupil]bool, ncells int) (ma
 	//visited = make(map[Tupil]bool)
 	cells := []Tupil{}
 	for len(q) > 0 {
-		if ncells != -1 && len(cells) >= ncells {
+		if ncells != -1 && len(cells) == ncells {
 			break			
 		}		
 		current := q[0]

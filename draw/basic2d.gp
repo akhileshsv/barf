@@ -3,15 +3,15 @@ if (ARG2 eq 'caca') set term caca driver utf8 color inverted
 if (ARG2 eq 'qt') set term qt enhanced font 'Kongtext,4' persist
 if (ARG2 eq 'svg') set term svg dynamic font 'Kongtext,4'; set output ARG7
 if (ARG2 eq 'svgmono') set term svg dynamic font 'Kongtext,4'; set monochrome; set output ARG7
-if (ARG2 eq 'dxf') set term dxf; set size 1000,1000; set output ARG7; set size ratio -1 
-set mxtics 5
-set mytics 5
+if (ARG2 eq 'dxf') set term dxf; set output ARG7 
+#set mxtics 5
+#set mytics 5
 # set grid xtics ytics
 set title ARG3
 set xlabel ARG4
 set ylabel ARG5
-set autoscale
-unset border
+# set autoscale
+# unset border
 unset key
 unset colorbox
 set offsets graph 0.1,0.1,0.1,0.1
