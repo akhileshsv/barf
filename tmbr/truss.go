@@ -9,6 +9,7 @@ import (
 	kass"barf/kass"
 )
 
+//write dis first
 func Table(t *kass.Trs2d) (err error){
 	return
 }
@@ -24,7 +25,7 @@ func ModDz(mod *kass.Model){
 		cp := mod.Mprp[i-1][3]
 		dims := mod.Dims[cp-1]
 		styp := mod.Sts[cp-1]
-		go ColD(mod.Ms[i], styp, mod.Group , dims, mod.Mtprp[0], colchn)
+		go ColD(false, mod.Ms[i], styp, mod.Group , dims, mod.Mtprp[0], colchn)
 	}
 	for range mod.Ms{
 		rez := <- colchn
@@ -32,10 +33,6 @@ func ModDz(mod *kass.Model){
 	}
 }
 
-// //NodeCalc sorts nodal forces and angles subtended at nodes by members
-// func NodeCalc(t *kass.Trs2d) (err error){
-
-// }
 
 //NodeCalc designs bolts/nails at beginning and end of each member
 func NodeCalc(t *kass.Trs2d) (err error){
@@ -43,7 +40,7 @@ func NodeCalc(t *kass.Trs2d) (err error){
 	var tprp kass.Wdprp
 	var isapex bool
 	tprp.Init(t.Group)
-	err = fmt.Errorf("bhak chutiye")
+	//err = fmt.Errorf("bhak chutiye")
 	
 	//each joint has to have two chord/rafter members?
 	yapx := t.Rise + t.Height
@@ -89,9 +86,7 @@ func NodeCalc(t *kass.Trs2d) (err error){
 		fmt.Println("at node -", i,  "mtyps -",mtyps)
 		fmt.Println("nmems -",nmem,"nbot - ",nbm, "ntop - ",ntm)
 		fmt.Println("chord members -",mcs)
-		switch t.Ctyp{
-			
-		}
+		
 		switch{
 			case isapex:
 			fmt.Println(ColorYellow,"apex joint",ColorReset)
@@ -125,6 +120,7 @@ func TrussDz(t *kass.Trs2d) (err error){
 	}
 	fmt.Println("starting node dz ->")
 	err = NodeCalc(t)
+	
 	if err != nil{
 		log.Println(err)
 		return
@@ -141,7 +137,16 @@ func TrussDz(t *kass.Trs2d) (err error){
 		cp := t.Mod.Mprp[i-1][3]
 		dims := t.Sections[cp-1]
 		styp := t.Styps[cp-1]
-		go ColD(t.Mod.Ms[i], styp, t.Group , dims, t.Dzval, colchn)
+		chk := true
+		switch t.Dtyp{
+			case 0:
+			//design
+			chk = false
+			case 1:
+			//check
+		}
+		go ColD(chk, t.Mod.Ms[i], styp, t.Group , dims, t.Dzval, colchn)
+			
 	}
 	t.Dzmem = make([]interface{}, len(t.Mod.Ms))
 	dimap := make(map[int][]float64)
@@ -267,7 +272,7 @@ func (c *WdCol) ReadPrp(dzval []float64){
 
 //ColD designs an axially loaded wooden column
 //using results from a kass.Model (only a 2d truss so far)
-func ColD(mem *kass.Mem, styp, grp int, dims, dzval []float64, colchn chan []interface{}){
+func ColD(chk bool, mem *kass.Mem, styp, grp int, dims, dzval []float64, colchn chan []interface{}){
 	//first build column
 	//then check/design
 	c := WdCol{
@@ -275,23 +280,32 @@ func ColD(mem *kass.Mem, styp, grp int, dims, dzval []float64, colchn chan []int
 		Grp: grp,
 		Styp:styp,
 		Lspan:mem.Geoms[0],
+		Dims:dims,
 	}
 	if c.Grp == 0 && len(dzval) != 0{
 		c.ReadPrp(dzval)
 	}
 	c.Init()
-	//increase pu by 1.15 for net section in bolted trusses
-	c.Pu = mem.Cmax * 1.15
+	
+	//
+	c.Pu = mem.Cmax //* 1.15
 	if math.Abs(mem.Tmax) > c.Pu{
-		c.Pu = math.Abs(mem.Tmax) * 1.15
+		c.Pu = math.Abs(mem.Tmax) //* 1.15
 		c.Tensile = true
 	}
-	
-	err := ColDz(&c)
 	rez := make([]interface{},3)
-	rez[0] = err
-	rez[1] = mem.Id
-	rez[2] = c
+	
+	if chk{
+		_, vals, err := ColChk(&c)
+		rez[0] = err
+		rez[1] = mem.Id
+		rez[2] = vals
+	} else {
+		err := ColDz(&c)
+		rez[0] = err
+		rez[1] = mem.Id
+		rez[2] = c
+	}
 	colchn <- rez
 }
 

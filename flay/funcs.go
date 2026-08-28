@@ -4,6 +4,7 @@ import (
 	"os"
 	"fmt"
 	"math"
+	"sort"
 	"strings"
 	"runtime"
 	"io/ioutil"
@@ -14,6 +15,16 @@ import (
 	polygol"github.com/engelsjk/polygol"
 )
 
+//ReadFcflr reads an Fcflr from a file
+func ReadFcflr(fname string)(f Fcflr, err error){
+	jsonfile, e := ioutil.ReadFile(fname)
+	if e != nil{
+		err = e
+		return
+	} 
+	err = json.Unmarshal([]byte(jsonfile),&f)
+	return
+}
 
 //FlrJson saves flr labels and polygons to a .json file
 func (f *Flr) FlrJson(){
@@ -410,6 +421,399 @@ func DirMatDesi(facing string,labels []string)(dirmat [][]int){
 	}
 	return
 }
+
+
+
+
+func isum(vec []int)(isum int){
+	for _, val := range vec{
+		isum += val
+	}
+	return
+}
+
+//KostDir returns a cost vs dirmat adjacency
+func (f *Flr) KostDir(grid [][]int)(cost float64, rmap map[int]*Rm, rcent []*Pt){
+	dirz := []string{"n","e","s","w","ext"}
+	dmap := make(map[int]string)
+	for i, dir := range f.Dirs{
+		switch i{
+			case 0:
+			dmap[-1] = dir
+			case 1:
+			dmap[-2] = dir
+			case 2:
+			dmap[-3] = dir
+			case 3:
+			dmap[-4] = dir
+		}
+	}
+	//fmt.Println(ColorYellow,"GRID IN-",grid,ColorReset)
+	rcent = make([]*Pt, len(f.Labels))
+	rmap, _, _, _,_ = LoutGen(len(f.Labels),len(grid[0]),len(grid), grid, f.Gx,f.Gx, []float64{},[]float64{})
+	for i, rm := range rmap{
+		//fmt.Println("room->",i,"label-",f.Labels[i-1])
+		rcent[i-1] = &Pt{X:rm.Centroid.X,Y:rm.Centroid.Y}
+		dvec := f.Dirmat[i-1]
+		//fmt.Println("dirvec->",dvec)
+		if isum(dvec) == 0{
+			//fmt.Println("skipping")
+			continue
+		}
+		eadj := make(map[string]int)
+		eadj = map[string]int{
+			"n":-1,"s":-1,"e":-1,"w":-1,"ext":-1,
+		}
+		for _, nbr := range rm.Nbrs{
+			if nbr < 0{
+				dir := dmap[nbr]
+				eadj[dir] = 1
+				if eadj["ext"] == -1{eadj["ext"] = 1}
+			}
+		}
+		for j, v := range dvec{
+			dir := dirz[j]
+			if v > 0 && eadj[dir] < 0{
+				//fmt.Println(ColorRed,"rm-",f.Labels[i-1],"isnot konnekt to dir->",dir,ColorReset)
+				cost += 1.0
+			}
+		}
+	}
+	return
+}
+
+//RmCombosEval evals floor room combos based on cost
+func (f *Flr) RmCombosEval(opt int, rcent []*Pt, rmap map[int]*Rm, combos map[string][]int, grid [][]int, dx, dy float64) (map[string]float64, string, map[string][][]int){
+	costs := make(map[string]float64, len(combos))
+	gridz := make(map[string][][]int, len(combos))
+	cmin := -1.0
+	var minidx string
+	for idx, combo := range combos {
+		//fmt.Println(idx, combo)
+		//for _, cent := range rcnew {fmt.Println(cent.X,cent.Y)}
+		switch opt{
+			case 1:
+			_, gnew := Rswap(combo, rmap, rcent, grid, dx, dy)
+			costs[idx],_,_ = f.KostDir(gnew)
+			gridz[idx] = gnew
+			if cmin == -1.0 {
+				cmin = costs[idx]
+				minidx = idx
+			} else {
+				if cmin > costs[idx] {
+					cmin = costs[idx]
+					minidx = idx
+				}
+			}	
+		}
+	}
+	return costs, minidx, gridz
+}
+
+
+//CraftDir swaps rooms by area/adj until a min cost is reached
+func (f *Flr) CraftDir()(grid [][]int){
+	
+	if f.Facing == ""{f.Facing = "e"}
+	if len(f.Dirmat) == 0{
+		f.Dirmat = DirMatDesi(f.Facing, f.Labels)
+	}
+	f.Dirs = getdirvec(f.Facing)
+	fmt.Println(ColorGreen, "main dirs->",f.Dirs, ColorReset)
+	
+	grid = f.PolyGrid()
+	txtplot := Plotgrid(grid, f.Gx, f.Gx)
+	fmt.Println(txtplot)
+
+	cost0, rmap, rcent := f.KostDir(grid)
+	fmt.Println("room init kost->",cost0)
+	var iter, kiter int
+	cmin := cost0
+	
+	for iter != -1{
+		kiter++
+		fmt.Println("iter #",kiter,"min. cost->",cmin)
+		combos := CraftCombos(rmap)
+		fmt.Println("COMBOLEN-",len(combos))
+		costs, mindx, gridz := f.RmCombosEval(f.Opt, rcent, rmap, combos, grid, f.Gx, f.Gx)
+		fmt.Println("mindx, mingrid->",mindx, gridz[mindx])
+		_, rmap, rcent = f.KostDir(gridz[mindx])
+		if costs[mindx] < cmin{
+			fmt.Println("smaller kost seen, copying gmin")
+			cmin = costs[mindx]
+			for i, val := range gridz[mindx]{
+				grid[i] = make([]int, len(val))
+				copy(grid[i],gridz[mindx][i])
+			}
+		}
+		if kiter > 2{
+			fmt.Println(ColorRed, "stopping iter",ColorReset)
+			iter = -1
+			break
+		}
+	}
+	fmt.Println("min cost grid->",cmin,"not rupeeses")
+	fmt.Println(grid)
+	return
+}
+
+//HOW. HOW?
+//ColGrid generates a column and beam grid for a floor
+func (f *Flr) ColGrid(rmap map[int]*Rm, nmap map[Pt][]*Wall, ptmap map[Pt][]int, wmap map[Tupil][]int, pts []Pt)(err error){
+	//check for unique x and y values -
+	//simplify
+	//intersect and plot
+	xmap := make(map[float64]bool)
+	ymap := make(map[float64]bool)
+	xs := []float64{}
+	ys := []float64{}
+	for pt, walls := range nmap{
+		vec := ptmap[pt]
+		x := pt.X; y := pt.Y
+		
+		if len(walls) > 2 && vec[0] > 0{
+			if _, ok := xmap[x]; !ok{
+				xmap[x] = false
+				xs = append(xs, x)
+			}
+			if _, ok := ymap[y]; !ok{
+				ymap[y] = false
+				ys = append(ys, y)
+			}
+		}
+	}
+	sort.Slice(xs, func(i, j int) bool{
+		return xs[i] < xs[j]
+	})
+	
+	sort.Slice(ys, func(i, j int) bool{
+		return ys[i] < ys[j]
+	})
+	f.Cxs = []float64{}
+	f.Cys = []float64{}
+	tol := 4000.0
+	for i, x := range xs{
+		switch i{
+			case 0:
+			f.Cxs = append(f.Cxs, x)
+			xmap[x] = true
+			case len(xs)-1:
+			f.Cxs = append(f.Cxs, x)
+			xmap[x] = true
+			default:
+			xp := xs[i-1]
+			if xmap[xp] == false{
+				xp = f.Cxs[len(f.Cxs)-1]
+				if x - xp > tol{
+					f.Cxs = append(f.Cxs, x)
+					xmap[x] = true
+				}
+			} else {
+				if x - xp > tol{
+					f.Cxs = append(f.Cxs, x)
+					xmap[x] = true
+				}
+			}			
+		}
+	}
+
+	
+	for i, y := range ys{
+		switch i{
+			case 0:
+			f.Cys = append(f.Cys, y)
+			ymap[y] = true
+			case len(ys)-1:
+			f.Cys = append(f.Cys, y)
+			ymap[y] = true
+			default:
+			yp := ys[i-1]
+			if ymap[yp] == false{
+				yp = f.Cys[len(f.Cys)-1]
+				if y - yp > tol{
+					f.Cys = append(f.Cys, y)
+					ymap[y] = true
+				}
+			} else {
+				if y - yp > tol{
+					f.Cys = append(f.Cys, y)
+					ymap[y] = true
+				}
+			}			
+		}
+	}
+	f.Colgrid = [][]float64{}
+	for _, x := range f.Cxs{
+		for _, y := range f.Cys{
+			f.Colgrid = append(f.Colgrid, []float64{x, y})
+		}
+	}
+	
+	fmt.Println("f.Cxs->",f.Cxs)
+	
+	fmt.Println("f.Cys->",f.Cys)
+	return
+	
+}
+
+//ResBmap returns the (residential/house) block 
+func (f *Flr) ResBmap()(fb Flr){
+	rms := map[string]string{
+		"out":"out",
+		"kitchen":"service",
+		"laundry":"service",
+		"pantry":"service",
+		"utility":"service",
+		"toilet":"private",
+		"bath":"private",
+		"bed":"private",
+		"living":"social",
+		"dining":"social",
+		"stairs":"social",
+		"corridor":"social",
+	}
+	blocks := []string{"social", "service","private"}
+	labels := make([][]string, len(blocks))
+	areas := make([][]float64, len(blocks))
+	var idx int
+	for i, room := range f.Labels{
+		area := f.Areas[i]
+		bn := strings.Split(room, "_")[0]
+		switch rms[bn]{
+			case "social":
+			idx = 0
+			case "service":
+			idx = 1
+			case "private":
+			idx = 2
+		}
+		labels[idx] = append(labels[idx], room)
+		areas[idx] = append(areas[idx], area)
+	}
+	fb = f.BlockPlan(blocks, labels, areas)
+	
+	if f.Round{
+		for i := range fb.Rooms{
+			fb.Rooms[i].SetTol()
+		}
+	}
+	if f.Verbose{
+		GPlotFloors(&fb, true)
+	}
+	fb.SqrRmap()
+	fb.CorGen()
+	return 
+}
+
+//BlockPlan plans a floor as a tree of blocks 
+func (f *Flr) BlockPlan(blocks []string, labels [][]string, areas [][]float64) (fb Flr){
+	var blockareas []float64
+	var sumarea float64
+	for i := range blocks {
+		for _, area := range areas[i] {
+			sumarea += area
+		}
+		blockareas = append(blockareas, sumarea)
+	}
+	f1 := Flr{Origin: f.Origin, End: Pt2d{X: f.Width, Y: f.Height}, Name :"bloc"}
+	f1.Flrarea()
+	blockareas = Scalerooms(&f1, blockareas, false)
+	FlrPln(&f1, blockareas, blocks)
+	var rmareas []float64
+	var roomsfinal []*Flr
+	for i, room := range f1.Rooms {
+		room.Flrarea()
+		rmareas = Scalerooms(room,areas[i], false)
+		FlrPln(room, rmareas, labels[i])
+		roomsfinal = append(roomsfinal, room)
+		
+	}
+	f1.Rooms = roomsfinal
+	fb = Flr{
+		Tomm:f.Tomm,
+		Width:f.Width,
+		Height:f.Height,
+		Units:f.Units,
+		Origin:f.Origin,
+		End:f.End,
+		Verbose:f.Verbose,
+		Round:f.Round,
+		Tol:f.Tol,
+		Term:f.Term,
+	}
+	for _, block := range f1.Rooms{
+		for i := range block.Rooms{
+			if f.Round{
+				block.Rooms[i].Tol = f.Tol
+				block.Rooms[i].SetTol()
+			}
+			room := block.Rooms[i]
+			fb.Rooms = append(fb.Rooms, room)
+			fb.Labels = append(fb.Labels,room.Name)
+			fb.Areas = append(fb.Areas,room.Area)
+			
+		}
+	}
+	return fb
+}
+
+//Edgedx returns a unique Tupil value for each edge
+func Edgedx(jb, je int) (edx Tupil){
+	//get a unique value for each edge
+	if jb < je{
+		edx = Tupil{jb,je}
+	} else {
+		edx = Tupil{je,jb}
+	}
+	return 
+}
+
+//RectPts returns the vertices of the rectangle defined by origin and end points pb and pe
+func RectPts(pb, pe Pt2d)(p1, p2, p3, p4 Pt2d){
+	width := pe.X - pb.X
+	height := pe.Y - pb.Y
+	p1 = Pt2d{pb.X, pb.Y}
+	p2 = Pt2d{pb.X+width, pb.Y}
+	p3 = Pt2d{pb.X+width, pb.Y+height}
+	p4 = Pt2d{pb.X,pb.Y+height}
+	return
+}
+
+
+//sigh. RectPtz returns the vertices of the rectangle defined by origin and end points pb and pe
+func RectPtz(pb, pe Pt)(p1, p2, p3, p4 Pt){
+	width := pe.X - pb.X
+	height := pe.Y - pb.Y
+	p1 = Pt{X:pb.X, Y:pb.Y}
+	p2 = Pt{X:pb.X+width, Y:pb.Y}
+	p3 = Pt{X:pb.X+width, Y:pb.Y+height}
+	p4 = Pt{X:pb.X,Y:pb.Y+height}
+	return
+}
+
+//ClassEd classifies an edge as l/r/t/b/interior -1 -2 -3 -4 1
+func (f *Flr) ClassEd(p1, p2 Pt2d)(ecls int){
+	onleft := (p1.X == p2.X) && p1.X == f.Origin.X
+	onright := (p1.X == p2.X) && p1.X == f.End.X
+	ontop := (p1.Y == p2.Y) && p1.Y == f.End.Y
+	onbot := (p1.Y == p2.Y) && p1.Y == f.Origin.Y
+	switch{
+		case onleft:
+		ecls = -1
+		case onright:
+		ecls = -2
+		case ontop:
+		ecls = -3
+		case onbot:
+		ecls = -4
+		default:
+		ecls = 1
+	}
+	return
+}
+
+
+
 
 /*
 //GetPoly returns a geom.Polygon from a slice of outer and inner ring points

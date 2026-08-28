@@ -1,0 +1,16 @@
+package barf
+
+import (
+	"fmt"
+	kass"barf/kass"
+)
+
+//CBeamPscBm calcs secondary bending moments due to prestressing in a continuous beam
+func (cb *CBm) PscBm()(err error){
+	//first - calc curve constants
+	var mod kass.Model
+	for i, lspan := range cb.Lspans{
+		fmt.Println("i, lspan-",i, lspan)
+	}
+	return
+}

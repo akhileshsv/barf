@@ -18,51 +18,53 @@ func steel(w http.ResponseWriter, r *http.Request){
 	
 }
 
-func stlbeam(w http.ResponseWriter, r *http.Request){
+
+func stlsdxs(w http.ResponseWriter, r *http.Request){
 	if r.Method == "GET"{
-		err := tstlbeam.Execute(w, nil)
+		err := tstlsecs.Execute(w, nil)
 		if err != nil {
 			terror.Execute(w, fmt.Errorf("major template error\n%s",err))
 		}
 	}
 }
 
-func stlbmhtml(w http.ResponseWriter, r *http.Request){
-	if r.Method == "POST"{
-		r.ParseForm()	
-		var err error
-		if val, ok := r.Form["Dtyp"]; !ok{
-			terror.Execute(w, fmt.Errorf("error parsing htmx form"))		
-		} else {
-			switch val[0]{
-				case "0":
-				err = tstlbmchk.Execute(w, nil)
-				
-				if err != nil{
-					terror.Execute(w, err)
-				}
-				case "1":
-				err = tstlbmsimp.Execute(w, nil)
-				
-				if err != nil{
-					terror.Execute(w, err)
-				}
-				case "2":
-				err = tstlbmrgd.Execute(w, nil)
-				
-				if err != nil{
-					terror.Execute(w, err)
-				}
-				case "3":
-				err = tstlbmprln.Execute(w, nil)
-				
-				if err != nil{
-					terror.Execute(w, err)
-				}
-			}
+func stlbeam(w http.ResponseWriter, r *http.Request){
+	if r.Method == "GET"{
+		err := tstlbeam.Execute(w, nil)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("major template error->\n%s",err))
+		}
+	} else {
+		r.ParseForm()
+		jsonstr := parsebash(r)
+		var bm bash.Bm
+		err := json.Unmarshal([]byte(jsonstr), &bm)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("form read error->\n%s",err))
+			return
+		}
+		bm.Web = true
+		bm.Selfwt = true
+		bm.Drawrez = true
+		bm.Dsgn = true
+		if bm.Sname == "ismb"{
+			fmt.Println("changing onism")
+			bm.Sname = "i"
+			bm.Onism = true
+			fmt.Println("sname, onism",bm.Sname,bm.Onism)
+			
+		}
+		err = bash.BmDz(&bm)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("beam design error->\n%s",err))
+			return
+		}
+		err = tstlrez.Execute(w, &bm)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("major template error->\n%s",err))
+			return
 		}
 	}
-	return
 }
 
 
@@ -72,77 +74,59 @@ func stlcol(w http.ResponseWriter, r *http.Request){
 		if err != nil {
 			terror.Execute(w, fmt.Errorf("major template error\n%s",err))
 		}
-	}
-}
-
-func stlcolfrm(w http.ResponseWriter, r *http.Request){
-	if r.Method == "GET"{
-		err := tstlcolfrm.Execute(w, nil)
+	}else {
+		r.ParseForm()
+		jsonstr := parsebash(r)
+		var col bash.Col
+		err := json.Unmarshal([]byte(jsonstr), &col)
 		if err != nil {
-			terror.Execute(w, fmt.Errorf("major template error\n%s",err))
+			terror.Execute(w, fmt.Errorf("form read error->\n%s",err))
+			return
+		}
+		col.Web = true
+		// col.Drawrez = true
+		if col.Sname == "ismb"{
+			fmt.Println("changing onism")
+			col.Sname = "i"
+			col.Onism = true
+			fmt.Println("sname, onism",col.Sname,col.Onism)
+			
+		}
+		err = bash.ColDz(&col)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("column design error->\n%s",err))
+			return
+		}
+		err = tstlrez.Execute(w, &col)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("major template error->\n%s",err))
+			return
 		}
 	}
+	
 }
 
-func stlcolstrt(w http.ResponseWriter, r *http.Request){
-	if r.Method == "GET"{
-		err := tstlcolstrt.Execute(w, nil)
-		if err != nil {
-			terror.Execute(w, fmt.Errorf("major template error\n%s",err))
-		}
-	}
-}
-
-func stlcolfrmhtml(w http.ResponseWriter, r *http.Request){
+func stlcolhtml(w http.ResponseWriter, r *http.Request){
 	if r.Method == "POST"{
 		r.ParseForm()	
 		var err error
-		if val, ok := r.Form["Dsgn"]; !ok{
-			terror.Execute(w, fmt.Errorf("error parsing htmx form"))		
-		} else {
-			switch val[0]{
-				case "true":
-				err = tstlcolfrmdz.Execute(w,nil)	
-				//dz column
-				if err != nil{
-					terror.Execute(w, fmt.Errorf("major (htmx) template error->\n%s",err))
-				}
-				case "false":
-				//check section
-				
-				err = tstlcolfrmchk.Execute(w,nil)
-				if err != nil{
-					terror.Execute(w, fmt.Errorf("major (htmx) template error->\n%s",err))
-				}
-			}
+		fmt.Println("dsgn,code",r.Form["Dsgn"],r.Form["Code"])
+		v1 := r.Form["Dsgn"][0]
+		v2 := r.Form["Code"][0]
+		switch{
+			case v1 == "true" && v2 == "1":
+			err = tstlcoldz.Execute(w, nil)
+			case v1 == "true" && v2 == "2":
+			err = tstlcoldzbs.Execute(w, nil)
+			case v1 == "false" && v2 == "1":
+			err = tstlcolchk.Execute(w, nil)
+			case v1 == "false" && v2 == "2":
+			err = tstlcolchkbs.Execute(w, nil)
 		}
-	}
-	return
-}
-
-func stlcolstrthtml(w http.ResponseWriter, r *http.Request){
-	if r.Method == "POST"{
-		r.ParseForm()	
-		var err error
-		if val, ok := r.Form["Dsgn"]; !ok{
-			terror.Execute(w, fmt.Errorf("error parsing htmx form"))		
-		} else {
-			switch val[0]{
-				case "true":
-				err = tstlcolstrtdz.Execute(w,nil)	
-				//dz column
-				if err != nil{
-					terror.Execute(w, fmt.Errorf("major (htmx) template error->\n%s",err))
-				}
-				case "false":
-				//check section
-				
-				err = tstlcolstrtchk.Execute(w,nil)
-				if err != nil{
-					terror.Execute(w, fmt.Errorf("major (htmx) template error->\n%s",err))
-				}
-			}
-		}
+		if err != nil{
+			terror.Execute(w, fmt.Errorf("major (htmx) template error->\n%s",err))
+		} 
+	
 	}
 	return
 }
@@ -275,7 +259,6 @@ func stltrsgenhtml(w http.ResponseWriter, r *http.Request){
 			}
 		}
 	}
-	return
 }
 
 
@@ -294,8 +277,10 @@ func parsebash(r *http.Request)(jsonstr string){
 	strmap := map[string]int{
 		"Title":1,
 		"Id":1,
+		"Sname":1,
 		"Term":1,
 		"Lspans":2,
+		"Ldcases":2,
 		"Dia":3,
 		"Ni":3,
 		"Nj":3,
@@ -315,7 +300,7 @@ func parsebash(r *http.Request)(jsonstr string){
 	}
 	jsonstr += "{"
 	for key, val := range r.PostForm{
-		//log.Println("processing key->",key," val->",val, "len->", len(val))
+		log.Println("processing key->",key," val->",val, "len->", len(val))
 		if len(val[0]) == 0{
 			continue
 		}

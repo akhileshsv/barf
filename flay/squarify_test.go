@@ -119,3 +119,31 @@ func TestFlrDraw(t *testing.T){
 	f.FlrJson()
 
 }
+
+func TestFlrSmol(t *testing.T){
+	t.Log("starting smol ex.")
+	areas := []float64{
+		100, 60, 90, 75,
+	}
+	rooms := []string{
+		"bed","bath","living","kitchen",
+	}
+	f := Flr{
+		Title:"smol1",
+		Tomm:true,
+		Sort:true,
+		Width:20.0,
+		Height:15.0,
+		Units:"ft",
+		Areas:areas,
+		Labels:rooms,
+		Verbose:true,
+		Round:true,
+		Term:"svg",
+		Cgrid:true,
+	}
+	_ = f.FlrLay()
+	f.FlrJson()
+	//f.ViewIso()
+}
+

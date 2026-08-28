@@ -10,12 +10,40 @@ import (
 	"path/filepath"
 	//"github.com/f1bonacc1/glippy"
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/go-gota/gota/dataframe"
 )
 
 //suggestFiles suggests a list of files for survey menu
 func suggestFiles(toComplete string) []string {
 	files, _ := filepath.Glob(toComplete + "*")
 	return files
+}
+
+//readcsvfile reads in a csvfile and returns a dataframe
+func readcsvfile()(df dataframe.DataFrame, err error){
+	var filename string
+	var q = []*survey.Question{
+		{
+			Name: "file",
+			Prompt: &survey.Input{
+				Message: "enter path to csv file:",
+				Suggest: suggestFiles,
+				Help:    "abs/relative filepath",
+			},
+			Validate: survey.Required,
+		},
+	}
+	err = survey.Ask(q, &filename)
+	if err != nil {
+		return
+	}
+	csvfile, e := os.Open(filename)
+	if e != nil{
+		err = e
+		return
+	}
+	df = dataframe.ReadCSV(csvfile)
+	return 
 }
 
 //getjsonfile reads in a jsonfile to a string of bytes
@@ -158,7 +186,6 @@ func InitMenu(term, sub string){
 				flaymenu(term)
 				case 5:
 				running = false
-				break
 			}
 		}
 		return

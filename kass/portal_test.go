@@ -29,6 +29,7 @@ func TestPortalInit(t *testing.T){
 		// pf.Gentyp = 2
 		pf.Ndiv = 2
 		err = pf.Calc()
+		t.Log(err)
 		// cfg := []int{0,1,2,3}
 		// for _, cf := range cfg{
 		// 	pf.Config = cf

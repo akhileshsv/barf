@@ -72,7 +72,7 @@ func bltdims(frctyp, ltyp, wdtyp int, lb, dia float64)(dend, dedge, pitch, gauge
 
 //nbltsimp returns the number of bolts required for a given ultimate (axial) load pu
 //given ltyp, ptyp, pu, lb, dia, fc, ang
-func nbltsimp(ltyp, ptyp int, pu, lb, dia, fc, ang float64)(nblt, pblt float64, err error){
+func nbltsimp(ltyp, ptyp int, pu, lb, dia, fc, fcp, ang float64)(nblt, pblt float64, err error){
 	//does one need a ctyp for connection type?
 	//first get kg, kpg
 	var kg, kpg float64
@@ -80,7 +80,7 @@ func nbltsimp(ltyp, ptyp int, pu, lb, dia, fc, ang float64)(nblt, pblt float64, 
 	if err != nil{
 		return
 	}
-	pblt = bltfbr(ltyp, lb, dia, kg, kpg, fc, ang)
+	pblt = bltfbr(ltyp, lb, dia, kg, kpg, fc, fcp, ang)
 	nblt = math.Ceil(pu/pblt)
 	fmt.Println(ColorGreen,"nblts -> ", nblt, ColorReset)
 	return
@@ -88,16 +88,16 @@ func nbltsimp(ltyp, ptyp int, pu, lb, dia, fc, ang float64)(nblt, pblt float64, 
 
 //bltfbr returns the load carrying capcity of a bolt in bearing on timber
 //given lb, dia, kg, kpg, ang
-func bltfbr(ltyp int, lb, dia, kg, kpg, fc, ang float64)(pblt float64){
+func bltfbr(ltyp int, lb, dia, kg, kpg, fc, fcp, ang float64)(pblt float64){
 	var fblt float64
-	fmt.Println("in-",ltyp, kg, kpg)
+	fmt.Println("in-",ltyp, kg*fc, kpg*fcp)
 	switch ltyp{
 		case 1:
 		fblt = kg * fc
 		case 2:
-		fblt = kpg * fc
+		fblt = kpg * fcp
 		case 3:
-		fblt = WdFcAng(kg*fc, kpg*fc, ang, false) 
+		fblt = WdFcAng(kg*fc, kpg*fcp, ang, true) 
 	}
 	pblt = fblt * lb * dia
 	fmt.Println("fblt->", fblt)
@@ -183,8 +183,8 @@ func bltfac(ltyp, ptyp int, lb, dia float64)(kg, kpg float64, err error){
 		//timber/timber plates
 		//sp.33 doesn't have this???
 		//WHAT IS RAMCHANDRA's SOURCE it works.figure later
-		k3 = 0.8
-		//k3 = 1.0
+		//k3 = 0.8
+		k3 = 1.0
 	}
 	kg = k1 * k3/100.0
 	kpg = k2 * d1/100.0

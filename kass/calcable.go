@@ -21,7 +21,7 @@ type Cbl struct{
 	Yr float64 //y right 
 	Tr float64 //temp rise
 	Sw float64 //self wt/unit length
-	Lds [][]float64 //loads along length [fy, fx, dist]
+	Lds [][]float64 //loads along length [fy, fx, dist, type]
 	Nl int //no. of elements
 	Lseg float64 //segment length
 	Tl float64 //tension at left sup
@@ -29,26 +29,38 @@ type Cbl struct{
 	Dip float64 //cable dip
 	Idip int //max dip index
 	Idep int //max dep index
+	Dtyp int //dtyp. steve holt!
 	Dep float64 //cable depression
 	Tsl float64 //tot. stretched length
 	Lht float64 //left hand tension
 	Lha float64 //left hand angle
 	Rht float64 //right hand tension
 	Rha float64 //right hand angle
+	Flh float64 //left support horizontal flexibility (dx/fx(h))
+	Flv float64 //left support vertical flexibility (dy/fy(v))
+	Fls float64 //left support winch slip flexibility (dt/ft)t
+	Frh float64 
+	Frv float64 
+	Frs float64 //right support winch slip flexibility (dt/ft)
+	Strs float64 //max/design cable stress
+	Dens float64 //cable material density
+	Wt   float64 //total weight
+	Vol  float64 //total volume
 	Xd []float64
 	Yd []float64
 	El []float64
 	Ts []float64
+	Ars []float64
 	Pts [][]float64
+	Dz  bool
 	Web bool
-	Dz bool
+	Lockar bool //lock areas
 	Verbose bool	
 	Report string
 	Data string
 	Term string
 	Txtplot string
 }
-
 
 //Draw draws a cable
 func (c *Cbl) Draw(){
@@ -102,31 +114,39 @@ func (c *Cbl) Table(printz bool){
 	rstr.WriteString(hdr)
 	rstr.WriteString(ColorGreen)
 	t0 := tablewriter.NewWriter(rstr)
-	t0.SetHeader([]string{"length","area","dia","xr","yr"})
-	row := fmt.Sprintf("%f, %f, %f, %f, %f",c.Ucl,c.Ar,c.Dia,c.Xr,c.Yr)
+	t0.SetHeader([]string{"length","area","dia","xr","yr","ndiv"})
+	row := fmt.Sprintf("%f, %f, %f, %f, %f, %v",c.Ucl,c.Ar,c.Dia,c.Xr,c.Yr,c.Nl)
 	t0.Append(strings.Split(row,","))
 	t0.Render()
 	t0 = tablewriter.NewWriter(rstr)
-	t0.SetHeader([]string{"em","alpha","self wt","temp delta"})
+	t0.SetHeader([]string{"em","alpha","self wt","temp delta","density","volume","weight"})
 	t0.SetCaption(true, "cable geom/prop")
-	row = fmt.Sprintf("%f, %f, %f, %f",c.Em,c.Alp,c.Sw,c.Tr)
+	row = fmt.Sprintf("%f, %f, %f, %f, %f, %f, %f",c.Em,c.Alp,c.Sw,c.Tr,c.Dens,c.Vol,c.Vol*c.Dens)
 	t0.Append(strings.Split(row,","))
 	t0.Render()
 	rstr.WriteString(ColorCyan)
 	t0 = tablewriter.NewWriter(rstr)
 	t0.SetCaption(true, "applied forces")
-	t0.SetHeader([]string{"no.","fx","fy","dist"})
+	t0.SetHeader([]string{"no.","fx","fy","dist","type"})
 	for i, frc := range c.Lds{
-		row = fmt.Sprintf("%v, %f, %f, %f",i+1,frc[1],frc[0],frc[2])
+		if len(frc) < 3{continue}
+		lstr := "fixed"
+		if len(frc) > 3{
+			if frc[3] == 2.0{lstr="rolling"}
+		}
+		if c.Dtyp == 2{lstr = "rolling"}
+		row = fmt.Sprintf("%v, %f, %f, %f, %s",i+1,frc[1],frc[0],frc[2],lstr)
 		t0.Append(strings.Split(row,","))
 	}
 	t0.Render()
 	rstr.WriteString(ColorPurple)
 	t0 = tablewriter.NewWriter(rstr)
-	t0.SetHeader([]string{"node","x","y","elem","tension"})
+	t0.SetHeader([]string{"node","x","y","elem","tension","area"})
 	t0.SetCaption(true, "cable profile")
 	for i := 0; i < c.Nl+1; i += 9{
-		row = fmt.Sprintf("%v, %f, %f, %v, %f",i+2,c.Xd[i],c.Yd[i],i+1,c.Ts[i])	
+		ar := c.Ar
+		if c.Dtyp == 3{ar = c.Ars[i]}
+		row = fmt.Sprintf("%v, %f, %f, %v, %f, %f",i+2,c.Xd[i],c.Yd[i],i+1,c.Ts[i],ar)	
 		t0.Append(strings.Split(row,","))
 	}
 	t0.Render()
@@ -145,6 +165,7 @@ func (c *Cbl) Table(printz bool){
 }
 
 //CalcCl - cable of constant length analysis
+//harrison 14.1 (cable1)
 func (c *Cbl) CalcCl() (err error){
 	//constant length cable analysis
 	if c.Nl == 0{c.Nl = 100}
@@ -161,18 +182,27 @@ func (c *Cbl) CalcCl() (err error){
 	ea := c.Em * c.Ar
 	swt := c.Lseg * c.Sw
 	z := make([]float64,8)
-	//init vals
-	c.Ts[0] = tl	
-	c.Xd[0] = 0.0
-	c.Yd[0] = 0.0
-	c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
-	c.Xd[1] = c.El[0] * math.Cos(sl)
-	c.Yd[1] = c.El[0] * math.Sin(sl)
+	// //init vals
+	// c.Ts[0] = tl	
+	// c.Xd[0] = 0.0
+	// c.Yd[0] = 0.0
+	// c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
+	// c.Xd[1] = c.El[0] * math.Cos(sl)
+	// c.Yd[1] = c.El[0] * math.Sin(sl)
 	for iter == 0{
 		if kiter > 30{
 			err = fmt.Errorf("iteration error")
 			return
 		}
+		
+		//init vals HERE
+		c.Ts[0] = tl	
+		c.Xd[0] = 0.0
+		c.Yd[0] = 0.0
+		c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
+		c.Xd[1] = c.El[0] * math.Cos(sl)
+		c.Yd[1] = c.El[0] * math.Sin(sl)
+		sl = theta * math.Pi/180.0
 		//start from node no. 2
 		for i := 2; i < c.Nl+1; i++{
 			j := i - 1
@@ -237,13 +267,13 @@ func (c *Cbl) CalcCl() (err error){
 			theta = z[1] - (dxt * z[3] - dyt * z[2])/den
 			niter = 0
 		}
-		sl = theta * math.Pi/180.0
-		c.Ts[0] = tl	
-		c.Xd[0] = 0.0
-		c.Yd[0] = 0.0
-		c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
-		c.Xd[1] = c.El[0] * math.Cos(sl)
-		c.Yd[1] = c.El[0] * math.Sin(sl)	
+		// sl = theta * math.Pi/180.0
+		// c.Ts[0] = tl	
+		// c.Xd[0] = 0.0
+		// c.Yd[0] = 0.0
+		// c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
+		// c.Xd[1] = c.El[0] * math.Cos(sl)
+		// c.Yd[1] = c.El[0] * math.Sin(sl)	
 		kiter++
 	}
 	c.Lht = c.Ts[0]; c.Lha = theta
@@ -266,7 +296,130 @@ func (c *Cbl) CalcCl() (err error){
 }
 
 //CalcT - cable of constant tension analysis
+//harrison 14.2 (cable2)
 func (c *Cbl) CalcT() (err error){
 	//constant tension cable analysis
+	if c.Dtyp == 0{c.Dtyp = 1}
+	if c.Nl == 0{c.Nl = 100}
+	c.Lseg = c.Ucl/float64(c.Nl)
+	c.Xd = make([]float64, c.Nl+1)
+	c.Yd = make([]float64, c.Nl+1)
+	c.El = make([]float64, c.Nl+1)
+	c.Ts = make([]float64, c.Nl+1)
+	var iter, niter, kiter int
+	ucl := c.Ucl
+	tl := c.Tl
+	theta := c.Theta
+	sl := theta * math.Pi/180.0
+	ea := c.Em * c.Ar
+	swt := c.Lseg * c.Sw
+	z := make([]float64,8)
+	for iter == 0{
+		if kiter > 30{
+			err = fmt.Errorf("iteration error")
+			return
+		}
+		//init vals HERE
+		c.Ts[0] = tl	
+		c.Xd[0] = 0.0
+		c.Yd[0] = 0.0
+		c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
+		c.Xd[1] = c.El[0] * math.Cos(sl)
+		c.Yd[1] = c.El[0] * math.Sin(sl)
+		c.Lseg = ucl/float64(c.Nl)
+		sl = theta * math.Pi/180.0
+		swt = c.Lseg * c.Sw
+		//start from node no. 2
+		for i := 2; i < c.Nl+1; i++{
+			j := i - 1
+			pt := 0.0; ph := 0.0
+			//dx := float64(j) * c.Lseg
+			for k, lc := range c.Lds{
+				if len(lc) < 3{
+					log.Printf("invalid load case number %v - %v\n",k+1, lc)
+					continue
+				}
+				dx := c.Xd[j] - lc[2]
+				dc := c.Xd[j] - c.Xd[j-1]
+				
+				if dc - math.Abs(dx) > 0.0{
+					pt = pt + (1.0 - math.Abs(dx)/dc) * lc[0]
+					ph = ph + (1.0 - math.Abs(dx)/dc) * lc[1]
+				}
+			}
+			tx := c.Ts[j-1] * (c.Xd[j] - c.Xd[j-1])/c.El[j-1] - ph 
+			ty := c.Ts[j-1] * (c.Yd[j] - c.Yd[j-1])/c.El[j-1] - swt - pt
+			tang := ty/tx
+			ang := math.Atan(tang)
+			c.Ts[j] = math.Sqrt(tx * tx + ty * ty)
+			c.El[j] = c.Lseg * (1.0 + c.Ts[j]/ea + c.Alp * c.Tr)
+			delx := c.El[j] * math.Cos(ang)
+			dely := c.El[j] * math.Sin(ang)
+			c.Xd[i] = c.Xd[j] + delx
+			c.Yd[i] = c.Yd[j] + dely
+		}
+		xmis := c.Xr - c.Xd[c.Nl]
+		ymis := c.Yr - c.Yd[c.Nl]
+		errore := math.Sqrt(xmis*xmis + ymis*ymis)
+		//fmt.Println(ColorCyan,"cycle",kiter,"error",errore,"ucl",ucl,"angle",theta,"niter",niter,ColorReset)
+		if errore < 0.0001{
+			iter = -1
+			break
+		}
+		//setup jacobian matrix
+		switch niter{
+			case 0:
+			//first run
+			z[0] = ucl
+			z[1] = theta
+			z[2] = xmis
+			z[3] = ymis	
+			ucl = ucl * 1.01	
+			niter = 1
+			case 1:
+			//second
+			z[4] = xmis
+			z[5] = ymis
+			theta = 1.01 * theta
+			ucl = z[0]
+			niter = 2
+			case 2:
+			//update
+			z[6] = xmis
+			z[7] = ymis
+			dxt := (z[4] - z[2])/(0.01 * z[0])
+			dyt := (z[5] - z[3])/(0.01 * z[0])
+			dxa := (z[6] - z[2])/(0.01 * z[1])
+			dya := (z[7] - z[3])/(0.01 * z[1])
+			den := dxt * dya - dyt * dxa
+			ucl = z[0] - (dya * z[2] - dxa * z[3])/den
+			theta = z[1] - (dxt * z[3] - dyt * z[2])/den
+			niter = 0
+		}
+		// sl = theta * math.Pi/180.0
+		// c.Ts[0] = tl	
+		// c.Xd[0] = 0.0
+		// c.Yd[0] = 0.0
+		// c.El[0] = c.Lseg * (1.0 + tl/ea + c.Alp * c.Tr)
+		// c.Xd[1] = c.El[0] * math.Cos(sl)
+		// c.Yd[1] = c.El[0] * math.Sin(sl)
+		kiter++
+	}
+	c.Lht = c.Ts[0]; c.Lha = theta
+	c.Rht = c.Ts[c.Nl-1]
+	c.Rha = (c.Yd[c.Nl-1] - c.Yd[c.Nl])/(c.Xd[c.Nl-1]-c.Xd[c.Nl])
+	c.Rha = math.Atan(c.Rha) * 180.0/math.Pi
+	for i, val := range c.El{
+		c.Tsl += val
+		if c.Dep < c.Yd[i]{
+			c.Dep = c.Yd[i]; c.Idep = i
+		}
+		dip := c.Yd[i] - c.Xd[i] * c.Yr/c.Xr
+		if c.Dip < dip{
+			c.Dip = dip; c.Idip = i
+		}
+	}
+	c.Table(c.Verbose)
+	c.Draw()
 	return
 }

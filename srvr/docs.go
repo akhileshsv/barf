@@ -30,6 +30,8 @@ func hdocs(w http.ResponseWriter, r *http.Request){
 		item = r.URL.Path[len("/docs/calcep/"):]
 		base = "modep"
 		case strings.Contains(title,"steel"):
+		base = "stl"
+		item = r.URL.Path[len("/docs/steel/"):]
 		case strings.Contains(title,"timber"):
 	}
 	tstr := fmt.Sprintf("%s%s.tmpl",base,item)

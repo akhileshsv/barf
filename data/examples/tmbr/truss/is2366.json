@@ -2,6 +2,7 @@
  "Typ":       2,
  "Cfg":       3,
  "Mtyp":      3,
+ "Styp":      26,
  "Code":      13,
  "Span":      12000.0,
  "Width":     10000.0,
@@ -17,5 +18,6 @@
  "Frmtyp":    2,
  "Term":      "svg",
  "Ldcalc":    -1,
+ "Nlfl":      0.0,
  "Spose":     true,
  "Spam":      true}

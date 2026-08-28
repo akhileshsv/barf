@@ -23,6 +23,9 @@ func skriptpath(skript string) (string){
 func svgpath(fname, term string) (string){
 	_, b, _, _:= runtime.Caller(0)
 	basepath := filepath.Dir(b)
+	if term == "svgmono"{
+		term = "svg"
+	}
 	fname = fmt.Sprintf("%s.%s",fname,term)
 	return filepath.Join(basepath, "../data/out",fname)
 }
@@ -105,6 +108,7 @@ func Draw(data, skript, term, folder, fname, title, xl, yl, zl string) (txtplot 
 //Dumb plots to the terminal - is this needs
 func Dumb(data, skript, term, title, xl, yl, zl string)(txtplot string, err error){
 	//create temp files
+	if term == ""{term ="dumb"}
 	if xl == ""{
 		xl = "x"; yl = "y"; zl = "z"
 	}
@@ -143,4 +147,3 @@ func Dumb(data, skript, term, title, xl, yl, zl string)(txtplot string, err erro
 	err = nil
 	return
 }
-

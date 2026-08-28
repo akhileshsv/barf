@@ -1,0 +1,9 @@
+{"Title":"jayant'sdad",
+ "Width":1080,
+ "Height":10200,
+ "Units":"mm",
+ "Areas":[20e6,18e6,18e6,18e6,10.8e6,10e6],
+ "Labels":["living","bed_a","bed_b","bed_c","kitchen","dining"],
+ "Verbose":true,
+ "Round":true,
+ "Term":"qt"}

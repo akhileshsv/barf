@@ -13,9 +13,9 @@ import (
 var (
 	//LMAO.fuckin' LMAO
 	//1.48 - 28 percent gst (for rmc, 18 for steel/labor) + 20 percent margin (LMAO. fuckin' LMAO) 
-	CostForm float64 = 80.0 * 10.76 * 1.38//0.42//
-	CostRcc float64 = 5000.0 * 1.48//1.0//
-	CostStl float64 = 80.0 * 1.38//0.01515
+	CostForm float64 = 100.0 * 10.76 * 1.38//0.42//
+	CostRcc float64 = 8500.0 * 1.48//1.0//
+	CostStl float64 = 85.0 * 1.38//0.01515
 
 	//govindrajan/rajeev costs
 	//CostForm float64 = 54.0 //0.42//

@@ -140,6 +140,8 @@ func rccolmenu(term string){
 				}
 				c.Table(false)
 				fmt.Println(c.Report)
+				pltstr := c.PlotColDet()
+				c.Txtplot = append(c.Txtplot,pltstr)
 				switch c.Term{
 					case "dumb","mono":
 					fmt.Println(c.Txtplot[0])	

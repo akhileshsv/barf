@@ -1,7 +1,12 @@
 #!/usr/bin/gnuplot
 if (ARG2 eq 'dumb') set term dumb ansi enhanced size 99,49
 if (ARG2 eq 'caca') set term caca driver utf8 color inverted
-if (ARG2 eq 'qt') set term qt enhanced font 'Courier,8' persist
+if (ARG2 eq 'qt') set term qt persist font "Courier,3";set size ratio -1 
+if (ARG2 eq 'wxt') set term wxt persist
+if (ARG2 eq 'svg') set term svg font "Kongtext,5"; set output ARG4; set size ratio -1 
+if (ARG2 eq 'svgmono') set term svg font "Kongtext,5"; set output ARG4; set mono; set size ratio -1 
+if (ARG2 eq 'dxf') set term dxf; set size 1000,1000; set output ARG4; set size ratio -1 
+
 # set path of config snippets
 #set loadpath '../draw/gnuplot-palettes'
 #load 'noborder.cfg'

@@ -1340,7 +1340,7 @@ func PlotFtngDet(f *RccFtng) (pltstr string){
 	fn := fmt.Sprintf("%s-%s.svg",f.Title,"detail")
 	if f.Term == "dxf"{
 		fn = fmt.Sprintf("%s-%s.dxf",f.Title,"detail")
-	} 
+	}
 	fname := genfname("",fn)
 	pltskript := "plotftngdet.gp"
 	pltstr = skriptrun(data, pltskript, f.Term, f.Title, fname)

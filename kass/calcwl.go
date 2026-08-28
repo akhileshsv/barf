@@ -8,6 +8,20 @@ import (
 	"log"	
 )
 
+//GetPdWall returns the max design pressure on walls 
+func GetPdWall(vz, h, w, l, cpi float64)(pdmax float64, cpos, cneg []float64){
+	pd := 0.6 * vz * vz
+	cpos, cneg = wltable5(pd, h, w, l, cpi)
+	cmax := cpos[0]
+	for i, cp := range cpos{
+		if math.Abs(cp) > cmax{cmax = math.Abs(cp)}
+		if math.Abs(cneg[i]) > cmax{cmax = math.Abs(cneg[i])}
+	}
+	//log.Println("cmax",cmax)
+	pdmax = pd * cmax
+	return
+}
+
 //wltable5 is supposed to generate wind load cases for building walls as per table 5 of is.875-3
 func wltable5(pd, h, w, l, cpi float64)(cpos, cneg []float64){
 	var cps, cp9s []float64

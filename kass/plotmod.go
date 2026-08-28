@@ -155,8 +155,43 @@ func ToBase64(pltstr string) (rez string) {
 	return
 }
 
+//PlotSfBmDx plots a member's shear, BM and deflection
+func PlotSfBmDx(idx int, lspan float64, r BeamRez,title, term string, web bool, pltchn chan string){
+	var data string
+	for i, x := range r.Xs {
+		data += fmt.Sprintf("%f %f %f %f\n", x, r.SF[i], -r.BM[i], -r.Dxs[i])
+	}
+	data += "\n\n"
+	//max shear
+	data += fmt.Sprintf("%f %f %.1f kn\n",r.Locs[0],r.Maxs[0],r.Maxs[0]/1e3)
+	data += "\n\n"
+	//max B.M
+	data += fmt.Sprintf("%f %f %.1f kn\n",r.Locs[1],-r.Maxs[1],r.Maxs[1]/1e6)
+	data += "\n\n"
+	//max deflection
+	data += fmt.Sprintf("%f %f %.0f mm\n",r.Locs[2],-r.Maxs[2],r.Maxs[2])
+	
+	if idx != -1{title = fmt.Sprintf("%s-%v",title,idx)}
+	fname := title
+	skript := "plotbmsfbm.gp"
+	foldr := ""
+	txtplot := skriptrun(data, skript, term, title,foldr,fname)
+	
+	if web{
+		switch term{
+			case "dxf":		
+			txtplot = fname + ".dxf"
+			case "svg", "svgmono":
+			Svgkong(txtplot)
+			txtplot = fname + ".svg"
+		}
+	}
+	pltchn <- txtplot
+}
+
+
 //PlotFrm2d plots a 2d frame model (line plot)
-func PlotFrm2d(mod *Model, term string, pltchn chan string) {
+func PlotFrm2d(mod *Model, term string, pltchn chan string){
 	data, ldata, mdata := GeomDat(mod)
 	d1, l1, m1 := JloadDat(mod)
 	data += d1; ldata += l1; mdata += m1
@@ -308,8 +343,8 @@ func PlotBm1d(mod *Model, term string, pltchn chan string) {
 	if mod.Id == ""{
 		mod.Id = fmt.Sprintf("%v",rand.Intn(666))
 	}
-	fname := fmt.Sprintf("1db-%s",mod.Id)
-	title := fmt.Sprintf("1d beam %s",mod.Id)
+	fname := fmt.Sprintf("%s-bm1d",mod.Id)
+	title := fmt.Sprintf("%s-bm1d",mod.Id)
 	//fname = svgpath(mod.Foldr,fname, term)
 	skript := "drawmod2d.gp"
 	txtplot := skriptrun(data, skript, term, title,mod.Foldr,fname)
@@ -584,103 +619,6 @@ func PlotTrs3d(mod *Model, term string, pltchn chan string) {
 	}
 
 	pltchn <- txtplot
-
-	// //3d truss plot (*edit- NOT)-SWAPPING Y AND Z VALUES
-	// //as is the way of structures and things
-	// var data string
-	// //index 0 nodes
-	// var frcscale , xmax, ymax, zmax float64
-	// frcscale = 0.5
-	// //switch mod.Cmdz[1] {
-	// //case "kips":
-	// //	frcscale = 30.0
-	// //case "mks":
-	// //	frcscale = 1.0
-	// //case "mmks":
-	// //	frcscale = 1000.0
-	// //}
-	// for idx, v := range mod.Coords {
-	// 	data += fmt.Sprintf("%v %v %v %v\n", v[0], v[1], v[2], idx+1)
-	// 	if v[2] > zmax {zmax = v[2]}
-	// 	if v[1] > ymax {ymax = v[1]}
-	// 	if v[0] > xmax {xmax = v[0]}
-	// }
-	// data += "\n\n"
-	// //index 1 members
-	// //ms := make(map[int][]int)
-	// for idx, mem := range mod.Mprp {
-	// 	jb := mod.Coords[mem[0]-1]
-	// 	je := mod.Coords[mem[1]-1]
-	// 	data += fmt.Sprintf("%v %v %v %v %v %v %v\n", jb[0], jb[1], jb[2], je[0], je[1], je[2], idx+1)
-	// }
-	// data += "\n\n"
-	// //index 2 supports
-	// for _, val := range mod.Supports {
-	// 	pt := mod.Coords[val[0]-1]
-	// 	if val[1]+val[2]+val[3] != 0 {data += fmt.Sprintf("%v %v %v\n", pt[0],pt[2],pt[1])}
-	// }
-	// data += "\n\n"
-	// //index 3 joint loads
-	// for _, val := range mod.Jloads {
-	// 	//var delta float64
-	// 	pt := mod.Coords[int(val[0])-1]
-	// 	if val[1] != 0.0 { //X- force (assemble?)
-	// 		if pt[0] == xmax {
-	// 			//vector to the right
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],frcscale, 0, 0, val[1])
-	// 		} else {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],-frcscale, 0, 0, val[1])
-	// 		}
-	// 	}
-	// 	if val[2] != 0.0 { //y force
-	// 		if pt[2] == ymax {	
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1], 0, 0, frcscale, val[2])
-	// 		} else {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1]-frcscale,0, 0, frcscale,val[2])
-	// 		}
-	// 	}
-	// 	if val[3] != 0.0 { //z force
-	// 		if pt[1] == zmax {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],0, 0,frcscale, val[3])
-	// 		} else {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1]-frcscale,0, 0, frcscale, val[3])
-	// 		}	
-	// 	}
-	// }
-	// data += "\n\n"
-	// //create temp files
-	// f, e1 := os.CreateTemp("", "barf")
-	// if e1 != nil {
-	// 	log.Println(e1)
-	// }
-	// defer f.Close()
-	// defer os.Remove(f.Name())
-	// _, e1 = f.WriteString(data)
-	// if e1 != nil {
-	// 	log.Println(e1)
-	// }
-
-	// var termstr string
-	// switch term {
-	// case "dumb":
-	// 	termstr = "set term dumb ansi size 79,49"
-	// case "dumbstr":
-	// 	termstr = "set term dumb size 79,49"
-
-	// case "caca":
-	// 	termstr = "set term caca inverted size 79,49"
-	// case "wxt":
-	// 	termstr = "set term wxt"
-	// }
-
-	// setstr := "set autoscale; set key bottom; set title \"SPACE TRUSS\";set grid; set label;set tics;set view 60,30,1,1;set ticslevel 0; set linetype 1 lw 3 pt 5"
-	// pltstr := fmt.Sprintf("splot '%s' index 0 using 1:2:3:4 w labels point pt 7 offset char 1,1 notitle,'' index 1 using 1:2:3:($4-$1):($5-$2):($6-$3) notitle w vectors lt 1 nohead, '' index 1 using ($4+$1)/2:($2+$5)/2:($3+$6)/2:7 w labels notitle,'' index 2 using 1:2:3 w points pointtype 19 notitle, '' index 3 using 1:2:3:4:5:6 notitle w vectors, '' index 3 u 1:2:3:5 notitle w labels left offset char 2,2,2", f.Name())
-	// prg := "gnuplot"
-	// arg0 := "-e"
-	// arg2 := "--persist"
-	// arg1 := fmt.Sprintf("%s; %s; %s", termstr, setstr, pltstr)
-	// plotstr := exec_command(prg, arg2, arg0, arg1)
-	// pltchn <- plotstr
 	
 }
 
@@ -717,101 +655,7 @@ func PlotGrd3d(mod *Model, term string, pltchn chan string) {
 		}
 	}
 	pltchn <- txtplot
-	
-	//CURSES gnuplot has the z axis as vertical
-	//KERSES maybe screw gnuplot (heresy.UNBELIEVER)
-	// var data string
-	// //index 0 nodes
-	// var frcscale , xmax, ymax, zmax float64
-	// switch mod.Cmdz[1] {
-	// case "kips":
-	// 	frcscale = 30.0
-	// case "mks":
-	// 	frcscale = 1.0
-	// case "mmks":
-	// 	frcscale = 1000.0
-	// }
-	// for idx, v := range mod.Coords {
-	// 	data += fmt.Sprintf("%v %v %v %v\n", v[0], v[2], v[1], idx+1)
-	// 	if v[2] > zmax {zmax = v[1]}
-	// 	if v[1] > ymax {ymax = v[2]}
-	// 	if v[0] > xmax {xmax = v[0]}
-	// }
-	// data += "\n\n"
-	// //index 1 members
-	// //ms := make(map[int][]int)
-	// for idx, mem := range mod.Mprp {
-	// 	jb := mod.Coords[mem[0]-1]
-	// 	je := mod.Coords[mem[1]-1]
-	// 	data += fmt.Sprintf("%v %v %v %v %v %v %v\n", jb[0], jb[2], jb[1], je[0], je[2], je[1], idx+1)
-	// }
-	// data += "\n\n"
-	// //index 2 supports
-	// for _, val := range mod.Supports {
-	// 	pt := mod.Coords[val[0]-1]
-	// 	if val[1]+val[2]+val[3] != 0 {data += fmt.Sprintf("%v %v %v\n", pt[0],pt[2],pt[1])}
-	// }
-	// data += "\n\n"
-	// //index 3 joint loads
-	// for _, val := range mod.Jloads {
-	// 	//var delta float64
-	// 	pt := mod.Coords[int(val[0])-1]
-	// 	if val[1] != 0.0 { //X- force (assemble?)
-	// 		if pt[0] == xmax {
-	// 			//vector to the right
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],frcscale, 0, 0, val[1])
-	// 		} else {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],-frcscale, 0, 0, val[1])
-	// 		}
-	// 	}
-	// 	if val[2] != 0.0 { //y force
-	// 		if pt[2] == ymax {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1], 0,  0, frcscale, val[2])
-	// 		} else {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2], pt[1]-frcscale,0, 0, frcscale, val[2])
-	// 		}
-	// 	}
-	// 	if val[3] != 0.0 { //z force
-	// 		if pt[1] == zmax {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],0, 0,frcscale, val[3])
-	// 		} else {
-	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1]-frcscale,0, 0, frcscale, val[3])
-	// 		}	
-	// 	}
-	// }
-	// data += "\n\n"
-	// //create temp files
-	// f, e1 := os.CreateTemp("", "barf")
-	// if e1 != nil {
-	// 	log.Println(e1)
-	// }
-	// defer f.Close()
-	// defer os.Remove(f.Name())
-	// _, e1 = f.WriteString(data)
-	// if e1 != nil {
-	// 	log.Println(e1)
-	// }
-	// var termstr string
-	// switch term {
-	// case "dumb":
-	// 	termstr = "set term dumb ansi size 79,49"
-	// case "caca":
-	// 	termstr = "set term caca inverted size 79,49"
-	// case "wxt":
-	// 	termstr = "set term wxt"
-	// case "dumbstr":
-	// 	termstr = "set term dumb size 79,49"
-
-	// }
-	// setstr := "set autoscale; set key bottom; set title \"SPACE FRAME\";set grid; set label;set tics;set view 60,30,1,1;set ticslevel 0; set linetype 1 lw 0 pt 5"
-	// pltstr := fmt.Sprintf("splot '%s' index 0 using 1:2:3:4 w labels point pt 7 offset char 1,1 notitle,'' index 1 using 1:2:3:($4-$1):($5-$2):($6-$3) notitle w vectors lt 1 nohead, '' index 1 using ($4+$1)/2:($2+$5)/2:($3+$6)/2:7 w labels notitle,'' index 2 using 1:2:3 w points pointtype 19 notitle, '' index 3 using 1:2:3:4:5:6 notitle w vectors, '' index 3 u 1:2:3:5 notitle w labels left offset char 2,2,2", f.Name())
-	// prg := "gnuplot"
-	// arg0 := "-e"
-	// arg2 := "--persist"
-	// arg1 := fmt.Sprintf("%s; %s; %s", termstr, setstr, pltstr)
-	// plotstr := exec_command(prg, arg2, arg0, arg1)
-	// pltchn <- plotstr
-	
+		
 }
 
 
@@ -1011,7 +855,8 @@ func DrawMem2d(mdx, styp int, pb, pe, dims []float64) (data string){
 	return
 }
 
-
+//DrawMemPolys returns member polygons for 2d views
+func DrawMemPolys(){}
 
 //DrawDetail plots a portal frame detail (see fig 1 saka 2003)
 func (f *Portal) DrawDetail(){
@@ -1040,25 +885,6 @@ func exec_command(program string, args ...string) string {
 		log.Println(errstr)
 	}
 	return outstr
-
-}
-
-
-
-//exec_wxt executes the wxt terminal of gnuplot
-//it is a worthless function, here serves as padding
-func exec_wxt(program string, args ...string) string {
-	cmd := exec.Command(program, args...)
-	var stdout, stderr bytes.Buffer
-	cmd.Stdout = &stdout
-	cmd.Stderr = &stderr
-	err := cmd.Run()
-	//outstr, errstr := stdout.String(), stderr.String()
-	if err != nil {
-		//log.Fatal(err)
-		log.Println(err)
-	}
-	return "done"
 
 }
 
@@ -1238,4 +1064,197 @@ gnuplot -e "datafile='${data}'; outputname='${output}'" foo.plg
 	// setstr := "set autoscale; set key bottom; set title \"SPACE TRUSS\";set grid; set label;set tics;set view 60,30,1,1;set ticslevel 0; set linetype 1 lw 3 pt 5"
 	// pltstr := fmt.Sprintf("splot '%s' index 0 using 1:2:3:4 w labels point pt 7 offset char 1,1 notitle,'' index 1 using 1:2:3:($4-$1):($5-$2):($6-$3) notitle w vectors lt 1 nohead, '' index 1 using ($4+$1)/2:($2+$5)/2:($3+$6)/2:7 w labels notitle,'' index 2 using 1:2:3 w points pointtype 19 notitle, '' index 3 using 1:2:3:4:5:6 notitle w vectors, '' index 3 u 1:2:3:5 notitle w labels left offset char 2,2,2", f.Name())
 	// prg := "gnuplot"
+
+
+	// //3d truss plot (*edit- NOT)-SWAPPING Y AND Z VALUES
+	// //as is the way of structures and things
+	// var data string
+	// //index 0 nodes
+	// var frcscale , xmax, ymax, zmax float64
+	// frcscale = 0.5
+	// //switch mod.Cmdz[1] {
+	// //case "kips":
+	// //	frcscale = 30.0
+	// //case "mks":
+	// //	frcscale = 1.0
+	// //case "mmks":
+	// //	frcscale = 1000.0
+	// //}
+	// for idx, v := range mod.Coords {
+	// 	data += fmt.Sprintf("%v %v %v %v\n", v[0], v[1], v[2], idx+1)
+	// 	if v[2] > zmax {zmax = v[2]}
+	// 	if v[1] > ymax {ymax = v[1]}
+	// 	if v[0] > xmax {xmax = v[0]}
+	// }
+	// data += "\n\n"
+	// //index 1 members
+	// //ms := make(map[int][]int)
+	// for idx, mem := range mod.Mprp {
+	// 	jb := mod.Coords[mem[0]-1]
+	// 	je := mod.Coords[mem[1]-1]
+	// 	data += fmt.Sprintf("%v %v %v %v %v %v %v\n", jb[0], jb[1], jb[2], je[0], je[1], je[2], idx+1)
+	// }
+	// data += "\n\n"
+	// //index 2 supports
+	// for _, val := range mod.Supports {
+	// 	pt := mod.Coords[val[0]-1]
+	// 	if val[1]+val[2]+val[3] != 0 {data += fmt.Sprintf("%v %v %v\n", pt[0],pt[2],pt[1])}
+	// }
+	// data += "\n\n"
+	// //index 3 joint loads
+	// for _, val := range mod.Jloads {
+	// 	//var delta float64
+	// 	pt := mod.Coords[int(val[0])-1]
+	// 	if val[1] != 0.0 { //X- force (assemble?)
+	// 		if pt[0] == xmax {
+	// 			//vector to the right
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],frcscale, 0, 0, val[1])
+	// 		} else {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],-frcscale, 0, 0, val[1])
+	// 		}
+	// 	}
+	// 	if val[2] != 0.0 { //y force
+	// 		if pt[2] == ymax {	
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1], 0, 0, frcscale, val[2])
+	// 		} else {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1]-frcscale,0, 0, frcscale,val[2])
+	// 		}
+	// 	}
+	// 	if val[3] != 0.0 { //z force
+	// 		if pt[1] == zmax {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],0, 0,frcscale, val[3])
+	// 		} else {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1]-frcscale,0, 0, frcscale, val[3])
+	// 		}	
+	// 	}
+	// }
+	// data += "\n\n"
+	// //create temp files
+	// f, e1 := os.CreateTemp("", "barf")
+	// if e1 != nil {
+	// 	log.Println(e1)
+	// }
+	// defer f.Close()
+	// defer os.Remove(f.Name())
+	// _, e1 = f.WriteString(data)
+	// if e1 != nil {
+	// 	log.Println(e1)
+	// }
+
+	// var termstr string
+	// switch term {
+	// case "dumb":
+	// 	termstr = "set term dumb ansi size 79,49"
+	// case "dumbstr":
+	// 	termstr = "set term dumb size 79,49"
+
+	// case "caca":
+	// 	termstr = "set term caca inverted size 79,49"
+	// case "wxt":
+	// 	termstr = "set term wxt"
+	// }
+
+	// setstr := "set autoscale; set key bottom; set title \"SPACE TRUSS\";set grid; set label;set tics;set view 60,30,1,1;set ticslevel 0; set linetype 1 lw 3 pt 5"
+	// pltstr := fmt.Sprintf("splot '%s' index 0 using 1:2:3:4 w labels point pt 7 offset char 1,1 notitle,'' index 1 using 1:2:3:($4-$1):($5-$2):($6-$3) notitle w vectors lt 1 nohead, '' index 1 using ($4+$1)/2:($2+$5)/2:($3+$6)/2:7 w labels notitle,'' index 2 using 1:2:3 w points pointtype 19 notitle, '' index 3 using 1:2:3:4:5:6 notitle w vectors, '' index 3 u 1:2:3:5 notitle w labels left offset char 2,2,2", f.Name())
+	// prg := "gnuplot"
+	// arg0 := "-e"
+	// arg2 := "--persist"
+	// arg1 := fmt.Sprintf("%s; %s; %s", termstr, setstr, pltstr)
+	// plotstr := exec_command(prg, arg2, arg0, arg1)
+	// pltchn <- plotstr
+
+   	//CURSES gnuplot has the z axis as vertical
+	//KERSES maybe screw gnuplot (heresy.UNBELIEVER)
+	// var data string
+	// //index 0 nodes
+	// var frcscale , xmax, ymax, zmax float64
+	// switch mod.Cmdz[1] {
+	// case "kips":
+	// 	frcscale = 30.0
+	// case "mks":
+	// 	frcscale = 1.0
+	// case "mmks":
+	// 	frcscale = 1000.0
+	// }
+	// for idx, v := range mod.Coords {
+	// 	data += fmt.Sprintf("%v %v %v %v\n", v[0], v[2], v[1], idx+1)
+	// 	if v[2] > zmax {zmax = v[1]}
+	// 	if v[1] > ymax {ymax = v[2]}
+	// 	if v[0] > xmax {xmax = v[0]}
+	// }
+	// data += "\n\n"
+	// //index 1 members
+	// //ms := make(map[int][]int)
+	// for idx, mem := range mod.Mprp {
+	// 	jb := mod.Coords[mem[0]-1]
+	// 	je := mod.Coords[mem[1]-1]
+	// 	data += fmt.Sprintf("%v %v %v %v %v %v %v\n", jb[0], jb[2], jb[1], je[0], je[2], je[1], idx+1)
+	// }
+	// data += "\n\n"
+	// //index 2 supports
+	// for _, val := range mod.Supports {
+	// 	pt := mod.Coords[val[0]-1]
+	// 	if val[1]+val[2]+val[3] != 0 {data += fmt.Sprintf("%v %v %v\n", pt[0],pt[2],pt[1])}
+	// }
+	// data += "\n\n"
+	// //index 3 joint loads
+	// for _, val := range mod.Jloads {
+	// 	//var delta float64
+	// 	pt := mod.Coords[int(val[0])-1]
+	// 	if val[1] != 0.0 { //X- force (assemble?)
+	// 		if pt[0] == xmax {
+	// 			//vector to the right
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],frcscale, 0, 0, val[1])
+	// 		} else {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],-frcscale, 0, 0, val[1])
+	// 		}
+	// 	}
+	// 	if val[2] != 0.0 { //y force
+	// 		if pt[2] == ymax {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1], 0,  0, frcscale, val[2])
+	// 		} else {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2], pt[1]-frcscale,0, 0, frcscale, val[2])
+	// 		}
+	// 	}
+	// 	if val[3] != 0.0 { //z force
+	// 		if pt[1] == zmax {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1],0, 0,frcscale, val[3])
+	// 		} else {
+	// 			data += fmt.Sprintf("%v %v %v %v %v %v %.1f\n",pt[0],pt[2],pt[1]-frcscale,0, 0, frcscale, val[3])
+	// 		}	
+	// 	}
+	// }
+	// data += "\n\n"
+	// //create temp files
+	// f, e1 := os.CreateTemp("", "barf")
+	// if e1 != nil {
+	// 	log.Println(e1)
+	// }
+	// defer f.Close()
+	// defer os.Remove(f.Name())
+	// _, e1 = f.WriteString(data)
+	// if e1 != nil {
+	// 	log.Println(e1)
+	// }
+	// var termstr string
+	// switch term {
+	// case "dumb":
+	// 	termstr = "set term dumb ansi size 79,49"
+	// case "caca":
+	// 	termstr = "set term caca inverted size 79,49"
+	// case "wxt":
+	// 	termstr = "set term wxt"
+	// case "dumbstr":
+	// 	termstr = "set term dumb size 79,49"
+
+	// }
+	// setstr := "set autoscale; set key bottom; set title \"SPACE FRAME\";set grid; set label;set tics;set view 60,30,1,1;set ticslevel 0; set linetype 1 lw 0 pt 5"
+	// pltstr := fmt.Sprintf("splot '%s' index 0 using 1:2:3:4 w labels point pt 7 offset char 1,1 notitle,'' index 1 using 1:2:3:($4-$1):($5-$2):($6-$3) notitle w vectors lt 1 nohead, '' index 1 using ($4+$1)/2:($2+$5)/2:($3+$6)/2:7 w labels notitle,'' index 2 using 1:2:3 w points pointtype 19 notitle, '' index 3 using 1:2:3:4:5:6 notitle w vectors, '' index 3 u 1:2:3:5 notitle w labels left offset char 2,2,2", f.Name())
+	// prg := "gnuplot"
+	// arg0 := "-e"
+	// arg2 := "--persist"
+	// arg1 := fmt.Sprintf("%s; %s; %s", termstr, setstr, pltstr)
+	// plotstr := exec_command(prg, arg2, arg0, arg1)
+	// pltchn <- plotstr
+
 */

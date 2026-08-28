@@ -71,6 +71,7 @@ type Blt struct{
 	Ni     int //no. of bolt rows (lines along force - along y)
 	Nj     int //no. of bolt columns (bolts/line - along x)
 	Nb     int //no. of bolts
+	Nb2    int //no. of bolts in supporting mem
 	Stag   bool //is staggered
 	Ctyp   int     //connection type - 1 - lap, 2 - single cover butt joint, 3 - double cover
 	Ltyp   int     //load type - 1 - concentric (T/C), 2 - 
@@ -107,6 +108,9 @@ type Blt struct{
 	Pm     float64
 	Psi    float64
 	Kb     float64
+	T1     float64 //thickness of mem1
+	T2     float64 //thickness of mem2
+	T3     float64 //thickness of plate/cleat
 	Vdsb   float64 //design shear strength of single bolt
 	Vdpb   float64 //design strength of single bolt in bearing
 	Vnsf   float64 //design shear strength of single (HSFG) bolt
@@ -122,19 +126,34 @@ type Blt struct{
 	T      float64 //design plate thickness
 	Tmem   float64 //thickness of smallest mem
 	Bmem   float64 //width of 
+	Dmem   float64 //use for end plates/cleat depths, min. 0.6 Dmem
 	Tms    []float64 //connected mem. thicknesses
+	Dims   []float64 //connection dimensions
+	Mdims  [][]float64 //list of member dims
+	Mtyps  []int //member types (1,2 - beam, col)
+	Mdxs   []string //member indices
+	S1, S2 int    //styp 1, styp 2
+	Cloc   string //"web","flange"
+	Vdu    float64 //max design shear
+	Mdu    float64 //max design moment
 	Vb     float64 //design strength of single bolt
+	Vb2    float64 //design strength of bolt for mem T2
+	Folder string
 	Report string
 	Term   string
 	Title  string
 	Name   string
+	Type   string //simple, framed, etx
+	Weld   Wld 
 	UniPig bool //uniform pitch and gauge
 	Slip   bool //if slip is permitted for hsfg bolts
+	Web    bool
 	Print  bool
 	Xchk   bool
 	Ychk   bool
 	Mchk   bool
 	Verbose bool
+	Chsfg  bool //column hsfg bolt for fep
 }
 
 //BoltSs does bolt group analysis - see harrision sec 4.1
@@ -285,6 +304,16 @@ func (b *Blt) Init()(err error){
 	}
 	b.Fy = Bgrds[b.Grade][0]
 	b.Fub = Bgrds[b.Grade][1]
+	switch{
+		case b.Name == "dac":
+		b.T = b.T1
+		b.Tmem = b.T1
+		if b.T3 == 0.0{
+			b.T3 = 10.0
+		}
+		case b.Name == "fep":
+		case b.Name == "fp":
+	}
 	//find smallest connected mem. thickness
 	if b.Tmem == 0.0{
 		for _, t := range b.Tms{
@@ -378,7 +407,7 @@ func (b *Blt) BltVals() (err error){
 			case 1:
 			if len(b.Tms) >= 2{b.Lgrip = b.Tms[0] + b.Tms[1]}
 			case 2, 3:
-			b.Lgrip =  b.Tms[0] + b.Tms[1] + b.Pt	
+			if len(b.Tms)>=2 {b.Lgrip =  b.Tms[0] + b.Tms[1] + b.Pt}	
 			if b.Ctyp == 3{
 				b.Lgrip += b.Pt
 			}
@@ -455,20 +484,41 @@ func BltDiaCalc(b *Blt) (err error){
 	}
 	if b.Verbose{
 		log.Println("type of bolt->",b.Btyp,"1-ord., 2-hsfg")
-		log.Println("checking dia->",b.Dia,"grade->",b.Grade,"for conn. typ->",b.Ctyp, Bctyps[b.Ctyp])
+		log.Println("checking dia->",b.Dia,"grade->",b.Grade,"for conn. typ->",b.Ctyp, b.Name)
 		log.Println("pitch->",b.Pitch,"edge distance->",b.Edged, "t->",b.T)
 		log.Println("reduction factors->",b.Blj, b.Blg, b.Bpk)		
-		log.Println("joint type->",Bctyps[b.Ctyp])
+		log.Println("joint name->",b.Name)
 	}
-	switch b.Ctyp{
-		case 1:
-		b.Nn = 1.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0
-		case 2:
-		b.Nn = 1.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0 	
-		case 3:
+	switch{
+		case b.Name == "dac":
+		//double angle cleat connection
 		b.Nn = 2.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0
-		case 4:
-		//?
+		b.T = b.T1
+		if b.T > b.T3{
+			b.T = b.T3
+		}
+		case b.Name == "fep":
+		//flexible end plate connection
+		b.Nn = 1.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0
+		b.T = b.T1
+		if b.T > b.T3{
+			b.T = b.T3
+		}
+		//add b.T1 vs b.T3; b.T2 vs b.T3
+		case b.Name == "fp":
+		//fin plate connection
+		b.Nn = 1.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0
+		b.T = b.T1
+		if b.T > b.T3{
+			b.T = b.T3
+		}
+		
+		case b.Ctyp == 1:
+		b.Nn = 1.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0
+		case b.Ctyp == 2:
+		b.Nn = 1.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0 	
+		case b.Ctyp == 3:
+		b.Nn = 2.0; b.Ns = 0.0; b.Ymb = 1.25; b.Nef = 1.0
 	}
 	b.Vdsb = b.Fub * (b.Nn * b.Anb + b.Ns * b.Asb)/math.Sqrt(3.0)/b.Ymb
 	b.Vdsb = b.Vdsb * b.Blj * b.Blg * b.Bpk
@@ -493,46 +543,21 @@ func BltDiaCalc(b *Blt) (err error){
 			log.Printf("design strength in shear (slip) - %.3f kn\n",b.Vnsf/1e3)
 		}
 	}
-	return
-}
-
-// //BltDzFrm designs a bolted framed connection
-// func BltDzFrm() (err error){
-// 	return
-// }
-
-// //BltDzSt designs a bolted seat connection
-// func BltDzSt() (err error){
-// 	return
-// }
-
-
-//BltDz designs a bolt group given a ctyp and force group
-//three ltyps as in bhavikatti, chap 3
-func BltDz(b *Blt) (err error){
-	err = BltDiaCalc(b)
-	if err != nil{
-		return
-	}
-	switch b.Ltyp{
-		case 1:
-		//axial/concentric load
-		nb := math.Ceil(b.Pu/b.Vb)
-		b.Nb = int(nb)
-		if b.Nb <= 0{
-			err = fmt.Errorf("invalid number of bolts - %v",b.Nb)
-			return
-		}
-		err = BltLay(b)
-		if err != nil{
-			return
-		}
-		case 2:
-		//eccentric bracket connection; in-plane moment
+	switch b.Name{
+		case "dac":
+		//calc bearing on T2 (column), T1 is beam
 		
-		case 3:
-		//eccentric bracket connection; out-of plane moment
-	
+		vdsb := b.Fub * (b.Nn/2.0 * b.Anb + b.Ns * b.Asb)/math.Sqrt(3.0)/b.Ymb
+		vdsb = vdsb * b.Blj * b.Blg * b.Bpk
+		b.Vb2 = vdsb
+		vdpb := 2.5 * b.Kb * b.Dia * b.T2 * b.Fup/b.Ymb
+		if b.T3 < b.T2{
+			vdpb = 2.5 * b.Kb * b.Dia * b.T3 * b.Fup/b.Ymb
+		
+		}
+		if vdpb < b.Vb2{b.Vb2 = vdpb}
+		case "fep":
+		
 	}
 	return
 }
@@ -642,5 +667,256 @@ func bltvec(ni, nj, bltyp int)(bvec [][]int){
 			}
 		}
 	}
+	return
+}
+
+//AbltLen returns the length of an anchor bolt for a given uplift force
+func AbltLen(pulf, fck, dia float64)(lblt float64, err error){
+	tbdz := map[float64]float64{20.0:1.2, 25.0:1.4, 30.0:1.5, 35.0:1.7, 40.0:1.9}
+	anb := 0.78 * math.Pi * math.Pow(dia, 2.0)/4.0
+	tdb := 0.9 * 330.0 * anb/1.25
+	nblt := pulf/tdb
+	//fmt.Println("nbolts-",nblt,"using 4")
+	if nblt > 4{
+		err = fmt.Errorf("revise dia, > 4 bolts required %f",nblt)
+		return
+	}
+	//nblt = 4
+	ublt := pulf/4
+	lbltp := math.Pow(ublt/(15.5 * math.Sqrt(fck)),1.0/1.5)
+	//fmt.Println("bolt len from pull out criteria-",lbltp,"mm")
+	if _, ok := tbdz[fck]; !ok{
+		err = fmt.Errorf("invalid fck %f",fck)
+		return
+	}
+	tbd := tbdz[fck]
+	lbltb := dia * 250.0/(4.0 * tbd * 1.1)
+	//fmt.Println("bolt len from bond criteria-",lbltb,"mm")
+	lblt = lbltp; if lbltb > lblt{
+		lblt = lbltb
+	}
+	lblt = math.Ceil(lblt/25.0)*25.0
+	return
+}
+
+
+//BltDz designs a bolt group given a ctyp and force group
+//three ltyps as in bhavikatti, chap 3
+func BltDz(b *Blt) (err error){
+	switch b.Name{
+		case "dac":
+		//double angle cleats
+		err = BltDac(b)
+		return
+		case "fep":
+		//flexible end plate
+		err = BltFep(b)
+		return
+		case "fp":
+		//fin plate
+		err = BltFp(b)
+		return
+	}
+	err = BltDiaCalc(b)
+	if err != nil{
+		return
+	}
+	switch b.Ltyp{
+		case 0:
+		case 1:
+		//axial/concentric load
+		nb := math.Ceil(b.Pu/b.Vb)
+		b.Nb = int(nb)
+		if b.Nb <= 0{
+			err = fmt.Errorf("invalid number of bolts - %v",b.Nb)
+			return
+		}
+		err = BltLay(b)
+		if err != nil{
+			return
+		}
+		case 2:
+		//eccentric bracket connection; in-plane moment
+		
+		case 3:
+		//eccentric bracket connection; out-of plane moment
+	
+	}
+	return
+}
+
+
+
+//BltFep designs a flexible end plate connection
+//welded to the beam (main mem), bolted to the support
+func BltFep(b *Blt)(err error){	
+	if b.Ctyp == 0{b.Ctyp = 1}
+	err = BltDiaCalc(b)
+	if err != nil{
+		return
+	}
+	fmt.Println("bolt vb1, vb2",b.Vb/1e3,b.Vb2/1e3)
+	//calc nbolts at supporting member
+	b.Nb = int(math.Ceil(b.Vdu/b.Vb/2.0)*2.0)
+	b.Nj = 2
+	b.Ni = b.Nb/b.Nj
+	fmt.Println("nbolts",b.Nb,"ni,nj",b.Ni,b.Nj)
+	
+	//get length of end plate
+	b.Edged = math.Ceil(b.Edged/10.0)*10.0
+	gauge := 90.0
+	if b.Gauge < gauge{
+		gauge = math.Ceil(b.Gauge/10.0)*10.0
+	}
+	b.Gauge = gauge
+	lplt := float64(b.Ni-1)*b.Pitch + 2.0 * b.Edged + 20.0
+	wplt := float64(b.Nj-1)*gauge + 2.0 * b.Edged 
+	//lplt := dplt
+	//if wplt > lplt{lplt = wplt}
+	a := 30.0 * b.T3
+	if a > lplt{a = lplt}
+	fmt.Println("lplt",lplt, "wplt",wplt,"pitch",b.Pitch,"edged",b.Edged,"a",a)
+	fdw := 410.0/1.5/math.Sqrt(3) 
+	//assume weld size of 6mm for lwld calcs
+	lwld := 2.0 * (lplt - 2.0 * 6.0)
+	wsize := b.Vdu/lwld/fdw
+	fmt.Println("lwld, fdw, weld size",lwld/2.0, fdw, wsize)
+	switch{
+		case wsize < 6.0:
+		wsize = 6.0
+		case wsize < 8.0:
+		wsize = 8.0
+		
+	}
+	return
+}
+
+//BltFp designs a fin plate connection
+//welded to the support, bolted to the main mem
+func BltFp(b *Blt)(err error){	
+	if b.Ctyp == 0{b.Ctyp = 1}
+	err = BltDiaCalc(b)
+	if err != nil{
+		return
+	}
+	fmt.Println("bolt vb1, vb2",b.Vb/1e3,b.Vb2/1e3)
+	//calc nbolts at supporting member
+	b.Nb = int(math.Ceil(b.Vdu/b.Vb))
+	//if double row?
+	b.Nj = 1
+	b.Ni = b.Nb/b.Nj
+	fmt.Println("nbolts",b.Nb,"ni,nj",b.Ni,b.Nj)
+	
+	//get length of end plate
+	b.Edged = math.Ceil(b.Edged/10.0)*10.0
+	gauge := 90.0
+	if b.Gauge < gauge{
+		gauge = math.Ceil(b.Gauge/10.0)*10.0
+	}
+	b.Gauge = gauge
+
+	lmin := 0.75 * b.Dmem
+	lplt := float64(b.Ni-1)*b.Pitch + 2.0 * b.Edged + 20.0
+	if lplt < lmin && lmin != 0.0{
+		lplt = lmin
+	}
+	fmt.Println("lmin, lplt",lmin, lplt)
+	b.Pitch = (lplt - 2.0 * b.Edged - 20.0)/float64(b.Ni-1)
+	cof := b.Edged + 20.0
+	fmt.Println("edged, cof",b.Edged,cof, "rev pitch",b.Pitch)
+	nb := float64(b.Nb) 
+	bmb := b.Vdsb * (nb - 1.0) * b.Pitch * b.Pitch/((nb-1.0)*b.Pitch/2.0) 
+	fmt.Println("bmb",bmb,"bmb",bmb/1e3)
+	zplt := b.T3 * lplt * lplt/6.0
+	bmplt := 1.2 * (250.0/1.1) * zplt
+	fmt.Println("bmplt",bmplt,"zplt",zplt,"ok?",bmplt>zplt)
+	wsize := math.Floor(0.6 * b.T3/0.7)
+	fmt.Println("wsize",wsize)
+	switch{
+		case wsize <= 6.0:
+		wsize = 6.0
+		case wsize <= 8.0:
+		wsize = 8.0
+	}
+	lwld := lplt - 2.0 * wsize
+	zwld := lwld * lwld/3.0
+	vh := bmb/zwld
+	vv := b.Vdu/(2.0 * lwld)
+	vrez := math.Sqrt(vh*vh + vv*vv)
+	fmt.Println("vrez",vrez)
+	fdw := 410.0/math.Sqrt(3)/1.25
+	pdw := fdw * 0.7 * wsize
+	fmt.Println("pdw",pdw,"pdw>vrez?",pdw>vrez)
+	//w.Size * w.Fu/w.Ymf/math.Sqrt(3.0)
+	return
+}
+
+//BltDac designs a double angle cleat connection 
+func BltDac(b *Blt) (err error){
+	//beam web to column flange/web joint
+	//default - column beam dac
+	//default s1,s2 - 12, 12 (i, i)
+	//angle sizes - 100x100x10, 150x150x10, 150x150x12, 150x150x16
+	//angz := [][]float64{{100,10},{150,10},{150,12},{150,16}}
+	if b.Ctyp == 0{b.Ctyp = 1}
+	err = BltDiaCalc(b)
+	if err != nil{
+		return
+	}
+	b.Nb = int(math.Ceil(b.Vdu/b.Vb/2.0)*2.0)
+	b.Nb2 = int(math.Ceil(b.Vdu/b.Vb2/2.0)*2.0)
+	
+	b.Edged = math.Ceil(b.Edged/10.0)*10.0
+	//b.Edged += 10.0
+	if b.Nb > 4{
+		b.Nj = 2
+	} else {
+		b.Nj = 1
+	}
+	if b.Nb2 < 4{b.Nb2 = 4}
+	b.Ni = b.Nb/b.Nj
+	//make gauge the pitch, why not
+	depth := float64(b.Ni-1)*b.Pitch+2.0*b.Edged
+	width := float64(b.Nj-1)*b.Pitch+2.0*b.Edged
+	thick := b.Vdu * math.Sqrt(3) * 1.1/(250.0 * depth * 2.0)
+	switch{
+		// case thick < 6.0:
+		// thick = 6.0
+		case thick < 8.0:
+		thick = 8.0
+		case thick < 10.0:
+		thick = 10.0
+		case thick < 12.0:
+		thick = 12.0
+		case thick < 16.0:
+		thick = 16.0
+	}
+	switch{
+		case width < 75.0:
+		width = 75.0
+		case width < 100.0:
+		width = 100.0
+		case width < 150.0:
+		width = 150.0
+		case width < 200.0:
+		width = 150.0
+		
+	}
+
+	if b.Verbose{
+		fmt.Println("bolt vb1, vb2",b.Vb/1e3,b.Vb2/1e3)
+		fmt.Println("nbolts main mem-",b.Nb,"supporting mem",b.Nb2)
+		fmt.Println("pitch-",b.Pitch,"edge d",b.Edged,"endd",b.Endd)
+		fmt.Println("max gauge-",b.Gauge)
+		fmt.Println("depth of angle-",depth)
+		fmt.Println("width of angle-",width)
+		fmt.Println("thickness of angle-",thick)
+	}
+	//if this is > T3 (10mm then wot?)
+	//b.T3 = thick
+	b.Dims = []float64{depth, width, thick} 
+	//now consider checks depth = 0.6 * dbeam
+	err = b.Draw()
+
 	return
 }

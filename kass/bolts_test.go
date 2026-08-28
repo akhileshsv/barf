@@ -4,9 +4,113 @@ import (
 	"testing"
 )
 
-func TestBltDzFrm(t *testing.T){
+func TestBltDac(t *testing.T){
+	t.Log("testing dac duggal 14.4")
+	b := Blt{
+		Title:"dug14.4",
+		Vdu:385e3,
+		Dia: 24.0,
+		Grade:4.6,
+		Name:"dac",
+		Cloc:"web",
+		Ctyp:2,
+		Fup:410.0,
+		T1:6.7,
+		T2:9.4,
+		T3:10.0,
+		Mdims:[][]float64{
+			{150,300,9.4,6.7},
+			{150,450,17.4,9.4},
+		},
+		Mdxs:[]string{"b1","b2"},
+		Verbose:false,
+		Term:"qt",
+	}
+	BltDz(&b)
+	t.Log(b.Report)
+	t.Log("testing dac sub 5.16")
 	
+	b = Blt{
+		Title:"sub5.16",
+		Vdu:140e3,
+		Dia: 20.0,
+		Grade:4.6,
+		Name:"dac",
+		Cloc:"flange",
+		Ctyp:1,
+		Fup:410.0,
+		T1:6.7,
+		T2:9.4,
+		T3:10.0,
+		Mdims:[][]float64{
+			{150,300,9.4,6.7},
+			{200,200,15,9},
+		},
+		Mdxs:[]string{"b1","c1"},
+		Verbose:true,
+		Term:"qt",
+	}
+	BltDz(&b)
+	t.Log(b.Report)
+	t.Fatal()
+	
+	b = Blt{
+		Title:"bhav8.1",
+		Vdu:300e3,
+		Dia: 20.0,
+		Grade:4.6,
+		Name:"dac",
+		Cloc:"web",
+		Ctyp:2,
+		Fup:410.0,
+		T1:6.7,
+		T2:9.4,
+		T3:10.0,
+		Mdims:[][]float64{
+			{150,300,9.4,6.7},
+			{150,450,17.4,9.4},
+		},
+		Mdxs:[]string{"b1","b2"},
+		Verbose:true,
+		Term:"qt",
+	}
 }
+
+func TestBltFp(t *testing.T){
+	b := Blt{
+		Title:"sub5.18",
+		Vdu:140e3,
+		Dia: 20.0,
+		Grade:8.8,
+		Name:"fp",
+		Cloc:"flange",
+		Ctyp:1,
+		T1:6.7,
+		T2:15.0,
+		T3:10.0,
+		Dmem:400.0,
+		Verbose:true,
+	}
+	BltDz(&b)
+}
+
+func TestBltFep(t *testing.T){
+	b := Blt{
+		Title:"sub5.17",
+		Vdu:140e3,
+		Dia: 20.0,
+		Grade:4.6,
+		Name:"fep",
+		Cloc:"flange",
+		Ctyp:1,
+		T1:6.7,
+		T2:15.0,
+		T3:6.0,
+		Verbose:true,
+	}
+	BltDz(&b)
+}
+
 
 func TestBltDz(t *testing.T){
 	t.Log("maity ex. 1 - a")

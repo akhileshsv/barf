@@ -1,9 +1,11 @@
 package barf
 
 import (
-	"runtime"
 	"fmt"
 	"log"
+	"time"
+	"os/exec"
+	"runtime"
 	"net/http"
 	"path/filepath"
 )
@@ -74,6 +76,23 @@ func sendrez(w http.ResponseWriter, r *http.Request){
 }
 
 
+func openbrowser(url string) {
+	var err error
+	switch runtime.GOOS {
+	case "linux":
+		err = exec.Command("xdg-open", url).Start()
+	case "windows":
+		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+	case "darwin":
+		err = exec.Command("open", url).Start()
+	default:
+		err = fmt.Errorf("unsupported platform")
+	}
+	if err != nil {
+		log.Printf("Could not open browser: %v", err)
+	}
+}
+
 //Srvr serves pages. quite badly
 func Srvr(){
 	_, b, _, _:= runtime.Caller(0)
@@ -124,17 +143,16 @@ func Srvr(){
 	http.HandleFunc("/steel",steel)
 	http.HandleFunc("/steel/beam",stlbeam)
 	http.HandleFunc("/steel/column",stlcol)
-	http.HandleFunc("/steel/column/frame",stlcolfrm)
-	http.HandleFunc("/steel/column/strut",stlcolstrt)
+	http.HandleFunc("/steel/floor",stlfloor)
+	http.HandleFunc("/steel/sdxs",stlsdxs)
 	http.HandleFunc("/steel/truss",stltrs)
 	http.HandleFunc("/steel/trussmodopt",stltrsmodopt)
 	http.HandleFunc("/steel/trussgen",calcstltrsgen)
 	
 	//bash htmx funcs
 	
-	http.HandleFunc("/ex/steel/beam",stlbmhtml)
-	http.HandleFunc("/ex/steel/col",stlcolstrthtml)
-	http.HandleFunc("/ex/steel/col/frm",stlcolfrmhtml)
+	//http.HandleFunc("/ex/steel/beam",stlbmhtml)
+	http.HandleFunc("/ex/steel/col",stlcolhtml)
 	http.HandleFunc("/ex/steel/trussmodopt",stltrsmodopthtml)
 	http.HandleFunc("/ex/steel/trussgen",stltrsgenhtml)
 	
@@ -157,6 +175,11 @@ func Srvr(){
 	
 	//http.HandleFunc("/email",sendrez)
 
+	//openbrowser after server
+	go func() {
+		time.Sleep(500 * time.Millisecond) // wait for server to spin up
+		openbrowser("http://localhost:8080")
+	}()
 	
 	//for localhost
 	//print stuff to show seriousness

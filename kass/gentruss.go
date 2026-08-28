@@ -13,6 +13,7 @@ type Trs2d struct {
 	Styp       int //section type
 	Sname      string //section name
 	Cname      string //connection name
+	Dtyp       int //design/check
 	Ctyp       int //connection type
 	Typ, Cfg   int //truss type, configuration
 	Code       int //design code
@@ -130,12 +131,13 @@ func (t *Trs2d) Getndim()(nd int){
 			//now is bl = br? YES
 			nd = 3
 			case 4:
-			//tube sect
+			//(bamboo) tube sect
 			//??
 			case 26:
 			//spaced col sect
 			//bc, dc, dw, bl
 			nd = 4
+			
 		}
 		case 23:
 		//timber truss + steel ties
@@ -154,14 +156,15 @@ func (t *Trs2d) Init() (err error){
 	if t.Mtyp == 0 {
 		t.Mtyp = 2
 	}
-	if t.Styp == 0 {
+	if t.Styp == 0{
 		switch t.Mtyp{
 			case 2:
 			//okay now WTF
 			t.Styp = 3
 			t.Sname = "l"
 			case 3:
-			t.Styp = 1
+			//timber
+			// t.Styp = 1
 		}
 	}
 	if t.Ctyp == 0{
@@ -331,6 +334,7 @@ func (t *Trs2d) GenCp() (err error){
 			t.Sects[i] = s
 			t.Mod.Cp[i] = []float64{s.Prop.Area, s.Prop.Ixx}
 		}
+		
 	}
 	return
 }
@@ -397,6 +401,10 @@ func (t *Trs2d) InitTmbrCp(){
 				dims = []float64{4.0*25.4}
 				case 1:
 				dims = []float64{50.0,125.0}
+				case 26:
+				//min. member thickness - 25 mm (sp 33)
+				dims = []float64{25.0,100.0,25.0}
+				
 			}
 			default:
 			switch t.Styp{
@@ -404,6 +412,8 @@ func (t *Trs2d) InitTmbrCp(){
 				dims = []float64{4.0*25.4}
 				case 1:
 				dims = []float64{50.0,100.0}
+				case 26:
+				dims = []float64{25.0,100.0,25.0}
 			}
 		}	
 		t.Sections[i] = dims

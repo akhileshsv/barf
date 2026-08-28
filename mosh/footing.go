@@ -124,7 +124,7 @@ func (f *RccFtng) Table(printz bool){
 		table.Render()
 		rezstr.WriteString(ColorReset)
 	}
-	f.Report = fmt.Sprintf("%s",rezstr)
+	f.Report = rezstr.String()
 	if printz{
 		fmt.Println(f.Report)
 	}

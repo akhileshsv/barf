@@ -1,0 +1,158 @@
+package barf
+
+import (
+	"fmt"
+	"testing"
+)
+
+
+func TestColDSmshH(t *testing.T){
+	t.Log("testing smsh deck brace h")
+	var c Col
+	c.H1 = 2.0; c.H2 = 2.0; c.Lx = 2.0; c.Ly = 2.0; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 60.0; c.Vy = 60.0
+	c.Pu = 200.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 5
+	c.Yeolde = true
+	c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+}
+
+func TestColDSmshC3(t *testing.T){
+	t.Log("testing smsh left typ col c3")
+	var c Col
+	c.H1 = 3.65; c.H2 = 0.0; c.Lx = 3.65; c.Ly = 3.65; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 120.0; c.Vy = 70.0
+	c.Pu = 190.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 10
+	c.Yeolde = true
+	//c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)	
+}
+
+
+func TestColDSmshC4(t *testing.T){
+	t.Log("testing smsh right typ col c4")
+	var c Col
+	c.H1 = 3.65; c.H2 = 0.0; c.Lx = 3.65; c.Ly = 3.65; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 160.0; c.Vy = 107.0
+	c.Pu = 267.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 10
+	c.Yeolde = true
+	//c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+	//err = ColDIs(c)
+}
+
+
+func TestColDSmshC1(t *testing.T){
+	t.Log("testing smsh left end col c1")
+	var c Col
+	c.H1 = 3.65; c.H2 = 0.0; c.Lx = 3.65; c.Ly = 3.65; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 60.0; c.Vy = 70.0
+	c.Pu = 131.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 7
+	c.Yeolde = true
+	//c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+	
+}
+
+
+func TestColDSmshC2(t *testing.T){
+	t.Log("testing smsh right end col c2")
+	var c Col
+	c.H1 = 3.65; c.H2 = 0.0; c.Lx = 3.65; c.Ly = 3.65; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 80.0; c.Vy = 107.0
+	c.Pu = 190.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 7
+	c.Yeolde = true
+	//c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+	
+}
+
+func TestColDVagr4(t *testing.T){
+	//small2
+	var c Col
+	c.H1 = 4.0; c.H2 = 4.0; c.Lx = 4.0; c.Ly = 4.0; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 0.0; c.Vy = 56.0
+	c.Pu = 200.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 5
+	c.Yeolde = true
+	c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+}
+
+func TestColDVagr3(t *testing.T){
+	//small1
+	var c Col
+	c.H1 = 4.0; c.H2 = 4.0; c.Lx = 4.0; c.Ly = 4.0; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 40.0; c.Vy = 48.0
+	c.Pu = 231.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 5
+	c.Yeolde = true
+	c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+}
+
+func TestColDVagr2(t *testing.T){
+	//big2
+	var c Col
+	c.H1 = 4.0; c.H2 = 4.0; c.Lx = 4.0; c.Ly = 4.0; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 112.0; c.Vy = 108.0
+	c.Pu = 500.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "uc"; c.Nsecs = 5
+	c.Yeolde = true
+	c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+}
+
+func TestColDVagr1(t *testing.T){
+	//big1
+	var c Col
+	c.H1 = 3.0; c.H2 = 4.0; c.Lx = 3.0; c.Ly = 3.0; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 122.0; c.Vy = 150.0
+	c.Pu = 600.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 5
+	c.Yeolde = true
+	c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+
+}
+
+
+func TestSmshColDz(t *testing.T){
+	//h1, h2, lx, ly, tx, ty, mx, my, vx, vy, pn float64, grd, sectyp int
+	var c Col
+	//var h1, h2, lx, ly, tx, ty, mx, my, vx, vy, pn, pfac float64
+	//var grd, sectyp, nsecs int
+	t.Log("smash cafe right column design")
+	c.H1 = 4.2; c.H2 = 5.483; c.Lx = 3.5; c.Ly = 5.483; c.Tx = 1.0; c.Ty = 1.0; c.Mx = 0.0; c.My = 0.0; c.Vx = 93.0; c.Vy = 47.0
+	c.Pu = 197.0; c.Pfac = 1.0
+	c.Grd = 43; c.Sname = "i"; c.Nsecs = 5
+	c.Yeolde = true
+	c.Spam = true
+	c.Verbose = true
+	err := ColDBs(&c)
+	log.Println(err)
+	c.Table(true)
+}

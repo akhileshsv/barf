@@ -8,6 +8,23 @@ import (
 	kass"barf/kass"
 )
 
+//kingpost example
+func TestTrsKpost(t *testing.T){
+	var examples = []string{"kpost"}
+	dirname,_ := os.Getwd()
+	datadir := filepath.Join(dirname,"../data/examples/tmbr/truss")
+	for i, ex := range examples{
+		fname := filepath.Join(datadir,ex+".json")
+		t.Log("example->",i+1,"file->",fname,"opt - PSO\n")
+		trs, err := kass.ReadTrs2d(fname)
+		if err != nil{
+			t.Fatal(err)
+		}
+		trs.Opt = 0
+		TrussDz(&trs)
+	}	
+}
+
 //first test is2366 example
 func TestIs2366(t *testing.T){
 	var examples = []string{"is2366"}
@@ -22,7 +39,6 @@ func TestIs2366(t *testing.T){
 			t.Fatal(err)
 		}
 		trs.Opt = 0
-		trs.Term = "qt"
 		TrussDz(&trs)
 	}
 	 
