@@ -19,6 +19,43 @@ func EdgeDat(a, b Pt2d, idx int)(data string){
 	return
 }
 
+
+func (f *Fcflr) Draw()(txtplot string, err error){
+	var data, ldata string
+	//plot nodes	
+	for i, pt := range f.Coords{
+		ptyp := 0
+		if f.Ncmap[i+1] == true{
+			ptyp = 7
+		}
+		data += fmt.Sprintf("%f %f %v\n",pt[0],pt[1],ptyp)
+		ldata += fmt.Sprintf("%f %f %v\n",pt[0], pt[1],i+1)
+		
+	}
+	data += "\n\n"
+	//plot beams
+	for bm := range f.Bms{
+		jb := bm.I
+		je := bm.J
+		ecls := f.Bmprp[bm][0] 
+		a := NewPt2d(f.Coords[jb-1])
+		b := NewPt2d(f.Coords[je-1])
+		data += EdgeDat(a,b,ecls)
+	}
+	data += "\n\n"
+	data += ldata
+	
+	skript := "basic2d.gp"
+	xl := "mm"; yl := "mm"; zl := "mm"
+	term := f.Term
+	folder := ""
+	fname := ""
+	title := "fc floor"
+	txtplot, err = draw.Draw(data, skript, term, folder, fname, title, xl, yl, zl) 
+	return
+	
+}
+
 func (f *Flr) DrawPolys()(txtplot string, err error){
 	var ndata, data, ldata string
 	for i, poly := range f.Polys{
@@ -435,12 +472,11 @@ func Plotgrid(grid [][]int, dx, dy float64) (string){
 	if err != nil {
 		fmt.Println(err)
 	}
-	if errstr != "" {
+	if errstr != ""{
 		fmt.Println(errstr)
 	}
 	return outstr
 }
-
 
 //PltLout plots a layout (lout) which is a map of rooms 
 func PltLout(rmap map[int]*Rm) (pltstr string){
@@ -453,7 +489,7 @@ func PltLout(rmap map[int]*Rm) (pltstr string){
 		rm := rmap[i]
 		for _, walls := range rm.Walls {
 			for _, wall := range walls {
-				if wall.Typ != -1 {
+				if wall.Typ != -1{
 					data += fmt.Sprintf("%v %v %v %v\n",wall.Pb.X,wall.Pb.Y,wall.Typ,rm.Id)
 					data += fmt.Sprintf("%v %v %v %v\n",wall.Pe.X,wall.Pe.Y,wall.Typ,rm.Id)
 				}
@@ -496,7 +532,7 @@ func PltLout(rmap map[int]*Rm) (pltstr string){
 	if e1 != nil {
 		fmt.Println(e1)
 	}
-	cmd := exec.Command("gnuplot","-c",pltskript,f.Name(),"dumb")
+	cmd := exec.Command("gnuplot","-c",pltskript,f.Name(),"qt")
 	var stdout, stderr bytes.Buffer
 	cmd.Stdout = &stdout
 	cmd.Stderr = &stderr

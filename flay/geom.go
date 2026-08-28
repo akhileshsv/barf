@@ -14,6 +14,12 @@ type Pt2d struct {
 	Y float64
 }
 
+//NewPt2d builds a new Pt2d
+func NewPt2d(vec []float64)(p Pt2d){
+	p = Pt2d{vec[0], vec[1]}
+	return
+}
+
 func (p *Pt2d) SetTol(tol int){
 	mulz := math.Pow(10, float64(tol))
 	p.X = math.Round(p.X*mulz)/mulz
@@ -40,6 +46,15 @@ func (p *Pt2d) OnEdge(poly []Pt2d)(onedge bool){
 	return
 }
 
+//PolyArea finds the area of a quadrilateral bound by 4 points (shoelace formula)
+func PolyArea(pts [][]float64)(area float64){
+	for i, p1 := range pts[:len(pts)-1]{
+		p2 := pts[i+1]
+		area += p1[0]*p2[1] - p2[0]*p1[1]
+	}
+	area = area/2.0
+	return
+}
 
 //InPoly checks if p is inside a polygon
 //https://stackoverflow.com/questions/217578/how-can-i-determine-whether-a-2d-point-is-within-a-polygon

@@ -516,6 +516,18 @@ type RccMod3d struct {
 	cols, beamxs, beamys, slabnodes [][]int
 }
 
+type Fpln struct{
+	Title  string
+	Units  string
+	Mat    string
+	Type   string
+	Coords [][]float64
+	Slabs  [][]int
+	Cols   []int
+	Beamxs [][]int
+	Beamys [][]int
+	Nodes  map[int][]int	
+}
 
 var (
 	ErrDim = errors.New("invalid input dimensions")

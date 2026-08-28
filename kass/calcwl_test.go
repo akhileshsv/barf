@@ -48,3 +48,15 @@ func TestWlRoof(t *testing.T){
 	t.Fatal("wind load generation test failed")
 	
 }
+
+func TestWlWall(t *testing.T){
+	//GetPdWall(vz, h, w, l, cpi)
+	vz := 44.42
+	h := 3.5
+	l := 18.0
+	w := 10.0
+	cpi := 0.5
+	pdmax, cpos, cneg := GetPdWall(vz, h, w, l, cpi)
+	fmt.Println(pdmax)
+	t.Log("cpos, cneg-",cpos, cneg)
+}

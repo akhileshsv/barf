@@ -358,3 +358,41 @@ func CalcModBmSf(mod *Model)(err error){
 	_ = CalcBmSf(mod, frmrez,true)
 	return
 }
+
+
+func CalcPscBm(mod *Model,frmrez []interface{},plotbm bool) (map[int]BeamRez){
+	ncjt := mod.Ncjt
+	ms,_ := frmrez[1].(map[int]*Mem)
+	msloaded, _ := frmrez[5].(map[int][][]float64)
+	spanchn := make(chan BeamRez,len(msloaded))
+	bmresults := make(map[int]BeamRez)
+	for member, ldcases := range msloaded {
+		go BeamFrc(ncjt, member, ms[member], ldcases, spanchn,plotbm)
+	}
+	for i :=0; i < len(msloaded); i++ {
+		r := <- spanchn
+		bmresults[r.Mem] = r
+	}
+	fmt.Println("HYAAAAR")
+	if plotbm{
+		for i:= 1; i <= len(bmresults); i++{
+			bm := bmresults[i]
+			//bm.TxtPlot = PlotBmSfBm(xs, vxs, mxs, dxs, l, true)
+			//fmt.Println(ColorYellow,"member--",bm.Mem,ColorReset)
+			for i, vx := range bm.SF {
+				fmt.Println(ColorCyan)
+				fmt.Printf("Div %d SF %.2f KN BM %.3f KN-m Def %.3f mm", i,vx, bm.BM[i],1000*bm.Dxs[i])
+				log.Println("SPAN ",i,"SF ",vx, " Kn BM ", math.Ceil(bm.BM[i]*100)/100, " Kn-M DEF ", 1000*bm.Dxs[i]," mm")
+			}
+			fmt.Println(ColorPurple)
+			fmt.Printf("Max SF %.3f at %.3f \nMax BM %.3f at %.3f\nMax def %.3f at %.3f",bm.Maxs[0],bm.Locs[0],bm.Maxs[1],bm.Locs[1],bm.Maxs[2],bm.Locs[2])
+			fmt.Println(ColorGreen)
+			for i, cfx := range bm.Cfxs{
+				fmt.Println("counter flexsures",i, cfx)
+			}
+			fmt.Println(ColorReset)
+			fmt.Println(bm.Txtplot)
+		}
+	}
+	return bmresults
+}

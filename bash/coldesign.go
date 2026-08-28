@@ -19,15 +19,17 @@ import (
 )
 
 var (
-	table2bs = []float64{180,165,230,215,280,170,155,215,200,265,185}	
-	stlsecmap = map[int]string{7:"UB",8:"UC"}
+	//table2bs = []float64{180,165,230,215,280,170,155,215,200,265,185}	
+	//stlsecmap = map[int]string{7:"UB",8:"UC"}
 	//pqcol - from mosley section 6
 	pqcol = map[int][]float64{43:{155,165,165},50:{215,230,230},55:{265,280,280}}
 	//pqbm - qx (bending), ps (shear), pc (web crushing)
 	pqbm = map[int][]float64{43:{165,100,190},50:{230,140,260},55:{280,170,320}}
-	pqcol89 = map[int][]float64{43:{170,180,180},50:{215,230,230},55:{265,280,280}}
+	//pqcol89 = map[int][]float64{43:{170,180,180},50:{215,230,230},55:{265,280,280}}
 	EStl = 210000.0
 	EStl89 = 205000.0
+	CbsPlts = []float64{10,12,16,20,25,30}
+	
 )
 
 //Col is a steel column struct
@@ -38,16 +40,29 @@ type Col struct{
 	Bstyp      string
 	Term       string
 	Frmstr     string
+	Catstr     string
+	Label      string
 	Id         int
 	H1, H2, Lx, Ly, Tx, Ty, Mx, My, Vx, Vy, Pu, Pfac float64
 	Lspan      float64
+	Max, Mbx   float64
+	May, Mby   float64
+	Vax, Vbx   float64
+	Vay, Vby   float64
 	Grd, Styp  int
 	Dtyp       int
+	Bmtyp      int
+	Calctyp    int
 	Nsecs, Sdx int
 	Code, Endc int
+	Deg        int
+	Cleg       int  //connected leg index (1-longer, 2-shorter leg)
 	Rez        []int
 	Sdxs       []int
 	Vals       [][]float64
+	Bmx        []string
+	Bmy        []string
+	Ljbase     bool
 	Web        bool
 	Yeolde     bool
 	Verbose    bool
@@ -58,11 +73,18 @@ type Col struct{
 	Kondz      bool //design konnection
 	Dsgn       bool //if false, check section
 	Tz         bool //tensile member checks
+	Tie        bool //is a tensile member/tie
 	Frame      bool //is a frame member
 	Store      bool //store stlsec
 	Weld       bool
+	Onism      bool //only ismb sections
+	Flip       bool //flip/rotate by 90
+	Ignore     bool
 	Ctyp       int  //bolted/welded end connection
 	Report     string
+	Txtplots   []string
+	Txtplot    string
+	Name       string
 	Kostin     float64
 	Mindx      int
 	Ssec       kass.StlSec
@@ -88,70 +110,80 @@ func (c *Col) Table(printz bool){
 	table := tablewriter.NewWriter(rezstr)
 	var row string
 	table.SetCaption(true,"column properties")
-	table.SetHeader([]string{"grade","section type","height(above)(m)","height(col)(m)","unb.len(lx)(m)","unb.len(ly)(m)","tx","ty"})
-	row = fmt.Sprintf("%v, %s, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f",c.Grd,c.Sname,c.H1,c.H2,c.Lx,c.Ly,c.Tx,c.Ty)
+	table.SetHeader([]string{"grade","section type","height(above)(mm)","height(col)(mm)","unb.len(lx)(mm)","unb.len(ly)(mm)","tx","ty","span(mm)"})
+	row = fmt.Sprintf("%v, %s, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f, %.3f",c.Grd,c.Sname,c.H2,c.H1,c.Lx,c.Ly,c.Tx,c.Ty,c.Lspan)
 	table.Append(strings.Split(row,","))
 	table.Render()
 	rezstr.WriteString(ColorRed)
 	table = tablewriter.NewWriter(rezstr)
+	
 	table.SetCaption(true,"ultimate loads")
-	table.SetHeader([]string{"axial load(kn)","dtyp(0-b/1-m)","mx(kn-m)","my(kn-m)","vx(kn)","vy(kn)"})
-	row = fmt.Sprintf("%.3f,%v,%.3f,%.2f,%.2f,%.2f",c.Pu,c.Dtyp, c.Mx, c.My, c.Vx, c.Vy)
-	table.Append(strings.Split(row,","))
-	table.Render()
+	switch c.Code{
+		case 0,1:
+		//is800
+		switch c.Dtyp{
+			case 0:
+			//axially loaded column
+			table.SetHeader([]string{"code","dtyp","axial load(kn)"})
+			row = fmt.Sprintf("is 800, col, %.3f",c.Pu/1e3)
+			table.Append(strings.Split(row,","))
+			table.Render()
+			
+			case 1:
+			//beam-col
+			table.SetHeader([]string{"code","dtyp(0-b/1-m)","axial load(kn)","mx bot(knm)","mx top(knm)","my top(knm)","my bot(knm)","vdx top(kn)","vdx bot(kn)","vdy top(kn)","vdy bot(kn)"})
+			row = fmt.Sprintf("is 800, bm-col, %.3f, %.3f, %.3f, %.3f, %.3f,%.3f, %.3f, %.3f, %.3f",c.Pu/1e3, c.Max/1e6, c.Mbx/1e6, c.May/1e6, c.Mby/1e6,c.Vax/1e3, c.Vbx/1e3, c.Vay/1e3, c.Vby/1e3)
+			table.Append(strings.Split(row,","))
+			table.Render()
+			
+		}
+		case 2:
+		//bs449
+		table.SetHeader([]string{"code","dtyp(0-b/1-m)","axial load(kn)","mx(knm)","my(knm)","vdx(kn)","vdy(kn)"})
+		row = fmt.Sprintf("bs 449, %v, %.3f, %.3f, %.3f, %.3f, %.3f",c.Dtyp, c.Pu/1e3, c.Mx/1e6, c.My/1e6, c.Vx/1e3, c.Vy/1e3)
+		table.Append(strings.Split(row,","))
+		table.Render()
+	}
 	rezstr.WriteString(ColorPurple)
 	if c.Dz{
+		scls := map[int]string{1:"plastic",2:"compact",3:"semi-compact"}
 		table = tablewriter.NewWriter(rezstr)
-		table.SetCaption(true,"section geometry")
-		table.SetHeader([]string{"section","wt\n(kg/m)","depth\n(mm)","t.web\n(mm)","area\n(cm2)","rxx\n(cm)","ryy\n(cm)","zxx\n(cm3)","zyy\n(cm3)",})
-		/*
-
-		*/
-		df, _ := kass.GetStlDf(c.Sname)
-		for _, idx := range c.Rez{
-			//fa, pa, px, py, fp, mx, my, sx, sy, s1, dtrat := c.Vals[i]
-			sname, wt, dw, tw, ar, rxx, ryy, zxx, zyy := df.Elem(idx,1),df.Elem(idx,2).Float(),df.Elem(idx,3).Float(),df.Elem(idx,6).Float(),df.Elem(idx,23).Float(),df.Elem(idx,13).Float(),df.Elem(idx,14).Float(),df.Elem(idx,15).Float(),df.Elem(idx,16).Float() 
-			row = fmt.Sprintf("%s,%.3f,%.f,%.f,%.f,%.f,%.f,%.f,%.f",sname, wt, dw, tw, ar, rxx, ryy, zxx, zyy)
-			table.Append(strings.Split(row,","))
-		}
-		table.Render()
-		rezstr.WriteString(ColorGreen)
-		table = tablewriter.NewWriter(rezstr)
-		table.SetCaption(true,"section results")
-		table.SetHeader([]string{"section","mx\n(kn-m)","my\n(kn-m)","s1","sx","sy","dtrat","fp","fa\n(n/mm2)","pa\n(n/mm2)","fx\n(n/mm2)","px\n(n/mm2)","fy\n(n/mm2)","py\n(n/mm2)"})
-		for i, idx := range c.Rez{
-			sname, fa, pa, fx, px, fy, py, fp, mx, my, sx, sy, s1, dtrat := df.Elem(idx,1),c.Vals[i][0],c.Vals[i][1],c.Vals[i][2],c.Vals[i][3],c.Vals[i][4],c.Vals[i][5],c.Vals[i][6],c.Vals[i][7],c.Vals[i][8],c.Vals[i][9],c.Vals[i][10], c.Vals[i][11], c.Vals[i][12]
-			row = fmt.Sprintf("%s,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f,%.3f",sname,mx,my,s1,sx,sy,dtrat,fp,fa,pa,fx,px,fy,py)
-			table.Append(strings.Split(row,","))
-		}
-		table.Render()
+		table.SetCaption(true,"section data")
+		switch c.Code{
+			case 0,1:
+			switch c.Dtyp{
+				case 0:
+				table.SetHeader([]string{"sec","wt(n/m)","dims","fcdx(n/mm2)","fcdy(n/mm2)","fcd(n/mm2)","pur(kn)","class"})
+				for _, ss := range c.Ssecs{
+					row = fmt.Sprintf("%s, %.f, %.f, %.1f, %.1f, %.1f, %.3f, %s",ss.Sstr,ss.Wt,ss.Dims,ss.Fcdx,ss.Fcdy,ss.Fcd,ss.Area*ss.Fcd/1e3,scls[ss.Cfac])
+					table.Append(strings.Split(row,","))
+				}
+				case 1:
+				//
+				table.SetHeader([]string{"sec","wt(n/m)","dims","mx top(knm)","mx bot(knm)","my top(knm)","my bot(knm)","fcdx(n/mm2)","fcdy(n/mm2)","fcd(n/mm2)","fbd(n/mm2)","lfac","ifaca","ifacb","class"})
+				
+				for _, ss := range c.Ssecs{
+					row = fmt.Sprintf("%s, %.f, %.f, %.f, %.f, %.f, %.f, %.1f, %.1f, %.1f, %.3f, %.3f, %.3f, %.3f, %s",ss.Sstr,ss.Wt,ss.Dims,ss.Max/1e6, ss.Mbx/1e6, ss.May/1e6, ss.Mby/1e6, ss.Fcdx,ss.Fcdy,ss.Fcd,ss.Fbd,ss.Lfac,ss.Ifaca,ss.Ifacb,scls[ss.Cfac])
+					table.Append(strings.Split(row,","))
+				}
+			}
+			case 2:
+			table.SetHeader([]string{"sec","wt","dims","fcd(n/mm2)","fcc(n/mm2)","fcdx(n/mm2)","fccx(n/mm2)","fcdy(n/mm2)","fccy(n/mm2)","frat"})
 		
-
-		if c.Mindx != -1{
-			rezstr.WriteString(ColorCyan)
-			if c.Kostin == 0.0{c.Kostin = 200.0}
-			table = tablewriter.NewWriter(rezstr)
-			wt := c.Vals[c.Mindx][13]
-			minsec := df.Elem(c.Rez[c.Mindx],1)
-			table.SetCaption(true, "quantity take off")
-			table.SetHeader([]string{"section","min. wt\n(kg)","cost\n(rs)","span\n(m)","total cost\n(rs)"})
-			row = fmt.Sprintf("%s, %.3f, %.3f, %.3f, %.3f",minsec,wt,c.Kostin,c.H1,c.Kostin * wt*c.H1)
-			table.Append(strings.Split(row, ","))
-			table.Render()
+			for _, ss := range c.Ssecs{
+				row = fmt.Sprintf("%s, %.f, %.f, %.1f, %.1f, %.1f, %.1f, %.1f, %.1f, %.3f",ss.Sstr,ss.Wt,ss.Dims,ss.Fcd,ss.Fcc,ss.Fcdx,ss.Fccx,ss.Fcdy,ss.Fccy,ss.Frat)
+				table.Append(strings.Split(row,","))
+			}
 		}
+		table.Render()
 	}
 	rezstr.WriteString(ColorReset)
-	c.Report = fmt.Sprintf("%s",rezstr)
+	c.Report = rezstr.String()
 	if printz{
 		fmt.Println(c.Report)
 	}
-
 }
 
-//PlotSecs plots sections in c.Rez
-func (c *Col) PlotSecs()(err error){
-	return
-}
 
 func (c *Col) Init() (err error){
 	if c.Sname == ""{
@@ -167,6 +199,11 @@ func (c *Col) Init() (err error){
 	}
 	if c.Nsecs == 0 || c.Nsecs > 10{c.Nsecs = 3}
 	if c.Frmstr == ""{c.Frmstr = "2dt"}
+	if c.Pfac == 0.0{c.Pfac = 1.0}
+	if c.Lx == 0{c.Lx = c.Lspan}
+	if c.Ly == 0{c.Ly = c.Lspan}
+	if c.Tx == 0{c.Tx = 1.0}
+	if c.Ty == 0{c.Ty = 1.0}
 	return
 
 }
@@ -193,17 +230,40 @@ func (c *Col) GetSec() (ss kass.StlSec, err error){
 	if err != nil{
 		return
 	}
-	ss.Lspan = c.Lspan
 	if c.Tx == 0.0{c.Tx = 1.0}
 	if c.Ty == 0.0{c.Ty = 1.0}
 	ss.Klx = c.Tx
 	ss.Kly = c.Ty
-	if c.Lx > 0.0{ss.Leffx = c.Tx * c.Lx}
-	if c.Ly > 0.0{ss.Leffy = c.Ty * c.Ly}
+	if c.Lx == 0.0{c.Lx = c.Lspan * c.Tx}
+	if c.Ly == 0.0{c.Ly = c.Lspan * c.Ty}
+	ss.Lx = c.Lx
+	ss.Ly = c.Ly
+	//if c.Lx > 0.0{ss.Leffx = c.Tx * c.Lx}
+	//if c.Ly > 0.0{ss.Leffy = c.Ty * c.Ly}
+	ss.Lspan = c.Lspan
+	ss.Tx = c.Tx
+	ss.Ty = c.Ty
 	ss.Pu = c.Pu
+	ss.Vbdx = c.Vx
+	ss.Vbdy = c.Vy
+	ss.Vax = c.Vax
+	ss.Vbx = c.Vbx
+	ss.Vay = c.Vay
+	ss.Vby = c.Vby
+	ss.Pfac = c.Pfac
+	ss.H1 = c.H1
+	ss.H2 = c.H2
+	ss.Mux = c.Mx
+	ss.Muy = c.My
+	ss.Max = c.Max
+	ss.Mbx = c.Mbx
+	ss.May = c.May
+	ss.Mby = c.Mby
 	ss.Bg = c.Bg
 	ss.Wg = c.Wg
 	ss.Weld = c.Weld
+	ss.Cleg = c.Cleg
+	ss.Calctyp = c.Calctyp
 	return
 }
 
@@ -214,135 +274,75 @@ func (c *Col) ChkSec()(err error){
 	if err != nil{
 		return
 	}
+	if c.Tie{
+		//is tensile member
+		err = ss.TieChk800()
+		if err == nil{
+			c.Ssecs = append(c.Ssecs, ss)
+		}
+		return
+	}
+	if c.Onism{
+		if !strings.HasPrefix(ss.Sstr, "ISMB"){
+			err = fmt.Errorf("not an ismb section")
+			return
+		}
+	}
 	switch c.Code{
 		case 1:
+		//is800
 		switch c.Dtyp{
 			case 0:
 			//axially loaded (pure) column
 			err = ss.ColChk800()
 			case 1:
 			//beam-column
-			//hazz to have moments and etc?
-			//err = ss.BmColChk800()
+			err = ss.BmColChk800()
 		}
 		case 2:
+		//bs449
 		err = ss.ColChk449()
 	}
-	
 	if err == nil{
-		if c.Store{
-			c.Ssecs = append(c.Ssecs, ss)
-		}
+		c.Ssecs = append(c.Ssecs, ss)
 	}
 	return
 }
 
 //ColDzBs designs a steel column section (using NEW AND IMPROVED kass.StlSec way) as in mosley/spencer section 6.1
 func ColDzBs(c *Col) (err error){
-	//iterate from end of df
-	c.Mindx = -1
-	if c.Nsecs == 0{c.Nsecs = 5}
-	c.Rez = []int{}
-	//df := StlSecBs(c.Sectyp)
-	var df dataframe.DataFrame
-	df, err = kass.GetStlDf(c.Sname)
-	
-	var pa, px, py float64
-	lx := c.Lx * c.Tx; ly := c.Ly * c.Ty
-	pvec := pqcol[c.Grd]
-	var vx, vy, mx, my float64
-	if c.H2 > 0.0{
-		vx = c.Vx * c.H2/(c.H1+c.H2)
-		vy = c.Vy * c.H2/(c.H1+c.H2)
+	err = c.Init()
+	if err != nil{
+		return
 	}
-	mx = c.Mx; my = c.My; c.Dtyp = 1
-	for i := df.Nrow()-1; i > 0; i--{
-		//log.Println("checking section->",df.Elem(i,1))
-		if len(c.Rez) == c.Nsecs{
+	if !c.Dsgn{
+		err = c.ChkSec()
+		return
+	}
+	ndx := kass.StlSdxLims[c.Sname]
+	if ndx == 0{
+		err = fmt.Errorf("%s design functions not written",c.Sname)
+		return
+	}
+	if c.Sdx > 0{ndx = c.Sdx}
+	for idx := ndx; idx >= 0; idx--{
+		if len(c.Sdxs) == c.Nsecs{
 			break
 		}
-		if mx + my == 0.0 {
-			c.Dtyp = 0 //member with framing beams
-			mx = vx * (100.0 + df.Elem(i,3).Float()/2.0)/1000.0
-			my = vy * (100.0 + df.Elem(i,5).Float()/2.0)/1000.0
-		}
-		fa := c.Pu*10.0/df.Elem(i,23).Float()
-		fx := mx*1e3/df.Elem(i,15).Float()
-		fy := my*1e3/df.Elem(i,16).Float()
-		fp := fa/pvec[0] + fx/pvec[1] + fy/pvec[2]
-		
-		if fp > c.Pfac{
-			continue
-		}
-		var s1 float64
-		sx := lx * 100.0/df.Elem(i,13).Float()
-		sy := ly * 100.0/df.Elem(i,14).Float()
-		s1 = sx; if sy > s1 {s1 = sy}
-		if s1 > 180.0 {continue}
-		//permissible axial stress pa
-		var y0, q4, q5 float64
-		c0 := math.Pow(math.Pi,2) * EStl/math.Pow(s1,2)
-		n0 := 0.3 * math.Pow(s1/100.0,2)
-		switch{
-			case c.Grd == 43:
-			y0 = 250.0; q4 = 155.0; q5 = 143.0
-			case c.Grd == 50:
-			y0 = 350.0; q4 = 215.0; q5 = 200.0
-			case c.Grd == 55:
-			y0 = 430.0; q4 = 265.0; q5 = 245.0
-		}
-		if c.Grd == 50 && df.Elem(i,6).Float() >= 40.0{
-			//CHEEECK THIS
-			y0 = 325.0; q4 = 200.0; q5 = 185.0
-		}
-		a0 := (y0 + c0 * (n0 + 1.0))/2.0
-		pa = (a0 - math.Sqrt((math.Pow(a0,2) - y0 * c0)))/1.7
-		if s1 <=30 {
-			pa = q4 - (q4 - q5) * s1/30.0
-		}
-		
-		//permissible stress bending(x) px
-		var dtrat float64
-		if dtrat = df.Elem(i,3).Float()/df.Elem(i,6).Float(); dtrat < 5.0 {dtrat = 5.0}	
-		//log.Println("checking px->",s1,dtrat)
-		if c.Yeolde{
-			px = PbcYeolde(s1, dtrat)
-		} else {
-			px = PbcLerp(c.Sname, c.Grd, s1, dtrat)
-		}
-		
-		//permissible stress in bending (y) py
-		py = pvec[2]
-		fp = fa/pa + fx/px + fy/py
-
-		//log.Println("***")
-		if fp <= c.Pfac{
-			wt := df.Elem(i,3).Float()
-			c.Rez = append(c.Rez, i)
-			c.Vals = append(c.Vals, []float64{fa, pa, fx,px, fy,py, fp, mx, my, sx, sy, s1, dtrat,wt})
-			if c.Mindx == -1 || c.Vals[c.Mindx][13] > wt{
-				c.Mindx = len(c.Rez)-1
-			}
-			if c.Spam{
-				log.Println("section found->",df.Elem(i,1))
-				log.Println("base fp->",fp)
-				log.Println("srats->",sx,sy,s1)
-				log.Println("paxial->",pa)
-				log.Println("px->",px)
-				log.Println("fp->",fp)
-				log.Println("section->",df.Elem(i,1))
-				log.Println("depth, web thickness->",df.Elem(i,3), df.Elem(i,6))
-				log.Println("area, zx, zy->",df.Elem(i,23),df.Elem(i,15), df.Elem(i,16))
-				log.Println("rx, ry->",df.Elem(i,13), df.Elem(i,14))
-				log.Println("mx, my, s1, dtrat->", mx, my, s1, dtrat)
-				log.Println("fa, pa, px, py, fp ->",fa, pa, px, py, fp)
-				log.Println("***")
-			}
+		c.Sdx = idx
+		err = c.ChkSec()
+		if err == nil{
+			c.Sdxs = append(c.Sdxs, idx)
 		}
 	}
-	if len(c.Rez) == 0{err = errors.New("no suitable section found")}
-	c.Dz = true
-	return 
+	if c.Dsgn{
+		if len(c.Ssecs) == 0{
+			err = fmt.Errorf("no suitable section found")
+		} else {
+			err = nil
+		}
+	}
+	return
 }
 
 //ColDBs designs a steel column section as in mosley/spencer section 6.1
@@ -413,6 +413,7 @@ func ColDBs(c *Col) (err error){
 		var dtrat float64
 		if dtrat = df.Elem(i,3).Float()/df.Elem(i,6).Float(); dtrat < 5.0 {dtrat = 5.0}	
 		//log.Println("checking px->",s1,dtrat)
+
 		if c.Yeolde{
 			px = PbcYeolde(s1, dtrat)
 		} else {
@@ -474,13 +475,14 @@ func ColCBs(c *Col) (float64, bool){
 	fa := c.Pu*10.0/df.Elem(c.Sdx,23).Float()
 	fx := mx*1e3/df.Elem(c.Sdx,15).Float()
 	fy := my*1e3/df.Elem(c.Sdx,16).Float()
+	
 	fp := fa/pvec[0] + fx/pvec[1] + fy/pvec[2]
+	if fp > 1.0{return fp, false}
 	var s1 float64
 	sx := lx * 100.0/df.Elem(c.Sdx,13).Float()
 	sy := ly * 100.0/df.Elem(c.Sdx,14).Float()
 	s1 = sx; if sy > s1 {s1 = sy}
 	//if s1 > 180.0 {continue}
-	//log.Println("srats->",sx,sy,s1)
 	
 	//permissible axial stress pa
 	var y0, q4, q5 float64
@@ -503,17 +505,15 @@ func ColCBs(c *Col) (float64, bool){
 	if s1 <=30 {
 		pa = q4 - (q4 - q5) * s1/30.0
 	}
-	//log.Println("paxial->",pa)
 	//permissible stress bending(x) px
 	var dtrat float64
 	if dtrat = df.Elem(c.Sdx,3).Float()/df.Elem(c.Sdx,6).Float(); dtrat < 5.0 {dtrat = 5.0}	
 	//log.Println("checking px->",s1,dtrat)
 	px = PbcLerp(c.Sname, c.Grd, s1, dtrat)
-	//log.Println("px->",px)
 	//permissible stress in bending (y) py
 	py = pvec[2]
 	fp = fa/pa + fx/px + fy/py
-	//log.Println("fp->",fp)
+	
 	//log.Println("***")
 	if c.Spam{
 		log.Println("section->",df.Elem(c.Sdx,1))
@@ -537,46 +537,12 @@ func ColCBs(c *Col) (float64, bool){
 	return fp, fp < c.Pfac	
 }
 
-//ColDesign is the entry func for steel column design
-func ColDesign(c *Col)(err error){
-	//log.Println(ColorRed,"***insert col design idito**",ColorReset)
-	if c.Dtyp != 0{
-		//get uvals
-		log.Println(ColorRed,"***insert col design idito**",ColorReset)
-	}
-	if c.Tz{
-		switch c.Code{
-			case 1:
-			case 2:
-		}
-	}
-	switch c.Code{
-		case 1:
-		// err = ColDIs(c)
-		// if err == nil && c.Verbose{
-		// 	c.Table(true)
-		// }
-		case 2:
-		err = ColDBs(c)
-		if err == nil && c.Verbose{
-			c.Table(true)
-		}
-		c.PlotSecs()
-		return
-	}
-	return
-}
 
 //ColDzIs designs a column as per is code(duggal, chap.8)
 func ColDzIs(c *Col)(err error){
 	err = c.Init()
 	if err != nil{
 		return
-	}
-	if c.Tz{
-		//check tensile strength
-		//calc tu, check vs tmax
-		//maybe do this in chk sec
 	}
 	if !c.Dsgn{
 		err = c.ChkSec()
@@ -598,6 +564,21 @@ func ColDzIs(c *Col)(err error){
 		if err == nil{
 			c.Sdxs = append(c.Sdxs, idx)
 		}
+	}
+	return
+}
+
+//ColDz is the main dz entry func
+func ColDz(c *Col)(err error){
+	switch c.Code{
+		case 0,1:
+		err = ColDzIs(c)
+		case 2:
+		err = ColDzBs(c)
+	}
+	if err == nil{
+		c.Dz = true
+		c.Table(c.Verbose)
 	}
 	return
 }
@@ -719,7 +700,7 @@ func PbcYeolde(s1, dtrat float64) (pbc float64){
 //PbcLerp linearly interpolates the permissible bending stress given a slenderness ratio
 //calls PbcBs for the table of permissible bending stresses
 func PbcLerp(sname string, grd int, s1, dtrat float64) (pbc float64){
-	//log.Println("lerp in-> srat, drat->",s1, dtrat)
+	//log.Println("lerp in-> sname, grd, srat, drat->",sname,grd,s1, dtrat)
 	pbvec := PbcBs(sname, grd)
 	pvec := pqcol[grd]
 	var rdx, cdx int
@@ -735,11 +716,11 @@ func PbcLerp(sname string, grd int, s1, dtrat float64) (pbc float64){
 	rdx = int((dtrat-5)/5.0)+1
 	//log.Println("dxs->",rdx, cdx)
 	sa := pbvec[0][cdx]; sb := pbvec[0][cdx+1]
-	//log.Println("dtrats->",rdx*5, (rdx+1)*5)
-	//log.Println("srats->",sa,sb)
-	//log.Println("rdx, cdx->",rdx,cdx)
+	// log.Println("dtrats->",rdx*5, (rdx+1)*5)
+	// log.Println("srats->",sa,sb)
+	// log.Println("rdx, cdx->",rdx,cdx)
 	pt0 := pbvec[rdx][cdx]; pt1 := pbvec[rdx+1][cdx]
-	//log.Println("pts 1",pt0,pt1)
+	// log.Println("pts 1",pt0,pt1)
 	p1 := pt0 + math.Mod(dtrat,5.0)*(pt1 - pt0)/5.0
 	if cdx == 33{
 		//log.Println(len(pbvec), len(pbvec[0]))
@@ -747,15 +728,45 @@ func PbcLerp(sname string, grd int, s1, dtrat float64) (pbc float64){
 		return
 	}
 	pt0 = pbvec[rdx][cdx+1]; pt1 = pbvec[rdx+1][cdx+1]
-	//log.Println("pts 2",pt0,pt1)
+	// log.Println("pts 2",pt0,pt1)
 	p2 := pt0 + math.Mod(dtrat,5.0)*(pt1 - pt0)/5.0
 	pbc = p1 + (s1 - sa) * (p2 - p1)/(sb - sa)
 	return
 }
 
+//ColDesign is the entry func for steel column design (IS IT)
+//it isn't
+func ColDesign(c *Col)(err error){
+	//log.Println(ColorRed,"***insert col design idito**",ColorReset)
+	if c.Dtyp != 0{
+		//get uvals
+		log.Println(ColorRed,"***insert col design idito**",ColorReset)
+	}
+	if c.Tz{
+		switch c.Code{
+			case 1:
+			case 2:
+		}
+	}
+	switch c.Code{
+		case 1:
+		// err = ColDIs(c)
+		// if err == nil && c.Verbose{
+		// 	c.Table(true)
+		// }
+		case 2:
+		err = ColDBs(c)
+		if err == nil && c.Verbose{
+			c.Table(true)
+		}
+		//c.PlotSecs()
+		return
+	}
+	return
+}
 
 /*
-
+   
 	//log.Println("dxs->",rdx, cdx)
 	sa := pbvec[0][cdx]; sb := pbvec[0][cdx+1]
 	//log.Println("dtrats->",rdx*5, (rdx+1)*5)
@@ -776,3 +787,4 @@ func PbcLerp(sname string, grd int, s1, dtrat float64) (pbc float64){
 	pbc = p1 + (s1 - sa) * (p2 - p1)/(sb - sa)
 	return
 */
+// 

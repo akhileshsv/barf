@@ -5,6 +5,52 @@ import (
 	"testing"
 )
 
+func TestMoshpSec(t *testing.T){
+	t.Log("starting prestressed section properties calc tests")
+	t.Log("hulse pcdc section 2.1.6")
+	var rezstring string
+	ncs := []int{
+		13,5,
+	}
+	wts := []float64{
+		1.0,-1.0,
+	}
+	coords := [][]float64{
+		{600,0},
+		{630,580},
+		{1200,650},
+		{1200,920},
+		{900,920},
+		{900,845},
+		{-900,845},
+		{-900,920},
+		{-1200,920},
+		{-1200,650},
+		{-630,580},
+		{-600,0},
+		{600,0},
+		{300,300},
+		{300,695},
+		{-300,695},
+		{-300,300},
+		{300,300},
+	}
+	sec := &SectIn{
+		Ncs:ncs,
+		Wts:wts,
+		Coords:coords,
+	}
+	sec.UpdateProp()
+	rezstring += fmt.Sprintf("area %.3f, xc %.3f, yc %.3f, ixx %.3f, iyy %.3f, zb %.3f, zt %.3f",sec.Prop.Area, sec.Prop.Xc, sec.Prop.Yc, sec.Prop.Ixx, sec.Prop.Iyy,sec.Prop.Zb, sec.Prop.Zt)
+
+	wantstring := `area 1117500.000, xc 0.000, yc 500.626, ixx 86279336521.253, iyy 396693225000.000, zb 172342762.646, zt 205733828.150`
+	if rezstring != wantstring {
+		t.Errorf("prestressed section properties calculation failed")
+		fmt.Println(rezstring)
+	}
+	t.Log(rezstring)
+}
+
 func TestPlateISec(t *testing.T){
 	var styp int
 	var dims []float64

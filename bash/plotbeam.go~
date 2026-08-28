@@ -1,0 +1,62 @@
+package barf
+
+import (
+	kass"barf/kass"
+	draw"barf/draw"
+)
+
+
+//PlotStlSfBmDx plots a (steel) member's shear, BM and deflection (rez)
+func (b *Bm) PlotRez(r BeamRez)(err error){
+	if len(dims) == 0{return}
+	switch styp{
+		case 0:
+		d = dims[0]
+		default:
+		d = dims[1]
+	}
+	//d = d/1000.0
+	data = DrawRectView(mdx, d, pb, pe) 
+	switch styp{
+		case 6:
+		//t: sec
+		//fmt.Println("here,mem-",mdx)
+		//df := dims[3]
+		//data += DrawLineOffst(mdx, d/2.0 - df, pb, pe)
+		case 12:
+		//eq. i section
+		//add top n bottom flange lines
+		tf := dims[2]
+		data += DrawRectView(mdx, d - 2.0*tf, pb, pe)
+	}
+	//data += "\n"
+	return
+	for i, x := range r.Xs {
+	var data string
+		data += fmt.Sprintf("%f %f %f %f\n", x, r.SF[i], r.BM[i], -r.Dxs[i])
+	}
+	data += "\n\n"
+	//max shear
+	data += fmt.Sprintf("%f %f %.1f kn\n",r.Locs[0],r.Maxs[0],r.Maxs[0]/1e3)
+	data += "\n\n"
+	//max B.M
+	data += fmt.Sprintf("%f %f %.1f kn\n",r.Locs[1],r.Maxs[1],r.Maxs[1]/1e6)
+	data += "\n\n"
+	//max deflection
+	data += fmt.Sprintf("%f %f %.0f mm\n",r.Locs[2],-r.Maxs[2],r.Maxs[2])
+	
+	title = fmt.Sprintf("%s-%v",title,idx)
+	fname := title
+	skript := "plotbmsfbm.gp"
+	txtplot := skriptrun(data, skript, term, title,"",fname)
+	if web{
+		switch term{
+			case "dxf":		
+			txtplot = fname + ".dxf"
+			case "svg", "svgmono":
+			Svgkong(txtplot)
+			txtplot = fname + ".svg"
+		}
+	}
+	pltchn <- txtplot
+}

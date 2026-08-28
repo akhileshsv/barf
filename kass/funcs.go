@@ -10,6 +10,13 @@ import (
 	
 )
 
+//SolveQuad returns the +ve root of  the quadratic ax2 + bx + c = 0
+func SolveQuad(a, b, c float64) (xu float64){
+	d := math.Pow(b,2.0) - 4.0*a*c
+	if d < 0 {xu = -99.0} else {xu = (math.Sqrt(d) - b)/(2.0*a)}
+	return
+}
+
 //where else does one put these basic funcs
 func MinVal(val...float64)(mv float64){
 	for i, v := range val{
@@ -229,7 +236,24 @@ func InitFolder(name, foldr string)(err error, fdir string){
 	return
 }
 
-
+//GenSimps generates simpson's ordinates
+func GenSimps(ndiv int)(hs []float64){
+	homerx := 1.0
+	for x := 0; x < ndiv; x++ {
+		switch {
+		case x == 0:
+			homerx = 1.0
+		case x == ndiv -1:
+			homerx = 1.0
+		case x%2 == 0:
+			homerx = 2.0
+		case x%2 != 0:
+			homerx = 4.0
+		}
+		hs = append(hs, homerx)
+	}
+	return
+}
 // //GetMemNpDepth returns the depth of a member at node/location n1
 // func GetNpDepth(pb, pe, n1 []float64, lhnch, db, de float64, mdx, config int) (dy float64){
 // 	lspan := Dist3d(pb, pe)

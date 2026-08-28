@@ -6,7 +6,21 @@ import (
 	"log"
 	"encoding/json"
 	"io/ioutil"
+	"github.com/AlecAivazis/survey/v2"
+
 )
+
+
+//printmenu prints a slice of menu items to the terminal
+func printmenu(message string, menus []string) (choice int){
+	prompt := &survey.Select{
+		Message: message,
+		Options: menus,
+	}
+	survey.AskOne(prompt, &choice)
+	return
+}
+
 
 //ReadBm reads a .json file and returns a Bm struct
 func ReadBm(filename string) (Bm, error){
@@ -48,8 +62,6 @@ func CalcInp(mtyp, cmdz, fname, term string, pipe bool) (err error){
 	}
 	var jsonstr []byte
 	switch mtyp{
-		case "cbeam","cb","1db":
-		//cbeam design
 		case "beam","bm","rccbm":
 		var b Bm
 		b, err = ReadBm(fname)
@@ -60,24 +72,19 @@ func CalcInp(mtyp, cmdz, fname, term string, pipe bool) (err error){
 		switch cmdz{
 			case "design","dz","":
 			//design
-			//log.Println("beam design yo")
-			err = BmDesign(&b)
-			
-			case "az","analyze":
-			//analyze beam section
-			log.Println("beam analysis yo")
-			//err = BmAnalyze(&b)
-		}
-		if err != nil{
-			log.Println(ColorRed, err, ColorReset)
-			return
-		}
-		if pipe{
-			jsonstr, err = json.Marshal(&b)
+			err = BmDz(&b)	
 			if err != nil{
 				log.Println(ColorRed, err, ColorReset)
 				return
+			}	
+			if pipe{
+				jsonstr, err = json.Marshal(&b)
+				if err != nil{
+					log.Println(ColorRed, err, ColorReset)
+					return
+				}
 			}
+			
 		}
 		case "col","column":
 		var c Col
@@ -87,15 +94,18 @@ func CalcInp(mtyp, cmdz, fname, term string, pipe bool) (err error){
 			return				
 		}
 		switch cmdz{
-			case "design","dz","":
+			case "dz","design":
 			//design
-			err = ColDesign(&c)
-			case "az","analyze","calc":
-			//analyze/check
-			log.Println(ColorRed,"column analysis yo",ColorReset)
-			//err = ColAnalyze(&c)
+			err = ColDz(&c)
+			
+			if err != nil{
+				log.Println(ColorRed, err, ColorReset)
+				return				
+			}
+			for _, ss := range c.Ssecs{
+				fmt.Printf("%s frat %.2f\t",ss.Sstr,ss.Frat)
+			}
 		}
-		
 		if pipe{
 			jsonstr, err = json.Marshal(&c)
 			if err != nil{

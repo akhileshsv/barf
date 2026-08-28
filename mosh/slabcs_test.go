@@ -5,6 +5,234 @@ import (
 	"testing"
 )
 
+//sbsaria 2000 mm span slab (>3 spans)
+func TestRSlbSaria(t *testing.T){
+	t.Log("sbsaria slab 1388 mm nspans >3")
+	s := &RccSlb{
+		Title:"sbsaria-s1",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:2000.0,
+		Ly:5200.0,
+		LL:5.0,
+		DL:3.0,
+		Bsup:200.0,
+		Type:3,
+		Endc:2,
+		Lspan:1900.0,
+		Ibent:0.0,
+		Nspans:3,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Bf:343.0,
+		Bw:135.0,
+		Dw:100.0,
+		Df:75.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	err := SlbDesign(s)
+	if err != nil{
+		t.Log("ERRORE,errore-",err)
+	}
+}
+
+
+//smsh final slab s3 1388 mm cs spans (>3)
+func TestRSlbSmshS3(t *testing.T){
+	t.Log("smsh TR50 slab s3 span 1388 mm nspans >3")
+	s3 := &RccSlb{
+		Title:"smsh-s3",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:1850.0,
+		Ly:4720.0,
+		LL:3.0,
+		DL:1.0,
+		Bsup:200.0,
+		Type:3,
+		Endc:2,
+		Lspan:1850.0,
+		Ibent:0.0,
+		Nspans:1,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Bf:343.0,
+		Bw:135.0,
+		Dw:100.0,
+		Df:50.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	err := SlbDesign(s3)
+	if err != nil{
+		t.Log("ERRORE,errore-",err)
+	}
+}
+
+//smsh slab s2 1800 mm ss span
+func TestRSlbSmshS2(t *testing.T){
+	t.Log("smsh TR50 slab s1 span 1800 mm nspans 1")
+	s1 := &RccSlb{
+		Title:"smsh-s1",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:2250.0,
+		Ly:7000.0,
+		LL:3.0,
+		DL:1.0,
+		Bsup:150.0,
+		Type:3,
+		Endc:1,
+		Lspan:2250.0,
+		Ibent:0.0,
+		Nspans:1,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Bf:317.0,
+		Bw:135.0,
+		Df:50.0,
+		Dw:100.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	err := SlbDesign(s1)
+	if err != nil{
+		t.Log("ERRORE,errore-",err)
+	}
+}
+
+//smsh slab s1 2250 mm span
+func TestRSlbSmshS1(t *testing.T){
+	t.Log("smsh TR50 slab s1 span 2250 mm nspans 3")
+	s1 := &RccSlb{
+		Title:"smsh-s1",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:2250.0,
+		Ly:7000.0,
+		LL:3.0,
+		DL:1.0,
+		Bsup:150.0,
+		Type:3,
+		Endc:2,
+		Lspan:2250.0,
+		Ibent:0.0,
+		Nspans:4,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Bf:317.0,
+		Bw:135.0,
+		Df:50.0,
+		Dw:100.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	err := SlbDesign(s1)
+	if err != nil{
+		t.Log("ERRORE,errore-",err)
+	}
+}
+
+//TR50 vs humble slab
+//vv 2m lx, 7m ly comparison
+func TestRSlbVs(t * testing.T){
+	t.Log("lx 2000 vs ly 7000 mm slab ribbed (deck) vs solid")
+	t.Log("checking TR50 ribbed slab")
+	//vv agri 3x2m cs ribbed slab
+	s1 := &RccSlb{
+		Title:"vv-agri1",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:2000.0,
+		Ly:7000.0,
+		LL:3.0,
+		DL:1.0,
+		Bsup:200.0,
+		Type:3,
+		Endc:2,
+		Lspan:2000.0,
+		Ibent:0.0,
+		Nspans:3,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Bf:317.0,
+		Bw:135.0,
+		Df:35.0,
+		Dw:85.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	err := SlbDesign(s1)
+	if err != nil{
+		t.Log("ERRORE,errore-",err)
+	}
+	t.Log("vs typical slab design")
+	s2 := &RccSlb{
+		Title:"vv-agri2",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:2000.0,
+		Ly:7000.0,
+		LL:3.0,
+		DL:1.0,
+		Bsup:200.0,
+		Type:1,
+		Endc:2,
+		Lspan:2000.0,
+		Ibent:0.0,
+		Nspans:3,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	
+	err = SlbDesign(s2)
+	if err != nil{
+		t.Log("ERRORE,errore-",err)
+	}
+}
+
+//TR50 decking design
+func TestTRSlbDz(t *testing.T){
+	//vv agri 3x2m cs ribbed slab
+	s := &RccSlb{
+		Title:"vv-agri1",
+		Fck:25.0,
+		Fy:500.0,
+		Lx:2000.0,
+		Ly:7000.0,
+		LL:3.0,
+		DL:1.0,
+		Bsup:200.0,
+		Type:3,
+		Endc:2,
+		Lspan:2000.0,
+		Ibent:0.0,
+		Nspans:3,
+		Nomcvr:20.0,
+		Efcvr:25.0,
+		Bf:317.0,
+		Bw:135.0,
+		Df:50.0,
+		Dw:100.0,
+		Code:1,
+		Verbose:true,
+		Term:"dumb",
+	}
+	err := SlbDesign(s)
+	if err != nil{
+		fmt.Println(err)
+	}	
+}
+
 func TestRSlb2Chk(t *testing.T){
 	var s *RccSlb
 	//mosley ex. 8.9
@@ -122,6 +350,7 @@ func TestRSlb1Chk(t *testing.T){
 	if err != nil{
 		fmt.Println(err)
 	}
+	
 	//then mosley example 8.8
 	s = &RccSlb{
 		Fck:30.0,
@@ -150,6 +379,7 @@ func TestRSlb1Chk(t *testing.T){
 		Ldcalc:1,
 	}
 	//_, _ = RSlb1Chk(s)
+
 }
 
 func TestCSlb1Dz(t *testing.T){

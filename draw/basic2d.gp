@@ -15,6 +15,7 @@ set ylabel ARG5
 unset key
 unset colorbox
 set offsets graph 0.1,0.1,0.1,0.1
-plot ARG1 index 0 using 1:2:3 w points pt 1,\
+plot ARG1 index 0 using 1:2:3 w points pt variable,\
      ARG1 index 1 using 1:2:3:4:5 w vectors nohead lc var,\
-     ARG1 index 2 using 1:2:3 w labels
+     ARG1 index 2 using 1:2:3 w labels offset 1,1,\
+     ARG1 index 3 using 1:2:3 w points pt 2

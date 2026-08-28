@@ -1,0 +1,18 @@
+{"Title":"maity23.1",
+ "Sname":"ln2",
+ "Pu":420e3,
+ "Lspan":3000.0,
+ "Tx":1.0,
+ "Ty":1.0,
+ "Sdx":33,
+ "Term":"svg",
+ "Tie":true,
+ "Params":[10.0],
+ "Weld":true,
+ "Wg":{
+     "Wltyp": 2,
+     "L1": 75.0,
+     "L2": 75.0,
+     "Tp": 10.0}}
+
+	

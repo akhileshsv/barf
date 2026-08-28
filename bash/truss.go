@@ -10,10 +10,14 @@ func TrussDz(t *kass.Trs2d) (err error){
 	if err != nil{
 		fmt.Println(err)
 	}
+	
+	//group members
+	//get ultimate forces
+	//calc
 	return
 }
-
 func TrussOpt(t *kass.Trs2d) (err error){
 	err = fmt.Errorf("truss optimization not written yet (at all)")
 	return
 }
+

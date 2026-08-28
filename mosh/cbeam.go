@@ -43,6 +43,11 @@ type CBm struct {
 	Fop          int //optimize if > 0
 	Allcons      int
 	Csteel       int
+	Para         bool //is parabolic
+	Pfrcs        []float64 //prestress forces per span
+	Pexs         [][]float64 //prestress eccentricity
+	Pexctyp      string //prestress tendon curve
+	Psc          bool //is prestressed/tensioned
 	Bfcalc       bool
 	Spam         bool
 	Selfwt       bool
@@ -74,6 +79,8 @@ type CBm struct {
 	Kost         float64 `json:",omitempty"`
 	Sec          kass.SectIn `json:",omitempty"`
 }
+
+
 
 //CBeamEnvRcc calculates shear and bending moment envelopes for a continuous beam
 //hulse section 2.3

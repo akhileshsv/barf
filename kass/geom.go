@@ -246,5 +246,15 @@ func FindIntInf(x1,y1,x2,y2,x3,y3,x4,y4 float64)(par bool, px, py float64){
 	return
 }
 
+//QuadArea finds the area of a quadrilateral bound by 4 points (shoelace formula)
+func QuadArea(pts [][]float64)(area float64){
+	for i, p1 := range pts[:len(pts)-1]{
+		p2 := pts[i+1]
+		area += p1[0]*p2[1] - p2[0]*p1[1]
+	}
+	area = area/2.0
+	return
+}
+
 //GenBmFunic generates a (1d bm) funicular for a loading given by ls and xs
 func GenBmFunic(){}

@@ -183,7 +183,7 @@ func (f *Portal) Draw(){
 		go PlotNpFrm2d(&f.Mod, f.Term, pltchn)
 	}
 	<- pltchn
-	PlotGenTrs(f.Mod.Coords, f.Mod.Mprp)
+	PlotGenTrs(f.Mod.Coords, f.Mod.Mprp, "qt")
 }
 
 //Getndim generates ndims for portal frame optimization
@@ -862,6 +862,7 @@ func (f *Portal) AddMem(jb, je, n1, n2, mdx, bmem int)(err error){
 		//steel
 		switch f.Npsec{
 			case true:
+			fmt.Println("getting stl np cp")
 			//get depth at n1 and n2
 			_, _, _, _, dims, d1, d2 := f.ReadNpDims(jb, je, n1, n2, mdx, bmem)
 			//calculate ar, ix at n1 and n2
@@ -876,9 +877,10 @@ func (f *Portal) AddMem(jb, je, n1, n2, mdx, bmem int)(err error){
 			case false:
 			//basic uniform member with sdx
 			dims = f.Sections[mtyp-1]
+			fmt.Println("getting stl cp")
 			cpvec, err = GetStlCp(f.Sname, f.Sectyp, f.Sdxs[mtyp-1], 1)
 			if err != nil{
-				//fmt.Println("errore",err)
+				fmt.Println("errore",err)
 				return
 			}
 		}
@@ -942,7 +944,9 @@ func (f *Portal) Calc()(err error){
 	f.GenGeom()
 	fmt.Println("hyar be mprp")
 	fmt.Println(f.Mod.Mprp)
+	fmt.Println("koords")
 	fmt.Println(f.Mod.Coords)
+	fmt.Println("caapu")
 	fmt.Println(f.Mod.Cp)
 	f.GenLoads()
 	fmt.Println("model loads->",f.Mod.Msloads,"\n jloads->",f.Mod.Jloads)

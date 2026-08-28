@@ -183,7 +183,7 @@ func ColChk(c *WdCol) (ok bool, vals []float64, err error){
 		case 0, 1, 26:
 		//circle, rect, spaced col
 		selr = 0.3 * c.Prp.Em/math.Pow(c.Le/dmin,2)
-	sdrat = c.Le/dmin
+		sdrat = c.Le/dmin
 		//note - check sp.33 sec 5.3.3.1 for c.Kerst
 		case 4:
 		//box column
@@ -260,10 +260,13 @@ func ColChk(c *WdCol) (ok bool, vals []float64, err error){
 			k10 = 0.702 * math.Sqrt(c.Kerst * c.Prp.Em/c.Prp.Fc)
 			switch{
 				case sdrat < 11.0:
+				//short column
+				log.Println("short col")
 				case sdrat < k10:
-				//int col
+				//intermediate col
 				spfac := 1.0 - math.Pow(sdrat/k10,4.0)/3.0
 				sp = sp * spfac
+				log.Println("spfac->",spfac)
 				case sdrat > k10:
 				//long col
 				sp = 0.329 * c.Prp.Em * c.Kerst/math.Pow(sdrat,2.0) 

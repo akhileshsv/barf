@@ -1,0 +1,24 @@
+package barf
+
+import (
+	"fmt"
+)
+
+//Cbs is a column base plate struct
+type Cbs struct{
+	Pu    float64
+	Fck   float64
+	L     float64
+	B     float64
+	Oa    float64
+	Ob    float64
+	Ymo   float64
+	Ymw   float64
+	Sdx   int
+	Sname string
+}
+
+//SlbCbsDz designs an axially loaded slab base
+func SlbCbsDz(c *Cbs){
+	
+}

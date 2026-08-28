@@ -148,7 +148,7 @@ func JsonInp(filename string) (string, *Model, error) {
 	}
 }
 
-//TxtInp is a prehistoric man making a crude club to hit himself over the head
+//TxtInp is like a man making a crude club to hit himself over the head
 func TxtInp(f string) (string, []interface{}, *Model) {
 	var frm Model
 	var frmtyp string

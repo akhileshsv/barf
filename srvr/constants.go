@@ -33,13 +33,13 @@ var tsteel = template.Must(template.ParseFiles("srvr/templates/steel.tmpl","srvr
 var tstlbeam = template.Must(template.ParseFiles("srvr/templates/stlbeam.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
 
 var tstlcol = template.Must(template.ParseFiles("srvr/templates/stlcol.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
-var tstlcolfrm = template.Must(template.ParseFiles("srvr/templates/stlcolfrm.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
-var tstlcolstrt = template.Must(template.ParseFiles("srvr/templates/stlcolstrt.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
+var tstlsecs = template.Must(template.ParseFiles("srvr/templates/stlsecs.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
 
 var tstltrs = template.Must(template.ParseFiles("srvr/templates/stltrs.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
 var tstltrsmodopt = template.Must(template.ParseFiles("srvr/templates/stltrsmodopt.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
 var tstltrsgen = template.Must(template.ParseFiles("srvr/templates/stltrsgen.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
 var tstltrsrez = template.Must(template.ParseFiles("srvr/templates/stltrsrez.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
+var tstlrez = template.Must(template.ParseFiles("srvr/templates/stlrez.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
 
 //tmbr
 var ttimber = template.Must(template.ParseFiles("srvr/templates/timber.tmpl","srvr/templates/header.tmpl","srvr/templates/footer.tmpl"))
@@ -182,39 +182,23 @@ var tstrsgen = template.Must(template.ParseFiles(
 ))
 
 
-var tstlcolfrmdz = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlcolfrmdz.html",
+var tstlcoldzbs = template.Must(template.ParseFiles(
+	"srvr/templates/ex/stlcoldzbs.html",
 ))
 
-var tstlcolfrmchk = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlcolfrmchk.html",
-))
-
-
-var tstlcolstrtdz = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlcolstrtdz.html",
-))
-
-var tstlcolstrtchk = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlcolstrtchk.html",
-))
-
-var tstlbmprln = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlbmprln.html",
-))
-
-var tstlbmsimp = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlbmprln.html",
-))
-
-var tstlbmrgd = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlbmprln.html",
+var tstlcolchkbs = template.Must(template.ParseFiles(
+	"srvr/templates/ex/stlcolchkbs.html",
 ))
 
 
-var tstlbmchk = template.Must(template.ParseFiles(
-	"srvr/templates/ex/stlbmchk.html",
+var tstlcoldz = template.Must(template.ParseFiles(
+	"srvr/templates/ex/stlcoldz.html",
 ))
+
+var tstlcolchk = template.Must(template.ParseFiles(
+	"srvr/templates/ex/stlcolchk.html",
+))
+
 
 //tmbr htmx templates
 var ttmbmgrp = template.Must(template.ParseFiles(

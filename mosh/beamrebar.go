@@ -90,16 +90,21 @@ func BarNRows(bw, dused float64, r []float64) ([]float64){
 	return r
 }
 
+
+
 //BarSort sorts bar rez by nlayers and astprov
 func (b *RccBm) BarSort(rez [][]float64, tcdx int) (err error, mincvr float64){
 	layr := [][]float64{}
 	var nopts int
 	mincvr = 666.0
 	for _, r := range rez{
+		//fmt.Println("r-",r)
 		rlay := BarNRows(b.Bw, b.Dused, r)
 		//fmt.Println("nlayers->",rlay[7])
 		//if rlay[0]
-		if len(rlay) == 0{continue}
+		if len(rlay) == 0{
+			continue
+		}
 		efcvrc := rlay[9]
 		if efcvrc <= 0.0 || efcvrc == 666.0{
 			continue
@@ -114,15 +119,16 @@ func (b *RccBm) BarSort(rez [][]float64, tcdx int) (err error, mincvr float64){
 		if mincvr > efcvrc{
 			mincvr = efcvrc
 		}
-		//fmt.Println("efcvrc->",efcvrc,"efcvr->",efcvr)
-		//fmt.Println("dused->",b.Dused,)
-		//if math.Abs(efcvrc - efcvr) < 5.0{layr = append(layr, rlay)}
-		if efcvr - efcvrc >= 0.0 && rlay[7] <= 3.0{
-			//fmt.Println("glorious SUCCESS!", efcvrc, "calc vs act.",efcvr)
+		// if efcvr - efcvrc >= 0.0 && rlay[7] <= 5.0{
+		// 	layr = append(layr, rlay)
+		// 	nopts++
+		// }
+		if efcvr - efcvrc >= 0.0 || math.Abs(efcvr - efcvrc) <=5.0{
 			layr = append(layr, rlay)
 			nopts++
-		}
+		} 
 	}
+	
 	if len(layr) == 0 || nopts == 0{
 		err = errors.New(fmt.Sprint("effective cover error",tcdx))
 		return

@@ -25,6 +25,7 @@ var (
 	input_menus = []string{
 		"read json text",
 		"read json file",
+		"batch",
 	}
 	kass_menus = []string{
 		"beam",
@@ -51,7 +52,8 @@ var (
 	bash_menus = []string{
 		"beam",
 		"column",
-		"2d truss",
+		"base plate",
+		"floor",
 		"exit",
 	}
 	tmbr_menus = []string{
@@ -281,6 +283,25 @@ section properties
 |_____|__.__||__|____|
 
              exit/close                      
+`
+	icon_bp = `
+ __                                  __         __         
+|  |--.---.-.-----.-----.    .-----.|  |.---.-.|  |_.-----.
+|  _  |  _  |__ --|  -__|    |  _  ||  ||  _  ||   _|  -__|
+|_____|___._|_____|_____|    |   __||__||___._||____|_____|
+                             |__|
+
+                             plate bases and base plates
+`
+
+	icon_flr = `
+  ___ __                                    __     __ 
+.'  _|  |.-----.-----.----.    .-----.----.|__|.--|  |
+|   _|  ||  _  |  _  |   _|    |  _  |   _||  ||  _  |
+|__| |__||_____|_____|__|      |___  |__|  |__||_____|
+                               |_____|                
+
+                               steel floor grids
 `
 )
 

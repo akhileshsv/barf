@@ -411,7 +411,7 @@ func Trs2dTable(js map[int]*Node,ms map[int]*Mem, dglb,rnode []float64,nsc []int
 		if member.Qf[0] > 0 {
 			frctyp = "C"
 		}
-		row = fmt.Sprintf("%v, %v, %.3f, %.3f, %.3f, %.3f, %.3f,%s,%.3f", member.Id, member.Mprp, member.Geoms[0],member.Geoms[1],member.Geoms[2],member.Qf[0],member.Qf[2],frctyp, math.Abs(member.Qf[0]/member.Geoms[1]))
+		row = fmt.Sprintf("%v, %v, %.3f, %.3f, %.3f, %.3f, %.3f,%s,%.3f", member.Id, member.Mprp, member.Geoms[0],member.Geoms[1],member.Geoms[2],member.Qf[0],member.Qf[2],frctyp, math.Abs(member.Qf[0]/member.Geoms[2]))
 		table.Append(strings.Split(row,","))
 	}
 	table.Render()

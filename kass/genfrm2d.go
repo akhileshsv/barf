@@ -1221,9 +1221,16 @@ func (f *Frm2d) InitMemRez(){
 	xstep := f.Nspans + 1
 	bmstrt := xstep * f.Nflrs
 	bmendc := 2
-	if f.Bmrel == 4 || (xstep == 2 && f.Ncls == 0){
+
+	//YEOLDE
+	// if f.Bmrel == 4 || (xstep == 2 && f.Ncls == 0){
+	// 	bmendc = 1
+	// }
+
+	if f.Bmrel == 4{
 		bmendc = 1
 	}
+	
 	f.Bmenv = make(map[int]*BmEnv)
 	for _, i := range f.Beams{
 		xdx, fdx := f.Members[i][1][1],f.Members[i][1][2]

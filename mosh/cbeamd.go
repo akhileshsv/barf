@@ -101,7 +101,6 @@ func (cb *CBm) Table(printz bool){
 //dz - 0 - as is, 1 - envelope, 2 - +self wt 3 - envelope
 func CBmDz(cb *CBm, bmenv map[int]*kass.BmEnv) (allcons int, err error){
 	bmchn := make(chan []interface{}, len(bmenv))
-	//fmt.Println("title-",cb.Title)
 	for _,i := range cb.Bmvec{
 		//fmt.Println("beam span number->",i)
 		//fmt.Println(bmenv[i].Vl)
@@ -302,7 +301,6 @@ func CsSpanDz(code int, barr []*RccBm, bm *kass.BmEnv, term string, verbose bool
 				}
 			}
 			barr[1].Lspan = bm.Xs[20]
-			
 			case 1:
 			barr[i].Flip = false
 			barr[i].Id = 1
@@ -354,7 +352,6 @@ func CsSpanDz(code int, barr []*RccBm, bm *kass.BmEnv, term string, verbose bool
 			}
 			barr[1].Lspan = bm.Xs[20]
 		}
-		//if verbose{fmt.Printf("beam data->%+v\n",barr[i])}
 		err := BmDesign(barr[i])
 		
 		errz = append(errz, err)

@@ -72,6 +72,7 @@ type Secprop struct {
 	Area, Perimeter, Ixx, Iyy, Xc, Yc, Sxx, Syy, Zxx, Zyy, J, Rxx, Ryy float64
 	Ixy, Iuu, Ivv, Ruu, Rvv, Pxangle                                   float64
 	Qxx, Qyy, Vfx, Vfy                                                 float64
+	Zb, Zt                                                             float64
 	Iww, Itt                                                           float64 
 	Sectype                                                            string
 	Sname                                                              string 
@@ -266,7 +267,7 @@ func SecArea(sec *SectIn, allprp bool) (area, xc, yc, ixx, iyy, ixy, iuu, ivv, p
 //SecCalc calcs section properties (calls SecArea)
 func (s *SectIn) SecCalc(){
 	//calcs via SecArea
-	area, xc, yc, ixx, iyy, _, _, _, _ := SecArea(s, true)
+	area, xc, yc, ixx, iyy, ixy, iuu, ivv, pxangle := SecArea(s, true)
 	p := s.OutBound()
 	s.Prop = Secprop{
 		Area:area,
@@ -274,6 +275,10 @@ func (s *SectIn) SecCalc(){
 		Yc:yc,
 		Ixx:ixx,
 		Iyy:iyy,
+		Ixy:ixy,
+		Iuu:iuu,
+		Ivv:ivv,
+		Pxangle:pxangle,
 		Perimeter:p,
 	}
 	return
@@ -863,6 +868,9 @@ func (s *SectIn) UpdateProp(){
 		Pxangle:pxangle,
 	}
 	s.SecInit()
+	//calc zb and zt
+	s.Prop.Zb = s.Prop.Ixx/s.Prop.Yc
+	s.Prop.Zt = s.Prop.Ixx/(s.Ymx - s.Prop.Yc)
 	return
 }
 

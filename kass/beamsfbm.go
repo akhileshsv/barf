@@ -534,7 +534,7 @@ func GetCritxs(xs, vxs, mnxs, mpxs []float64, mtyp string) (cxs []float64, cs []
 func PlotBmSfBm(xs, vxs, mxs, dxs []float64, l float64, dumb bool) string {
 	var dat, pltstr string
 	for i, x := range xs {
-		dat += fmt.Sprintf("%v %v %v %v\n", x, vxs[i], mxs[i], -1000.0*dxs[i])
+		dat += fmt.Sprintf("%v %v %v %v\n", x, vxs[i], mxs[i], -dxs[i])
 	}
 	//create temp files
 	f, e1 := os.CreateTemp(".", "barf")

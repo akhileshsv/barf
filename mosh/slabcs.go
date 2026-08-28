@@ -189,10 +189,10 @@ func RSlb1Chk(s *RccSlb) (err error, ok bool){
 		//divide by bf
 		dl = dl/s.Bf/1e3
 	}
-	//log.Println("slab self weight->",dl, "kn/m2")
+	log.Println("slab self weight->",dl, "kn/m2")
 	s.Swt = dl
 	dl += s.DL; ll = s.LL
-	//log.Println("dl,ll->",dl, ll,"kn/m2")
+	log.Println("dl,ll->",dl, ll,"kn/m2")
 	var lspans []float64
 	if s.Nspans > 0 && len(s.Lspans) == 0{
 		for i := 0; i < s.Nspans; i++{
@@ -223,7 +223,9 @@ func RSlb1Chk(s *RccSlb) (err error, ok bool){
 	var cb *CBm
 	//get dl and ll
 	dl = dl * s.Bf/1e3 
-	ll = ll * s.Bf/1e3 
+	ll = ll * s.Bf/1e3
+	
+	log.Println("dl,ll->",dl, ll,"kn/m ")
 	cb = &CBm{
 		Fck:s.Fck,
 		Fy:s.Fy,
@@ -241,6 +243,7 @@ func RSlb1Chk(s *RccSlb) (err error, ok bool){
 		Code:s.Code,
 		Nomcvr:s.Nomcvr,
 		Efcvr:s.Efcvr,
+		Term:s.Term,
 	}
 	var bmenv map[int]*kass.BmEnv
 	bmenv, err = CBeamEnvRcc(cb, cb.Term, true)
@@ -332,6 +335,7 @@ func CSlb1Depth(s *RccSlb) (err error){
 			PSFs:psfs,
 			DM:s.DM,
 			Lsxs:s.Bsups,
+			Efcvr:s.Efcvr,
 		}
 		bmenv, err = CBeamEnvRcc(cb, "", false)
 		if err != nil{

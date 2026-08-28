@@ -49,7 +49,7 @@ func PlotRez2d(mod *Model, term string)(txtplot string){
 		mem := mod.Ms[i+1]
 		data += fmt.Sprintf("%f %f %f %f %v\n",jb[0], jb[1], je[0], je[1], i)
 		//cdata += fmt.Sprintf("%f %f %f %f %v\n",jbn[0], jbn[1], jen[0], jen[1], i)
-		ldata += fmt.Sprintf("%f %f %.1fKN %.1fKN.M %.3f(M)\n",(jb[0]+je[0])/2.0, (jb[1]+je[1])/2.0,mem.Rez.Maxs[0], mem.Rez.Maxs[1],mem.Rez.Maxs[2])
+		ldata += fmt.Sprintf("%f %f %.0fn %.0fnmm %.0f(mm)\n",(jb[0]+je[0])/2.0, (jb[1]+je[1])/2.0,mem.Rez.Maxs[0], mem.Rez.Maxs[1],mem.Rez.Maxs[2])
 		//cdata += fmt.Sprintf("%f %f %f %f %v\n",jbn[0], jbn[1], jen[0]-jbn[0], jen[1]-jbn[1], i)
 		
 		for j, x := range mem.Rez.Xs{
@@ -74,7 +74,7 @@ func PlotRez2d(mod *Model, term string)(txtplot string){
 			d0 := Dist3d(p1, je)
 			p2 := Rotvec(90,p1,je)
 			pv := Lerpvec(vu/d0, p1, p2)
-			pb := Lerpvec(bm/d0, p1, p2)
+			pb := Lerpvec(-bm/d0, p1, p2)
 
 			p5 := Lerpvec(x/l2, p3, p4)
 			p6 := Rotvec(90, p5, p4)

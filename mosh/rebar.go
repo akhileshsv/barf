@@ -115,7 +115,6 @@ func RbrUnitWt(dia float64) (weight float64) {
 //RbrSingle calcs the number of bars of a single dia for a (required) ast
 func RbrSingle(ast float64)(rez [][]float64){
 	//when only one dia is needed (use for ribbed slabs)
-	
 	ia := 2; ib := 9; n2 := 0.0; d2 := 0.0
 	for i := ia; i < ib; i++{
 		dia := StlDia[i]
@@ -173,7 +172,7 @@ func RbrSelect(asreq float64, usr bool) (rez [][]float64, mindia float64) {
 //CHANGE THIS TO INCLUDE NOM CVR
 func RbrNRows(bw float64, dused float64, nbar float64, dia float64) (rez []float64){
 	var cldis float64 = 25.0
-	var clrCvr float64 = 30.0
+	var clrCvr float64 = 25.0
 	var clvdis, efdp, efcvr float64
 	if dia  > cldis {cldis = dia}
 	if dia  > clrCvr {clrCvr = dia}
@@ -203,6 +202,50 @@ func RbrNRows(bw float64, dused float64, nbar float64, dia float64) (rez []float
 	rez = []float64{nlayer, astprov, efcvr, efdp, xstep, clvdis + dia, nbarRow}
 	return
 }
+
+//RbrNRows returns the number of rows and bars per row for an n-d combo
+//rez = []float64{nlayer, astprov, efcvr, efdp, cldis, clvdis, nbarRow}
+//CHANGE THIS TO INCLUDE NOM CVR
+func RbrNRows2(bw float64, dused float64, nbar float64, dia float64, ncvr float64) (rez []float64){
+	//var cldis float64 = 25.0
+	//var clrCvr float64 = 25.0
+	cldis := ncvr
+	if cldis == 0.0 || cldis > 25.0{cldis = 25.0}
+	clrCvr := ncvr
+	if clrCvr == 0.0{
+		clrCvr = 25.0
+	}
+	var clvdis, efdp, efcvr float64
+	if dia  > cldis {cldis = dia}
+	if dia  > clrCvr {clrCvr = dia}
+	//HYARE
+	//if nbar == 1.0{nbar = 2.0}
+	clvdis = 2.0 * msca/3.0
+	nbarRow := math.Floor((bw - 2.0 * clrCvr)/(dia + cldis))
+	nlayer := math.Ceil(nbar/nbarRow)
+	xstep := math.Floor(bw - 2.0 * clrCvr)/nbarRow
+	if nlayer > 1.0{
+		//clvdis = 2.0 * msca/3.0
+		if clvdis < 15.0 {clvdis = 15.0}
+		if dia > clvdis {clvdis = dia}
+	}
+	switch int(nlayer){
+		case 1:
+		efcvr = clrCvr + dia/2.0
+		case 2:
+		efcvr = clrCvr + dia + clvdis/2.0
+		case 3:
+		efcvr = clrCvr + 1.5 * dia + clvdis  
+		case 4:
+		efcvr = 666.0
+	}
+	efdp = dused - efcvr
+	astprov := nbar * RbrArea(dia)
+	rez = []float64{nlayer, astprov, efcvr, efdp, xstep, clvdis + dia, nbarRow}
+	return
+}
+
+
 
 //FtngRbrDia returns rebar dia spacing combos for x (astx) and y (asty) footing directions 
 func FtngRbrDia(dy, fck, fy, colx, coly, lx, ly, astx, asty, dreq, nomcvr float64) (rez [][]float64, mdx int, err error){

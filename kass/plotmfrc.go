@@ -8,8 +8,8 @@ import (
 
 
 
-//plotltyp1 plots a member load of type 1(point load)
-func plotltyp1(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
+//Plotltyp1 plots a member load of type 1(point load)
+func Plotltyp1(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
 	//wa, wb, la, lb := lvec[2], lvec[3], lvec[4], lvec[5]
 	wa := val[2]; la := val[4]
 	lcase := 1
@@ -80,9 +80,9 @@ func plotltyp1(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata s
 	
 }
 
-//plotltyp2 plots a member load of type 2(point moment)
+//Plotltyp2 plots a member load of type 2(point moment)
 //TODO - add arrow
-func plotltyp2(val, pa, pb, wng []float64, fsx, l, fscale float64)(mdata, ldata string){
+func Plotltyp2(val, pa, pb, wng []float64, fsx, l, fscale float64)(mdata, ldata string){
 	//moment wa at la
 	
 	if len(pa) == 1{
@@ -112,8 +112,8 @@ func plotltyp2(val, pa, pb, wng []float64, fsx, l, fscale float64)(mdata, ldata 
 	return
 }
 
-//plotltyp3 plots a member load of type 3(udl)
-func plotltyp3(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
+//Plotltyp3 plots a member load of type 3(udl)
+func Plotltyp3(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
 	//udl w from la to l - lb
 	if len(pa) == 1{
 		pa = append(pa, 0.0)
@@ -211,8 +211,8 @@ func plotltyp3(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata s
 	return
 }
 
-//plotltyp4 plots a member load of type 4(trap)
-func plotltyp4(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
+//Plotltyp4 plots a member load of type 4(trap)
+func Plotltyp4(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
 	//linear inc. load; wa at la from left -> wb at lb from right
 	if len(pa) == 1{
 		pa = append(pa, 0.0)
@@ -314,7 +314,7 @@ func plotltyp4(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata s
 	return
 }
 
-func plotltyp5(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
+func Plotltyp5(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
 	//point axial load at la
 	wa, la := val[2], val[4]
 	if len(pa) == 1{
@@ -391,8 +391,8 @@ func plotltyp5(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata s
 	}
 	return
 }
-//plotltyp6 plots a member load of type 6(u.axial load)
-func plotltyp6(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
+//Plotltyp6 plots a member load of type 6(u.axial load)
+func Plotltyp6(val, pa, pb, wng []float64, fsx, l, fscale float64)(data, ldata string){
 	//uniform axial load w at la to l - lb
 	wa, la, lb := val[2], val[4], val[5]
 	if len(pa) == 1{
@@ -488,7 +488,7 @@ func MsLoad2Dat(mod *Model) (data, ldata, mdata string){
 		fsx = 25.0
 		mod.Frcscale = 1.0
 		case "nmm","n-mm":
-		fsx = 1000.0
+		fsx = 100.0
 		mod.Frcscale = 1.0
 	}
 	if len(mod.Cmdz) > 1{
@@ -521,22 +521,22 @@ func MsLoad2Dat(mod *Model) (data, ldata, mdata string){
 		}
 		switch ltyp{
 			case 1:
-			d1, l1 := plotltyp1(val, pa, pb, wng, fsx, lspan, mod.Frcscale)
+			d1, l1 := Plotltyp1(val, pa, pb, wng, fsx, lspan, mod.Frcscale)
 			data += d1; ldata += l1
 			case 2:
-			m1, l1 := plotltyp2(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
+			m1, l1 := Plotltyp2(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
 			mdata += m1; ldata += l1
 			case 3:
-			d1, l1 := plotltyp3(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
+			d1, l1 := Plotltyp3(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
 			data += d1; ldata += l1
 			case 4:
-			d1, l1 := plotltyp4(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
+			d1, l1 := Plotltyp4(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
 			data += d1; ldata += l1
 			case 5:
-			d1, l1 := plotltyp5(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
+			d1, l1 := Plotltyp5(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
 			data += d1; ldata += l1
 			case 6:
-			d1, l1 := plotltyp6(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
+			d1, l1 := Plotltyp6(val, pa, pb, wng, fsx, lspan,mod.Frcscale)
 			data += d1; ldata += l1
 			case 7:
 			//TODO torsional moment?

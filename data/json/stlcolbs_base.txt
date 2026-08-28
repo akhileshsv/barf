@@ -1,0 +1,19 @@
+{"Title":"mosley6.1", -> title
+ "Sname":"uc", -> section name
+ "Lspan":3500, -> span
+ "Lx":3500, -> span in x
+ "Ly":3500, -> span in y
+ "Tx":1, -> fixity/effective length factor in x
+ "Ty":1, -> fixity/effective length factor in y
+ "Pu":1000e3, -> factored axial load
+ "Vx":120e3, -> factored difference of beam shears in x
+ "Vy":40e3, -> factored difference of beam shears in x
+ "H1":3500, -> height of the column being designed
+ "H2":4000, -> height of the column above
+ "Code":2, -> 1 - is800/ 2 - bs449
+ "Sdx":25, -> section index
+ "Term":"dumb", -> gnuplot terminal
+ "Dsgn":true, -> design/check section index sdx
+ "Pfac":1.0, -> axial load factor
+ "Nsecs":7, -> number of sections to store
+ "Store":true} -> store section

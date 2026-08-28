@@ -26,8 +26,8 @@ func TestColJson(t *testing.T){
 func TestColChk(t *testing.T){
 	/*
 	   styp 1 - abel 9.1, sp.33 - 2
-	   styp 0 - ??
-	   styp 26 - abel 10.1, 10.2
+	   styp 0 - ram chandra examples
+	   styp 26 - abel 10.1, 10.2, is2366
 	   styp 4 - sp.33 - 3
 	*/
 	var rezstring string
@@ -100,7 +100,7 @@ func TestColChk(t *testing.T){
 	_ = ColDz(c)	
 	rezstring += fmt.Sprintf("sections from dz - %v\n",c.Rez)
 	fmt.Println(rezstring)
-	t.Fatal()
+	//t.Fatal()
 	t.Log("ramc ex. 13.6 round col")
 	c = &WdCol{
 		Styp:0,
@@ -275,4 +275,29 @@ func TestColDz(t *testing.T){
 			fmt.Printf("%.1f x %.1f\n",c.Rez[mdx][0]/25.4, c.Rez[mdx][1]/25.4)
 		}
 	}
+}
+
+func TestColSpaced(t *testing.T){
+	t.Log("starting is2366 spaced column tests")
+	//var rezstring string
+	c := &WdCol{
+		Styp:26,
+		Lspan:1340.0,
+		Prp:kass.Wdprp{
+			Em:10100.0,
+			Mc:0.5,
+			Pg:0.8,
+			Fc:9.0,
+		},
+		Pu:32536/1.33,
+		Code:1,
+		Dims:[]float64{30,100},
+		Endc:3,
+		Solid:false,
+		Spam: true,
+	}
+	c.Init()
+	ok, val, _  := ColChk(c)
+	t.Log("rez - ok -> ",ok," val - > ",val)
+	
 }

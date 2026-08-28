@@ -7,6 +7,7 @@ import (
 	"math"
 	"runtime"
 	"errors"
+	"strings"
 	"io/ioutil"
 	"encoding/json"
 	"path/filepath"
@@ -16,19 +17,20 @@ import (
 var (
 	StlSnames = map[int]string{
 		1:"i", 2:"c",3:"l",4:"ln",5:"t",6:"box",7:"tube",8:"ub",9:"uc",10:"flat",11:"bar",
-		101:"built-i",102:"l2-ss",103:"l2-os",104:"ln2-ss",105:"ln2-os",106:"plate-i",
-	}
+		12:"shs",13:"rhs",
+		14:"npb",15:"wpb",16:"w",
+		101:"built-i",102:"l2-ss",103:"l2-os",104:"ln2-ss",105:"ln2-os",106:"plate-i"}
 	StlStyps = map[string]int{
 		"i":1,"c":2,"l":3,"ln":4,
 		"t":5,"box":6,"tube":7,
 		"ub":8,"uc":9,"rect":10,
 		"circle":11,"bar":11,
+		"npb":14,"wpb":15,"w":16,
 		"flat":10,"isa":3,
 		"built-i":101,
 		"l2-ss":102,"l2-os":103,
 		"ln2-ss":104,"ln2-os":105,
-		"plate-i":106,
-	}
+		"plate-i":106}
 	StlBstyps = map[string][]int{
 		"l":[]int{3,7},
 		"ln":[]int{4,7},
@@ -36,12 +38,13 @@ var (
 		"l2-ss":[]int{3,27},
 		"l2-os":[]int{3,28},
 		"ln2-ss":[]int{4,27},
-		"ln2-os":[]int{4,28},
-	}
+		"ln2-os":[]int{4,28}}
 	StlSdxLims = map[string]int{
 		"i":64,"c":26,"l":71,"ln":64,
-		"t":0,"box":0,"tube":81,
-		"ub":71,"uc":30,"rect":0,
+		"t":0,"box":87,"tube":81,
+		"ub":71,"uc":30,
+		"npb":69,"wpb":121,"w":288,
+		"rect":0,
 		"circle":0,"bar":0,
 		"flat":0,"isa":0,
 		"built-i":0,
@@ -67,13 +70,17 @@ type StlSec struct{
 	Sstr                     string
 	Frmstr                   string
 	Mstr                     string //memstr (col/beam/prln)
+	Catstr                   string //category str
 	Weld                     bool //is welded 
 	Lsb, Lsbx, Lsby          bool //is laterally supported
 	Scrit                    bool //shear critical
 	Sbuck                    bool //check for shear buckling (if d/tw > 67e)
+	Cmp                      bool //is a composite section
+	Brchk                    bool //is supported on a bearing surface
 	Lvl                      int  //level (simple/basic/complex like justice)
 	Sectyp                   int
 	Endc                     int
+	Calctyp                  int //
 	Ctyp                     int //connection type
 	Jtyp                     int //joint type 
 	Ltyp                     int
@@ -87,13 +94,15 @@ type StlSec struct{
 	Grd                      float64
 	Wt                       float64
 	Bstyp                    int
+	Bmtyp                    int     //shape of bending moment diagram (0-straight, 1-)
 	Em, Gm                   float64
 	H, B, Tw, Tf             float64
 	H1, H2                   float64 //height of col above and beyond
 	Vbdx, Vbdy               float64 //diff of beam shears in x and y
-	Lx, Ly, Tx, Ty           float64 //eh use (unbraced lengths) lx, ly, fixity factors 
+	Vax, Vbx, Vay, Vby       float64 //diff of beam shears in x and y at bottom (a) and top (b)
+	Lx, Ly, Tx, Ty           float64 //unbraced lengths and fixity factors in x and y
 	R1, R2                   float64
-	Dw, Eps                  float64
+	Dw, Eps                  float64 //what is Eps
 	Area, Ixx, Iyy, Rxx, Ryy float64
 	Cxx, Cyy, Zxx, Zyy       float64
 	Zfd, Zfdx, Zfdy          float64
@@ -101,17 +110,24 @@ type StlSec struct{
 	D1, D2, B1, B2           float64
 	Bfrat, Hwrat             float64
 	Defrat                   float64
+	Frat                     float64 //bs449 stress ratio
+	Nlt                      float64 //non dimensional slenderness ratio
 	Fy, Fu                   float64
 	Fcc, Fccx, Fccy          float64
 	Fcdx, Fcdy, Fcd          float64
-	Fwb, Fwc                 float64
+	Fm, Pm, Fs, Ps           float64 //mosley 6.2 beam vars
+	Fwb, Fwc                 float64 //web buckling and crushing stress
+	Pwb, Pwc                 float64 //permissible web buckling and crushing stress
 	Lspan, Leff, Klx, Kly    float64
 	Leffx, Leffy             float64
+	Llt                      float64 //length for lat-torsional buckling
 	Lbr, Tbr                 float64
+	Lcf, Tcf                 float64
 	Fbd                      float64
 	Tplate                   float64
 	Bxx, Byy                 int
 	Ocf, Icf, Wcf            int
+	Cfac                     int
 	Sxx, Syy                 float64
 	Srfx, Srfy               float64
 	Pu, Pur                  float64
@@ -119,8 +135,12 @@ type StlSec struct{
 	Mux, Muy, Mur, Mcr, Mdv  float64
 	Mdx, Mdy                 float64
 	Mndx, Mndy               float64
-	Cbeq                     float64
+	Max, Mbx, May, Mby       float64 //moments at ends for bm col checks
+	Cmx, Cmy, Cmlt           float64
+	Kxx, Kyy, Klt            float64
 	Vfac, Vux, Vuy, Vur      float64
+	Lfac, Ifaca, Ifacb       float64
+	Nuu, Nxx, Nyy            float64 //non dimensional slenderness ratios
 	Vdx, Vdy, Vd             float64
 	Vu, Mu, Dmax             float64
 	Avx, Avy                 float64
@@ -128,8 +148,11 @@ type StlSec struct{
 	Tdg, Tdn, Tdb1, Tdb2     float64
 	Sleg, Anc, Ago, Bago     float64
 	Avg, Atg, Avn, Atn       float64
-	Ymo, Yml                 float64 
+	Ymo, Yml                 float64
+	Lstd, Dstd, Sstd, Nstd   float64 //len, dia, spacing of shear studs
 	Term                     string
+	Txtplot, Rezplot         string
+	Rezplots                 []string
 	Sec                      SectIn
 	Bg                       Blt
 	Wg                       Wld
@@ -137,7 +160,11 @@ type StlSec struct{
 	Bdia                     float64
 	Wsize                    float64
 	Kbs                      [][]float64
+	Ldcases                  [][]float64
 	Dims                     []float64
+	Xrez                     BeamRez
+	Yrez                     BeamRez
+	Rl, Rr                   float64 //end reactions/shears
 }
 
 //PbcBs returns permissible bending stresses as per bs449
@@ -158,8 +185,9 @@ func PbcBs(sname string, grade int) (vec [][]float64, err error){
 	}
 	var query string
 	switch sname{
-		case "ub", "uc":
+		case "ub", "uc","i","w","npb","wpb":
 		//uc beams and columns
+		//added i and the rest later lessee
 		switch grade{
 			case 43:
 			query = "3a" 
@@ -176,13 +204,14 @@ func PbcBs(sname string, grade int) (vec [][]float64, err error){
 //PbcLerp linearly interpolates the permissible bending stress given a slenderness ratio
 //calls PbcBs for the table of permissible bending stresses
 func PbcLerp(sname string, grd int, s1, dtrat float64) (pbc float64, err error){
-	//log.Println("lerp in-> srat, drat->",s1, dtrat)
+	//log.Println("lerp in-> sname grd srat, drat->",sname,grd,s1, dtrat)
 	pbvec, e := PbcBs(sname, grd)
 	if e != nil{
 		err = e
 		return
 	}
 	pvec := PqCol[grd]
+	
 	var rdx, cdx int
 	switch {
 	case s1 <= 40.0:
@@ -211,6 +240,7 @@ func PbcLerp(sname string, grd int, s1, dtrat float64) (pbc float64, err error){
 	//log.Println("pts 2",pt0,pt1)
 	p2 := pt0 + math.Mod(dtrat,5.0)*(pt1 - pt0)/5.0
 	pbc = p1 + (s1 - sa) * (p2 - p1)/(sb - sa)
+	//log.Println("pbc-",pbc)
 	return
 }
 
@@ -225,6 +255,7 @@ func PbcYeolde(s1, dtrat float64) (pbc float64){
 		return
 	}
 	df := dataframe.ReadCSV(csvfile)
+	if s1 > 300{return}
 	var rdx, cdx int
 	switch{
 		case s1 <= 90:
@@ -242,8 +273,8 @@ func PbcYeolde(s1, dtrat float64) (pbc float64){
 		cdx = 7
 	}
 	//var sa, sb float64
-	sa := df.Elem(rdx,0).Float(); sb := df.Elem(rdx+1,0).Float()
-	//log.Println("sa, sb->",sa, sb, rdx)
+	sa := df.Elem(rdx,0).Float()
+	sb := df.Elem(rdx+1,0).Float()
 	var p1, p2 float64
 	pt0 := df.Elem(rdx,cdx).Float(); pt1 := df.Elem(rdx,cdx+1).Float()
 	if cdx < 7 {
@@ -270,7 +301,7 @@ func (ss *StlSec) Printz(){
 	ss.Sec.Draw("dumb")
 	rezstr := ss.Sec.Txtplot
 
-	rezstr += fmt.Sprintf("section name - %s\ndims -  %f (mm)\narea - %f (mm2) weight - %f n/m\nixx %f - (mm4) iyy - %f (mm4)\nrxx - %f (mm3) ryy - %f (mm3)\nsxx - %f (mm4) syy - %f (mm4)\nzxx - %f (mm4) zyy - %f (mm4)\n",ss.Sstr,ss.Dims, ss.Area, ss.Wt,ss.Ixx, ss.Iyy, ss.Rxx, ss.Ryy, ss.Sxx, ss.Syy, ss.Zxx, ss.Zyy)
+	rezstr += fmt.Sprintf("section name - %s\ndims -  %f (mm)\narea - %f (mm2) weight - %f n/m\nixx %f - (mm4) iyy - %f (mm4)\nrxx - %f (mm) ryy - %f (mm)\nsxx - %f (mm3) syy - %f (mm3)\nzxx - %f (mm3) zyy - %f (mm3)\n",ss.Sstr,ss.Dims, ss.Area, ss.Wt,ss.Ixx, ss.Iyy, ss.Rxx, ss.Ryy, ss.Sxx, ss.Syy, ss.Zxx, ss.Zyy)
 	fmt.Println(rezstr)
 }
 
@@ -292,13 +323,14 @@ func (ss *StlSec) CalcZyy()(err error){
 	//rotate sec
 	sr := SecRotate(ss.Sec, 90.0)
 	switch ss.Sname{
-		case "built-i":
+		case "built-i","w","npb","wpb":
 		area, _, yc := SecArXu(&sr, sr.Ymx - sr.Prop.Yc)
 		//is symmetric about centroid, so z = 2 * area * (sr.Prop.Yc - yc)
 		ss.Zyy = 2.0 * area * math.Abs(sr.Prop.Yc - yc)
 	}
 	//profit?
 	return
+
 }
 
 //SecGen generates a StlSec's section given a base sectype and dims
@@ -334,11 +366,13 @@ func (ss *StlSec) SecGen()(err error){
 		//yw = h/2/2 = h/4; duggal pg. 482	
 		ss.Zfd = ss.Zxx - (ss.H * ss.Tw)* ss.H/4.0
 		ss.Zfdx = ss.Zfd
-		case "i","ub","uc":
-		// ss.Sxx = ss.Sec.Prop.Sxx
-		// ss.Syy = ss.Sec.Prop.Syy
-		//ss.Zxx = ss.Sec.Prop.Zxx
-		//ss.Zyy = ss.Sec.Prop.Zyy
+		case "i":
+		ss.Cxx = ss.Sec.Prop.Xc
+		ss.Cyy = ss.Sec.Prop.Yc
+		ss.Sxx = ss.Sec.Prop.Sxx
+		ss.Syy = ss.Sec.Prop.Syy
+		ss.Zxx = ss.Sec.Prop.Zxx
+		ss.Zyy = ss.Sec.Prop.Zyy
 		ss.Bfrat = ss.B/ss.Tf/2.0
 		ss.Hwrat = (ss.H-2.0 * (ss.Tf+ss.R1))/ss.Tw
 		//section modulus of flange(s) -  zp - aw * yw
@@ -346,6 +380,13 @@ func (ss *StlSec) SecGen()(err error){
 		ss.Zfd = ss.Zxx - (ss.H * ss.Tw)* ss.H/4.0
 		ss.Zfdx = ss.Zfd
 		//TODO zfdy
+		case "ub","uc":
+		ss.Bfrat = ss.B/ss.Tf/2.0
+		ss.Hwrat = (ss.H-2.0 * (ss.Tf+ss.R1))/ss.Tw
+		//section modulus of flange(s) -  zp - aw * yw
+		//yw = h/2/2 = h/4; duggal pg. 482	
+		ss.Zfd = ss.Zxx - (ss.H * ss.Tw)* ss.H/4.0
+		ss.Zfdx = ss.Zfd
 		case "l", "ln":
 		ss.Sxx = ss.Sec.Prop.Sxx
 		ss.Syy = ss.Sec.Prop.Syy
@@ -353,7 +394,23 @@ func (ss *StlSec) SecGen()(err error){
 		ss.Zyy = ss.Sec.Prop.Zyy
 		ss.Cxx = ss.Sec.Prop.Xc
 		ss.Cyy = ss.Sec.Prop.Yc
-		
+		case "w","wpb","npb":
+		ss.Area = ss.Sec.Prop.Area
+		ss.Wt = ss.Area * 7850.0*9.81/1000000.0
+		ss.Ixx = ss.Sec.Prop.Ixx
+		ss.Iyy = ss.Sec.Prop.Iyy
+		ss.Rxx = ss.Sec.Prop.Rxx
+		ss.Ryy = ss.Sec.Prop.Ryy
+		ss.Sxx = ss.Sec.Prop.Sxx
+		ss.Syy = ss.Sec.Prop.Syy
+		ss.Zxx = ss.Sec.Prop.Zxx
+		ss.Zyy = ss.Sec.Prop.Zyy
+		ss.Cxx = ss.Sec.Prop.Xc
+		ss.Cyy = ss.Sec.Prop.Yc
+		ss.Bfrat = ss.B/ss.Tf/2.0
+		ss.Hwrat = (ss.H-2.0 * (ss.Tf+ss.R1))/ss.Tw
+		ss.Zfd = ss.Zxx - (ss.H * ss.Tw)* ss.H/4.0
+		ss.Zfdx = ss.Zfd
 		default:
 		ss.Area = ss.Sec.Prop.Area
 		ss.Wt = ss.Area * 7850.0*9.81/1000000.0
@@ -367,6 +424,8 @@ func (ss *StlSec) SecGen()(err error){
 		ss.Zyy = ss.Sec.Prop.Zyy
 		ss.Cxx = ss.Sec.Prop.Xc
 		ss.Cyy = ss.Sec.Prop.Yc
+		ss.Bfrat = ss.B/ss.Tf/2.0
+		ss.Hwrat = (ss.H-2.0 * (ss.Tf+ss.R1))/ss.Tw
 	}
 	return	
 }
@@ -398,7 +457,7 @@ func (ss *StlSec) BckCls800() (err error){
 			ss.Bxx = 3 //class c
 			ss.Byy = 4 //class d
 		}
-		case "i","ub","uc","ismb":	
+		case "i","ub","uc","ismb","w","npb","wpb":	
 		switch{
 			case ss.H/ss.B > 1.2:
 			switch{
@@ -409,7 +468,7 @@ func (ss *StlSec) BckCls800() (err error){
 				ss.Bxx = 2 
 				ss.Byy = 3 //class c
 				default:
-				err = fmt.Errorf("invalid flange/dims - %f\n",ss.Dims)
+				err = fmt.Errorf("invalid flange/dims - %f",ss.Dims)
 			}
 			case ss.H/ss.B <= 1.2:
 			switch{
@@ -420,7 +479,7 @@ func (ss *StlSec) BckCls800() (err error){
 				ss.Bxx = 4 //class d
 				ss.Byy = 4
 				default:
-				err = fmt.Errorf("invalid flange/dims - %f\n",ss.Dims)
+				err = fmt.Errorf("invalid flange/dims - %f",ss.Dims)
 			}
 		}
 	}
@@ -432,7 +491,8 @@ func (ss *StlSec) SecCls800() (err error){
 	ysr := math.Sqrt(250.0/ss.Fy)
 	var k1, k2, k3 float64
 	switch ss.Sname{
-		case "i", "ub", "uc":
+		case "i", "ub", "uc","w","npb","wpb":
+		//ss.Ocf - outstanding element of comp. flange
 		k1 = 9.4 * ysr
 		k2 = 10.6 * ysr
 		k3 = 15.7 * ysr
@@ -447,6 +507,9 @@ func (ss *StlSec) SecCls800() (err error){
 			//slender section
 			err = fmt.Errorf("slender section class b/tf %f vs k3 %f",ss.Bfrat, k3)
 		}
+		//add ss.Icf - internal element of compression flange
+		//so ss.Icf becomes ss. Wcf 
+		//this should be ss.Wcf - web of an i, h or box section
 		k1 = 84.0 * ysr
 		k2 = 105.0 * ysr 
 		k3 = 126.0 * ysr
@@ -468,34 +531,11 @@ func (ss *StlSec) SecCls800() (err error){
 	return
 }
 
-//CalcTu calculates the ultimate tensile strength of a section
-func (ss *StlSec) CalcTu()(err error){
-	err = ss.NetArea()
-	if err != nil{
-		return
-	}
-	switch ss.Sname{
-		case "l", "ln", "l2-ss", "l2-os", "ln2-ss", "ln2-os":
-		//duggal 7, eq 6,7,10,11
-		ss.Tdg = ss.Area * ss.Fy/ss.Ymo
-		ss.Tdn = 0.9 * ss.Anc * ss.Fu/ss.Yml + ss.Bago * ss.Ago * ss.Fy/ss.Ymo 
-		ss.Tdb1 = ss.Avg * ss.Fy/ss.Ymo/math.Sqrt(3) + 0.9 * ss.Atn * ss.Fu/ss.Yml
-		ss.Tdb2 = ss.Atg * ss.Fy/ss.Ymo + 0.9 * ss.Avn * ss.Fu/ss.Yml/math.Sqrt(3)
-		//fmt.Println("gross section yeilding tdg-",ss.Tdg/1e3,"kn")
-		//fmt.Println("gross section rupture tdn-",ss.Tdn/1e3,"kn")
-		//fmt.Println("block shear - shear yield and tension fracture",ss.Tdb1/1e3,"kn")
-		//fmt.Println("block shear - tension yield and shear fracture",ss.Tdb2/1e3,"kn")
-		ss.Tur = MinVal(ss.Tdg, ss.Tdn, ss.Tdb1, ss.Tdb2)
-		//fmt.Println("UTS",ss.Tur/1e3,"kn")
-	}
-	return
-}
-
 //CalcMur calculates the ultimate bending strength of a section
 func (ss *StlSec) CalcMur()(err error){
 	//TODO checks - pg. 442, duggal
 	//effects of bolt holes in flanges- 0.9 fu anf/yml >= fy agf * ymo
-	//shear lag effect 
+	//shear lag effect
 	err = ss.SecCls800()
 	if err != nil{
 		return
@@ -504,6 +544,7 @@ func (ss *StlSec) CalcMur()(err error){
 	cfac := ss.Ocf; if ss.Icf > cfac{
 		cfac = ss.Icf
 	}
+	ss.Cfac = cfac
 	bfac := 1.0
 	switch cfac{
 		case 1:
@@ -522,7 +563,7 @@ func (ss *StlSec) CalcMur()(err error){
 			//vu < 0.6 * vd
 			md := bfac * ss.Zxx * ss.Fy/ss.Ymo
 			switch ss.Endc{
-				case 0:
+				case -1:
 				//clvr
 				if md  >= 1.5 * ss.Sxx * ss.Fy/ss.Ymo{
 					md = 1.5 * ss.Sxx * ss.Fy/ss.Ymo
@@ -532,6 +573,9 @@ func (ss *StlSec) CalcMur()(err error){
 				if md  >= 1.2 * ss.Sxx * ss.Fy/ss.Ymo{
 					md = 1.2 * ss.Sxx * ss.Fy/ss.Ymo
 				}
+				case 2:
+				//TODO
+				//cs?
 			}
 			ss.Mur = md
 			case true:
@@ -564,6 +608,7 @@ func (ss *StlSec) CalcMur()(err error){
 	return
 }
 
+
 //ColChk800 checks a section for axial compression as per is800 (chap. 8, duggal)
 func (ss *StlSec) ColChk800()(err error){
 	err = ss.CalcPu()
@@ -591,8 +636,10 @@ func (ss *StlSec) BmChk800()(err error){
 		if err != nil{
 			return
 		}
+		
 		//check for bending
 		err = ss.CalcMur()
+
 		if err != nil{
 			return
 		}
@@ -604,13 +651,15 @@ func (ss *StlSec) BmChk800()(err error){
 		if ss.Defrat == 0.0{
 			ss.Defrat = 300.0
 		}
-		//CHANGE THIS FACTOR LATER
+		//CHANGE THIS FACTOR LATER (def.divided by psf for service def.)
 		if ss.Lspan/ss.Defrat <= ss.Dmax/1.5{
 			err = fmt.Errorf("section unsafe in (service) deflection perm %f mm vs actual %f mm",ss.Lspan/ss.Defrat,ss.Dmax)
 			return
 		}
+		
 		//check for web buckling
 		err = ss.CalcFwb()
+
 		if err != nil{
 			return
 		}
@@ -670,27 +719,192 @@ func (ss *StlSec) BmChk800()(err error){
 
 //BmColChk800 checks a section for axial load+bending as per is800(duggal chap. 10)
 func (ss *StlSec) BmColChk800()(err error){
-	ss.Printz()
-	fmt.Println("mux, pu-",ss.Mux, ss.Pu,"nmm")
+	//vxyrat for beam shear division bet col above (h2) and this (h1)
+	vxyrat := 1.0
+	if ss.H2 > 0.0{
+		vxyrat = ss.H2/(ss.H1+ss.H2)
+	}
+	if ss.Max == 0.0 && ss.Mbx == 0.0 && ss.May == 0.0 && ss.Mby ==0.0{
+		//Dtyp == 0, member with framing beams
+		//calc max, mbx, may, mby
+		if ss.Vax ==0.0 && ss.Vbx == 0.0 && ss.Vay == 0.0 && ss.Vby == 0.0{	
+			err = fmt.Errorf("no end moments specified max %.f mbx %.f may %.f mby %.f",ss.Max, ss.Mbx, ss.May, ss.Mby)
+			return
+		}
+		switch ss.Calctyp{
+			case 0:
+			//beam web conn. eccentricities are zero in sub/duggal
+			ss.Max = vxyrat * ss.Vax * ss.H/2.0
+			ss.Mbx = vxyrat * ss.Vbx * ss.H/2.0
+			case 1:
+			//bs 449 (100 mm min ecc)
+			ss.Max = vxyrat * ss.Vax * (100.0 + ss.H/2.0)
+			ss.Mbx = vxyrat * ss.Vbx * (100.0 + ss.H/2.0)
+			ss.May = vxyrat * ss.Vay * (100.0 + ss.Tw/2.0)
+			ss.Mby = vxyrat * ss.Vby * (100.0 + ss.Tw/2.0)
+		}
+		
+	}
+	if ss.Klx == 0.0{ss.Klx = ss.Tx}
+	if ss.Kly == 0.0{ss.Kly = ss.Ty}
+	//ADD SHEAR CALCS
+	//see subramanian ex 13.2, page 1103(1134)
 	err = ss.CalcPu()
 	if err != nil{
-		fmt.Println(err)
+		return
 	}
-	fmt.Println("allowable compressive load, fcd-",ss.Fcd,"n/mm2")
+	ss.Pud = ss.Area * ss.Fy/ss.Ymo
+	ss.Lsb = true
 	err = ss.CalcMur()
 	if err != nil{
-		fmt.Println(err)
+		return
 	}
-	fmt.Println("ult moment of resistance mur",ss.Mur,"nmm")
-	fmt.Println("section class-",ss.Ocf, ss.Icf)
+	ss.Mdx = ss.Mur
+	ss.Mdy = ss.Zyy * ss.Fy/ss.Ymo
+	if ss.Mdy > 1.5 * ss.Syy * ss.Fy/ss.Ymo{
+		ss.Mdy = 1.5 * ss.Syy * ss.Fy/ss.Ymo
+	}
 
+	
+	ss.Lsb = false
 	err = ss.CalcFbd()
 	if err != nil{
-		fmt.Println(err)
+		return
+	}
+	//ADD CHECKS FOR CRITICAL MOMENT AND BENDING STRESS WTF
+	
+	//ss.Mdx = ss.Sxx * ss.Fbd
+
+	//check for local capacity
+	ss.Mux = ss.Max; if ss.Mbx > ss.Mux{
+		ss.Mux = ss.Mbx
+	}
+	ss.Muy = ss.Mby; if ss.Mby > ss.Muy{
+		ss.Muy = ss.Mby
 	}
 	
-	fmt.Println("allowable stress in bending",ss.Fbd,"n/mm2")
+	switch ss.Cfac{
+		case 1, 2:
+		//plastic/ compact section
+		var a1, a2 float64
+		nfac := ss.Pu/ss.Pud
+		switch ss.Sname{
+			case "i", "ub", "uc","w","npb","wpb":
+			a1 = 5.0 * nfac
+			a2 = 2.0
+			if a1 < 1.0{a1 = 1.0}
+			ss.Mndx = 1.11 * (1.0 - nfac) * ss.Mdx
+			if ss.Mndx > ss.Mdx{ss.Mndx = ss.Mdx}
+			if nfac > 0.2{
+				ss.Mndy = 1.56 * (1.0 - nfac) * (nfac + 0.6) * ss.Mdy
+			} else {
+				ss.Mndy = ss.Mdy
+			}
+			case "built-i":
+			a1 = 5.0 * nfac
+			a2 = 2.0
+			if a1 < 1.0{a1 = 1.0}
+			afac := (ss.Area - 2.0 * ss.B * ss.Tf)/ss.Area 
+			if afac > 0.5{afac = 0.5}
+			yfac := 1.0 - math.Pow((nfac - afac)/(1.0 - afac),2.0)
+			xfac := (1.0 - nfac)/(1.0 - 0.5 * afac)
+			ss.Mndx = ss.Mdx * xfac
+			ss.Mndy = ss.Mdy * yfac
+			if ss.Mndx > ss.Mdx{ss.Mndx = ss.Mdx}
+			if ss.Mndy > ss.Mdy{ss.Mndy = ss.Mdy}
+			default:
+			err = fmt.Errorf("bmcolchk800 not written for this (%s) section type",ss.Sname)
+			return
+		}
+		
+		if ss.Mux == 0.0 || ss.Muy == 0.0{
+			ss.Lfac = nfac + ss.Mux/ss.Mndx + ss.Muy/ss.Mndy
+		} else {
+			ss.Lfac = math.Pow(ss.Muy/ss.Mndy,a1) + math.Pow(ss.Mux/ss.Mndx,a2)
+		}
+		case 3:
+		//semi compact section
+		ss.Lfac = ss.Pu/ss.Pud + ss.Mux/ss.Mdx + ss.Muy/ss.Mdy
+		
+	}
+	if ss.Lfac > 1.0{
+		err = fmt.Errorf("local capacity check failed lcfac %f > 1",ss.Lfac)
+		return
+	}
+	//get uniform moment factor
+	mxrat := 1.0
+	switch{ 
+		case ss.Max == 0.0:
+		mxrat = 0.0
+		case ss.Mbx == 0.0:
+		mxrat = 0.0
+		default:
+		if ss.Max <= ss.Mbx {
+			mxrat = ss.Max/ss.Mbx
+		} else {
+			mxrat = ss.Mbx/ss.Max
+		}	
+	}
+	myrat := 1.0	
+	switch{
+		
+		case ss.May == 0.0:
+		myrat = 0.0
+		case ss.Mby == 0.0:
+		myrat = 0.0
+		default:
+		
+		if ss.May <= ss.Mby {
+			myrat = ss.May/ss.Mby
+		} else {
+			myrat = ss.Mby/ss.May
+		}
+	}
+	//fmt.Println(ColorRed,"ss.Fcdx, ss.Fcdy",ss.Fcdx, ss.Fcdy,ColorReset)
+	nxf := ss.Pu/(ss.Fcdx*ss.Area)
+	nyf := ss.Pu/(ss.Fcdy*ss.Area)
+	
+	ss.Nxx = math.Sqrt(ss.Fy/ss.Fccx)
+	ss.Nyy = math.Sqrt(ss.Fy/ss.Fccy)
+	ss.Kxx = 1.0 + (ss.Nxx - 0.2) * nxf
+	if ss.Kxx > 1.0 + 0.8 * nxf{
+		ss.Kxx = 1.0 + 0.8 * nxf
+	}
+	ss.Kyy = 1.0 + (ss.Nyy - 0.2) * nyf
+	if ss.Kyy > 1.0 + 0.8 * nyf{
+		ss.Kyy = 1.0 + 0.8 * nyf
+	}
+	
+	//calc cmy, cmx, cmlt
+	switch ss.Bmtyp{
+		case 0:
+		//simple unloaded member
+		ss.Cmx = 0.6 + 0.4 * mxrat 
+		ss.Cmy = 0.6 + 0.4 * myrat
+		if ss.Cmx < 0.4{ss.Cmx = 0.4}
+		if ss.Cmy < 0.4{ss.Cmy = 0.4}
+		ss.Cmlt = ss.Cmx
+		case 1: 
+		case 2:
+	}
+	ss.Klt = 1.0 - 0.1 * ss.Nlt * nyf/(ss.Cmlt - 0.25)
+	if ss.Klt < 1.0 - 0.1 * nyf/(ss.Cmlt - 0.25){
+		ss.Klt = 1.0 - 0.1 * nyf/(ss.Cmlt - 0.25)
+	}
+	if ss.Mdy > 0{
+		ss.Ifaca = nyf + ss.Kyy * ss.Cmy * ss.Muy/ss.Mdy + ss.Klt * ss.Mux/ss.Mdx
+	}
 
+	ss.Ifacb = nxf + 0.6 * ss.Cmy * ss.Muy/ss.Mdy + ss.Kxx * ss.Cmx * ss.Mux/ss.Mdx
+	
+	if ss.Ifaca > 1.0{
+		err = fmt.Errorf("interaction check a failed ifaca %f i> 1 ifacb %f",ss.Ifaca,ss.Ifacb)
+		return
+	}
+	if ss.Ifacb > 1.0{
+		err = fmt.Errorf("interaction check b failed ifacb %f > 1 ifaca %f",ss.Ifacb, ss.Ifaca)
+		return
+	}
 	return
 }
 
@@ -736,7 +950,7 @@ func (ss *StlSec) ShrAr(){
 	switch ss.Code{
 		case 1:	
 		switch ss.Sname{
-			case "i", "c":
+			case "i", "c", "ub", "uc","w","npb","wpb":
 			ss.Avx = ss.H * ss.Tw
 			ss.Avy = 2.0 * ss.B * ss.Tf
 			case "built-i":
@@ -764,13 +978,18 @@ func (ss *StlSec) CalcFbd()(err error){
 		bfac = ss.Sxx/ss.Zxx
 	}
 	switch ss.Sname{
-		case "i", "built-i", "ub", "uc":
+		case "i", "built-i", "ub", "uc","w","npb","wpb":
 		if ss.Klx == 0.0{ss.Klx = 1.0}
 		ss.Leffx = ss.Lspan * ss.Klx
+		//if laterally supported at intervals 
+		if ss.Llt > 0.0{
+			ss.Leffx = 1.2 * ss.Llt
+		}
 		ss.Iww = 0.5 * 0.5 * ss.Iyy * (ss.H - ss.Tf) * (ss.H - ss.Tf)
 		ss.Itt = ss.Sec.Prop.J
 		//fmt.Println("st venants const-",ss.Itt,"warp const-",ss.Iww)
 		p2 := math.Pow(math.Pi, 2)
+		//length between restrains - lrest
 		t1 := p2 * ss.Em * ss.Iyy/math.Pow(ss.Leffx,2)
 		t2 := ss.Gm * ss.Itt
 		t3 := p2 * ss.Em * ss.Iww/math.Pow(ss.Leffx,2)
@@ -783,6 +1002,7 @@ func (ss *StlSec) CalcFbd()(err error){
 			alt = 0.49
 		}
 		ylt := 1.0 //reduction factor for ltb
+		ss.Nlt = nlt
 		if nlt >= 0.4{
 			olt := 0.5 * (1.0 + alt * (nlt - 0.2) + nlt * nlt)
 			ylt = olt + math.Pow(olt * olt - nlt * nlt, 0.5)
@@ -799,6 +1019,9 @@ func (ss *StlSec) CalcFbd()(err error){
 //NetArea calcs the net and gross area of a section
 func (ss *StlSec) NetArea()(err error){
 	switch ss.Sname{
+		case "i", "built-i", "ub", "uc","w","npb","wpb":
+		//add bolted conn calcs
+		case "c":
 		case "l", "ln", "l2-ss", "l2-os", "ln2-ss", "ln2-os":
 		//angle sections
 		if len(ss.Dims) < 3{
@@ -872,6 +1095,7 @@ func (ss *StlSec) CalcPu()(err error){
 	switch ss.Code{
 		case 1:
 		err = ss.BckCls800()
+		if err != nil{return}
 	}
 	//ss.Printz()
 	err = ss.CalcFcd()
@@ -880,6 +1104,7 @@ func (ss *StlSec) CalcPu()(err error){
 
 //CalcFcd calculates the allowable compressive stress for a steel (column) section
 func (ss *StlSec) CalcFcd()(err error){
+	ss.Klx = ss.Tx; ss.Kly = ss.Ty
 	//default pin ended
 	if ss.Klx == 0{ss.Klx = 1.0}
 	if ss.Kly == 0{ss.Kly = 1.0}
@@ -963,19 +1188,22 @@ func (ss *StlSec) ColChk449()(err error){
 	if ss.H2 > 0.0{
 		vx = ss.Vbdx * ss.H2/(ss.H1+ss.H2)
 		vy = ss.Vbdy * ss.H2/(ss.H1+ss.H2)
+	} else {
+		vx = ss.Vbdx
+		vy = ss.Vbdy
 	}
 	mx = ss.Mux; my = ss.Muy; ss.Dtyp = 1
 
 	if mx + my == 0.0 {
 		ss.Dtyp = 0 //member with framing beams
-		mx = vx * (100.0 + ss.H)
+		mx = vx * (100.0 + ss.H/2.0)
 		my = vy * (100.0 + ss.Tw/2.0)
 	}
+	//fmt.Println(ss.Sstr,"mx",mx,"my",my)
 	fa := ss.Pu/ss.Area
-	fx := mx/ss.Sxx
-	fy := my/ss.Syy
+	fx := mx/ss.Zxx
+	fy := my/ss.Zyy
 	fp := fa/pvec[0] + fx/pvec[1] + fy/pvec[2]
-	
 	if fp > ss.Pfac{
 		err = fmt.Errorf("fp %f > permimssible factor %f",fp, ss.Pfac)
 		return
@@ -1001,143 +1229,182 @@ func (ss *StlSec) ColChk449()(err error){
 		y0 = 430.0; q4 = 265.0; q5 = 245.0
 	}
 	if ss.Grd == 50 && ss.Tw >= 40.0{
-		//CHEEECK THIS
 		y0 = 325.0; q4 = 200.0; q5 = 185.0
 	}
 	a0 := (y0 + c0 * (n0 + 1.0))/2.0
 	pa = (a0 - math.Sqrt((math.Pow(a0,2) - y0 * c0)))/1.7
 	if s1 <=30 {
 		pa = q4 - (q4 - q5) * s1/30.0
-	}
-	
+	}	
 	//permissible stress bending(x) px
 	var dtrat float64
 	if dtrat = ss.H/ss.Tf; dtrat < 5.0 {dtrat = 5.0}	
-	//log.Println("checking px->",s1,dtrat)
-	// if ss.Yeolde{
-	// 	px = PbcYeolde(s1, dtrat)
-	// } else {
-	// 	px, _ = PbcLerp(ss.Sname, ss.Grd, s1, dtrat)
+
+	//px, err = PbcLerp(ss.Sname, int(ss.Grd), s1, dtrat)
+	// if err != nil{
+	// 	return
 	// }
-	px, err = PbcLerp(ss.Sname, int(ss.Grd), s1, dtrat)
-	if err != nil{
-		return
-	}
+	px = PbcYeolde(s1, dtrat)
 	//permissible stress in bending (y) py
 	py = pvec[2]
 	fp = fa/pa + fx/px + fy/py
-
-	//log.Println("***")
-	if fp <= ss.Pfac{
-		//wt := ss.Wt
-		log.Println("section found->",ss.Sstr)
-		log.Println("base fp->",fp)
-		log.Println("srats->",sx,sy,s1)
-		log.Println("paxial->",pa)
-		log.Println("px->",px)
-		log.Println("fp->",fp)
-		// log.Println("depth, web thickness->",df.Elem(i,3), df.Elem(i,6))
-		// log.Println("area, zx, zy->",df.Elem(i,23),df.Elem(i,15), df.Elem(i,16))
-		// log.Println("rx, ry->",df.Elem(i,13), df.Elem(i,14))
-		log.Println("mx, my, s1, dtrat->", mx, my, s1, dtrat)
-		log.Println("fa, pa, px, py, fp ->",fa, pa, px, py, fp)
-		log.Println("***")
-		
+	ss.Fcd = fa
+	ss.Fcc = pa
+	ss.Fcdx = fx
+	ss.Fccx = px
+	ss.Fcdy = fy
+	ss.Fccy = py
+	ss.Frat = fp
+	if fp > ss.Pfac{
+		err = fmt.Errorf("section overstressed fp %.2f vs pfac %.2f",fp, ss.Pfac)
 	}
-	
+	//fmt.Println("fa,pa,fx,px,fy,py,fp",fa,pa,fx,px,fy,py,fp)
 	return
 }
 
 //BmChk449 checks a beam section as per bs449, 1969 (mosley section 6.2)
 func (ss *StlSec) BmChk449() (err error){
-	// var b1, b2, fm, fs, fc, fb, y0, q4, q5 float64
-	// log.Println("checking section->",df.Elem(i,1))
-	// pvec := PqBm[ss.Grd]
-	// qx, ps, pc := pvec[0], pvec[1], pvec[2]
-	// log.Println("section modulus->",ss.Sxx)
-	// if ss.Mu*1000.0/ss.Sxx > qx {
-	// 	return
-	// }
-	// dtrat := df.Elem(i, 3).Float() / df.Elem(i, 6).Float()
-	// if dtrat < 5.0 {
-	// 	dtrat = 5.0
-	// }
-	// if ss.Spam{log.Println("dtrat->", dtrat)}
 
-	// sdrat := ss.Ly * 100.0 / df.Elem(i, 14).Float()
-	
-	// if ss.Spam{log.Println("sdrat->", dtrat)}
-	// var px float64
-	// if ss.Yeolde{
-	// 	px = PbcYeolde(sdrat, dtrat)
-	// } else {
-	// 	px = PbcLerp(ss.Sname, ss.Grd, sdrat, dtrat)
-	// }
-	// fm = math.Abs(ss.Mu) * 1e3 / df.Elem(i, 15).Float()
-	// if fm/px > 1.0 {
-	// 	return
-	// }
-	// if ss.Spam{log.Println("section->", df.Elem(i, 1), ColorBlue, "bending o.k", ColorReset)}
-	// //check for shear stress
-	// fs = math.Abs(ss.Vu) * 1e3 / df.Elem(i, 3).Float() / df.Elem(i, 5).Float()
-	// if fs/ps > 1.0 {
-	// 	return
-	// }
+	/*
+	   ss.Fcd = fa
+	ss.Fcc = pa
+	ss.Fcdx = fx
+	ss.Fccx = px
+	ss.Fcdy = fy
+	ss.Fccy = py
+	ss.Frat = fp
 
-	// if ss.Spam{log.Println("section->", df.Elem(i, 1), kass.ColorBlue, "shear o.k", kass.ColorReset)}
-	// //check for deflection
-	// //dmax := ss.Dmax
-	// defrat := math.Round(ss.Lspan * 1000. / ss.Dmax)
-	// if ss.Spam{log.Println("deflection ->", ss.Dmax, "mm vs perm. ->", ss.Lspan*1000./360., "perm. ratio - 360.0, actual ->", defrat)}
-	// if ss.Dmax > ss.Lspan*1000./360.{
+	*/
+	var b1, b2, fm, fs, fc, fb, y0, q4, q5, px float64
+	if ss.Code == 1 {
+		switch ss.Grd{
+			case 410.0:
+			ss.Grd = 43.0
+			case 500.0:
+			ss.Grd = 50.0
+		}
+	}
+	pvec := PqBm[int(ss.Grd)]
+	qx, ps, pc := pvec[0], pvec[1], pvec[2]
+	if math.Abs(ss.Mu)/ss.Zxx > qx {
+		err = fmt.Errorf("prelim bending stress check failed fm/qx > 1.0")
+		return
+	}
+	dtrat := ss.H/ss.Tf
+	if dtrat < 5.0{
+		dtrat = 5.0
+	}
+	// sx := ss.Lx/ss.Rxx
+	// sy := ss.Ly/ss.Ryy
+	// sdrat := sy; if sx > sdrat{sdrat = sx}
+	sdrat := ss.Lcf * ss.Tcf/ss.Ryy
+	//log.Println(ColorYellow,"grd",int(ss.Grd),"dtrat",dtrat,"sdrat-",sdrat,"ryy",ss.Ryy,"mm",ss.Ryy/1e3,"cm",ColorReset)
+	// px, err = PbcLerp(ss.Sname, int(ss.Grd), sdrat, dtrat)
+	// if err != nil{
 	// 	return
 	// }
-	
-	// //log.Println("section->",df.Elem(i,1),kass.ColorBlue,"deflection o.k",kass.ColorReset)
-	// //check for web crushing stress
-	// b1 = ss.Lbr + (ss.Tbr+0.5*(df.Elem(i, 3).Float()-df.Elem(i, 8).Float()))*math.Sqrt(3.0)
-	// fc = 1e3 * math.Abs(ss.Vu) / df.Elem(i, 5).Float() / b1
-	// if ss.Spam{log.Println("web crushing-> perm ",pc," vs ",fc,"actual (n/mm)")}
-	// if fc/pc > 1.0 {
-	// 	return
-	// }
-	// //check for web buckling stress
-	// b2 = ss.Lbr + ss.Tbr + df.Elem(i, 3).Float()/2.0
-	// fb = 1e3 * math.Abs(ss.Vu) / df.Elem(i, 5).Float() / b2
-	// sweb := math.Sqrt(3.0) * df.Elem(i, 8).Float() / df.Elem(i, 5).Float()
-	// c0 := math.Pow(math.Pi, 2) * EStl / math.Pow(sweb, 2)
-	// n0 := 0.3 * math.Pow(sweb/100.0, 2)
-	// switch {
-	// case ss.Grd == 43:
-	// 	y0 = 250.0
-	// 	q4 = 155.0
-	// 	q5 = 143.0
-	// case ss.Grd == 50:
-	// 	y0 = 350.0
-	// 	q4 = 215.0
-	// 	q5 = 200.0
-	// case ss.Grd == 55:
-	// 	y0 = 430.0
-	// 	q4 = 265.0
-	// 	q5 = 245.0
-	// }
-	// a0 := (y0 + c0*(n0+1.0)) / 2.0
-	// pb := (a0 - math.Sqrt((math.Pow(a0, 2) - y0*c0))) / 1.7
-	// if sweb <= 30 {
-	// 	fb = q4 - (q4-q5)*sweb/30.0
-	// }
-	// if ss.Spam{log.Println("web buckling-> perm ",pb," vs ",fb,"actual (n/mm)")}
-	// if fb/pb > 1.0{
-	// 	return
-	// }
-	// chk = true
-	// //vals = append(maxs, []float64{}...)
-	// wt := df.Elem(i, 2).Float() 
-	// vals = []float64{ss.Vu, ss.Mu, ss.Dmax, ss.Lspan*1000./360.,px, fm, ps, fs, pc, fc, pb, fb, wt}
-	// // 0 Vu, 1 ss.Mu, 2 ss.Dmax,3 ss.Lspan*1000./360.,4 px, 5 fm, 6 ps, 7 fs, 8 pc, 9 fc, 10 pb, 11 fb, 12 wt
-
+	px = PbcYeolde(sdrat, dtrat)
+	fm = math.Abs(ss.Mu)/ ss.Zxx
+	if fm/px > 1.0 {
+		err = fmt.Errorf("bending stress check failed fm/px > 1.0 (%.2f)",fm/px)
+		return
+	}
+	ss.Pm = px; ss.Fm = fm
+	//check for shear stress
+	fs = math.Abs(ss.Vu)/(ss.H*ss.Tw)
+	if fs/ps > 1.0 {
+		err = fmt.Errorf("shear stress check failed fs/ps > 1.0 (fs %.2f vs ps %.2f)",fs,ps)
+		return
+	}
+	ss.Fs = fs; ss.Ps = ps
+	//check for deflection
+	ss.Defrat = 360.0
+	if ss.Dmax > ss.Lspan/360.0{
+		err = fmt.Errorf("deflection check failed actual %.2f mm vs perm %.2f mm",ss.Dmax,ss.Lspan/360.0)
+		return
+	}
+	if ss.Brchk{
+		//check for web crushing stress
+		b1 = ss.Lbr + (ss.Tbr+0.5*(ss.H - ss.R2))*math.Sqrt(3.0)
+		fc = math.Abs(ss.Vu) / ss.Tw / b1
+		//log.Println("web crushing-> perm ",pc," vs ",fc,"actual (n/mm)")
+		if fc/pc > 1.0 {
+			err = fmt.Errorf("web crushing check failed actual %.2f mm vs perm %.2f mm",fc, pc)
+			return
+		}
+		ss.Pwc = pc; ss.Fwc = fc
+		//check for web buckling stress
+		b2 = ss.Lbr + ss.Tbr + ss.H/2.0
+		fb = ss.Vu/(ss.Tw * b2)
+		sweb := math.Sqrt(3.0) * ss.R2 / ss.Tw
+		c0 := math.Pow(math.Pi, 2) * EStl / math.Pow(sweb, 2)
+		n0 := 0.3 * math.Pow(sweb/100.0, 2)
+		switch {
+		case ss.Grd == 43:
+			y0 = 250.0
+			q4 = 155.0
+			q5 = 143.0
+		case ss.Grd == 50:
+			y0 = 350.0
+			q4 = 215.0
+			q5 = 200.0
+		case ss.Grd == 55:
+			y0 = 430.0
+			q4 = 265.0
+			q5 = 245.0
+		}
+		a0 := (y0 + c0*(n0+1.0)) / 2.0
+		pb := (a0 - math.Sqrt((math.Pow(a0, 2) - y0*c0))) / 1.7
+		if sweb <= 30 {
+			fb = q4 - (q4-q5)*sweb/30.0
+		}
+		//log.Println("web buckling-> perm ",pb," vs ",fb,"actual (n/mm)")
+		if fb/pb > 1.0{
+			err = fmt.Errorf("web buckling check failed actual %.2f mm vs perm %.2f mm",pb,fb)
+			return
+		}
+		ss.Pwb = pb; ss.Fwb = fb
+	}
 	return
 }
+
+//TieChk800 checks a tension member as per is800
+func (ss *StlSec) TieChk800()(err error){
+	err = ss.CalcTu()
+	if err != nil{
+		return
+	}
+	if ss.Tur < ss.Pu{
+		err = fmt.Errorf("ult. tensile strength %.2f kn< pu %.2f kn",ss.Tur/1e3, ss.Pu/1e3)
+		return
+	}
+	return
+}
+
+
+//CalcTu calculates the ultimate tensile strength of a section
+func (ss *StlSec) CalcTu()(err error){
+	err = ss.NetArea()
+	if err != nil{
+		return
+	}
+	switch ss.Sname{
+		case "l", "ln", "l2-ss", "l2-os", "ln2-ss", "ln2-os":
+		//duggal 7, eq 6,7,10,11
+		ss.Tdg = ss.Area * ss.Fy/ss.Ymo
+		ss.Tdn = 0.9 * ss.Anc * ss.Fu/ss.Yml + ss.Bago * ss.Ago * ss.Fy/ss.Ymo 
+		ss.Tdb1 = ss.Avg * ss.Fy/ss.Ymo/math.Sqrt(3) + 0.9 * ss.Atn * ss.Fu/ss.Yml
+		ss.Tdb2 = ss.Atg * ss.Fy/ss.Ymo + 0.9 * ss.Avn * ss.Fu/ss.Yml/math.Sqrt(3)
+		// fmt.Println("gross section yeilding tdg-",ss.Tdg/1e3,"kn")
+		// fmt.Println("gross section rupture tdn-",ss.Tdn/1e3,"kn")
+		// fmt.Println("block shear - shear yield and tension fracture",ss.Tdb1/1e3,"kn")
+		// fmt.Println("block shear - tension yield and shear fracture",ss.Tdb2/1e3,"kn")
+		// fmt.Println("UTS",ss.Tur/1e3,"kn")
+		ss.Tur = MinVal(ss.Tdg, ss.Tdn, ss.Tdb1, ss.Tdb2)
+	}
+	return
+}
+
 
 //connection design funcs
 
@@ -1156,7 +1423,6 @@ func (ss *StlSec) ConDz()(err error){
 	}
 	return
 }
-
 
 
 // //purlin design funcs
@@ -1227,6 +1493,14 @@ func GetStlDf(sname string) (df dataframe.DataFrame, err error) {
 		sheet = filepath.Join(basepath, "../data/steel/bsteel", "UB.csv")
 		case "uc":
 		sheet = filepath.Join(basepath, "../data/steel/bsteel", "UC.csv")
+		case "w":
+		sheet = filepath.Join(basepath, "../data/steel/bsteel", "W.csv")
+		case "wpb":
+		sheet = filepath.Join(basepath, "../data/steel/isteel", "WPB.csv")
+		case "npb":
+		sheet = filepath.Join(basepath, "../data/steel/isteel", "NPB.csv")
+		case "box":
+		sheet = filepath.Join(basepath, "../data/steel/isteel", "box.csv")
 		default:
 		err = fmt.Errorf("%s-csv source not found",sname)
 		return
@@ -1261,6 +1535,7 @@ func GetStlSec(sname string, sdx, code int, params...float64) (ss StlSec, err er
 			case "built-i":
 			if len(params) < 4{
 				err = fmt.Errorf("invalid params for built-i section %.f",params)
+				return
 			}
 			bf := params[0]
 			d := params[1]
@@ -1298,7 +1573,7 @@ func GetStlSec(sname string, sdx, code int, params...float64) (ss StlSec, err er
 	ss = StlSec{
 		Sname:  sname,
 		Sectyp: StlStyps[sname],
-		Sstr:   df.Elem(sdx, 1).String(),
+		Sstr:   strings.ReplaceAll(df.Elem(sdx, 1).String()," ",""),
 		Sdx:    sdx,
 		Grd:    grd,
 		Fy:     fy,
@@ -1328,7 +1603,7 @@ func GetStlSec(sname string, sdx, code int, params...float64) (ss StlSec, err er
 	ss.Eps = math.Sqrt(250.0/ss.Fy)
 	//ss.Sfmat = 1.1
 	switch sname{
-		case "i", "ub", "uc":
+		case "i", "ub", "uc","w","npb","wpb":
 		ss.Bstyp = 12
 		ss.Dims = []float64{ss.B, ss.H, ss.Tf, ss.Tw}
 		case "c":
@@ -1341,6 +1616,9 @@ func GetStlSec(sname string, sdx, code int, params...float64) (ss StlSec, err er
 		d := ss.H - 2.0 * ss.Tw
 		ss.Bstyp = 5
 		ss.Dims = []float64{D, d}
+		case "box":
+		ss.Bstyp = 4
+		ss.Dims = []float64{ss.H,ss.B,ss.Tw,ss.Tf}
 		case "l","ln","l2-ss","l2-os","ln2-ss","ln2-os":
 		bf := ss.B// df.Elem(sdx, 4).Float()
 		d := ss.H// df.Elem(sdx, 3).Float()
@@ -1444,6 +1722,7 @@ func GetStlCp(sname string, frmtyp, sdx, ax int) (cp []float64, err error) {
 	case 6:
 		//3d f
 	}
+	fmt.Println("sname, sdx",sname,sdx,"cp",cp)
 	return
 }
 

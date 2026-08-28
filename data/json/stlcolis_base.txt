@@ -1,0 +1,10 @@
+{"Title":"duggalex8.4", -> title
+ "Sname":"i", -> section name
+ "Pu":1050e3, -> factored axial load
+ "Lx":7000.0, -> span in x
+ "Ly":5000.0, -> span in y
+ "Tx":1.0, -> effective length factor in x
+ "Ty":1.0, -> effective length factor in y
+ "Term":"svg", -> gnuplot terminal
+ "Dsgn":true, -> design/check section
+ "Store":true} -> store sections (yes/no) 

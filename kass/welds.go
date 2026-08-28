@@ -20,6 +20,7 @@ type Wld struct{
 	Yns    []float64
 	Res    []float64
 	Strs   []float64
+	Name   string  //"dac", "fep", "fp"
 	Report string
 	Title  string
 	Msname string  //base member section name
@@ -338,6 +339,16 @@ func WeldDz(w *Wld)(err error){
 	err = w.Init()
 	if err != nil{
 		return
+	}
+	switch w.Name{
+		case "dac":
+		//double angle cleat
+		case "fep":
+		//flexible end plate
+		//dz connection with beam by default
+		//if w.Ctyp == 2{dz column weld}
+		case "fp":
+		//fin plate
 	}
 	switch w.Ctyp{
 		case 1:

@@ -6,7 +6,6 @@ import(
 )
 
 //shah chapter 5 tests 
-
 func TestBmSecAzIs(t *testing.T) {
 	b := &RccBm{
 		Fck:18.0,
