@@ -481,6 +481,9 @@ func BmDz(b *Bm) (err error){
 	if b.Sdx > 0{ndx = b.Sdx}
 	if !b.Dsgn{
 		err = b.ChkSec()
+		if err == nil{
+			err = b.Table(b.Verbose)
+		}
 		return
 	}
 	for idx := ndx; idx >= 0; idx--{

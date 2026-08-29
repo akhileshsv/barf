@@ -28,6 +28,15 @@ func stlsdxs(w http.ResponseWriter, r *http.Request){
 	}
 }
 
+func stlfloor(w http.ResponseWriter, r *http.Request){
+	if r.Method == "GET"{
+		err := tstlsecs.Execute(w, nil)
+		if err != nil {
+			terror.Execute(w, fmt.Errorf("major template error\n%s",err))
+		}
+	}
+}
+
 func stlbeam(w http.ResponseWriter, r *http.Request){
 	if r.Method == "GET"{
 		err := tstlbeam.Execute(w, nil)

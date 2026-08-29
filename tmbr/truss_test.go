@@ -50,7 +50,7 @@ func TestTrsGen(t *testing.T){
 	datadir := filepath.Join(dirname,"../data/examples/tmbr/truss")
 	//exmap := make(map[int]float64)
 	for i, ex := range examples{
-		if i != 0{continue}
+		if i != 1{continue}
 		fname := filepath.Join(datadir,ex+".json")
 		t.Log("example->",i+1,"file->",fname,"opt - PSO\n")
 		trs, err := kass.ReadTrs2d(fname)

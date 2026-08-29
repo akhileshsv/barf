@@ -15,9 +15,9 @@ var bjsondxs = []int{0,2,4,5}
 //bashread returns the json file either via menu text input (prints basefile for edits)
 //or reads in .json from the input path provided
 func bashread(choice, input int) (bytestr []byte, err error){
-	//0 - "bmis",1 "bmbs",2 "colis",3 "colbs",4 "cbs",5 "flr"
+	//0 - "bmis",1 "bmbs",2 "colis",3 "colbs",4 "cbs",5 "flr", 6 "flrmat"
 	var basefile string
-	basefiles := []string{"bmis","bmbs","colis","colbs","cbs","flr"}
+	basefiles := []string{"bm","bmbs","col","colbs","cbs","flr","flrmat"}
 	basefile = fmt.Sprintf("stl%s_base.json",basefiles[choice])
 	switch input{
 		case 0:
@@ -66,7 +66,8 @@ func bbmmenu(term string){
 			if err != nil{
 				log.Println(ColorRed, err, ColorReset)
 				continue
-			}			
+			}
+			fmt.Println(b.Report)
 		}
 	}
 	return
@@ -161,11 +162,11 @@ func bflrmenu(term string){
 	running := true
 	cdx := bjsondxs[3]
 	for running{
-		choice := printmenu(icon_flr,[]string{"design steel floor grid","exit"})
+		choice := printmenu(icon_flr,[]string{"regular grid","read matrix","exit"})
 		switch choice{
-			case 1:
+			case 2:
 			running = false
-			case 0:
+			default:
 			input := printmenu("choose input type", input_menus)
 			bytestr, err := bashread(choice + cdx, input)
 			if err != nil{
@@ -183,7 +184,8 @@ func bflrmenu(term string){
 			if err != nil{
 				log.Println(ColorRed, err, ColorReset)
 				continue
-			}			
+			}
+			fmt.Println(f.Report)
 		}
 	}
 

@@ -1,6 +1,6 @@
 {"Title":"rdark", -> title
- "Xs":[0,5510,11020,16530], -> grid coords in x (mm)
- "Ys":[0,7100,14200], -> grid coords in y (mm)
+ "Xs":[[0,3048,6096,9144,12192,15240], -> grid coords in x (mm)
+ "Ys":[0,3048,6096,9144,12192,15240], -> grid coords in y (mm)
  "Zs":[0,3600,7200], -> list of z coords (heights) in mm
  "Jspc":1800, -> max. spacing of joists in mm
  "Ohng":1200, -> cantilever/overhang length (mm) in all 4 directions
@@ -9,8 +9,13 @@
  "Df":2000.0, -> depth of footing
  "Sbc":125.0, -> soil bearing capacity in kn/m2
  "Lsb":true, -> joists/girders are laterally supported by decking
- "Readmat":false, -> if true, read floor grid matrix
- "Ht":3600.0, -> typical floor height
+ "Readmat":true, -> if true, read floor grid matrix
+ "Mat":[[0,1,1,1,0], -> floor matrix. 0 is an empty panel
+     [0,1,1,1,0],
+     [0,1,1,1,0],
+     [0,1,1,1,0],
+     [1,1,1,1,1]],
+"Ht":3600.0, -> typical floor height
 "Ht":3600.0, -> typical floor height
  "Dzcbs":true, -> design column base plates
  "Dzbs":true, -> design pedestals + footings

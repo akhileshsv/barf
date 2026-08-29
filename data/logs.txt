@@ -3835,3 +3835,6 @@ created by net/http.(*Server).Serve in goroutine 1
 2026/08/28 17:04:26 Starting server at port 8080
 2026/08/28 17:10:00 Starting server at port 8080
 2026/08/28 17:10:34 Starting server at port 8080
+2026/08/29 11:44:22 [31m unexpected end of JSON input [0m
+2026/08/29 11:44:24 [31m unexpected end of JSON input [0m
+2026/08/29 11:44:27 [31m unexpected end of JSON input [0m
