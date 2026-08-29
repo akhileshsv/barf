@@ -1,5 +1,0 @@
-package barf
-
-import (
-	//"fmt"
-)

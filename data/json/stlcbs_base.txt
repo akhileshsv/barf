@@ -1,6 +1,0 @@
-{"Title":"duggal1.1", -> title
- "Sname":"i", -> section name
- "Sdx":15, -> section index
-"Code":1, -> 1-is code
- "Fck":20, -> grade of concrete
- "Pu":1500} -> (factored) axial load
