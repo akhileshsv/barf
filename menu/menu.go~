@@ -8,7 +8,7 @@ import (
 	"runtime"
 	"io/ioutil"
 	"path/filepath"
-	//"github.com/f1bonacc1/glippy"
+	"github.com/f1bonacc1/glippy"
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/go-gota/gota/dataframe"
 )
@@ -86,7 +86,7 @@ func readjsonstr(basefile string) (jsonstr, helpstr string, err error){
 	jsonstr = string(jsonfile)
 	
 	//copy json to clipboard (glippy is life)
-	//glippy.Set(jsonstr)
+	glippy.Set(jsonstr)
 	//read helpfile
 	txtfile, e := ioutil.ReadFile(strings.Replace(filename, ".json",".txt",-1))
 	if e != nil{
