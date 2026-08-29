@@ -1,0 +1,11 @@
+package barf
+
+import (
+	"log"
+)
+
+func ModOpt(mod *kass.Model){
+	if mod.Spam{
+		log.Println("starting model opt")
+	}
+}

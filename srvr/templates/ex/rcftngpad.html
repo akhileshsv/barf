@@ -1,0 +1,84 @@
+<div id="rcftng-form">
+  <a href="/docs/rcc/footing" class="nes-btn is-success" style="float:right">?</a>
+  <center><h3 class="nes-text is-primary">Rcc footing data:</h3></center>
+  <form action="/rcc/footing" method="post" autocomplete="on">
+    
+    <label><input type="radio" class="nes-radio" name="Sloped" value ="true" hx-post="/ex/rcc/ftng" hx-target="#rcftng-form"/><span>sloped footing</span></label>
+    <label>
+      <input type="radio" class="nes-radio" name="Sloped" value="false" checked hx-post="/ex/rcc/ftng" hx-target="#rcftng-form"/>
+      <span>pad footing</span>
+    </label>
+    <br>
+    <label><input type="radio" class="nes-radio" name="Shape" value="rect"/><span>rectangular footing</span></label>
+    <label>
+      <input type="radio" class="nes-radio" name="Shape" value="square" checked/>
+      <span>square footing</span>
+    </label>
+    
+    <div class="nes-select">
+      <label for="Code">code of practice</label>
+      <select name="Code" id="Code">
+	<option value="1" selected="selected">is.456</option>
+	<option value="2">bs.8110</option>
+      </select>
+    </div>
+
+    
+    <div class="nes-select">
+      <label for="Term">gnuplot terminal</label>
+      <select name="Term" id="Term">
+	<option value="svg" selected="selected">svg</option>
+	<option value="dxf">dxf</option>
+	<option value="svgmono">svgmono</option>
+      </select>
+    </div> 
+    <label for="Title">title</label>
+    <input type="text" name="Title" class="nes-input" value="rojas-ex1" placeholder="rojas-ex1"  onfocus = "this.value=''"/>
+
+    <label for="Fck">grade of concrete</label>
+    <input type="text" name="Fck" class="nes-input" value="20.0" placeholder="20.0" onfocus = "this.value=''"/>
+    
+    <label for="Fy">grade of steel</label>
+    <input type="text" name="Fy" class="nes-input" value="415.0" placeholder="415.0" onfocus = "this.value=''"/>
+
+    <label for="Colx">col.dimensions(x)(m)</label>
+    <input type="text" name="Colx" required class="nes-input" value="0.4" placeholder="0.4" onfocus = "this.value=''"/>
+
+    <label for="Coly">col.dimensions(y)(m)</label>
+    <input type="text" name="Coly" required class="nes-input" value="0.4" placeholder="0.4" onfocus = "this.value=''"/>
+
+    
+    <label for="Df">depth of footing(m)</label>
+    <input type="text" name="Df" class="nes-input" value="1.5" placeholder="1.5" onfocus = "this.value=''"/>
+
+    <label for="Psfs">(load) factors of safety</label>
+    <input type="text" name="Psfs" class="nes-input" value="1.2,1.6" placeholder="1.2,1.6" onfocus = "this.value=''"/>
+
+    
+    <label for="Nomcvr">nominal cover(m)</label>
+    <input type="text" name="Nomcvr" class="nes-input" value="0.06" placeholder="0.06" onfocus = "this.value=''"/>
+
+    <label for="Pgsoil">weight of soil(kn/m3)</label>
+    <input type="text" name="Pgsoil" class="nes-input" value="15.0" placeholder="15.0" onfocus = "this.value=''"/>
+
+    <label for="Sbc">soil bearing capacity(kn/m2)</label>
+    <input type="text" name="Sbc" class="nes-input" value="220.0" placeholder="220.0" onfocus = "this.value=''"/>
+
+    <label for="Pus">design axial loads(kn)</label>
+    <input type="text" name="Pus" class="nes-input" value="700,500" placeholder="700,500" onfocus = "this.value=''"/>
+    
+    
+    <label for="Mxs">design x-moments(kn-m)</label>
+    <input type="text" name="Mxs" class="nes-input" value="140,140" placeholder="140,140" onfocus = "this.value=''"/>
+    
+    <label for="Mys">design y-moments(kn-m)</label>
+    <input type="text" name="Mys" class="nes-input" value="120,120"  placeholder="120,120" onfocus = "this.value=''"/>
+    
+    <label for="Json" class="nes-text is-warning">json input</label>
+    <textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+    <div style="text-align: center">
+      <input type="submit" class="nes-btn is-primary" value="calc"/>
+    </div>
+  </form>
+</div>

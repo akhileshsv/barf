@@ -1,0 +1,22 @@
+{"Title":"Shah10.3",
+ "Lspans":[12.0],
+ "Hs":[6.0],
+ "DL":2.25,
+ "LL":0.75,
+ "Lbay":4.0,
+ "Lbays":[4.0,4.0,4.0,4.0],
+ "Sections":[[300,550],[300,650]],
+ "Fcks":[20.0],
+ "Fys":[415.0],
+ "Code":1,
+ "Selfwt":1,
+ "Verbose":true,
+ "Ldcalc":1,
+ "Slbload":1,
+ "Dslb":130.0,
+ "Bfcalc":true,
+ "Pufac":1.0,
+ "Term":"svg"}
+
+
+

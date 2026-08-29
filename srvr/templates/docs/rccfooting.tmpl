@@ -1,0 +1,150 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">rcc footing<p>
+      <span class="nes-text is-primary">This program analyzes and designs an isolated rcc pad/sloped footing.</span>
+    <p>The base dimensions (lx/ly) are chosen so that the pressure developed at the base is less than the sbc under working loads.</p>
+    <p>Starting with an initial effective slab depth of 75.0 mm the program increments this in steps of 10mm until a value is found that is safe in flexure and shear.</p>
+    <p>Follows the steps laid out in Rojas, 2013 for axial load + biaxial bending load cases.</p>
+    <p>Calculates the weight of footing based on depth as in the above reference instead of increasing the dead axial load by a factor (usually 10%).</p>
+    <p>Chooses bar dias and spacing that satisfy spacing (> 50mm) and development length constraints.</p>
+    <div class="nes-container with-title">
+      <p class="title">sample fields</p>	
+      <pre>
+	{"Title":"1Rojas", -> title
+	"Colx":0.4,-> column x-dimension in meters
+	"Coly":0.4, -> column y-dimension in meters
+	"Df":1.5, -> depth of foundation (bottom) from 0.0 level
+	"Fck":20.0, -> grade of concrete
+	"Fy":415.0, -> grade of steel
+	"Sbc":220.0,-> safe bearing capacity of soil (kn/m2)
+	"Pgck":24.0, -> unit weight of concrete in kn/m3
+	"Pgsoil":15.0, -> unit weight of soil in kn/m2
+	"Nomcvr":0.06, -> nominal cover to rebar in meters
+	"Dmin":0.25, -> min. depth of base (for sloped footing)
+	"Pus":[700,500], -> axial loads (dead, live, wind); here (dead, live)
+	"Mxs":[140,140],-> moment in x (dead, live, wind); here (dead, live)
+	"Mys":[120,80],-> moment in y (dead, live, wind); here (dead, live)
+	"Psfs":[1.2,1.6], -> partial factors of safety (dead, live, wind); here (dead, live)
+	"Typ":0, -> 0 - square, 1 - rectangular
+	"Sloped":true, -> if true, sloped footing
+	"Dlfac":true, -> if true, add 10% of total axial load as footing dead load 
+	"Term":"qt", -> gnuplot terminal
+	"Verbose":true} -> print reports
+      </pre>
+    </div>
+    <div class="nes-container with-title">
+      <p class="title">references<p>
+	<div class="lists">
+	  <ul class="nes-list is-disc">
+	    <li>Arnulfo Luevanos Rojas - Design of isolated rectangular footings of rectangular form using a new model (2013)</li>
+	    <li>Dr. V.L Shah - Computer Aided Design in Reinforced Concrete (Chapter 8)- Structures Publications (1998).</li>
+	    <li>R. Hulse, W. H. Mosley - Reinforced Concrete Design by Computer (Chapter 6)-Macmillan Education UK (1986).</li>
+	    <li>Subramanian, Narayanan - Design of Reinforced Concrete Structures (Chapter 15)-Oxford University Press (2013).</li>
+	  </ul>
+	</div>
+    </div>
+    <div class="nes-container with-title">
+      <p class="title">examples<p>
+      <p>Copy and paste the following json structs in the "json input" field and hit "calc".</p>
+      <p>Some have "Dlfac" set to true which calculates the weight of the footing as 0.1 * dl as in the references for comparison.</p><br>
+      <p>This is an axially loaded footing for a circular column of diamter 500mm which is analyzed using the (conservative) equivalent square column method.This should return a sloped footing with a depth of 700mm and area of steel of 2211mm2 both ways.</p>
+      <label for="textarea_field">subramanian ex.15.3</label>
+      <textarea id="textarea_field" class="nes-textarea">{"Title":"15.3Sub",
+	"Colx" : 0.354,
+	"Coly" : 0.354,
+	"Df" : 0.0,
+	"Eo":0.346,
+	"Fck" : 20.0,
+	"Fy" : 415.0,
+	"Sbc" : 200.0,
+	"Pgck" : 25.0,
+	"Pgsoil" : 18.0,
+	"Nomcvr" : 0.06,
+	"Dmin" : 0.25,
+	"Pus" : [1200],
+	"Mxs" : [0],
+	"Mys" : [0],
+	"Psfs" : [1.5],
+	"Typ": 0,
+	"Shape" : "square",
+	"Sloped" : true,
+	"Dlfac" : true,
+	"Verbose":true,
+	"Term" :"svg"}</textarea>
+      <br>
+      <p>This axially loaded sloped footing struct should return a depth of 430mm and area of steel of 701mm2 in x and 804mm2 in y.</p>
+      <label for="textarea_field">shah ex.8.1</label>
+      <textarea id="textarea_field" class="nes-textarea">{"Title":"8.1Shah",
+	"Colx" : 0.23,
+	"Coly" : 0.53,
+	"Df" : 0.0,
+	"Eo" : 0.025,
+	"Fck" : 15.0,
+	"Fy" : 415.0,
+	"Sbc" : 400.0,
+	"Pgck" : 24.0,
+	"Pgsoil" : 15.0,
+	"Nomcvr" : 0.06,
+	"Dmin" : 0.15,
+	"Pus" : [633],
+	"Mxs" : [0],
+	"Mys" : [0],
+	"Psfs" : [1.5],
+	"Typ": 1,
+	"Shape" : "rect",
+	"Sloped" : true,
+	"Dlfac" : true,
+	"Verbose":true,
+	"Term" :"svg"}</textarea>
+      <br>
+      <p>This (axial load + single axis moment) example should return a footing of around 2650x2550mm with a depth of 500mm and area of steel of 3700mm2 both ways.</p>
+      <label for="textarea_field">subramanian ex.15.5</label>
+      <textarea id="textarea_field" class="nes-textarea">{"Title":"15.5Sub",
+	"Colx" : 0.4,
+	"Coly" : 0.3,
+	"Df" : 1.5,
+	"Eo":0.0,
+	"Fck" : 20.0,
+	"Fy" : 415.0,
+	"Sbc" : 200.0,
+	"Pgck" : 25.0,
+	"Pgsoil" : 18.0,
+	"Nomcvr" : 0.06,
+	"Dmin" : 0.25,
+	"Pus" : [933.0],
+	"Mxs" : [60.0],
+	"Mys" : [0.0],
+	"Psfs" : [1.5],
+	"Typ": 1,
+	"Shape" : "rect",
+	"Sloped" : false,
+	"Dlfac" : false,
+	"Verbose":true,
+	"Term" :"svg"}</textarea>
+      <br>
+      <p>This (axial load + biaxial moment) example should return a footing of around 3550x3000mm with a depth of 500mm and area of steel of 4700mm2 in x and 5000mm2 in y.</p>
+      <label for="textarea_field">rojas 2003 ex.1</label>
+      <textarea id="textarea_field" class="nes-textarea">{"Title":"1Rojas",
+	"Colx":0.4,
+	"Coly":0.4,
+	"Df":1.5,
+	"Fck":20.0,
+	"Fy":415.0,
+	"Sbc":220.0,
+	"Pgck":24.0,
+	"Pgsoil":15.0,
+	"Nomcvr":0.06,
+	"Pus":[700,500],
+	"Mxs":[140,100],
+	"Mys":[120,80],
+	"Psfs":[1.2,1.6],
+	"Shape":"rect",
+	"Sloped":false,
+	"Dlfac":false,
+	"Term":"svg"}</textarea>
+      <br>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

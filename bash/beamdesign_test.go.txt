@@ -1,0 +1,17 @@
+package barf
+
+import (
+	"fmt"
+	"testing"
+)
+
+func Test(t *testing.T) {
+	var rezstring string
+	wantstring := `#@$%$`
+	rezstring += fmt.Sprintf("%s",getStlDf("Angle"))
+	if rezstring != wantstring {
+		t.Errorf("steel beam design test failed")
+		fmt.Println(rezstring)
+		fmt.Println(getStlDf("Tee"))
+	}
+}

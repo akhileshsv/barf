@@ -1,0 +1,13 @@
+{"Title":"duggal9.8", -> title
+ "Lspan":3700.0, -> span
+ "Sname":"i", -> section name ()
+ "Sdx":34, -> section index (for checking section)
+ "DL":20.25, -> (factored) dead load
+ "LL":0.0, -> (factored) live load
+ "Dtyp":1, -> design type (-1 - cantilever , 1 - ss beam, 2 - cs beam)
+ "Ldcases":[[1,4,0,36.75,0,1850,1],[1,4,36.75,0,1850,0,1]], -> list of (factored load cases)
+ "Lbr":200.0, -> length of bearing
+ "Lsb":false, -> is laterally supported
+ "Dsgn":false, -> design, starting from sdx/check sdx
+ "Term": "dumb"} -> gnuplot terminal
+	

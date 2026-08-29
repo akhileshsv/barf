@@ -1,0 +1,17 @@
+{"Title":"Abel8.1",-> title
+"Styp":1,  -> section type (0-circle, 1-rect)
+ "Lspan":3500.0, -> c-c span in mm	 
+ "Prp":{   
+     "Em":9500,-> elastic modulus in n/mm2
+     "Fv":1.4,-> max. shear stress parallel to grain in n/mm2
+     "Fcp":2.8,-> max. comp. stress perpendicular to grain in n/mm2
+     "Fcb":11.2,-> allowable bending stress in n/mm2
+     "Ft":11.2, -> allowable tensile stress in n/mm2
+     "Pg":0.5}, -> wood properties 
+ "Endc":1, -> end condition (0- clvr, 1- ss, 2- cs)
+ "DL":0.0, -> dead load
+ "LL":0.5, -> live load
+ "Lbl":25.0, -> bearing length, left
+ "Rbl":25.0, -> bearing length, right
+ "Selfwt":true, -> add beam self weight to DL
+ "Verbose":true} -> print report

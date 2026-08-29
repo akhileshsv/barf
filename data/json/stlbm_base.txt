@@ -1,0 +1,12 @@
+{"Title":"duggal9.8", -> title
+ "Lspan":3700.0, -> span
+ "Sname":"i", -> section name
+ "Sdx":34, -> section index
+ "DL":20.25, -> dead load in n/mm
+ "LL":0, -> live load in n/mm
+ "Dtyp":1, -> -1 - cantilever, 1 - ss beam, 2 - cs beam
+ "Ldcases":[[1,4,0,36.75,0,1850,1],[1,4,36.75,0,1850,0,1]],
+ "Lbr":200.0, -> length of bearing
+ "Lsb":false, -> is laterally supported
+ "Dsgn":false, -> design/check section
+ "Term": "dumb"} -> gnuplot terminal

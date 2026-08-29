@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="windows-1252"  standalone="no"?>
+<svg 
+ width="600" height="480"
+ viewBox="0 0 600 480"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+
+<title>Gnuplot</title>
+<desc>Produced by GNUPLOT 5.4 patchlevel 8 </desc>
+
+<g id="gnuplot_canvas">
+
+<rect x="0" y="0" width="600" height="480" fill="none"/>
+<defs>
+
+	<circle id='gpDot' r='0.5' stroke-width='0.5' stroke='currentColor'/>
+	<path id='gpPt0' stroke-width='0.533' stroke='currentColor' d='M-1,0 h2 M0,-1 v2'/>
+	<path id='gpPt1' stroke-width='0.533' stroke='currentColor' d='M-1,-1 L1,1 M1,-1 L-1,1'/>
+	<path id='gpPt2' stroke-width='0.533' stroke='currentColor' d='M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1'/>
+	<rect id='gpPt3' stroke-width='0.533' stroke='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<rect id='gpPt4' stroke-width='0.533' stroke='currentColor' fill='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<circle id='gpPt5' stroke-width='0.533' stroke='currentColor' cx='0' cy='0' r='1'/>
+	<use xlink:href='#gpPt5' id='gpPt6' fill='currentColor' stroke='none'/>
+	<path id='gpPt7' stroke-width='0.533' stroke='currentColor' d='M0,-1.33 L-1.33,0.67 L1.33,0.67 z'/>
+	<use xlink:href='#gpPt7' id='gpPt8' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt7' id='gpPt9' stroke='currentColor' transform='rotate(180)'/>
+	<use xlink:href='#gpPt9' id='gpPt10' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt3' id='gpPt11' stroke='currentColor' transform='rotate(45)'/>
+	<use xlink:href='#gpPt11' id='gpPt12' fill='currentColor' stroke='none'/>
+	<path id='gpPt13' stroke-width='0.533' stroke='currentColor' d='M0,1.330 L1.265,0.411 L0.782,-1.067 L-0.782,-1.076 L-1.265,0.411 z'/>
+	<use xlink:href='#gpPt13' id='gpPt14' fill='currentColor' stroke='none'/>
+	<filter id='textbox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
+	  <feFlood flood-color='white' flood-opacity='1' result='bgnd'/>
+	  <feComposite in='SourceGraphic' in2='bgnd' operator='atop'/>
+	</filter>
+	<filter id='greybox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
+	  <feFlood flood-color='lightgrey' flood-opacity='1' result='grey'/>
+	  <feComposite in='SourceGraphic' in2='grey' operator='atop'/>
+	</filter>
+</defs>
+<g fill="none" color="white" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(161.61,124.88) rotate(270)" stroke="none" fill="rgb(0,255,0)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >m</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(276.49,236.38)" stroke="none" fill="rgb(0,255,0)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >m</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	<g id="gnuplot_plot_1a" ><title>concrete</title>
+<g fill="none" color="white" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,202.63)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >concrete</tspan></text>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M575.24,201.00 L592.99,201.00  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(148,   0, 211)'  d='M188.49,197.76 L290.44,197.76 L290.44,177.54 L248.94,177.54 M229.99,177.54 L188.49,177.54 M229.99,177.54 L229.99,30.94
+		M248.94,177.54 L248.94,30.94 M188.49,197.76 L188.49,177.54  '/></g>
+	</g>
+	<g id="gnuplot_plot_2a" ><title>rebar 1</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,210.13)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >rebar 1</tspan></text>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M575.24,208.50 L592.99,208.50  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_3a" ><title>dims(m)</title>
+<g fill="none" color="white" stroke="rgb(148,   0, 211)" stroke-width="0.20" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.20" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,217.63)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >dims(m)</tspan></text>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M587.85,217.37 L592.99,216.00 L587.85,214.63 M580.38,214.63 L575.24,216.00 L580.38,217.37 M575.24,216.00 L592.99,216.00
+		 '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.20" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(148,   0, 211)'  d='M283.20,216.55 L290.44,214.61 L283.20,212.67 M195.73,212.67 L188.49,214.61 L195.73,216.55 M188.49,214.61 L290.44,214.61
+		M308.86,183.39 L307.29,177.54 L305.72,183.39 M305.72,191.91 L307.29,197.76 L308.86,191.91 M307.29,197.76 L307.29,177.54
+		M243.45,162.16 L248.94,160.69 L243.45,159.22 M235.48,159.22 L229.99,160.69 L235.48,162.16 M229.99,160.69 L248.94,160.69
+		 '/></g>
+	</g>
+	<g id="gnuplot_plot_4a"  fill="none"><title>gnuplot_plot_4a</title>
+<g fill="none" color="white" stroke="rgb(148,   0, 211)" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(315.00,181.78)" stroke="none" fill="rgb(148,0,211)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >0.240m</tspan></text>
+	</g>
+	<g transform="translate(242.96,212.95)" stroke="none" fill="rgb(148,0,211)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >1.210m</tspan></text>
+	</g>
+	<g transform="translate(242.96,154.82)" stroke="none" fill="rgb(148,0,211)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >0.225m</tspan></text>
+	</g>
+	<g transform="translate(378.19,192.31)" stroke="none" fill="rgb(86,180,233)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >x-#1-Y20-+Infmm</tspan></text>
+	</g>
+	<g transform="translate(378.19,200.74)" stroke="none" fill="rgb(230,159,0)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >y#1-Y20-+Infmm</tspan></text>
+	</g>
+</g>
+	</g>
+	<g id="gnuplot_plot_5a" ><title>rebar 2</title>
+<g fill="none" color="white" stroke="rgb(230, 159,   0)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,225.13)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >rebar 2</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(240, 228,  66)'  d='M590.02,223.50 L590.00,223.34 L589.93,223.18 L589.82,223.02 L589.66,222.86 L589.47,222.71 L589.23,222.57 L588.95,222.43
+		L588.64,222.30 L588.29,222.18 L587.91,222.07 L587.50,221.97 L587.06,221.88 L586.60,221.81 L586.13,221.74 L585.64,221.69
+		L585.13,221.66 L584.62,221.64 L584.11,221.63 L583.59,221.64 L583.08,221.66 L582.57,221.69 L582.08,221.74 L581.61,221.81
+		L581.15,221.88 L580.71,221.97 L580.30,222.07 L579.92,222.18 L579.57,222.30 L579.26,222.43 L578.98,222.57 L578.74,222.71
+		L578.55,222.86 L578.39,223.02 L578.28,223.18 L578.21,223.34 L578.19,223.50 L578.21,223.67 L578.28,223.83 L578.39,223.99
+		L578.55,224.15 L578.74,224.30 L578.98,224.44 L579.26,224.58 L579.57,224.71 L579.92,224.83 L580.30,224.94 L580.71,225.04
+		L581.15,225.13 L581.61,225.20 L582.08,225.27 L582.57,225.32 L583.08,225.35 L583.59,225.37 L584.11,225.38 L584.62,225.37
+		L585.13,225.35 L585.64,225.32 L586.13,225.27 L586.60,225.20 L587.06,225.13 L587.50,225.04 L587.91,224.94 L588.29,224.83
+		L588.64,224.71 L588.95,224.58 L589.23,224.44 L589.47,224.30 L589.66,224.15 L589.82,223.99 L589.93,223.83 L590.00,223.67
+		L590.02,223.50 Z  '/>	<path stroke='rgb(240, 228,  66)'  d='M590.02,223.50 L590.00,223.34 L589.93,223.18 L589.82,223.02 L589.66,222.86 L589.47,222.71 L589.23,222.57 L588.95,222.43
+		L588.64,222.30 L588.29,222.18 L587.91,222.07 L587.50,221.97 L587.06,221.88 L586.60,221.81 L586.13,221.74 L585.64,221.69
+		L585.13,221.66 L584.62,221.64 L584.11,221.63 L583.59,221.64 L583.08,221.66 L582.57,221.69 L582.08,221.74 L581.61,221.81
+		L581.15,221.88 L580.71,221.97 L580.30,222.07 L579.92,222.18 L579.57,222.30 L579.26,222.43 L578.98,222.57 L578.74,222.71
+		L578.55,222.86 L578.39,223.02 L578.28,223.18 L578.21,223.34 L578.19,223.50 L578.21,223.67 L578.28,223.83 L578.39,223.99
+		L578.55,224.15 L578.74,224.30 L578.98,224.44 L579.26,224.58 L579.57,224.71 L579.92,224.83 L580.30,224.94 L580.71,225.04
+		L581.15,225.13 L581.61,225.20 L582.08,225.27 L582.57,225.32 L583.08,225.35 L583.59,225.37 L584.11,225.38 L584.62,225.37
+		L585.13,225.35 L585.64,225.32 L586.13,225.27 L586.60,225.20 L587.06,225.13 L587.50,225.04 L587.91,224.94 L588.29,224.83
+		L588.64,224.71 L588.95,224.58 L589.23,224.44 L589.47,224.30 L589.66,224.15 L589.82,223.99 L589.93,223.83 L590.00,223.67
+		L590.02,223.50 Z  '/></g>
+	</g>
+<g fill="none" color="white" stroke="rgb(240, 228,  66)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(276.49,12.89)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >rdbog-ftng-26</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(82.82,364.88) rotate(270)" stroke="none" fill="rgb(0,255,0)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >m</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(276.49,476.38)" stroke="none" fill="rgb(0,255,0)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >m</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	<g id="gnuplot_plot_1b" ><title>concrete</title>
+<g fill="none" color="white" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,450.13)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >concrete</tspan></text>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M575.24,448.50 L592.99,448.50  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.25" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(148,   0, 211)'  d='M149.07,429.10 L322.02,429.10 M149.07,429.10 L149.07,275.22 M322.02,275.22 L149.07,275.22 M322.02,275.22 L322.02,429.10
+		 '/>	<path stroke='rgb(  0, 158, 115)'  d='M211.70,366.46 L259.39,366.46 M211.70,366.46 L211.70,337.85 M259.39,337.85 L211.70,337.85 M259.39,337.85 L259.39,366.46
+		 '/></g>
+	</g>
+	<g id="gnuplot_plot_2b" ><title>rebar 1</title>
+<g fill="none" color="white" stroke="rgb(  0, 158, 115)" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,457.63)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >rebar 1</tspan></text>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M575.24,456.00 L592.99,456.00  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.50" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_3b" ><title>dims(m)</title>
+<g fill="none" color="white" stroke="rgb( 86, 180, 233)" stroke-width="0.20" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.20" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(571.74,465.13)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="end">
+		<text><tspan font-family="Kongtext" >dims(m)</tspan></text>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M587.85,464.87 L592.99,463.50 L587.85,462.13 M580.38,462.13 L575.24,463.50 L580.38,464.87 M575.24,463.50 L592.99,463.50
+		 '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="0.20" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='rgb(148,   0, 211)'  d='M314.78,456.47 L322.02,454.53 L314.78,452.59 M156.31,452.59 L149.07,454.53 L156.31,456.47 M149.07,454.53 L322.02,454.53
+		M125.58,282.46 L123.64,275.22 L121.70,282.46 M121.70,421.86 L123.64,429.10 L125.58,421.86 M123.64,429.10 L123.64,275.22
+		 '/></g>
+	</g>
+	<g id="gnuplot_plot_4b"  fill="none"><title>gnuplot_plot_4b</title>
+<g fill="none" color="white" stroke="rgb(148,   0, 211)" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(239.05,448.66)" stroke="none" fill="rgb(148,0,211)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >1.360000</tspan></text>
+	</g>
+	<g transform="translate(127.14,346.29)" stroke="none" fill="gray" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >1.210000</tspan></text>
+	</g>
+	<g transform="translate(452.69,423.86)" stroke="none" fill="rgb(86,180,233)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >x-#1-Y20-+Infmm</tspan></text>
+	</g>
+	<g transform="translate(452.69,436.58)" stroke="none" fill="rgb(230,159,0)" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >y#1-Y20-+Infmm</tspan></text>
+	</g>
+</g>
+	</g>
+<g fill="none" color="white" stroke="rgb(230, 159,   0)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(276.49,252.88)" stroke="none" fill="black" font-family="Kongtext" font-size="5.00"  text-anchor="middle">
+		<text><tspan font-family="Kongtext" >rdbog-ftng-26</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+</g>
+</svg>
+

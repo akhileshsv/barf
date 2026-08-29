@@ -1,0 +1,5 @@
+{"Bc":[[0,0],[400,0],[0,500],[400,500],[0,800],[400,800]], -> individual bolt coordinates ([x1, y1],[x2,y2],...[xn,yn]) 
+ "Dia":[20,20,20,20,20,20], -> bolt diameter
+ "Typ":[1,1,1,1,1,1], -> shear type (single - 1, double - 2)
+ "Frc":[[2,-40,0]], -> applied forces ([force x, force y, moment z])
+ "Fc":[[1200,1000]]} -> coords of applied forces ([x1, y1],[x2,y2],...[xn,yn])

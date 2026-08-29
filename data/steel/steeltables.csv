@@ -1,0 +1,11 @@
+Designation,Weight per Meter (w),Sectional Area (a),Depth of Section (h),Width of flange (b),Thickness of Flange (tf),Thickness of Web (tw),Centre of Gravity Cyy,Moment of Inertia,,Raddi of Gyration,,Modulli of Section,
+,kg,   cm2, mm,mm, mm, mm, cm,,,,,,
+,,,,,,,,Ixx cm4,Iyy cm4,rxx cm,ryy cm,Zxx  cm3,Zyy  cm3
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+ISLT 50,4,5.11,50,50,6.4,4,1.19,9.9,6.4,1.39,1.12,2.6,2.5
+ISLT 75,7.1,9.04,75,80,6.8,4.8,1.72,41.9,27.6,2.15,1.75,7.2,6.9
+ISLT 100,12.7,16.16,100,100,10.8,5.7,2.13,116.6,75,2.69,2.15,14.8,15
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,BACK,,,,,,,

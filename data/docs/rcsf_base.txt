@@ -1,0 +1,20 @@
+{"Title":"Mosley7.6",-> title
+"Nspans":3,-> number of spans
+"Lspans":[6.0,4.0,6.0],->list of span x-values
+"H":[4.0,3.5],->list of height z-values(floor heights)
+"DL":25.0,-> dead load 
+"LL":10.0,-> live load 
+"Sections":[[300,350],[300,600]],-> section dimensions
+"Csec":[1],-> column section indices (cdx1,cdx2,...cdxnspans+1/cdx if same)
+"Bsec":[2],-> beam section indices (bdx1,bdx2,...bdxnspans/bdx if same)
+"Fcks":[25.0],-> list of (rcc) grades
+"Fys":[415.0],-> list of (steel) grades
+"Code":1,-> 1 - is code, 2 - bs code
+"Clvrs":[[0,0,0],[0,0,0]], -> left/right cantilever ([length,dead load, live load]) 
+"PSFs":[1.4,1.0,1.6,0.0],-> partial factors of safety for dead and live load 
+"DM":0.0,-> moment redistribution factor (for an rcc frame)
+"Verbose":true,-> print reports
+"Term":"dumb"}-> gnuplot terminal
+
+
+

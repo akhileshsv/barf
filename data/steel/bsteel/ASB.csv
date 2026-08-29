@@ -1,0 +1,19 @@
+,ASB,Asymmetric Slimflor Beams,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5,Unnamed: 6,Unnamed: 7,Unnamed: 8,Unnamed: 9,Unnamed: 10,Unnamed: 11,Unnamed: 12,Unnamed: 13,Unnamed: 14,Unnamed: 15,Unnamed: 16,Unnamed: 17,Unnamed: 18,Unnamed: 19,Unnamed: 20,Unnamed: 21,Unnamed: 22
+0,,,,,Width of,,Thickness,,Root,Second Moment ,,Radius,Elastic,Elastic,,Plastic,Plastic,,Buckling,Torsional,Warping,Torsional,Area
+1,,,,,Flange,,of,,Radius,of Area,,of,neutral,Modulus,,neutral,Modulus,,Parameter,Index,Constant,Constant,of
+2,,Designation,Mass,Depth,Top,Bottom,Web,Flange,,,,Gyration,axis ,,,axis,,,,,,,section
+3,,,,,,,,,,Ix,Iy,ry,ye,Zx,Zy,axis yp,Sx,Sy,u,x,H,J,A
+4,Home,,kg/m,mm,mm,mm,mm,mm,mm,cm4,cm4,cm,cm,cm3,cm3,cm,cm3,cm3,,,cm6,cm4,cm2
+5,1,300 ASB 237 #,237.1,336,203,313,40,37,27,48637,12218,6.36,18.8,2585,781,21.9,3515,1408,0.82,7.03,1811709,1752,302
+6,3,300 ASB 196,195.5,342,183,293,20,40,27,45871,10463,6.48,19.8,2321,714,28.1,3055,1230,0.84,7.86,1498135,1177,249.1
+7,5,300 ASB 185 #,184.6,320,195,305,32,29,27,35657,8752,6.1,18,1984,574,21,2658,1031,0.82,8.56,1203025,871,235.1
+8,7,300 ASB 155,155.4,326,179,289,16,32,27,34514,7989,6.35,18.9,1825,553,27.3,2361,950,0.84,9.4,1068165,620,197.9
+9,9,300 ASB 153 # +,152.8,310,190,300,27,24,27,28398,6840,5.93,17.4,1628,456,20.4,2159,817,0.82,9.97,894772,513,194.6
+10,11,280 ASB 136 # +,136.4,288,190,300,25,22,24,22216,6256,6,16.3,1367,417,19.2,1805,741,0.81,10.19,709504,379,173.7
+11,13,280 ASB 124,123.9,296,178,288,13,26,24,23453,6410,6.37,17.3,1360,445,25.7,1729,761,0.83,10.54,720657,332,157.8
+12,15,280 ASB 105,104.7,288,176,286,11,22,24,19249,5298,6.3,16.8,1145,370,25.3,1440,633,0.83,12.08,573540,207,133.4
+13,17,280 ASB 100 # +,100.3,276,184,294,19,16,24,15506,4245,5.76,15.6,995,289,18.4,1294,511,0.81,13.13,450943,160,127.8
+14,19,280 ASB 74,73.6,272,175,285,10,14,24,12191,3334,5.96,15.7,776,234,21.3,978,403,0.83,16.63,337956,72,93.7
+15,,Notes:,,,,,,,,,,,,,,,,,,,,,
+16,, #  marked sections are fire engineered with thicker webs,,,,,,,,,,,,,,,,,,,,,
+17,, +  marked sections are the three original sections,,,,,,,,,,,,,,,,,,,,,

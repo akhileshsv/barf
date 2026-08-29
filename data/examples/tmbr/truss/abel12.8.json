@@ -1,0 +1,24 @@
+{"Id":"abel12.8",
+ "Typ":       2,
+ "Cfg":       1,
+ "Mtyp":      3,
+ "Group":     2,
+ "Styp":      1,
+ "Span":      8000.0,
+ "Width":     8000.0,
+ "Spacing":   4000.0,
+ "Rise":      3000.0,
+ "Purlinspc": 5000,
+ "Height":    3000.0,
+ "LL":        0,
+ "Clctyp":    1,
+ "Vb":        50,
+ "Frmtyp":    2,
+ "Term":      "qt",
+ "Spam":      true,
+ "Spose":     true,
+ "Bcslope":   0.0,
+ "Code": 1}
+
+
+

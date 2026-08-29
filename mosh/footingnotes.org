@@ -1,0 +1,26 @@
+* tests
+
+| file               | func          | notes                        | test |
+|--------------------+---------------+------------------------------+------|
+| footingdesign_test | ftngpadaz     | pad footing analysis (hulse) | ok   |
+|                    | ftngbxoz      | ozmen footing design         |      |
+|                    | ftngpso       | pso opt for footing (lmao)   |      |
+|                    | ftngdzrojas   | rojas footing design (ux)    |      |
+|                    | ftngdzbxrojas | rojas biaxial footing design |      |
+|                    |               |                              |      |
+
+* plan
+1. [-] analysis
+   1. [X] rect column perimeter
+      1. [X] sloped
+      2. [X] pad
+   2. [ ] weird col perimeter
+      1. [ ] sloped
+      2. [ ] pad
+2. [-] design
+   1. [X] sloped
+   2. [X] pad
+   3. [ ] pedestal
+3. [ ] draw
+   1. [ ] dumb/qt
+   2. [ ] svg

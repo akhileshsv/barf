@@ -1,0 +1,9 @@
+area 157500.000, xc 394.048, yc 455.952, ixx 4050669642.857, iyy 8313169642.857, ixy 1950892857.143, iuu 9071246468.011, ivv 3292592817.704, pxangle -68.765
+area 100.000, xc 15.000, yc 15.000, ixx 833.333, iyy 833.333, ixy 0.000, iuu 833.333, ivv 833.333, pxangle NaN
+area 100.000, xc 0.000, yc -6.667, ixx 555.556, iyy 1666.667, ixy -416.667, iuu 1805.556, ivv 416.667, pxangle 71.565
+
+--- FAIL: TestSecPrp (0.00s)
+    sections_test.go:69: section properties calculation failed
+FAIL
+exit status 1
+FAIL	barf/kass	0.286s

@@ -1,0 +1,12 @@
+{"Title":"rdarkg10",
+ "Lspan":4300.0,
+ "Sname":"i",
+ "Dtyp":1,
+ "Lbr":100.0,
+ "Lsb":true,
+ "Brchk":true,
+ "Selfwt":true,
+ "Ldcases":[[1,1,110000,0,1433,0],[1,1,110000,0,2866,0]],
+ "Dsgn":true,
+ "Term": "dumb"}
+	

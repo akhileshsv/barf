@@ -1,0 +1,18 @@
+{"Title":"mosley6.2", -> title
+ "Lspan":6000.0, -> span
+ "Tx":1.0, -> fixity/effective length factor in x
+ "Ty":1.0, -> fixity/effective length factor in y
+ "Lcf":6000.0, -> unbraced length of compression flange
+ "Tcf":1.0, -> fixity/effective length factor for compression flange
+ "Lbr":200.0, -> bearing length
+ "Tbr":20.0, -> thickness of bearing surface
+ "Nsecs":5, -> number of sections to store
+ "Code":2, -> 1 - is 800/2 - bs449
+ "Sname":"ub", -> section name
+ "Sdx":5, -> section index
+ "Dsgn":true, -> design/check section
+ "Selfwt":true, -> add beam self weight to dead load
+ "Dtyp":1, -> -1 - cantilever, 1 - ss beam, 2 - cs beam
+ "Brchk":true, -> check for bearing stress
+ "Ldcases":[[1,3,100,0,0,0,1],[1,3,160,0,2000,1000,2]], -> factored load cases on beam
+ "Term": "dumb"} -> gnuplot terminal

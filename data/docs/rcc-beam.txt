@@ -1,0 +1,101 @@
+
+This program designs an rcc beam section in bending
+for an ultimate moment in kn/m2 or analyzes
+an rcc beam section with a given area of steel
+in bending for an ultimate moment in kn/m2.
+
+Sections supported:
+
+| section   | styp index |
+| rectangle |          1 |
+| T-section |          6 |
+| L-section |          7 |
+| T-pocket  |         14 |
+|           |            |
+
+
+
+Variables:
+
+
+                             bf                                         
+         ------------------------------------------------->             
+                                                                        
+    |    +------------------------------------------------+             
+    |    |                                                |      |      
+    |    |    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx    |      |      
+    |    |                         asc                    |      |      
+    |    |                                                |      |      
+    |    |                                                |      |    df
+    |    |                                                |      |      
+    |    |                                                |      |      
+    |    |                                                |      |      
+    |    +-----------------+-------------+----------------+      v      
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+dused                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |             |                              
+    |                      |      ast    |                              
+    |                      |  xxxxxxxxx  |                              
+    |                      |             |                             
+    |                      |             |                             
+    |                      +-------------+                             
+    |                            bw                                     
+    v                      --------------->                             
+
+
+Analysis can either have areas of steel fields filled (ast, asc)
+in or lists of bar dias and depths from top.
+
+Grade of concrete, steel; code and styp fields are self-explanatory.
+
+Run the placeholder text to view results of a sample problem.
+
+# sample fields
+
+## design
+
+"Title":"Hulse3.2.2",-> title
+ "Fck":25.0,-> grade of concrete
+ "Fy":460.0,-> grade of steel
+ "Styp":1,-> section type (see SectionMap in kass/sections)
+ "Code":2, -> 1 - is code, 2 - bs code
+ "Tyb":1.0, -> 0.0 - rectangular beam, 0.5 - L flanged beam, 1.0 - T flanged beam
+ "Bf":600.0, -> breadth of flange (mm)
+ "Df":150.0,-> depth of flanged (mm)
+ "Bw":250.0,-> breadth of web (mm)
+ "Dused":580.0,-> total depth of beam (mm)
+ "Cvrt":50.0,-> clear cover to tension steel(mm)
+ "Cvrc":50.0, -> clear cover to compression steel (mm)
+ "Lspan":5.0,-> length of span (meters)
+ "Mu":160.0, -> ultimate moment (kn/m)
+ "Verbose":true -> print report
+
+## analysis 1
+
+"Title":"Hulse3.1", -> title
+ "Fck":30.0, -> grade of concrete
+ "Fy":460.0, -> grade of steel
+ "Styp":1, -> section type (see SectionMap in kass/sections)
+ "Code":2, -> 1 - is code, 2 - bs code
+ "Tyb":0.0, -> 0.0 - rectangular beam, 0.5 - L flanged beam, 1.0 - T flanged beam
+ "Bf":0.0, -> breadth of flange (mm)
+ "Df":0.0, -> depth of flanged (mm)
+ "Bw":280.0, -> breadth of web (mm)
+ "Dused":560.0, -> total depth of beam (mm)
+ "Dias":[20,20,32,32,32], -> list of bar diameters (mm)
+ "Dbars":[50,50,510,510,510], -> list of bar depths (from top compression face) (mm)
+ "Cvrt":50.0, -> clear cover to tension steel(mm)
+ "Cvrc":50.0, -> clear cover to compression steel (mm)
+ "Asc":628.0, -> area of compression steel (mm2)
+ "Ast":2410.0, -> area of tension steel (mm2)
+ "Verbose":true, -> print report

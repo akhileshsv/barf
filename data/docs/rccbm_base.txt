@@ -1,0 +1,18 @@
+{"Title":"Hulse2.3", -> title
+ "Nspans":3, -> number of spans
+ "Fck":25.0, -> grade of concrete
+ "Fy":460.0, -> grade of steel
+ "Code":2, -> 1 - is code, 2 - bs code
+ "DL":25.0, -> dead load (applied as udl over all spans)
+ "LL":10.0, -> live load (applied as udl over all spans)
+ "Sections":[[300,600]],-> list of beam sections (one if all spans are uniform, [[dims1],[dims2],...[dimsnspans]] else)
+ "Selfwt":false, -> calculate self weight of beam and add to dead load
+ "Lspans":[6.0,4.0,6.0], -> length of beam spans
+ "Nomcvr":25.0, -> nominal cover to reinforcement
+ "Lsxs":[300], -> width of supports (one if all spans are uniform, [[lsx1],[lsx2],...[lsxnspans]] else)
+ "D1":0.0, -> req. diameter of rebar 1
+ "D2":0.0, -> req. diameter of rebar 2 
+ "Dslb":0.0, -> depth of slab
+ "Verbose":true, -> print reports
+ "Term":"dumb", -> gnuplot terminal
+ }

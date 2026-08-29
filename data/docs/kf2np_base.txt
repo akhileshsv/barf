@@ -1,0 +1,14 @@
+{"Id":"leet11.13", -> title
+"Cmdz":["2df","kips","0"], -> frmtyp, units, design 
+"Ncjt":3,  -> number of degrees of freedom per node (3 for 2d frame)
+ "Coords": [[0,0],[50,0],[0,16],[50,16]], -> node coordinates ([x1,y1], [x2,y2]...[xn,yn] for 2d frame)
+ "Supports":[[1,-1,-1,-1],[2,-1,-1,-1]],list of nodal supports ([node index,x displ. restrained (-1 if), y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+ "Em":[[25000,0.2]],-> list of elastic modulus/material properties ([em1, mu1], [em2,mu2]..[emn,mun]]; mu - poisson's ratio)
+ "Mprp": [[1,3,1,1,0,1], [2,4,1,1,0,1],[3,4,1,2,0,2]], -> member property list ([jb, je, em, cp, mrel, haunch typ (Ts)])
+"Jloads": [], -> nodal loads ([node idx, x-force, y-force, z-moment])
+ "Msloads":[[3,3,2,0,0,0]], -> member loads ([member index, load type, wa, wb, la, lb]- check list of load types)
+ "Ts":[[0,0,0],[1,0,1]], -> member haunch types (left sec, mid sec, right sec)(0-none, 1- prismatic, 2-straight, 3 - parabolic)
+ "Ls":[[16.0,0.0,0.0],[10.0,30.0,10.0]],-> member lengths (left sec, mid sec, right sec)
+ "Ds":[[1.333,1.333,1.333],[1.333,0.833,1.333]], -> list of member depths (left sec, mid sec, right sec)
+ "Bs":[[1.0,1.0,1.0],[1.0,1.0,1.0]],-> list of member widths (left sec, mid sec, right sec)
+ "Dims":[[1.0,1.333],[1.0,0.833]]-> base member dimensions (at mid sec)}

@@ -1,0 +1,36 @@
+
+* tests
+- [ ] ColSecInit
+  col section init test
+- [ ] ColDzIs
+  - [ ] styp 0, 1
+  - [ ] styp general
+  only rect sects so far
+  check for styp 0 (get eq sqr)
+- [X] ColSecArXu
+- [ ] ColAzBs
+- [ ] ColDBs
+- [ ] ColNMBs
+- [ ] ColSlmDBs
+
+* plan
+
+1. [-] col analysis
+   1. [X] rect section
+   2. [ ] general section
+2. [ ] col design
+   1. [ ] axial load (dtyp 0)
+   2. [ ] axial load + mx (dtyp 1)
+      1. [ ] rtyp 0 (symm)
+      2. [ ] rtyp 1 (unsym)
+      3. [ ] rtyp 2 (section)
+   3. [ ] axial load + biaxial bending
+      1. [ ] is code
+	 1. [ ] rtyp 0
+	 2. [ ] rtyp 1
+	 3. [ ] rtyp 2
+      2. [ ] bs code
+	 1. [ ] rtyp 0
+	 2. [ ] rtyp 1
+	 3. [ ] rtyp 2
+3. [ ] draw

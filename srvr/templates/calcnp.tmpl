@@ -1,0 +1,70 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">
+    <div id="modnp-form">
+      <a href="/docs/calcnp/2df" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Non-prismatic bar element model data:</h3></center>
+      <form action="/analyze/np" method="post">
+	<div class="nes-select">
+	  <label for="Frmstr">frame type</label>
+	  <select name="Frmstr" id="Frmstr" hx-post="/ex/models/np" hx-target="#modnp-form">
+	    <option value="1db">beam(1d)</option>
+	    <option value="2df" selected="selected">frame(2d)</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Units">units(b.m)</label>
+	  <select name="Units" id="Units">
+	    <option value="knm">kN-meter</option>
+	    <option value="nmm">N-mm</option>
+	    <option value="kpin" selected="selected">kP-in</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg" selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	  </select>
+	</div>
+	<label for="Id">model title</label>
+	<input type="text" name="Id" class="nes-input" value="leet11.13" placeholder="leet11.13" onfocus = "this.value=''"/>    
+	<label for="Coords">nodal coordinates</label>
+	<input type="text" name="Coords" class="nes-input" value="[0,0],[50,0],[0,16],[50,16]" placeholder="[0,0],[50,0],[0,16],[50,16]" onfocus = "this.value=''"/>
+	<label for="Supports">supports</label>
+	<input type="text" name="Supports" class="nes-input" value="[1,-1,-1,-1],[2,-1,-1,-1]" placeholder="[1,-1,-1,-1],[2,-1,-1,-1]" onfocus = "this.value=''"/>
+	
+	<label for="Mprp">member properties</label>
+	<input type="text" name="Mprp" class="nes-input" value="[1,3,1,1,0,1], [2,4,1,1,0,1],[3,4,1,2,0,2]" placeholder="[1,3,1,1,0,1], [2,4,1,1,0,1],[3,4,1,2,0,2]" onfocus = "this.value=''"/>
+	<label for="Em">elastic modulus</label>
+	<input type="text" name="Em" class="nes-input" value="[25000,0.2]" placeholder="[25000,0.2]" onfocus = "this.value=''"/>
+	
+	<label for="Ts">haunch types(l,m,r)</label>
+	<input type="text" name="Ts" class="nes-input" value="[0,0,0],[1,0,1]" placeholder="[0,0,0],[1,0,1]" onfocus = "this.value=''"/>
+	<label for="Ls">member lengths(left,mid,right)</label>
+	<input type="text" name="Ls" class="nes-input" value="[16.0,0.0,0.0],[10.0,30.0,10.0]" placeholder="[16.0,0.0,0.0],[10.0,30.0,10.0]" onfocus = "this.value=''"/>
+	
+	<label for="Ds">haunch depths(left,mid,right)</label>
+	<input type="text" name="Ds" class="nes-input" value="[1.333,1.333,1.333],[1.333,0.833,1.333]" placeholder="[1.333,1.333,1.333],[1.333,0.833,1.333]" onfocus = "this.value=''"/>
+	<label for="Bs">haunch widths(left,mid,right)</label>
+	<input type="text" name="Bs" class="nes-input" value="[1.0,1.0,1.0],[1.0,1.0,1.0]" placeholder="[1.0,1.0,1.0],[1.0,1.0,1.0]" onfocus = "this.value=''"/>
+	
+	<label for="Dims">base dims(mid)</label>
+	<input type="text" name="Dims" class="nes-input" value="[1.0,1.333],[1.0,0.833]" placeholder="[1.0,1.333],[1.0,0.833]" onfocus = "this.value=''"/>
+	
+	<label for="Jloads">nodal loads</label>
+	<input type="text" name="Jloads" class="nes-input" value="" placeholder=""/>
+	<label for="Msloads">member loads</label>
+	<input type="text" name="Msloads" class="nes-input" value="[3,3,2,0,0,0]" placeholder="[3,3,2,0,0,0]" onfocus = "this.value=''"/>
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

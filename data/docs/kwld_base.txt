@@ -1,0 +1,5 @@
+{"Size":[10,10,10], -> weld size (here mm)
+ "Wc":[[0,1200,800,1200],[0,1200,0,0],[0,0,800,0]], -> list of weld coordinates ([start x, start y, end x, end y])
+ "Frc":[[2,-40,0]], -> list of applied forces ([x-force, y-force, z-moment])
+ "Fc":[[1400,1200]],-> coordinates of applied forces ([x1, y1],[x2,y2]...[xn,yn])
+ } 

@@ -1,0 +1,28 @@
+{{template "header" .}}
+<body>  
+  <html>
+    <div class="nes-container with-title is-centered">
+      <p class="title">CALC-{{.Id}}</p>
+      <pre>
+	<code>
+	  {{.Report}}
+	</code>
+      </pre>
+      <body>
+	{{if eq .Term "dxf"}}
+	<div class="lists">
+	  <ul class="nes-list is-disc">
+	    {{range .Txtplots}}
+	    <li><a href="/svg/{{.}}">{{.}}</a></li>
+	    {{end}}
+	  </ul>
+	</div>
+	{{else}}
+	{{range .Txtplots}}
+	<img src="/svg/{{.}}" style="width :100%;"/>
+	{{end}}
+	{{end}}
+      </body> 
+  </html>
+</body>
+{{template "footer" .}}

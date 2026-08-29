@@ -1,0 +1,84 @@
+
+{{template "header" .}}
+<body>
+  <div class="nes-container" width="fit-content">      
+    <div id="rccbmsec-form">
+      <a href="/docs/rcc/beam" class="nes-btn is-success" style="float:right">?</a>
+      <center><h3 class="nes-text is-primary">Rcc beam sec design data:</h3></center>
+      <form action="/rcc/beam/sec" method="post" autocomplete="on">
+	<label><input type="radio" class="nes-radio" name="Dsgn" value="true" hx-post="/ex/rcc/bmsec" hx-target="#rccbmsec-form" checked/><span>design</span></label>
+	<label><input type="radio" class="nes-radio" name="Dsgn" value="false" hx-post="/ex/rcc/bmsec" hx-target="#rccbmsec-form"/><span>analyze</span></label>
+	<div class="nes-select">
+	  <label for="Code">code of practice</label>
+	  <select name="Code" id="Code">
+	    <option value="1" selected="selected">is.456</option>
+	    <option value="2">bs.8110</option>
+	  </select>
+	</div>
+	<div class="nes-select">
+	  <label for="Styp">beam section</label>
+	  <select name="Styp" id="Styp">
+	    <option value="1"  selected="selected">rectangle</option>
+	    <option value="6">T</option>
+	    <option value="7">L</option>
+	    <option value="14">T-pocket</option>
+	  </select>
+	</div>
+
+	<div class="nes-select">
+	  <label for="Term">gnuplot terminal</label>
+	  <select name="Term" id="Term">
+	    <option value="svg"  selected="selected">svg</option>
+	    <option value="dxf">dxf</option>
+	    <option value="svgmono">svgmono</option>
+	  </select>
+	</div>
+	<label for="Title">title</label>
+	<input type="text" name="Title" class="nes-input" value="subramanian-ex-9.2" placeholder="subramanian-ex-9.2"  onfocus = "this.value=''"/>
+
+	<label for="Fck">grade of concrete</label>
+	<input type="text" name="Fck" class="nes-input" value="25.0" placeholder="25.0"  onfocus = "this.value=''"/>
+	
+	<label for="Fy">grade of steel</label>
+	<input type="text" name="Fy" class="nes-input" value="415.0" placeholder="415.0"  onfocus = "this.value=''"/>
+
+	<label for="Dused">beam depth(mm)</label>
+	<input type="text" name="Dused" required class="nes-input" value="540.0" placeholder="540.0"  onfocus = "this.value=''"/>
+
+	<label for="Bw">breadth of web(mm)</label>
+	<input type="text" name="Bw" required class="nes-input" value="230.0" placeholder="230.0"  onfocus = "this.value=''"/>
+
+	<label for="Bf">breadth of flange(mm)</label>
+	<input type="text" name="Bf" class="nes-input" value="0.0" placeholder="0.0"  onfocus = "this.value=''"/>
+
+	<label for="Df">depth of flange(mm)</label>
+	<input type="text" name="Df" class="nes-input" value="0.0" placeholder="0.0"  onfocus = "this.value=''"/>
+
+	
+	<label for="Cvrt">eff.cover(bot.)(mm)</label>
+	<input type="text" name="Cvrt" class="nes-input" value="50.0" placeholder="50.0"  onfocus = "this.value=''"/>
+
+	<label for="Cvrc">eff.cover(top)(mm)</label>
+	<input type="text" name="Cvrc" class="nes-input"  value="50.0" placeholder="50.0"  onfocus = "this.value=''"/>
+	
+	<label for="Mu">design moment(kn-m)</label>
+	<input type="text" name="Mu" class="nes-input" value="125.0" placeholder="125.0"  onfocus = "this.value=''"/>
+
+	<label for="Vu">design shear(kn)</label>
+	<input type="text" name="Vu" class="nes-input"  value="75.0" placeholder="75.0"  onfocus = "this.value=''"/>
+
+
+	<label for="DM">moment redistribution</label>
+	<input type="text" name="DM" class="nes-input" value="0.15" placeholder="0.15"  onfocus = "this.value=''"/>
+
+	<label for="Json" class="nes-text is-warning">json input</label>
+	<textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+	<div style="text-align: center">
+	  <input type="submit" class="nes-btn is-primary" value="calc"/>
+	</div>
+      </form>
+    </div>
+  </div>
+</body>
+{{template "footer" .}}

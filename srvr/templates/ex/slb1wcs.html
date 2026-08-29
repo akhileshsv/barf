@@ -1,0 +1,69 @@
+
+<div id="rcslab-form">
+  <a href="/docs/rcc/slab" class="nes-btn is-success" style="float:right">?</a>
+  <center><h3 class="nes-text is-primary">Rcc 1-way cs slab data:</h3></center>
+  <form action="/rcc/slab" method="post" autocomplete="on">
+    <div class="nes-select">
+      <label for="Typstr">slab type</label>
+      <select name="Typstr" id="Typstr" hx-post="/ex/rccslab" hx-target="#rcslab-form">
+	<option value="clvr">cantilever</option>
+	<option value="1w">one-way(s.s)</option>
+	<option value="1wcs"  selected="selected">one-way(cs)</option>
+	<option value="2w">two-way(ss)</option>
+	<option value="2wcs">two-way(cs)</option>
+      </select>
+    </div>
+    <div class="nes-select">
+      <label for="Code">code of practice</label>
+      <select name="Code" id="Code">
+	<option value=1 selected="selected">is.456</option>
+	<option value=2>bs.8110</option>
+      </select>
+    </div>
+    <div class="nes-select">
+      <label for="Term">gnuplot terminal</label>
+      <select name="Term" id="Term">
+	<option value="svg" selected="selected">svg</option>
+	<option value="dxf">dxf</option>
+	<option value="svgmono">svgmono</option>
+      </select>
+    </div>
+    <label for="Title">title</label>
+    <input type="text" name="Title" class="nes-input" placeholder="illshah-ex-7.3" value="illshah-ex-7.3" onfocus = "this.value=''"/>
+    <label for="Endc">end condition</label>
+    <input type="text" name="Endc" class="nes-input" placeholder="2" value="2" onfocus = "this.value=''"/>
+    <label for="Fck">grade of concrete</label>
+    <input type="text" name="Fck" class="nes-input" placeholder="20.0" value="20.0" onfocus = "this.value=''"/>
+    <label for="Fy">grade of steel</label>
+    <input type="text" name="Fy" class="nes-input" placeholder="415.0" value="415.0" onfocus = "this.value=''"/>
+    <label for="LL">live load(kn/m2)</label>
+    <input type="text" name="LL" class="nes-input" placeholder="1.5" value="1.5" onfocus = "this.value=''"/>
+    <label for="DL">dead load(kn/m2)</label>
+    <input type="text" name="DL" class="nes-input" placeholder="1.75"  value="1.75" onfocus = "this.value=''"/>
+    <label for="Nomcvr">nominal cover(mm)</label>
+    <input type="text" name="Nomcvr" class="nes-input" placeholder="15.0" value="15.0" onfocus = "this.value=''"/>
+    <label for="Bsup">breadth of support(mm)</label>
+    <input type="text" name="Bsup" class="nes-input" placeholder="230.0" value="230.0" onfocus = "this.value=''"/>
+    <label for="Lspan">span length(mm)</label>
+    <input type="text" name="Lspan" class="nes-input" placeholder="4000.0" value="4000.0" onfocus = "this.value=''"/>
+    <label for="Nspans">number of spans</label>
+    <input type="text" name="Nspans" class="nes-input" placeholder="4 (for eq.span cs slabs)" value="4" onfocus = "this.value=''"/>
+    <label for="Lspans">span lengths</label>
+    <input type="text" name="Lspans" class="nes-input" placeholder="4000,3000,4000(for uneq. span cs slabs)" value="" onfocus = "this.value=''"/>
+    <label for="Ly">long dir. span(mm)</label>
+    <input type="text" name="Ly" class="nes-input" placeholder="10000.0" value="10000.0" onfocus = "this.value=''"/>
+    
+    <label for="DM">moment redistribution(fractional)</label>
+    <input type="text" name="DM" class="nes-input" placeholder="0.3" value="0.3" onfocus = "this.value=''"/>
+    <label for="Diamain">main bar dia(mm)</label>
+    <input type="text" name="Diamain" class="nes-input" placeholder="10.0" value="10.0" onfocus = "this.value=''"/>
+    <label for="Diadist">dist. bar dia(mm)</label>
+    <input type="text" name="Diadist" class="nes-input" placeholder="8.0" value="8.0" onfocus = "this.value=''"/>
+    <label for="Json" class="nes-text is-warning">json input</label>
+    <textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+    <div style="text-align: center">
+      <input type="submit" class="nes-btn is-primary" value="calc"/>
+    </div>
+  </form>
+</div>

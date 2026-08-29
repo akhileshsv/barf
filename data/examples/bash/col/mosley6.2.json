@@ -1,0 +1,13 @@
+{"Title":"mosley6.2",
+ "Sname":"ub",
+ "Lx":2400,
+ "Ly":4800,
+ "Tx":1,
+ "Ty":0.9,
+ "Pu":500e3,
+ "Mx":120e6,
+ "My":45e6,
+ "Code":2,
+ "Sdx":21,
+ "Pfac":1.25,
+ "Term":"dumb"}

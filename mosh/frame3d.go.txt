@@ -1,0 +1,1094 @@
+package barf
+
+import (
+	"os"
+	"io/ioutil"
+	"log"
+	"fmt"
+	"math"
+	"errors"
+	"runtime"
+	"encoding/json"
+	"path/filepath"
+	kass "barf/kass"
+)
+
+type Frm3d struct {
+	//it's a me Frm3d
+	Id           int
+	Nspans       int
+	Nflrs        int
+	Code         int
+	X,Y,Z        []float64
+	DL           float64
+	LL           float64
+	WL           []float64
+	Sections     [][]float64
+	Styps        []int 
+	Csec, Bsec   []int
+	Cstyp,Bstyp  int
+	Clstyp       int
+	Fcks         []float64
+	Fys          []float64
+	Fyds         []float64
+	DM           float64
+	PSFs         []float64
+	Clvrs        [][]float64
+	Cldim        [][]float64
+	Clsec        []int
+	Term         string
+	Title        string
+	Fltslb       bool
+	Lclvr, Rclvr bool
+	Plinth       bool
+	Braced       bool
+	Dslb         float64
+	Lcmem, Rcmem []int `json:",omitempty"`
+	Ljs, Rjs     []int `json:",omitempty"`
+	Nlp          int `json:",omitempty"`
+	Cdim, Bdim   [][]float64 `json:",omitempty"`
+	Tyb          float64 `json:",omitempty"`
+	Secmap       map[int][]float64 `json:",omitempty"`
+	Mod          kass.Model `json:",omitempty"`
+	Vec          [][]int `json:",omitempty"`
+	Val          [][]float64 `json:",omitempty"`
+	Flridx       []int `json:",omitempty"`
+	Txtplots     []string `json:",omitempty"`
+	DMs          []float64 `json:",omitempty"`
+	Bloads       [][]float64 `json:",omitempty"`
+	Cloads       [][]float64 `json:",omitempty"`
+	Jloads       [][]float64 `json:",omitempty"`
+	Wloadl       [][]float64 `json:",omitempty"`
+	Wloadr       [][]float64 `json:",omitempty"`
+	Nodemap      map[int][]int `json:",omitempty"`
+	Nodes        map[Pt][]int `json:"-"`
+	Members      map[int][][]int `json:",omitempty"`
+	Cols, Beams  []int `json:",omitempty"`
+	Mloadmap     map[int][][]float64 `json:",omitempty"`
+	Jloadmap     map[int][][]float64 `json:",omitempty"`
+	Advloads     map[int][][]float64 `json:",omitempty"`
+	Benloads     map[int][][]float64 `json:",omitempty"`
+	Uniloads     map[int][][]float64 `json:",omitempty"`
+	Loadcons     map[int][][]float64 `json:",omitempty"`
+	Bmenv        map[int]*kass.BmEnv `json:",omitempty"`
+	Colenv       map[int]*kass.ColEnv `json:",omitempty"`
+	Secprop      []kass.Secprop `json:",omitempty"`
+	Ms           map[int]*kass.Mem `json:",omitempty"`
+	Mslmap       map[int]map[int][][]float64 `json:",omitempty"`
+	CBeams       [][]int `json:",omitempty"`
+	Reports      []string `json:",omitempty"`
+}
+
+type Frm3dRez struct {
+	//maybe this is not needed DELETE
+	Bmenvs   []kass.BmEnv
+	Colenvs  []kass.ColEnv
+	Bmvec    []int
+	Colvec   []int
+	Flridx   int
+	Txtplots []string
+}
+
+func (f *Frm3d) Printz(){
+	//printz should return (tablewriter) table/report
+	//REDO DIS
+	fmt.Println("frame 2d")
+	fmt.Println("grade of concrete, steel-",f.Fcks, f.Fys)
+	fmt.Println("nspans-",f.Nspans)
+	fmt.Println("dl, ll-",f.DL, f.LL)
+	fmt.Println("clvrs-",f.Clvrs)
+}
+
+func (f *Frm3d) Dump(name string) (filename string, err error){
+	//saves frame json to data/out/frame2d_name.json
+	_, b, _, _:= runtime.Caller(0)
+	basepath := filepath.Dir(b)
+	if name == "" {name = fmt.Sprintf("frame2d_%v",f.Id)}
+	name += ".json"
+	//foldr := filepath.Join(basepath,"../data/out",time.Now().Format("06-Jan-02"))
+	foldr := filepath.Join(basepath,"../data/out")
+	if _, e := os.Stat(foldr); errors.Is(e, os.ErrNotExist) {
+		e := os.Mkdir(foldr, os.ModePerm)
+		if e != nil {
+			err = e; return
+		}
+	}
+	filename = filepath.Join(foldr,name)
+	data, e := json.Marshal(f)
+	if e != nil{err = e; return}
+	err = ioutil.WriteFile(filename, data, 0644)
+	return
+
+}
+
+func (f *Frm3d) AddSection(styp int, sdim []float64) (sid int){
+	//has this been used i think not
+	f.Sections = append(f.Sections, sdim)
+	f.Styps = append(f.Styps, styp)
+	return len(f.Sections)
+}
+
+func (f *Frm3d) AddNode(x,y float64) (err error){
+	//adds a node at x, y; returns an error if node exists
+	p := Pt{X:x,Y:y}
+	if _, ok := f.Nodes[p]; ok{
+		return errors.New("node exists")
+	} else {
+		f.Mod.Coords = append(f.Mod.Coords, []float64{x,y})
+		f.Nodes[p] = []int{len(f.Mod.Coords)}
+	}
+	return
+}
+
+
+func (f *Frm3d) Init() (err error){
+	/*
+	   inits defaults
+	   default sectype is 1; default fgen 1
+	   f.Vec[0] - frame (fgen, secgen, design, optimize, ?, ?, ?)
+	   f.Vec[1] -
+	*/
+	if (len(f.Sections) == 0 || len(f.Csec) == 0 || len(f.Bsec) == 0){
+		return errors.New("no sections specified")
+	}
+	if len(f.X) == 0{
+		return errors.New("frame spans (x) not specified")
+	}
+	if len(f.Y) == 0{
+		return errors.New("frame floor heights (y) not specified")
+	}
+	if f.Vec == nil{
+		f.Vec = [][]int{//frame, load, footing, col, beam, slab, opt
+			{1,0,1,0,0,0,0},
+			{1,2,1,0,0,0,0},
+			{1,1,1,0,0,0,0},
+			{1,1,1,0,0,0,0},
+			{1,1,1,0,0,0,0},
+			{1,1,1,0,0,0,0},
+			{1,1,1,0,0,0,0},
+		}
+	}
+	//is code, bs code, (lol) euro code 
+	if f.Code == 0 {f.Code = 1}
+	if f.PSFs == nil{f.PSFs = []float64{1.5,1.0,1.5,0.0}}
+	f.Nodemap = make(map[int][]int)
+	f.Nodes = make(map[Pt][]int)
+	f.Members = make(map[int][][]int)
+	f.Advloads = make(map[int][][]float64)
+	f.Benloads = make(map[int][][]float64)
+	f.Loadcons = make(map[int][][]float64)
+	f.Uniloads = make(map[int][][]float64)
+	f.Jloadmap = make(map[int][][]float64)
+	if len(f.X) == 1 && f.Nspans != 0{
+		var x, xstep float64
+		xstep = f.X[0]//not your average "xstep"
+		if xstep == 0{return errors.New("frame spans (x) not specified")}
+		f.X = []float64{x}
+		for i := 0; i < f.Nspans; i++{
+			x += xstep
+			f.X = append(f.X, x)
+		}
+	}
+	if len(f.Y) == 1 && f.Nflrs != 0{
+		var y, ystep float64
+		ystep = f.Y[0]
+		if ystep == 0{return errors.New("frame floors (y) not specified")}
+		f.Y = []float64{y}
+		for i := 0; i < f.Nflrs; i++{
+			y += ystep
+			f.Y = append(f.Y, y)
+		}
+
+	}
+	if f.Nflrs == 0{f.Nflrs = len(f.Y)-1}
+	if f.Nspans == 0{f.Nspans = len(f.X)-1}
+	if f.Styps == nil{
+		f.Styps = make([]int, len(f.Sections))
+		for i := range f.Sections{
+			f.Styps[i] = 1
+		}
+	}
+	return
+}
+
+func (f *Frm3d) GenCoords(){
+	//generates frame nodes
+	for _, y := range f.Y {
+		for _, x := range f.X {
+			_ = f.AddNode(x,y)
+		}
+	}
+	return
+}
+
+
+func (f *Frm3d) AddMem(xstep, jb, je, em, cp, mrel, mtyp int) (err error){
+	//adds a member to model
+	//mtyps - col, bm, lclvr, rclvr (1,2,3,4)
+	xdx, fdx, locx, lex, mtx := getmemvec(f.Vec[0][0],mtyp,jb,je,xstep)
+	if jb > len(f.Mod.Coords) || je > len(f.Mod.Coords){
+		return errors.New("invalid member node")
+	}
+	mdx := len(f.Mod.Mprp) + 1
+	f.Mod.Mprp = append(f.Mod.Mprp,[]int{jb, je, em, cp, mrel})
+	f.Secmap[mdx] = f.Sections[cp-1]
+	//f.Secmap[mdx] = append(f.Secmap[mdx],float64(f.Styps[cp-1]))
+	f.Nodemap[jb] = append(f.Nodemap[jb],mdx)
+	f.Nodemap[je] = append(f.Nodemap[je],mdx)
+	f.Members[mdx] = append(f.Members[mdx],[]int{jb, je, em, cp, mrel})
+	f.Members[mdx] = append(f.Members[mdx],[]int{mtyp, xdx, fdx, locx, lex, mtx})
+	switch mtyp{
+		case 1:
+		f.Cols = append(f.Cols, mdx)
+		case 2:
+		f.Beams = append(f.Beams, mdx)
+		case 3:
+		f.Lcmem = append(f.Lcmem, mdx)
+		f.Beams = append(f.Beams, mdx)
+		case 4:
+		f.Rcmem = append(f.Rcmem, mdx)
+		f.Beams = append(f.Beams, mdx)
+	}
+	return
+}
+
+func (f *Frm3d) GenMprp() (err error){
+	//generates mprp and members
+	xstep := len(f.X); nflrs := len(f.Y)-1
+	var csec, bsec, cedx, bedx int
+	if len(f.Fcks) == 1 {
+		cedx = 1; bedx = 1
+		f.Mod.Em = append(f.Mod.Em, []float64{FckEm(f.Fcks[0])})
+	} else {
+		cedx = 1 ; bedx = 2
+		f.Mod.Em = append(f.Mod.Em, []float64{FckEm(f.Fcks[0])})
+		f.Mod.Em = append(f.Mod.Em, []float64{FckEm(f.Fcks[1])})
+	}
+	f.Secmap = make(map[int][]float64)
+	var sup []int
+	switch f.Vec[2][0]{//footing vec
+		case 1:
+		//fixed footing
+		sup = []int{-1,-1,-1}
+		case 2:
+		//pinned footing
+		sup = []int{-1,-1,0}
+	}
+	//add supports and columns
+	for i:=1; i <=len(f.Mod.Coords); i++{	
+		if i <= xstep{
+			//add supports
+			supi := append([]int{i},sup...)
+			f.Mod.Supports = append(f.Mod.Supports, supi)
+		}
+		if i + xstep <= len(f.Mod.Coords){
+			//add columns
+			xdx := (i-1)%xstep
+			if len(f.Csec) == 1{csec = f.Csec[0]} else {csec = f.Csec[xdx]}
+			_ = f.AddMem(xstep, i, i+xstep, cedx, csec, 0, 1)
+			if i > xstep{
+				switch xdx{
+					case 0:
+					f.Ljs = append(f.Ljs, i)
+					case xstep - 1:
+					f.Rjs = append(f.Rjs, i)
+				}
+			}
+		}
+	}
+	//add beams
+	f.Ljs = append(f.Ljs, xstep * nflrs + 1)
+	f.Rjs = append(f.Rjs, xstep * (nflrs +1))
+	for i := 1+xstep; i <= len(f.Mod.Coords); i++{
+		if i + 1 <= len(f.Mod.Coords) && f.Mod.Coords[i-1][1] == f.Mod.Coords[i][1]{
+			//add beams
+			var brel int
+			switch f.Vec[4][0]{
+				case 1:
+				//regular cbeam
+				brel = 0
+				case 2:
+				//both ends hinged (simply supported)
+				brel = 4
+			}
+			xdx := (i-1)%xstep
+			if len(f.Bsec) == 1{bsec = f.Bsec[0]} else {bsec = f.Bsec[xdx]}
+			_ = f.AddMem(xstep, i, i+1, bedx, bsec, brel, 2)
+		}		
+	}
+	//add left clvr
+	if len(f.Clvrs) >= 1 && f.Clvrs[0][0] > 0.0{
+		f.Lclvr = true
+		clen := f.Clvrs[0][0]
+		clsec := f.Bsec[0]
+		if len(f.Clsec) > 0 {clsec = f.Clsec[0]}
+		strt := 1
+		if f.Plinth{
+			strt = 2
+		}
+		for i, y := range f.Y[strt:]{
+			_ = f.AddNode(-clen, y)
+			jb := (strt+i) * xstep + 1; je := len(f.Mod.Coords)
+			_ = f.AddMem(xstep, jb, je, bedx, clsec, 0, 3)
+		}
+	}
+	//right clvr
+	if len(f.Clvrs) > 1 && f.Clvrs[1][0]  > 0{
+		//right cantilever on
+		f.Rclvr = true
+		clen := f.Clvrs[1][0]
+		clsec := f.Bsec[0]
+		switch len(f.Clsec){
+			case 1:
+			clsec = f.Clsec[0]
+			case 2:
+			clsec = f.Clsec[1]
+			
+		}
+		xb := f.X[len(f.X)-1]+clen
+		strt := 1
+		if f.Plinth{
+			strt = 2
+		}
+		for i, y := range f.Y[strt:]{
+			_ = f.AddNode(xb, y)
+			jb := (strt + 1 + i) * xstep; je := len(f.Mod.Coords)	
+			_ = f.AddMem(xstep, jb, je, bedx, clsec, 0, 4)
+		}
+	}
+	//get cp [][]
+	for idx, sect := range f.Sections {
+		styp := 1
+		if len(f.Styps) == len(f.Sections){
+			styp = f.Styps[idx]
+		}
+		bar := kass.CalcSecProp(styp, sect)
+		f.Secprop = append(f.Secprop, bar)
+		f.Mod.Cp = append(f.Mod.Cp, []float64{bar.Area/1e6, bar.Ixx/1e12})
+	}
+	//check for self weight calc
+	switch f.Vec[1][0]{
+	//load vec - [self wt, nload cases]
+		case 1:
+		err := f.AddSelfWeight(2)
+		if err != nil{
+			log.Println("ERRORE, errore->",err)
+		}
+	}
+	//f.CBeams = matrix of [flrdx][spandx]; each floor vec being [b1, b2...bn]
+	bmstrt := f.Nflrs* xstep
+	f.CBeams = make([][]int, f.Nflrs)
+	for i := 0; i < f.Nflrs; i++{
+		f.CBeams[i] = make([]int, f.Nspans)
+	}
+	for j := 0; j < f.Nflrs; j++{
+		for i := 0; i < f.Nspans; i++{
+			f.CBeams[j][i] = bmstrt + j * f.Nspans + i + 1
+		}
+	}
+	//fmt.Println("printing CBEAM vec->")
+	//fmt.Println(f.CBeams)
+	return
+}
+
+func (f *Frm3d) AddSelfWeight(dx int) (err error){
+	//beam self weight subtracts dslab from 
+	//density of concrete 25 KN/m3
+	//add beam self weight (ltyp 3)
+	var wdl float64
+	for _, bm := range f.Beams{
+		bdx := f.Members[bm][0][3]
+		bstyp := f.Styps[bdx-1]
+		bdim := f.Sections[bdx-1]
+		switch bstyp{
+			case 1:
+			b := bdim[0]; d := bdim[1]
+			wdl = 25.0 * b * (d - f.Dslb)/1e6
+			case 6,7,8,9,10:
+			bdim := f.Sections[bdx-1]; bw := bdim[2]; dw:= bdim[1] - bdim[3]
+			wdl = 25.0 * bw * dw /1e6			
+		}
+		ldcase := []float64{1.0, 3.0, wdl, 0.0, 0.0, 0.0, 1.0}
+		err = f.AddMemLoad(bm, ldcase)
+		if err != nil{
+			log.Println("ERRORE,errore->",err)
+			return
+		}
+	}
+	if dx == 2{
+		//add column self weight (ltyp 6)
+		for _, col := range f.Cols{
+			bdx := f.Members[col][0][3]
+			wdl := 25.0 * f.Secprop[bdx-1].Area/1e6
+			ldcase := []float64{1.0, 6.0, wdl, 0.0, 0.0, 0.0, 1.0}
+			err = f.AddMemLoad(col, ldcase)
+			if err != nil{
+				log.Println("ERRORE,errore->",err)
+				return
+			}
+		}
+	}
+	return
+}
+
+func (f *Frm3d) AddMemLoad(mem int, ldcase []float64) (err error){
+	if _, ok := f.Members[mem]; !ok{
+		return errors.New("invalid member index")
+	}
+	ldcat := ldcase[6]
+	var w1a, w2a, w1b, w2b float64
+	switch ldcat{
+		case 1.0:
+		w1a = f.PSFs[0]*ldcase[2]
+		w2a = f.PSFs[0]*ldcase[3]
+		w1b = f.PSFs[1]*ldcase[2]
+		w2b = f.PSFs[1]*ldcase[3]
+		f.Uniloads[1] = append(f.Uniloads[1], []float64{float64(mem), ldcase[2], ldcase[3], ldcase[4], ldcase[5], 1.0})
+		case 2.0:
+		w1a = f.PSFs[2]*ldcase[2]
+		w2a = f.PSFs[2]*ldcase[3]
+		w1b = f.PSFs[3]*ldcase[2]
+		w2b = f.PSFs[3]*ldcase[3]
+		f.Uniloads[2] = append(f.Uniloads[2], []float64{float64(mem), ldcase[2], ldcase[3], ldcase[4], ldcase[5], 2.0})
+	}
+	f.Advloads[mem] = append(f.Advloads[mem],[]float64{float64(mem),ldcase[1],w1a,w2a,ldcase[4],ldcase[5], ldcat})
+	if w1b + w2b > 0.0 {
+		f.Benloads[mem] = append(f.Benloads[mem],[]float64{float64(mem),ldcase[1],w1b,w2b,ldcase[4],ldcase[5], ldcat})
+	}
+	return
+}
+
+func (f *Frm3d) AddBeamLLDL(){
+	if f.DL + f.LL > 0.0{
+		for _, bm := range f.Beams{
+			mvec := f.Members[bm]; mtyp := mvec[1][0]
+			switch mtyp{
+				case 3:
+				//left clvr
+				cdl := f.DL; cll := f.LL 
+				if f.Clvrs[0][1]+f.Clvrs[0][2] > 0.0{
+					cdl = f.Clvrs[0][1]; cll = f.Clvrs[0][2]
+				}
+				_ = f.AddMemLoad(bm, []float64{1.0,3.0,cdl,0.0,0.0,0.0,1.0})
+				if cll > 0.0{
+					_ = f.AddMemLoad(bm, []float64{1.0,3.0,cll,0.0,0.0,0.0,2.0})
+				}
+				case 4:
+				//right clvr
+				cdl := f.DL; cll := f.LL 
+				if f.Clvrs[1][1]+f.Clvrs[1][2] > 0.0{
+					cdl = f.Clvrs[1][1]; cll = f.Clvrs[1][2]
+				}
+				_ = f.AddMemLoad(bm, []float64{1.0,3.0,cdl,0.0,0.0,0.0,1.0})
+				if cll > 0.0{
+					_ = f.AddMemLoad(bm, []float64{1.0,3.0,cll,0.0,0.0,0.0,2.0})
+				}
+				default:
+				_ = f.AddMemLoad(bm, []float64{1.0,3.0,f.DL,0.0,0.0,0.0,1.0})
+				if f.LL > 0.0{
+					_ = f.AddMemLoad(bm, []float64{1.0,3.0,f.LL,0.0,0.0,0.0,2.0})
+				}
+			}
+		}
+	}
+	return
+}
+
+func (f *Frm3d) GenLoads() (err error){
+	f.AddBeamLLDL()
+	xstep := len(f.X); nflrs := len(f.Y)-1
+	f.Nlp = f.Nspans + 1
+	//nspans := f.Nspans
+	//bmstrt := nflrs * xstep
+	if len(f.Bloads) != 0 {
+		//bload mems are (1)- beam no. 1, beam no. 2, etc
+		for _, ldcase := range f.Bloads{
+			mem := int(ldcase[0]) + nflrs*xstep
+			_ = f.AddMemLoad(mem, ldcase)
+		}
+	}
+	if len(f.Cloads) != 0 {
+		for _, ldcase := range f.Cloads{
+			mem := int(ldcase[0]) 
+			_ = f.AddMemLoad(mem, ldcase)
+		}
+	}
+	//build load patterns
+	for i := 1; i <= f.Nspans; i++ {
+		for j := 0; j < f.Nflrs; j++{
+			mem := f.CBeams[j][i-1]
+			if i % 2 == 0 {
+				f.Loadcons[0] = append(f.Loadcons[0], f.Advloads[mem]...)
+				f.Loadcons[1] = append(f.Loadcons[1], f.Benloads[mem]...)
+				f.Loadcons[2] = append(f.Loadcons[2], f.Advloads[mem]...)
+			} else {
+				f.Loadcons[0] = append(f.Loadcons[0], f.Advloads[mem]...)
+				f.Loadcons[1] = append(f.Loadcons[1], f.Advloads[mem]...)
+				f.Loadcons[2] = append(f.Loadcons[2], f.Benloads[mem]...)
+			}
+		}
+	}
+	for i := 1; i <= f.Nspans - 1; i++ {
+		lp := i + 2
+		for j := 0; j < f.Nflrs; j++{
+			flrbm := f.CBeams[j]; mind := flrbm[i]
+			for _, mem := range flrbm {
+				if mem == mind || mem == mind + 1 {
+					f.Loadcons[lp] = append(f.Loadcons[lp], f.Advloads[mem]...)
+				} else {
+					f.Loadcons[lp] = append(f.Loadcons[lp], f.Benloads[mem]...)
+				}
+			}
+		}
+	}
+	if f.Lclvr{
+		f.Nlp++
+		for lp := 0; lp <= 2; lp++{
+			switch lp{
+				case 0,2:
+				for _, mem := range f.Lcmem{
+					f.Loadcons[lp] = append(f.Loadcons[lp],f.Advloads[mem]...)
+				}
+				case 1:
+				for _, mem := range f.Lcmem{
+					f.Loadcons[lp] = append(f.Loadcons[lp], f.Benloads[mem]...)
+				}
+			}
+		}
+		for _, lcmem := range f.Lcmem{
+			fdx := f.Members[lcmem][1][2]
+			lmem := f.CBeams[fdx-1][0]
+			f.Loadcons[f.Nspans+2] = append(f.Loadcons[f.Nspans+2], f.Advloads[lcmem]...)
+			f.Loadcons[f.Nspans+2] = append(f.Loadcons[f.Nspans+2], f.Advloads[lmem]...)
+			for _, flrmem := range f.CBeams[fdx-1][1:]{
+				f.Loadcons[f.Nspans+2] = append(f.Loadcons[f.Nspans+2], f.Benloads[flrmem]...)
+			}
+		}
+	}
+	if f.Rclvr{
+		f.Nlp++
+		for lp := 0; lp <= 2; lp++{
+			switch lp{
+				case 0,1:
+				for _, mem := range f.Rcmem{
+					f.Loadcons[lp] = append(f.Loadcons[lp], f.Advloads[mem]...)
+				}
+				case 2:
+				for _, mem := range f.Rcmem{
+					f.Loadcons[lp] = append(f.Loadcons[lp], f.Benloads[mem]...)
+				}
+			}
+		}
+		for _, rcmem := range f.Rcmem{
+			fdx := f.Members[rcmem][1][2]
+			rmem := f.CBeams[fdx-1][len(f.CBeams[fdx-1])-1]
+			f.Loadcons[f.Nspans+3] = append(f.Loadcons[f.Nspans+3], f.Advloads[rcmem]...)
+			f.Loadcons[f.Nspans+3] = append(f.Loadcons[f.Nspans+3], f.Advloads[rmem]...)
+			for _, flrmem := range f.CBeams[fdx-1][:f.Nspans-1]{
+				f.Loadcons[f.Nspans+3] = append(f.Loadcons[f.Nspans+3], f.Benloads[flrmem]...)
+			}
+		}
+	}
+	for lp := range f.Loadcons{
+		for _, col := range f.Cols{
+			//TO DO- CANNOT BE ADVLOADS ALL THE TIME
+			f.Loadcons[lp] = append(f.Loadcons[lp], f.Advloads[col]...)
+		}
+	}
+	if f.Vec[1][1] == 3{
+		//add wind load
+		err = f.AddWindLoad()
+		if err != nil{return}
+		wsf1 := 1.2
+		//; wsf2 := 1.5
+		if len(f.PSFs) >= 6{
+			wsf1 = f.PSFs[4]
+			//	wsf2 = f.PSFs[5]
+		}
+		for _, nl := range f.Wloadl{
+			f.Jloadmap[0] = append(f.Jloadmap[0], []float64{nl[0],nl[1]*wsf1,nl[2],nl[3]})
+		}
+	}
+	return
+}
+
+func (f *Frm3d) AddWindLoad() (err error){
+	/*
+	   wl - vec [0,1,2,3,4] - nflrs
+	*/
+	switch len(f.WL){
+		case 0:
+		return errors.New("no wind load specified")
+		case 1:
+		wl := f.WL[0]
+		for i, node := range f.Ljs{
+			rnode := f.Rjs[i]
+			f.Wloadl = append(f.Wloadl, []float64{float64(node),wl,0,0})
+			f.Wloadr = append(f.Wloadr, []float64{float64(rnode),-wl,0,0})
+		}
+		case f.Nflrs:
+		for i, node := range f.Ljs{
+			rnode := f.Rjs[i]
+			wl := f.WL[i]
+			f.Wloadl = append(f.Wloadl, []float64{float64(node),wl,0,0})
+			f.Wloadr = append(f.Wloadr, []float64{float64(rnode),-wl,0,0})
+		}
+		default:
+		return errors.New("invalid length of wind load slice")
+	}
+	return nil
+}
+
+func (f *Frm3d) InitMemRez(){
+	xstep := f.Nspans + 1
+	bmstrt := xstep * f.Nflrs
+	f.Bmenv = make(map[int]*kass.BmEnv)
+	for _, i := range f.Beams{
+		jb, je := f.Mod.Mprp[i-1][0], f.Mod.Mprp[i-1][1]
+		c1, c2 := f.Mod.Coords[jb-1], f.Mod.Coords[je-1]
+		cl := i - bmstrt
+		cr := cl + 1
+		var lsx, rsx float64
+		mtyp := f.Members[i][1][0]
+		switch mtyp{
+			case 3:
+			rsx = f.Secmap[1][1]/2.0
+			case 4:
+			lsx = f.Secmap[xstep][1]/2.0
+			default:
+			lsx = f.Secmap[cl][1]/2.0; rsx = f.Secmap[cr][1]/2.0
+		}
+		f.Bmenv[i] = &kass.BmEnv{
+			Id:i,
+			EnvRez:make(map[int]kass.BeamRez),
+			Venv:make([]float64,21),
+			Mpenv:make([]float64,21),
+			Mnenv:make([]float64,21),
+			Dims:f.Secmap[i],
+			Coords:[][]float64{c1,c2},
+			Lsx:lsx/1000.0,Rsx:rsx/1000.0,
+		}
+	}
+	f.Colenv = make(map[int]*kass.ColEnv)
+	for _, i := range f.Cols{
+		f.Colenv[i] = &kass.ColEnv{
+			Id:i,
+			EnvRez:make(map[int][]float64),
+		}
+	}
+	f.Ms = make(map[int]*kass.Mem)
+	f.Mslmap = make(map[int]map[int][][]float64)
+	//TODO check for wind load calcs
+	return
+}
+
+func (f *Frm3d) CalcLoadEnv(){
+	mod := &kass.Model{
+		Cmdz:[]string{"2df","mks","1"},
+		Coords: f.Mod.Coords,
+		Supports: f.Mod.Supports,
+		Em: f.Mod.Em,       
+		Cp: f.Mod.Cp,       
+		Mprp:f.Mod.Mprp,
+	}
+	for lp, ldcons := range f.Loadcons{
+		if f.Vec[1][2] == 0 && lp > 0{continue}
+		if val, ok := f.Jloadmap[lp]; ok{
+			mod.Jloads = val
+		}
+		mod.Msloads = ldcons
+		frmrez, err := kass.CalcFrm3d(mod, 3)
+		if err != nil{return}
+		ms,_ := frmrez[1].(map[int]*kass.Mem)
+		msloaded, _ := frmrez[5].(map[int][][]float64)
+		spanchn := make(chan kass.BeamRez,len(msloaded))
+		report,_ := frmrez[6].(string)
+		f.Reports = append(f.Reports, report)
+		f.Mslmap[lp] = msloaded
+		switch lp{
+			case 0:
+			f.Mod.Msloads = ldcons
+			f.Ms = ms
+			if val, ok := f.Jloadmap[lp]; ok{
+				f.Mod.Jloads = val
+			}
+		}
+		for _, id := range f.Cols{
+			mem := ms[id]
+			cm := f.Colenv[id]
+			cm.EnvRez[lp] = mem.Qf
+			if math.Abs(mem.Qf[2]) > math.Abs(cm.Mbmax) {cm.Mbmax = mem.Qf[2]}
+			if math.Abs(mem.Qf[5]) > math.Abs(cm.Mtmax) {cm.Mtmax = mem.Qf[5]}
+			if math.Abs(mem.Qf[0]) > math.Abs(cm.Pumax) {cm.Pumax = mem.Qf[0]}
+		}
+		for _, id := range f.Beams{
+			ldcase := msloaded[id]
+			go kass.BeamFrc(3, id, ms[id], ldcase, spanchn, false)
+		}
+		//for id, ldcase := range msloaded{
+		//	go BeamFrc(3, id, ms[id], ldcase, spanchn, false)
+		//}
+		for _ = range f.Beams{
+			r := <- spanchn
+			id := r.Mem
+			
+			bm := f.Bmenv[id]
+			
+			bm.EnvRez[lp] = r
+			if len(bm.Xs) == 0 {
+				bm.Xs = r.Xs
+			}
+			xdiv := ms[id].Geoms[0]/20.0
+			lsx := bm.Lsx; rsx := ms[id].Geoms[0] - bm.Rsx
+			il := int(math.Ceil(lsx/xdiv)); ir := int(math.Ceil(rsx/xdiv))
+			var vl, vr, ml, mr float64
+			for i, vx := range r.SF{
+				x := r.Xs[i]
+				if i == il{
+					switch{
+						case x == lsx:
+						vl = vx
+						ml = r.BM[i]
+						default:
+						vl = vx + (vx - r.SF[i-1])*(lsx - x)/xdiv
+						ml = r.BM[i] + 0.5 * (lsx - x)*(vl + vx)
+					}
+					if math.Abs(bm.Vl) < math.Abs(vl){bm.Vl = vl}
+					if math.Abs(bm.Ml) < math.Abs(ml){bm.Ml = ml}
+				}
+				if i == ir{
+					switch{
+						case x == rsx:
+						vr = vx
+						mr = r.BM[i]
+						default:
+						vr = vx + (vx - r.SF[i-1])*(rsx - x)/xdiv
+						mr = r.BM[i] + 0.5 * (rsx - x)*(vr + vx) 
+					}
+					if math.Abs(bm.Vr) < math.Abs(vr){bm.Vr = vr}
+					if math.Abs(bm.Ml) < math.Abs(mr){bm.Mr = mr}
+				}
+				if math.Abs(bm.Venv[i]) < math.Abs(vx) {
+					bm.Venv[i] = vx
+					if math.Abs(bm.Vmax) < math.Abs(vx){
+						bm.Vmax = vx
+						bm.Vmaxx = r.Xs[i]
+					}
+				}
+				if math.Abs(bm.Mnenv[i]) < math.Abs(r.BM[i]) && r.BM[i] < 0.0 {
+					bm.Mnenv[i] = r.BM[i]
+					if math.Abs(bm.Mnmax) < math.Abs(r.BM[i]){
+						bm.Mnmax = r.BM[i]
+						bm.Mnmaxx = r.Xs[i]
+					}
+				}
+				if r.BM[i] > 0.0 && math.Abs(bm.Mpenv[i]) < math.Abs(r.BM[i]) {
+					bm.Mpenv[i] = r.BM[i]
+					if math.Abs(bm.Mpmax) < math.Abs(r.BM[i]){
+						bm.Mpmax = r.BM[i]
+						bm.Mpmaxx = r.Xs[i]
+					}
+				}
+			}
+		}
+	}
+	return
+}
+
+func (f *Frm3d) Mrd(){
+	//get list of beams per floor
+	if f.DM != 0.0{
+		//fmt.Println("moment redistribution DM->",f.DM)
+		CBeamDM(3, f.Beams, f.Bmenv, f.DM, f.Ms, f.Mslmap)
+	}
+	return
+}
+
+
+func (f *Frm3d) DrawMod(term string){
+	plotchn := make(chan string)
+	//go PlotFrm3d(f, term, plotchn)
+	txtplot := <- plotchn
+	f.Txtplots = append(f.Txtplots, txtplot)
+	//for _, flrvec := range f.CBeams{
+	//	f.Txtplots = append(f.Txtplots, PlotBmEnv(f.Bmenv, flrvec, term))
+	//}
+	return
+}
+
+func CalcFrm3d(f *Frm3d, term string) (err error) {
+	err = f.Init()
+	if err !=nil{
+		return
+	}
+	f.GenCoords()
+	f.GenMprp()
+	f.GenLoads()
+	f.InitMemRez()
+	f.CalcLoadEnv()
+	f.Mrd()
+	if term != "" {f.DrawMod(term)}
+	return 
+}
+
+func (f *Frm3d) InitSections(cdims, bdims, cldims [][]float64){
+	//WILL IT CALC FLANGE WIDTH AND REARRANGE DIMS (yes?)
+	//cdims and bdims will usually be generated by opt
+	//if both cstyp and bstyp are 0 then both are not set
+	if f.Cstyp == 0 && f.Bstyp == 0{
+		f.Cstyp = 1; f.Bstyp = 1
+	}
+	ncols := len(f.X); nbms := len(f.X) - 1; nclr := 2
+	f.Sections = make([][]float64, ncols+nbms+nclr)
+	f.Styps = make([]int, ncols+nbms+nclr)
+	for i := 0; i < ncols; i++{
+		f.Sections[i] = make([]float64, len(cdims[i]))
+		copy(f.Sections[i],cdims[i])
+		f.Styps[i] = f.Cstyp
+	}
+	for i := 0; i < nbms; i++{
+		f.Sections[i+ncols] = make([]float64, len(bdims[i]))
+		copy(f.Sections[i], bdims[i])
+		f.Styps[i+ncols] = f.Bstyp
+	}
+	for i := 0; i < nclr; i++{
+		f.Sections[i+ncols+nbms] = make([]float64, len(cldims[i]))
+		copy(f.Sections[i+ncols+nbms], cldims[i])
+		f.Styps[i+ncols+nbms] = f.Clstyp
+	}
+
+	return
+}
+
+
+
+
+
+/*
+   ...know ye listener, eons past in the days of the glory of the Hyboreans
+   the tale of the one they call Plageuis
+*/
+
+//YE OLDE 
+
+
+
+
+func (f *Frm3d) GenCp()(err error){
+	//WHAT DO WE NEED THIS FOR
+	//calcs section properties
+	//adds self weight loads if f.Vec[1][1] == 1
+	cplen := 3; ncol := 1; nbm := 1
+	
+	switch f.Vec[0][0]{
+		case 2:
+		//2+2+1
+		ncol = 2; nbm = 2
+ 		cplen = 5
+		case 3:
+		//3+3+2
+		ncol = 3; nbm = 3
+		cplen = 8
+		case 4:
+		//xstep + xstep - 1 + 2
+		ncol = len(f.X); nbm = len(f.X)-1
+		cplen = 2 * len(f.X) + 1
+	}
+	if len(f.Cdim) == 1{
+		cdim := make([]float64, len(f.Cdim[0]))
+		copy(cdim, f.Cdim[0])
+		csec := f.Csec[0]
+		f.Cdim = [][]float64{}
+		f.Csec = []int{}
+		for i := 0; i < ncol; i++{
+			f.Cdim = append(f.Cdim, cdim)
+			f.Csec = append(f.Csec, csec)
+		}
+	}
+	if len(f.Bdim) == 1{
+		bdim := make([]float64, len(f.Bdim[0]))
+		copy(bdim, f.Bdim[0])
+		bsec := f.Bsec[0]
+		f.Bdim = [][]float64{}
+		f.Bsec = []int{}
+		for i := 0; i < nbm; i++{
+			f.Bdim = append(f.Bdim, bdim)
+			f.Bsec = append(f.Bsec, bsec)
+		}
+	}
+	if len(f.Cdim) != ncol{
+		return errors.New("mismatched length of column dims slice")
+	}
+	if len(f.Bdim) != nbm{
+		return errors.New("mismatched length of beam dims slice")
+	}
+	f.Mod.Dims = append(f.Mod.Dims, f.Cdim...); f.Mod.Sts = append(f.Mod.Sts, f.Csec...)
+	f.Mod.Dims = append(f.Mod.Dims, f.Bdim...); f.Mod.Sts = append(f.Mod.Sts, f.Bsec...)
+	f.Mod.Cp = make([][]float64, cplen)
+	return
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+func (f *Frm3d) SetDefaults(){
+	/*
+	   f.vec - [frame, load, ftng, col, bm, slb, opt] vecs
+	   frm vec - [fgen (col/bm n secs), plinth]
+           load vec - (calc) [self wt, n load types, load patterns, self wt, slab load, wind load, seismic load]
+	   	      self wt - 1 - calc self wt of beams (ltyp 3) and columns (ltyp 6)
+	              n load types : 1 - dl, 2 - dl + ll, 3- dl+ll+wl
+	              load patterns - 0 (no), 1 (yeay)
+	              slab load calc - 1 - 1 way slab, 2 - 2 way slab, 12/21 - 1 way + 2 way
+	   ftng vec - [fixed/pinned sup, pad/sloped footing, ]
+	   col vec - []
+	   bm vec - index 4 - [beam release, flanged sec calc, igr calc]
+	            sec calc - 0 - as is, 1- calc L left flange width n section, 2 - calc L right, 3 - calc T section
+	   slb vec - [lxl, lxr, calc dused]
+	   slb val - index 5 
+	   f.val[0] - [sbc, dlw, vz]
+	   stair - [1.0-left, -1.0- right, else col index from 1, length, dl, ll, sec b, sec d]
+	*/
+	f.Vec = [][]int{
+		{1,1,1,0,0,0,0},
+		{1,2,0,0,0,0,0},
+		{1,1,1,0,0,0,0},
+		{1,1,1,0,0,0,0},
+		{1,1,1,0,0,0,0},
+		{1,1,1,0,0,0,0},
+		{1,1,1,0,0,0,0},
+	}
+	//is code, bs code, euro code 
+	f.Code = 1
+	//f.Stair = []float64{-1.0, 2.4, 2.0, 2.0, 230, 380}
+}
+
+func (f *Frm3d) InitMat(){
+	/*
+	   fcks - [ftng, col, bm, slb]
+	   fys -  [ftng, col, bm, slb]
+	   fyds - [ftng, col, bm, slb]
+	   mod.Em - [ecol, ebeam]
+	*/
+	if f.Fcks == nil && f.Fys == nil {
+		//defaults - m25, fe415, fe415
+		f.Fcks = append(f.Fcks, 25.0)
+		f.Fys = append(f.Fys, 415.0)
+		f.Fyds = append(f.Fyds, 415.0)
+	}
+	if len(f.Fcks) == 1{
+		//footing, col, beam, slab
+		f.Fcks = []float64{f.Fcks[0],f.Fcks[0],f.Fcks[0],f.Fcks[0]}
+	}
+	if len(f.Fys) == 1{
+		f.Fys = []float64{f.Fys[0],f.Fys[0],f.Fys[0],f.Fys[0]}
+	}
+	if len(f.Fyds) == 1{
+		f.Fyds = []float64{f.Fys[0],f.Fys[0],f.Fys[0],f.Fys[0]}
+	}
+	f.Mod.Em = make([][]float64,2)
+	f.Mod.Em[0] = []float64{FckEm(f.Fcks[0])}
+	f.Mod.Em[1] = []float64{FckEm(f.Fcks[1])}
+}
+
+func (f *Frm3d) GenMprpYeOlde() (err error){
+	/*
+	 generates mprp, msup
+	*/
+	xstep := len(f.X); nspans := xstep - 1
+	switch nspans{
+		case 1:
+		//c-c, fgen = 1
+		f.Vec[0][0] = 1 
+		case 2:
+		//c-c-c, fgen = 2
+		f.Vec[0][0] = 2
+	}
+	var mdx int
+	var sup []int
+	switch f.Vec[2][0]{//footing vec
+		case 1:
+		sup = []int{-1,-1,-1}
+		case 2:
+		sup = []int{-1,-1,0}
+	}
+	for i := 1; i <= len(f.Mod.Coords); i++{
+		if i <= xstep{
+			//add supports
+			supi := append([]int{i},sup...)
+			f.Mod.Supports = append(f.Mod.Supports, supi)
+		}
+		if i + xstep <= len(f.Mod.Coords){
+			//add columns
+			mdx++
+			xdx, fdx, locdx, lex, mtyp := getmemvec(f.Vec[0][0],1,i,i+xstep,xstep)
+			f.Members[mdx] = append(f.Members[mdx],[]int{i, i + xstep, 1, mtyp, 0})
+			f.Members[mdx] = append(f.Members[mdx],[]int{xdx, fdx, locdx, lex, mtyp})
+			f.Mod.Mprp = append(f.Mod.Mprp, []int{i, i + xstep, 1, mtyp, 0})
+		}
+		if i + 1 <= len(f.Mod.Coords) && f.Mod.Coords[i-1][1] == f.Mod.Coords[i][1]{
+			//add beams
+			mdx++
+			xdx, fdx, locdx, lex, mtyp := getmemvec(f.Vec[0][0],2,i,i+1,xstep)
+			var brel int
+			switch f.Vec[4][0]{
+				case 1:
+				brel = 0
+				case 2:
+				//both ends hinged (simply supported)
+				brel = 4
+			}
+			f.Members[mdx] = append(f.Members[mdx],[]int{i, i + 1, 2, mtyp, brel})
+			f.Members[mdx] = append(f.Members[mdx],[]int{xdx, fdx, locdx, lex, mtyp})
+			f.Mod.Mprp = append(f.Mod.Mprp, []int{i, i + 1, 2, mtyp, brel})
+		}
+	}
+	if len(f.Clvrs) >= 1 && f.Clvrs[0][0] > 0.0{
+		f.Lclvr = true
+		clen := f.Clvrs[0][0]
+		strt := 1
+		if f.Vec[0][1] == 1{
+			//plinth on
+			strt = 2
+		}
+		for i, y := range f.Y[strt:]{
+			f.Mod.Coords = append(f.Mod.Coords, []float64{-clen, y})
+			jb := (strt+i) * xstep + 1; je := len(f.Mod.Coords)
+			mdx++; brel := 0
+			xdx, fdx, locdx, lex, mtyp := getmemvec(f.Vec[0][0],3,jb,je,xstep)
+			f.Members[mdx] = append(f.Members[mdx],[]int{jb, je, 2, mtyp, brel})
+			f.Members[mdx] = append(f.Members[mdx],[]int{xdx, fdx, locdx, lex, mtyp})
+			f.Mod.Mprp = append(f.Mod.Mprp, []int{jb, je, 2, mtyp, brel})			
+		}
+	}
+	if len(f.Clvrs) > 2 && f.Clvrs[1][0] > 0.0{
+		f.Rclvr = true
+		clen := f.Clvrs[1][0]
+		xb := f.X[len(f.X)-1]+clen
+		strt := 1
+		if f.Vec[0][1] == 1{
+			//plinth on
+			strt = 2
+		}
+		for i, y := range f.Y[strt:]{
+			f.Mod.Coords = append(f.Mod.Coords, []float64{xb, y})
+			jb := (strt + 1 + i) * xstep; je := len(f.Mod.Coords)
+			mdx++; brel := 0
+			xdx, fdx, locdx, lex, mtyp := getmemvec(f.Vec[0][0],3,jb,je,xstep)
+			f.Members[mdx] = append(f.Members[mdx],[]int{jb, je, 2, mtyp, brel})
+			f.Members[mdx] = append(f.Members[mdx],[]int{xdx, fdx, locdx, lex, mtyp})
+			f.Mod.Mprp = append(f.Mod.Mprp, []int{jb, je, 2, mtyp, brel})			
+		}
+	}
+	return
+}

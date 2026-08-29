@@ -1,0 +1,18 @@
+{"Title":"b11",
+ "Nspans":1,
+ "Fck":20.0,
+ "Fy":415.0,
+ "Code":1,
+ "Msloads":[[1,4,0,6.5,0,2.375],[1,4,6.5,0,2.375,0]]
+ "Sections":[[230,380]],
+ "Selfwt":true,
+ "Lspans":[4.5],
+ "Nomcvr":30.0,
+ "Efcvr":40.0,
+ "Lsxs":[230],
+ "D1":0.0,
+ "D2":0.0,
+ "Dslb":130.0,
+ "Verbose":true,
+ "Bfcalc":true,
+ "Term":"dumb"}

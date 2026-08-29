@@ -1,0 +1,27 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">3d frame (3df) elastic analysis model<p>
+      <span class="nes-text is-primary">This program analyzes a 3d frame model using the matrix stiffness method.</span>   
+    <p>See chapter 8, Kassimali for a detailed breakdown of the steps involved.</p>
+    
+    <div class="nes-container with-title">
+	<p class="title">sample fields</p>
+	<pre>
+
+	  "Id":"8.4Kass",  -> title
+	  "Units":"kpin", -> model units (knm, nmm, kpin)
+	  "Ncjt":6,  -> number of degrees of freedom per node (6 for 3d frame)
+	  "Coords": [[0,0,0],[-240,0,0],[0,-240,0],[0,0,-240]], -> node coordinates ([x1,y1], [x2,y2]...[xn,yn] for 2d frame)
+	  "Supports":[[2,-1,-1,-1,-1,-1,-1],[3,-1,-1,-1,-1,-1,-1],[4,-1,-1,-1,-1,-1,-1]],-> list of nodal supports ([node index,restraint (-1 if, 0 if free) per degree of freedom]) 
+	  "Em":[[29000,11500]],-> list of elastic modulus, shear modulus ([em1, sm1],..[emn,smn]])
+	  "Cp":[[32.9,716,236,15.1]],-> list of cross sectional properties ([area a1, moment of inertia (xx) ixx, moment of inertia (yy) iyy, torsional constant j1])
+	  "Mprp": [[2,1,1,1,0], [3,1,1,1,0],[4,1,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+	  "Jloads": [[1,0,0,0,-1800,0,1800]], -> nodal loads ([node idx, x-force, y-force, z-force, moment-x, moment-y, moment-z])
+	  "Msloads":[[1,3,0.25,0,0,0,0,0]] -> member loads ([member index, load type, wa, wb, la, lb, axis (0-y,1-z)]- check list of load types)
+	  "Wng":[[0,0],[1,90],[2,30]] -> member orientation (0-parallel to x, 1- parallel to y, 2- general orientation), angle of roll
+	  
+	</pre>
+      </div>
+</body>
+{{template "footer" .}}

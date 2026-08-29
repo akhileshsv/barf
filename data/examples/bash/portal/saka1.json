@@ -1,0 +1,13 @@
+{"Title":"saka.ex1",
+ "Units":"knm",
+ "Nbays":1,
+ "Span":20.0,
+ "Rise":1.5,
+ "W":10.0,
+ "Ncols":4,
+ "Height":6.0,
+ "Fixbase":false,
+ "Verbose":true,
+ "Haunch":true,
+ "Ldcalc":0,
+ "Term":"qt"}

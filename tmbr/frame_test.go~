@@ -1,0 +1,10 @@
+package barf
+
+import (
+	"fmt"
+	"testing"
+)
+
+func TestModOpt(t *testing.T){
+	var examples []string
+}

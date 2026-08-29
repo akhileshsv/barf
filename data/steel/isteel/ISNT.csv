@@ -1,0 +1,10 @@
+,Unnamed: 0_level_0,Designation,Weight per Meter (w),Sectional Area (a),Depth of Section (h),Width of flange (b),Thickness of Flange (tf),Thickness of Web (tw),Centre of Gravity Cyy,Moment of Inertia,Unnamed: 9,Raddi of Gyration,Unnamed: 11,Modulli of Section,Unnamed: 13
+,0,Unnamed: 1_level_1,kg,   cm2, mm,mm, mm, mm, cm,Unnamed: 9_level_1,Unnamed: 10_level_1,Unnamed: 11_level_1,Unnamed: 12_level_1,Unnamed: 13_level_1,Unnamed: 14_level_1
+3,4,ISNT 20,0.9,1.13,20.0,20.0,3.0,3,0.6,0.4,0.2,0.59,0.39,0.3,0.2
+4,5,ISNT 30,1.4,1.75,30.0,30.0,3.0,3,0.83,1.4,0.6,0.89,0.57,0.6,0.4
+5,6,ISNT 40,3.5,4.48,40.0,40.0,6.0,6,1.2,6.3,3,1.18,0.82,2.2,1.5
+6,7,ISNT 50,4.5,5.7,50.0,50.0,6.0,6,1.44,12.7,5.9,1.5,1.02,3.6,2.4
+7,8,ISNT 60,5.4,6.9,60.0,60.0,6.0,6,1.67,22.5,10.1,1.81,1.21,5.2,3.4
+8,9,ISNT 80,9.6,12.25,80.0,80.0,8.0,8,2.23,71.2,32.3,2.41,1.62,12.3,8.1
+9,10,ISNT 100,15.0,19.1,100.0,100.0,10.0,10,2.79,173.8,79.9,3.02,2.05,24.1,16
+10,11,ISNT 150,22.8,29.08,150.0,150.0,10.0,10,3.95,603.8,267.5,4.56,3.03,54.6,35.7

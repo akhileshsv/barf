@@ -1,0 +1,70 @@
+<div id="rccbmsec-form">
+  <a href="/docs/rcc/beamsec" class="nes-btn is-success" style="float:right">?</a>
+  <center><h3 class="nes-text is-primary">Rcc beam sec analysis data:</h3></center>
+  <form action="/rcc/beam/sec" method="post" autocomplete="on">
+    <label><input type="radio" class="nes-radio" name="Dsgn" value="true" hx-post="/ex/rcc/bmsec" hx-target="#rccbmsec-form"/><span>design</span></label>
+    <label><input type="radio" class="nes-radio" name="Dsgn" value="false" hx-post="/ex/rcc/bmsec" hx-target="#rccbmsec-form" checked/><span>analyze</span></label>
+    <div class="nes-select">
+      <label for="Code">code of practice</label>
+      <select name="Code" id="Code">
+	<option value="1" selected="selected">is.456</option>
+	<option value="2">bs.8110</option>
+      </select>
+    </div>
+    <div class="nes-select">
+      <label for="Styp">beam section</label>
+      <select name="Styp" id="Styp"  hx-post="/ex/rcc/bmsec/styp" hx-target="#rccbmsec-dims">
+	<option value="1">rectangle</option>
+	<option value="4">box</option>
+	<option value="6">T</option>
+	<option value="7">L</option>
+	<option value="8">L-left</option>
+	<option value="9">L-right</option>
+	<option value="10">L-eq</option>
+	<option value="11">plus</option>
+	<option value="12">ieq</option>
+	<option value="13">C</option>
+	<option value="14">T-pocket</option>
+	<option value="18">octagon</option>
+	<option value="19">tapered pocket</option>
+	<option value="20" selected="selected">trapezoid</option>
+	<option value="-1">custom</option>
+      </select>
+    </div>
+
+    <div class="nes-select">
+      <label for="Term">gnuplot terminal</label>
+      <select name="Term" id="Term">
+	<option value="svg"  selected="selected">svg</option>
+	<option value="dxf">dxf</option>
+	<option value="svgmono">svgmono</option>
+      </select>
+    </div>
+    <label for="Title">title</label>
+    <input type="text" name="Title" class="nes-input" value="subramanian-ex-5.7" placeholder="subramanian-ex-5.7"  onfocus = "this.value=''"/>
+
+    <label for="Fck">grade of concrete</label>
+    <input type="text" name="Fck" class="nes-input" value="25.0" placeholder="25.0"  onfocus = "this.value=''"/>
+    
+    <label for="Fy">grade of steel</label>
+    <input type="text" name="Fy" class="nes-input" value="415.0" placeholder="415.0"  onfocus = "this.value=''"/>
+    
+    <div id="rccbmsec-dims">
+    <label for="Dims">section dims(mm)</label>
+    <input type="text" name="Dims" class="nes-input" value="400,550,235" placeholder="400,550,235"  onfocus = "this.value=''"/>
+    </div>
+    
+    <label for="Dias">rebar dias(mm)</label>
+    <input type="text" name="Dias" class="nes-input" value="28, 18, 28" placeholder="28, 18, 28"  onfocus = "this.value=''"/>
+
+    <label for="Dbars">rebar depths(mm)</label>
+    <input type="text" name="Dbars" class="nes-input" value="500,500,500" placeholder="500,500,500"  onfocus = "this.value=''"/>
+    
+    <label for="Json" class="nes-text is-warning">json input</label>
+    <textarea name="Json" id="Json" class="nes-textarea"></textarea>
+
+    <div style="text-align: center">
+      <input type="submit" class="nes-btn is-primary" value="calc"/>
+    </div>
+  </form>
+</div>

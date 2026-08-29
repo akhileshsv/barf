@@ -1,0 +1,15 @@
+{"Id":        "swizz", -> title
+ "Cmdz":      ["2dt","mmks"], -> frmtyp, units
+ "Typ":       2, -> truss type (see truss types in gentruss)
+ "Cfg":       1, -> truss config (1- A, 2-L, 3-trap-A, 4- trap-L, 5- parallel chord) 
+ "Mtyp":      3, -> material type (1-rcc, 2-steel, 3-wood)
+ "Span":      3660.0, -> truss span (mm)
+ "Spacing":   2400.0,-> spacing of trusses c-c (mm)
+ "Slope":     1.5,-> slope of truss (1 in Slope)
+ "Purlinspc": 2500,-> purlin spacing (mm)
+ "DL":        350,-> dead load (n/mm2)
+ "LL":        0.0 -> live load (n/mm2)
+ "Clctyp":    0 -> truss self weight calc. type (see trussld.go)
+ "Vb":        50, -> base wind speed 
+ "Frmtyp":    2, -> 2 - 2d truss, 3 - 2d frame
+ "Term":      "dumb" -> terminal}

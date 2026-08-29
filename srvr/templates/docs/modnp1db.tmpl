@@ -1,0 +1,30 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">non-prismatic beam (1db) analysis model<p>
+      <span class="nes-text is-primary">This program analyzes a non-prismatic continuous beam model using the matrix stiffness method.</span>   
+    <p>See chapter 2, Hulse and chapter 4.2/chapter 5, Mosley for a detailed breakdown of the steps involved.</p>
+    
+    <div class="nes-container with-title">
+	<p class="title">sample fields</p>
+	<pre>
+	  "Id":"2.6Hulse",-> title
+	  "Units":"knm", -> model units (knm, nmm, kpin)
+	  "Ncjt":2,  -> number of degrees of freedom per node (1 for 1d beam)
+	  "Coords": [[0],[8],[14]],-> node coordinates ([x1], [x2]...[xn] for 1d beam)
+	  "Supports":[[1,-1,0],[2,-1,0],[3,-1,0]],
+	  "Em":[[25e9,0.2]],-> list of elastic modulus/material properties ([em1, em2..emn])
+	  "Cp":[[]], -> empty(will be calculated at 20th span intervals)
+	  "Mprp": [[1,2,1,1,0,1], [2,3,1,2,0,2]], -> member property list ([jb, je, em, cp, mrel, haunch typ (Ts)])
+	  "Jloads": [], -> nodal loads ([node idx, y-force, z-moment])
+	  "Msloads":[[1,3,25,0,0,0],[2,3,25,0,0,0]],  -> member loads ([member index, load type, wa, wb, la, lb]- check list of load types)
+	  "Ts":[[3,0,3],[3,0,3]], -> member haunch types (left sec, mid sec, right sec)(0-none, 1- prismatic, 2-straight, 3 - parabolic)
+	  "Ls":[[3.0,2.0,3.0],[2.0,2.5,1.5]],-> member lengths (left sec, mid sec, right sec)
+	  "Ds":[[1.6,0.8,1.6],[1.6,0.6,1.0]],-> list of member depths (left sec, mid sec, right sec)
+	  "Bs":[[1.0,1.0,1.0],[1.0,1.0,1.0]],-> list of member widths (left sec, mid sec, right sec)
+	  "Dims":[[1.0,0.8],[1.0,0.6]]}]-> base member dimensions (at mid sec)
+
+	</pre>
+      </div>
+</body>
+{{template "footer" .}}

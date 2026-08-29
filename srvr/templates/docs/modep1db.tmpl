@@ -1,0 +1,24 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">beam (1db) elastic-plastic analysis model<p>
+      <span class="nes-text is-primary">This program analyzes a continuous beam model for load factor/plastic hinge formation using the matrix stiffness method.</span>   
+    <p>See chapter 13, Harrison for a detailed breakdown of the steps involved.</p>
+    
+    <div class="nes-container with-title">
+	<p class="title">sample fields</p>
+	<pre>
+	  "Id":"13.3Hson",-> title 
+	  "Ncjt":2, number of degrees of freedom per node (2 for beam)
+	  "Coords": [[0],[24],[72]],coordinates ([x1], [x2]..[xn] for beam)
+	  "Supports":[[1,-1,-1],[3,-1,-1]] -> list of nodal supports ([node index, y displ. restrained (-1 if), rotation restrained (-1 if)]) 
+	  "Em":[[1]], -> list of elastic modulus/material properties 
+	  "Cp":[[3,24],[1,12]],-> list of sectional properties (moment of inertia iz, plastic moment mp - [iz1,mp1],[iz2,mp2]...[izn,mpn]] for beam)
+	  "Mprp": [[1,2,1,1,0], [2,3,1,2,0]], -> member property list ([jb, je, em, cp, mrel])
+	  "Jloads": [[2,-1,0]],  -> nodal loads ([node idx, y-force, z-moment])
+	  "Verbose":true
+
+	</pre>
+      </div>
+</body>
+{{template "footer" .}}

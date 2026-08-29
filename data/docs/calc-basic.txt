@@ -1,0 +1,21 @@
+The design of a pad footing is concerned initially with the determination of suitable footing dimensions to ensure that under serviceability conditions so that excessive ground bearing pressures are not developed.
+Once a suitable base size has been calculated the base can be designed for bending, shear and punching shear at ultimate load conditions. 
+
+This program calculates the minimum dimensions of a square or rectangular pad footing supporting a centrally placed square column.
+The column can be subjected to axial load and/or moment about one axis, and different combinations of dead, live and wind loading may be considered.
+
+
+6.1.1 Design procedure
+(i) Under serviceability conditions
+Under the action of axial loads and moments, two possible stress distributions
+are possible under the base of the footing.
+(a) Base fully in compression
+Figure 6.1 shows the assumed stress distribution under the rectangular
+base, shown with the moment, M, acting about the X axis and the axial load,
+N, acting through the centroid. The axial load will include the self-weight of
+the base.
+If the allowable bearing pressure at the most highly compressed face is Ia,
+then the stress condition at this face is given by
+
+Hence, to satisfy equation (6.1) suitable values of Lx and Ly must be
+determined.

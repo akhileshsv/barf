@@ -1,0 +1,13 @@
+{{template "header" .}}
+<body>
+<div class="nes-container with-title" width="fit-content">
+  <p class="title">{{.Title}}</p>
+     <div style="overflow-x: auto; white-space: pre-line;  word-wrap: break-word;">
+       {{.Body}}
+     </div>
+     {{range $i, $l := .Links}}
+     <a href="{{$l}}"><span>{{index $.Texts $i}}<span></a><br>
+     {{end}}
+</div>
+</body>
+{{template "footer" .}}

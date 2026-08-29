@@ -1,0 +1,6 @@
+,Unnamed: 0_level_0,Designation,Weight per Meter (w),Sectional Area (a),Depth of Section (h),Width of flange (b),Thickness of Flange (tf),Thickness of Web (tw),Centre of Gravity Cyy,Moment of Inertia,Unnamed: 9,Raddi of Gyration,Unnamed: 11,Modulli of Section,Unnamed: 13
+,0,Unnamed: 1_level_1,kg,   cm2, mm,mm, mm, mm, cm,Unnamed: 9_level_1,Unnamed: 10_level_1,Unnamed: 11_level_1,Unnamed: 12_level_1,Unnamed: 13_level_1,Unnamed: 14_level_1
+3,4,ISST 100,8.1,10.37,100.0,50.0,10.0,5.8,3.03,99,9.6,3.09,0.96,14.2,3.8
+4,5,ISST 150,15.7,19.96,150.0,75.0,11.6,8,4.75,450.2,37,4.75,1.36,43.9,9.9
+5,6,ISST 200,28.4,36.22,200.0,165.0,12.5,8,4.78,1267.8,358.2,5.92,3.15,83.3,43.4
+6,7,ISST 250,37.5,47.75,250.0,180.0,14.1,9.2,6.4,2774.4,532,7.62,3.34,149.2,59.1

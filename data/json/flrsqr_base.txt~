@@ -1,0 +1,8 @@
+"Title":"marson10a", -> title
+ "Width":6000, 
+ "Height":7000,
+ "Units":"mm",
+ "Areas":[22e6,14e6,14e6,12e6,12e6,10e6], -> list of room areas 
+ "Labels":["living","bed","bed","office","kitchen","bath"], -> list of room labels
+ "Round":true, -> round room output values		    
+ "Term":"dumb" -> gnuplot terminal

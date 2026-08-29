@@ -1,0 +1,15 @@
+{"Title":"sub13.2", -> title
+ "Sname":"w",-> section name
+ "Lspan":4000,-> span
+ "Tx":1.0,-> span in x
+ "Ty":1.0,-> span in y
+ "Pu":2500e3,-> factored axial load
+ "Mbx":350e6,-> moment at end node in x
+ "Max":-350e6, -> moment at start node in x
+ "Mby":100e6, -> moment at end node in y
+ "May":0, -> moment at start node in y
+ "Code":1, -> code of practice 1 - is800/ 2 - bs449
+ "Sdx":228, -> section index
+ "Dsgn":true, -> design/check section index sdx
+ "Term":"dumb", -> gnuplot terminal
+ "Nsecs":3, -> number of sections to store (max 10)}

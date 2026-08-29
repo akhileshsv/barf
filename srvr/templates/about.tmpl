@@ -1,0 +1,86 @@
+{{template "header" .}}
+
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <h3 class="title">about</h3>
+    <p>BARF started out as a bar (element) force analyzer - an attempt to write a structural analysis program by following the steps laid out in "Matrix Analysis of Structures" by Aslam Kassimali.</p>
+    <p>Reinforced concrete design programs soon followed thanks to "Reinforced Concrete Design by Computer" by R.Hulse & W.H Mosley and "Computer Aided Design in Reinforced Concrete" by Dr.V.L Shah.</p>
+    <p>Programs for steel column and beam design as per BS449 and timber column and beam design as per IS883 are based on the steps outlined in "Microcomputer Applications in Structural Engineering" by W.H Mosley and J.Spencer and "Design of Structural Elements with Tropical Hardwoods".</p>
+    <p>Check out the <a href="#references">references section</a> for a detailed list of sources; individual sources and details are in the help section of each module (click on the "?" link for docs).
+    <p>While many <a href="#programs">excellent structural analysis and design programs</a> do exist, both free and paid, and way more mature and feature-rich, this is a collection of simple stand-alone programs tailored for specific use cases which can be represented by a few html form fields.</p><br>
+    <p class="nes-text is-primary">Features</p>
+    <div class="lists">
+      <ul class="nes-list is-disc">
+	<li><a href="/analyze">structural analysis</a>of six basic framed structures (as outlined in Weaver, 1965)</li><br>
+	<li>modules for analysis of <a href="/analyze/np">2d framed strutures with non-prismatic members</a> and <a href="analyze/ep">elastic-plastic analysis</a> of beams and 2d frames.</li><br>
+	<li>programs for design of rcc members (<a href="/rcc/column">columns</a>, <a href="/rcc/beam">beams</a>, <a href="/rcc/slab">slabs</a> and <a href="/rcc/footing">footings</a>) and frames (continuous beams, subframes, 2d frames) with load patterns which ouput detailed reports and drawings in dxf/svg formats.</li><br>
+	<li>programs for weight and cost optimization of <a href="/rcc/subframe">rcc subframes</a>, <a href="/rcc/beam/cbeam">continuous beams</a>, <a href="/steel/trussopt">plane and space trusses</a> by particle swarm and genetic algorithm based methods.</li><br>
+      </ul>
+    </div>
+
+    <div id="references" class="nes-container with-title" width="fit-content">
+      <h3 class="title">references</h3>
+      <div class ="lists">
+	<ul class="nes-list is-disc">
+	  <li>Aslam Kassimali - Matrix Analysis of Structures , Second Edition - CL Engineering (2011)</li>
+	  <li>R. Hulse, W. H. Mosley - Reinforced Concrete Design by Computer-Macmillan Education UK (1986)</li>
+	  <li>Dr. V.L Shah - Computer Aided Design in Reinforced Concrete - Structures Publications (1998)</li>
+	  <li>W. H. Mosley, W. J. Spencer - Microcomputer Applications in Structural Engineering-Macmillan Education UK (1984)</li>
+	  <li>H. B. Harrison - Structural Analysis and Design, Some Microcomputer Applications-Elsevier Ltd, Pergamon (1990)</li>
+	  <li>Subramanian, Narayanan - Design of Reinforced Concrete Structures-Oxford University Press (2013)</li>
+	  <li>A. Allen - Reinforced Concrete Design to BS 8110 Simply Explained-CRC Press (1988)</li>
+	  <li>Abel O. Olorunnisola - Design of Structural Elements with Tropical Hardwoods - Springer (2017)</li>
+	  <li>Dr V.L Shah, S.R Karve - Illustrated Design of Reinforced Concrete Buildings - Structures Publications (2010)</li>
+	  <li>William Weaver, James M.Gere - Matrix Analysis of Structures , Second Edition - Springer US (1990)</li>
+	</ul>
+      </div>
+    </div>
+    <div id="programs" class="nes-container with-title" width="fit-content">
+      <h3 class="title">programs/links</h3>
+      <div class="lists">
+	<ul class="nes-list is-disc">
+	  <li><a href="https://pypi.org/project/anastruct/">anastruct</a> - the primary inspiration for BARF. 2d structural analysis in python.</li>
+	  <li><a href="https://pypi.org/project/PyNiteFEA/">pyNiteFEA</a> - 3d static and p-delta analysis and a lot more in python.</li>
+	  <li><a href="https://pypi.org/project/openseespy/">openseespy</a> - python3 interpreter for the opensees framework.</li>
+	  <li><a href="https://clearcalcs.com/">clearcalcs</a> - if one is looking for a feature-rich extensively tested web based design program.</li>
+	  <li><a href="https://www.freecad.org/">freecad</a> - freecad is a monstrously powerful modeler with an impossible number of features.</li>
+	</ul>
+      </div>
+    </div>
+
+    <div class="nes-container with-title" width="fit-content">
+      <h3 class="title">built with</h3>
+      <div class="lists">
+	<ul class="nes-list is-disc">
+	  <li><a href="https://go.dev/">go</a> - golang (as python already has better libraries, see above).</li>
+	  <li><a href="https://www.gnuplot.info/">gnuplot</a> - the venerable gnuplot (does all the plots)</li>
+	  <li><a href="https://nostalgic-css.github.io/NES.css/">nes.css</a> - it works?</li>
+	  <li><a href="https://htmx.org/">htmx</a> - with the supervision of the CEO of htmx.</li>
+	</ul>
+      </div>
+    </div>
+
+    <div class="nes-container with-title" width="fit-content">
+      <h3 class="title">contact us</h3>
+      <div class="lists">
+	<ul class="nes-list is-disc">
+	  <li>have a civil engineering/structural design job? <a href="https://wa.me/917331106585?text=has gig->" class="nes-text is-primary">contact us</a></li>
+	  <li>want source access/to contribute on github? (please do)<a href="mailto:akhileshsv@gmail.com" class="nes-text is-error">email us</a></li>
+	  <li>have feedback? suggestions? boomer shooter recommendations? <a href="https://wa.me/917331106585" class="nes-text is-success">ping us</a></li>
+	</ul>
+      </div>
+      <!-- <form action="/about" method="post"> -->
+	<!-- 	<label for="Email">email:</label> -->
+	<!-- 	<input type="text" name="Email" class="nes-input" placeholder="you@youmail.com"/> -->
+	<!-- 	<label for="Message">message:</label> -->
+	<!-- 	<input type="text" name="Message" class="nes-input" placeholder="chai?"/> -->
+	<!-- 	<div style="text-align: center"> -->
+	  <!-- 	  <input type="submit" class="nes-btn is-primary" value="send"/> -->
+	  <!-- 	</div> -->
+	<!-- </form> -->
+    </div>
+  </div>
+  
+</body>
+{{template "footer" .}}
+

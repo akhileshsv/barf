@@ -1,0 +1,28 @@
+{{template "header" .}}
+<body>
+  <div class="nes-container with-title" width="fit-content">
+    <p class="title">3d grid (3dg) elastic analysis model<p>
+      <span class="nes-text is-primary">This program analyzes a 3d grid/grillage model using the matrix stiffness method.</span>   
+    <p>See chapter 8, Kassimali for a detailed breakdown of the steps involved.</p>
+    
+    <div class="nes-container with-title">
+	<p class="title">sample fields</p>
+	
+	
+	<pre>
+	  "Id":"8.2Kass",-> title
+	  "Ncjt":3, -> number of degrees of freedom per node (3 for 3d grid)
+	  "Coords": [[0,0,0],[8,0,0],[8,0,6],[0,0,6]],-> node coordinates ([x1,y1,z1], [x2,y2,z2]...[xn,yn,zn] for 3d grid)
+	  "Supports":[[1,-1,-1,-1],[2,-1,-1,-1],[4,-1,-1,-1]],-> list of nodal supports ([node index, y displ. restrained (-1 if), x rotation restrained (-1 if), z rotation restrained (-1 if)]) 
+	  "Em":[[200e6,76e6]],-> list of elastic modulus/material properties ([[em1,g1], [em2,g2]..[emn,gn]]; g -> shear modulus)
+	  "Cp":[[347e-6,115e-6]]-> list of sectional properties (moment of inertia iz, torsion constant jz - [[iz1,jz1],[iz2,jz2],...[izn,jzn]] for grid)
+	  "Mprp": [[1,3,1,1,0], [2,3,1,1,0],[4,3,1,1,0]], -> member property list ([jb, je, em, cp, mrel])
+	  "Jloads": [],  -> nodal loads ([node idx, y-force, x-moment, z-moment])
+	  "Msloads":[[2,3,20,0,0,0],[3,3,20,0,0,0]],  -> member loads ([member index, load type, wa, wb, la, lb]- check list of load types) }
+	  "Wng":[]
+
+	</pre>
+
+      </div>
+</body>
+{{template "footer" .}}

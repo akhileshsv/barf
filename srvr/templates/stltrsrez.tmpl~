@@ -1,0 +1,29 @@
+{{template "header" .}}
+<div class="nes-container with-title is-centered">
+  <p class = "title">RCC-{{.Title}}</p>
+    <pre>
+    <code>
+      {{.Report}}
+    </code>
+    </pre>
+    <html>
+      <body>
+	{{if eq .Term "dxf"}}
+	<div class="lists">
+	  <ul class="nes-list is-disc">
+	    {{range .Txtplots}}
+	    <li><a href="/svg/{{.}}">{{.}}</a></li>
+	    {{end}}
+	  </ul>
+	</div>
+	{{else}}
+	{{range .Txtplots}}
+	<img src="/svg/{{.}}" style="width :100%;">
+	{{end}}
+	{{end}}
+</div>
+</form>
+</body>
+</html>
+
+{{template "footer" .}}

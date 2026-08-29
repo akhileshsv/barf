@@ -1,0 +1,17 @@
+{"Ncs" : [9,5], -> number of coordinates per polygon loop
+ "wts" : [1.0,-1.0], -> weights of individual polygons
+ "Coords" : [[100,100], -> list of coordinates
+	     [200,100],
+	     [200,250],
+	     [700,250],
+	     [700,550],
+	     [850,550],
+	     [850,650],
+	     [100,650],
+	     [100,100],
+	     [200,300],
+	     [650,300],
+	     [650,550],
+	     [200,550],
+	     [200,300]]
+}

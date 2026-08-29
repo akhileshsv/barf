@@ -1,0 +1,25 @@
+{"Id":"bhav12.3-fink",
+ "Typ":       2,
+ "Cfg":       5,
+ "Mtyp":      2,
+ "Name":      "angle",
+ "Span":      15000.0,
+ "Spacing":   4000.0,
+ "Rise":      3000.0,
+ "Width":     15000.0,
+ "Length":    40000.0,
+ "Height":    8000.0,
+ "Purlinspc": 1350.0,
+ "Purlinwt":  318.0,
+ "DL":        170.0,
+ "LL":        0.0,
+ "Vb":        49.0,
+ "Cpi":       0.5,
+ "Frmtyp":    2,
+ "Term":      "qt",
+ "Spam":      true,
+ "Spose":     true,
+ "Code": 1}
+
+
+

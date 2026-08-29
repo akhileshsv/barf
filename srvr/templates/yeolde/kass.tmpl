@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="utf-8">
+     <title>BARF</title>
+     <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet"/>
+   </meta>
+   </head>
+<body>
+  <div class="nes-container is-rounded is-dark" width="fit-content">
+    <h1>BARF</h1>
+    <p>1-D prismatic beam analysis</p>
+  </div>
+  <form action="/beam" method="post" >
+    <div class="nes-field">
+      <label for="id">ID</label>
+      <input type="text" id="id" class="nes-input"/>
+      <label for="coords">Coordinates</label>
+      <input type="text" id="coords" class="nes-input" placeholder="[[0,0],[1,1]]"/>
+      <label for="supports">Supports</label>
+      <input type="text" id="supports" class="nes-input" placeholder="[[1,-1,-1]]"/>
+      <label for="em">Elastic Modulus</label>
+      <input type="text" id="em" class="nes-input" placeholder="[[29000]]"/>
+    </div>
+      <input type="submit" class="nes-btn is-success" value="Submit"/>
+  </form>
+</body>
+</html>

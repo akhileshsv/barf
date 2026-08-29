@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+   <meta charset="utf-8">
+     <title>BARF</title>
+     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet"/>
+     <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet"/>
+   </meta>
+   </head>
+<body>
+  <div class="nes-container is-rounded is-dark" width="fit-content">
+    <h1 href="/">BARF</h1>
+    <p>3-D space frame analysis</p>
+  </div>
+  <form action="/analyze/frm3d" method="post">
+    <div class="nes-field">
+      <label for="Cmdz">Commands</label>
+      <input type="text" name="Cmdz" class="nes-input" placeholder="3df,kips,0"/>
+      <label for="Coords">coordinates</label>
+      <input type="text" name="Coords" class="nes-input" placeholder="[0,0,0],[-240,0,0],[0,-240,0],[0,0,-240]"/>
+      <label for="Supports">supports</label>
+      <input type="text" name="Supports" class="nes-input" placeholder="[2,-1,-1,-1,-1,-1,-1],[3,-1,-1,-1,-1,-1,-1],[4,-1,-1,-1,-1,-1,-1]"/>
+      <label for="Em">elastic modulus</label>
+      <input type="text" name="Em" class="nes-input" placeholder="[29000,11500]"/>
+      <label for="Cp">cross sections</label>
+      <input type="text" name="Cp" class="nes-input" placeholder="[32.9,716,236,15.1]"/>
+      <label for="Mprp">member properties</label>
+      <input type="text" name="Mprp" class="nes-input" placeholder="[2,1,1,1,0], [3,1,1,1,0],[4,1,1,1,0]"/>
+      <label for="Jloads">nodal loads</label>
+      <input type="text" name="Jloads" class="nes-input" placeholder="[5,0,-100.0,-50.0]"/>
+      <label for="Msloads">member loads</label>
+      <input type="text" name="Msloads" class="nes-input" placeholder="[1,3,0.25,0,0,0,0]"/>
+      <label for="Jloads">angle of roll</label>
+      <input type="text" name="Wng" class="nes-input" placeholder="[0,0],[1,90],[2,30]"/>
+    </div>
+    <div style="text-align: center; border: 1px solid">
+      <input type="submit" class="nes-btn is-primary" value="Analyze"/>
+    </div>
+  </form>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{"Title":"Shah6.2",-> title
+ "Code":1,-> 1 - is code, 2 - bs code
+ "Fck":15.0,-> grade of concrete
+ "Fy":415.0,-> grade of (main) steel
+ "Fyd":250.0,-> grade of (dist) steel
+ "Diamain":8.0,->main rebar diameter
+ "Diadist":6.0,->dist rebar diameter
+ "LL":1.5,->live load in kn/m2
+ "DL":1.75,-> dead load in kn/m2
+ "Bsup":200.0,-> breadth of support in mm
+ "Type":1,->slab type (1 - 1 way slab1)
+ "Endc":1,-> end condition (1 for ss 1 way slab)
+ "Lspan":2500.0,->span length
+ "Nomcvr":16.0,-> nominal cover to rebar in mm
+ "Efcvr":20.0,-> effective cover to rebar in mm
+ "Ibent":50.0,-> percentage of bars bent up at the support
+ "Verbose":true->print report
+ }
+
+

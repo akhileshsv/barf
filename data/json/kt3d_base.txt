@@ -1,0 +1,10 @@
+{"Id":"8.1Kass",,-> title
+"Cmdz":["3dt","kips","0"], -> frmtyp, units, design 
+"Ncjt":3,  -> number of degrees of freedom per node (3 for 3d truss)
+"Coords": [[-144,0,-96], [72,0,-96], [-72,0,96], [144,0,96], [0,288,0]],-> node coordinates ([x1,y1,z1], [x2,y2,z2]...[xn,yn,zn] for 3d truss)
+"Supports":[[1,-1,-1,-1],[2,-1,-1,-1],[3,-1,-1,-1],[4,-1,-1,-1]],-> list of nodal supports ([node index, x displ. restrained (-1 if), y displ. restrained (-1 if), z displ. restrained (-1 if)]) 
+"Em":[[10000.0]],-> list of elastic modulus/material properties ([[em1], [em2]..[emn]])
+"Cp":[[8.4]],-> list of sectional properties (area ar [ar1],[ar2]...[arn])
+"Mprp": [[1,5,1,1], [2,5,1,1],[3,5,1,1],[4,5,1,1]], -> member property list ([jb, je, em, cp])
+"Jloads": [[5,0,-100.0,-50.0]], -> nodal loads ([node idx, x-force, y-force, z-force])
+"Msloads":[], "Wng":[]}

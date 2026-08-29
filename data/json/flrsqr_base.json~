@@ -1,0 +1,9 @@
+{"Title":"marson10a",
+ "Width":6000,
+ "Height":7000,
+ "Units":"mm",
+ "Areas":[9e6,8e6,8e6,7e6,6e6,4e6,],
+ "Labels":["living","kitchen","bed_m","bed","utility","bath"],
+ "Verbose":true,
+ "Round":true,
+ "Term":"dumb"}

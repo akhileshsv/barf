@@ -1,0 +1,26 @@
+{"Title":"Mosley8.8",-> title
+ "Fck":30.0,-> grade of concrete
+ "Fy":250.0,-> grade of steel
+ "Diamain":10.0,-> main rebar diameter
+ "Diadist":8.0,-> dist rebar diameter
+ "Lx":5000.0,-> length of slab in x direction in mm
+ "Ly":10000.0,-> length of slab in y direction in mm
+ "LL":2.5,-> live load in kn/m2
+ "DL":4.5,-> dead load in kn/m2
+ "Bsup":250.0,-> breadth of support in mm
+ "Type":3,-> slab type (3 - ribbed slab)
+ "Endc":2,-> end condition (2 for continuous ribbed slab)
+ "Lspan":5000.0,-> span length in mm
+ "Nomcvr":35.0,-> nominal cover to rebar in mm
+ "Efcvr":40.0,-> effective cover to rebar in mm
+ "Ibent":0.0,-> percentage of bent up bars
+ "Nspans":4,-> number of spans
+ "Bf":400.0,-> breadth of flange 
+ "Bw":125.0, -> breadth of web
+ "Df":60.0, -> depth of flange (topping)
+ "Dw":200.0, -> depth of web (total depth)
+ "Dtyp":1,-> design type (1 - envelopes/analysis, 2 - coefficients)
+ "Code":2, -> 1 - is code, 2 - bs code
+ "DM":0.2,-> moment redistribution factor
+ "Ldcalc":1, -> if zero, calc self weight of slab and add to DL
+ "Verbose":true} -> print report
